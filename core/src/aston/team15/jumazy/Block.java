@@ -34,50 +34,36 @@ public class Block {
 	 * @param coord a {@link Coordinate} object, to be passed into the {@link Block} the Factory will create
 	 * @return a new {@link Block} object
 	 */
-	public static Block blockFactory(int type, Coordinate coord) {
+	public static Block blockFactory(String type, Coordinate coord) {
 		Block tempBlock = null;
 		
 		switch(type) {
-			case 0: tempBlock = new CornerDownLeft(coord);break;
-			case 1: tempBlock = new CornerDownRight(coord);break;
-			case 2: tempBlock = new StraightVertical(coord);break;
-			case 3: tempBlock = new StraightHorizontal(coord);break;
-			case 4: tempBlock = new CornerUpLeft(coord);break;
-			case 5: tempBlock = new CornerUpRight(coord);break;
-			case 6: tempBlock = new Cross(coord);break;
+			case "downLeft": tempBlock = new CornerDownLeft(coord);break;
+			case "downRight": tempBlock = new CornerDownRight(coord);break;
+			case "vertical": tempBlock = new StraightVertical(coord);break;
+			case "horizontal": tempBlock = new StraightHorizontal(coord);break;
+			case "upLeft": tempBlock = new CornerUpLeft(coord);break;
+			case "upRight": tempBlock = new CornerUpRight(coord);break;
+			case "cross": tempBlock = new Cross(coord);break;
 			default: tempBlock = new Cross(coord);break;
 		}
 		
 		return tempBlock;
 	}
 	
-	/**
-	 * Overload of {@link #blockFactory(int, Coordinate)}, uses a random number to generate a type value for a block.
-	 * Taking in extra precautions to try and make the maze more navigable
-	 * @param coord {@link Coordinate} object to be passed to the {@link Block} the Factory will create
-	 * @return
-	 */
-	public static Block blockFactory(Coordinate coord) {
-		int type = 6;
-		Random rnd = new Random();
-		
-		if(rnd.nextInt(3) == 0) {
-			int gen = rnd.nextInt(9);
-			if(gen < 6) {
-				type = 6;
-			}
-			else if(gen < 8) {
-				type = 2;
-			}
-			else
-				type = 3;
+	public static Block blockFactory(int type, Coordinate coord) {
+		String typeString;
+		switch(type) {
+			case 0: typeString = "downLeft";break;
+			case 1: typeString = "downRight";break;
+			case 2: typeString = "vertical";
+			case 3: typeString = "horizontal";break;
+			case 4: typeString = "upLeft";break;
+			case 5: typeString = "upRight";break;
+			case 6: typeString = "cross";break;
+			default: typeString = "cross";break;
 		}
-		else
-		{
-			type = rnd.nextInt(6);
-		}
-		
-		return blockFactory(type, coord);
+		return blockFactory(typeString, coord);
 	}
 	
 	/**

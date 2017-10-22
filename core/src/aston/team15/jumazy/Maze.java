@@ -28,16 +28,18 @@ public class Maze {
 	 * player, the player object
 	 */
 	public Maze() {
+		rnd = new Random();
 		stopBlock = new Block(null, null);
 		maze = new Block[MAZE_DIMENSION][MAZE_DIMENSION];
 		player = new Player(new Coordinate(0,0));
-		genMaze();
+		newGenMaze();
 	}
 	
 	/**
 	 * Returns a 2D array of {@link Block} objects.
 	 * Checks Coordinate object and adds block at that coordinate to nearBlocks array.
-	 * Checks direction player wants to go. checks if that direction will lead them out of bounds, adding the next Block to nearBlocks accordingly
+	 * Checks direction player wants to go. checks if that direction will lead them out of bounds, adding the next Block to nearBlocks accordingly.
+	 * Yeah, this shouldn't really be in {@link Maze}, but it's easy to implement like this, sooo...
 	 * 
 	 * @param coord a {@link Coordinate} object giving the base location the method should start at
 	 * @param direction String denoting direction the method needs to check
@@ -75,19 +77,88 @@ public class Maze {
 	}
 	
 	/**
-	 * Generates a new maze. Loops through each array index, creating a new Block, by using the {@link Block#blockFactory()} method
-	 */
-	private void genMaze() {
+	 * Generates a new maze. Loops through each array index, creating a new Block, by using the {@link Block#blockFactory()} method to create a new {@link Block}
+	 * Creates the maze in sections of MAZE_DIMENSION/4 (if maze is 16*16 chunks are 4*4)
+	 */	
+	private void newGenMaze() {
+		/**
+		 * MAZE STRUCTURE EXAMPLE:
+		 * 
+		 *  	---------
+		 *     3|		|
+		 *     2|		|
+		 * ^   1|		|
+		 * |   0|		|
+		 * K	---------
+		 * 	I->  0 1 2 3
+		 * 
+		 * I is the column, K is the row of that column. Top cell of the first column would be (I=0,K=3)
+		 */
 		
 		for(int i = 0; i < MAZE_DIMENSION; i++) {
 			for(int k = 0; k < MAZE_DIMENSION; k++) {
-				if(i == 0 && k == 0)
-					maze[i][k] = Block.blockFactory(5, new Coordinate(i, k));
-				else
-					maze[i][k] = Block.blockFactory(new Coordinate(i, k));
+				maze[i][k] = Block.blockFactory("cross", new Coordinate(i, k));
 			}
 		}
-
+		
+		int mazeOffsetI = 0;
+		int mazeOffsetK = 0;
+		
+		int column = 0;
+		int row = 0;
+		int blobk = 0;
+		
+		int edgeOfChunk = MAZE_DIMENSION/4-1; //edge = very right and very top of each chunk
+		
+		while(blobk != MAZE_DIMENSION*MAZE_DIMENSION)
+		{
+			System.out.println("New Chunk:");
+			System.out.println("I: "+column+" K: "+row);
+			for(column = mazeOffsetI; column < MAZE_DIMENSION/4+mazeOffsetI; column++) {
+				for(row = mazeOffsetK; row < MAZE_DIMENSION/4+mazeOffsetK; row++) {
+					System.out.println("Blobk "+(blobk+1));
+					int type = 6;
+					Random rnd = new Random();
+					
+					if(rnd.nextInt(3) == 0) {
+						int gen = rnd.nextInt(9);
+						if(gen < 6) {
+							type = 6;
+						}
+						else if(gen < 8) {
+							type = 2;
+						}
+						else
+							type = 3;
+					}
+					else
+					{
+						type = rnd.nextInt(6);
+					}
+					
+					if(column == 0 && row == 0)
+						maze[column][row] = Block.blockFactory("upRight", new Coordinate(column, row));
+					else if (column == edgeOfChunk+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
+						maze[column][row] = Block.blockFactory("cross", new Coordinate(column, row));
+					else if (column == 0+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
+						maze[column][row] = Block.blockFactory("horizontal", new Coordinate(column, row));
+					else
+						maze[column][row] = Block.blockFactory(type, new Coordinate(column, row));
+					
+					blobk++;
+				}
+			}
+			System.out.println("I: "+column+" K: "+row);
+			 if(column != MAZE_DIMENSION) {
+				mazeOffsetI += MAZE_DIMENSION/4;
+			}
+			else
+			{
+				mazeOffsetK += MAZE_DIMENSION/4;
+				mazeOffsetI = 0;
+			}
+		}
+		
 		statMaze = maze;
 	}
 	
