@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -22,12 +24,17 @@ public class Maze {
 	static int MAZE_DIMENSION =16;
 	Player player;
 	
+	private BitmapFont font;
+	
 	/**
 	 * Creates a new maze
 	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
 	 * player, the player object
 	 */
 	public Maze() {
+		font = new BitmapFont();
+		font.setColor(0, 0, 0, 1);
+		
 		rnd = new Random();
 		stopBlock = new Block(null, null);
 		maze = new Block[MAZE_DIMENSION][MAZE_DIMENSION];
@@ -118,7 +125,6 @@ public class Maze {
 				for(row = mazeOffsetK; row < MAZE_DIMENSION/4+mazeOffsetK; row++) {
 					System.out.println("Blobk "+(blobk+1));
 					int type = 6;
-					Random rnd = new Random();
 					
 					if(rnd.nextInt(3) == 0) {
 						int gen = rnd.nextInt(9);
@@ -133,11 +139,11 @@ public class Maze {
 					}
 					else
 					{
-						type = rnd.nextInt(6);
+						type = rnd.nextInt(10);
 					}
 					
 					if(column == 0 && row == 0)
-						maze[column][row] = Block.blockFactory("upRight", new Coordinate(column, row));
+						maze[column][row] = Block.blockFactory("tUp", new Coordinate(column, row));
 					else if (column == edgeOfChunk+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
 						maze[column][row] = Block.blockFactory("cross", new Coordinate(column, row));
 					else if (column == 0+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
@@ -193,6 +199,15 @@ public class Maze {
 		}
 		batch = player.drawPlayer(batch);
 		
+		if(player.hasRolled() == false)
+		{
+			font.draw(batch, "Press Space to roll", 100, 100);
+		}
+		else
+		{
+			font.draw(batch, "Spaces left: "+player.getRollSpaces(), 100, 100);
+		}
+		
 		return batch;
 	}
 	
@@ -202,20 +217,28 @@ public class Maze {
 	 * Called each frame by {@link JumazyGame#render()}
 	 */
 	public void actions() {
-		String direction = "";
-		if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-			direction = "right";
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && player.hasRolled() == false) {
+			player.roll();
 		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-			direction = "left";
+		
+		if(player.hasRolled())
+		{
+			String direction = "";
+			if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+				direction = "right";
+			}
+			else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+				direction = "left";
+			}
+			else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+				direction = "up";
+			}
+			else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+				direction = "down";
+			}
+			if(direction != "")
+				player.move(direction);
 		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-			direction = "up";
-		}
-		else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-			direction = "down";
-		}
-		if(direction != "")
-			player.move(direction);
 	}
 }

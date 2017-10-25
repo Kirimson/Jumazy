@@ -13,7 +13,4 @@ public class CornerUpRight extends Block{
 	public String toString() {
 		return "cornerupright";
 	}
-	
-	
-	
 }

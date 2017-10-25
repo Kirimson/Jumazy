@@ -6,9 +6,9 @@ public class Exit {
 	private boolean left;
 	private boolean right;
 	
-	public Exit(boolean top, boolean bottom, boolean left, boolean right) {
-		this.up = top;
-		this.down = bottom;
+	public Exit(boolean up, boolean down, boolean left, boolean right) {
+		this.up = up;
+		this.down = down;
 		this.left = left;
 		this.right = right;
 	}

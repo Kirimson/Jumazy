@@ -1,7 +1,5 @@
 package aston.team15.jumazy;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.Texture;
 
 /**
@@ -45,6 +43,10 @@ public class Block {
 			case "upLeft": tempBlock = new CornerUpLeft(coord);break;
 			case "upRight": tempBlock = new CornerUpRight(coord);break;
 			case "cross": tempBlock = new Cross(coord);break;
+			case "tLeft": tempBlock = new TLeft(coord);break;
+			case "tRight": tempBlock = new TRight(coord);break;
+			case "tUp": tempBlock = new TUp(coord);break;
+			case "tDown": tempBlock = new TDown(coord);break;
 			default: tempBlock = new Cross(coord);break;
 		}
 		
@@ -61,6 +63,10 @@ public class Block {
 			case 4: typeString = "upLeft";break;
 			case 5: typeString = "upRight";break;
 			case 6: typeString = "cross";break;
+			case 7: typeString = "tLeft";break;
+			case 8: typeString = "tRight";break;
+			case 9: typeString = "tUp";break;
+			case 10: typeString = "tRight";break;
 			default: typeString = "cross";break;
 		}
 		return blockFactory(typeString, coord);
