@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  *
  */
 public class Player {
-	private Texture playerTexture = new Texture("player.jpg");
+	private Texture playerTexture = new Texture("player.png");
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;
@@ -28,15 +28,15 @@ public class Player {
 	}
 	
 	/**
-	 * Similar to {@link Maze#drawMaze(SpriteBatch)} however it draws the player onto the batch
+	 * Similar to {@link Maze#run(SpriteBatch)} however it draws the player onto the batch
 	 * @param batch {@link SpriteBatch} object the player will be drawn onto
 	 * @return {@link SpriteBatch} object with the player set to be drawn
 	 */
 	public SpriteBatch drawPlayer(SpriteBatch batch) {
-		int xOffset = (Gdx.graphics.getWidth()/2)-(Maze.MAZE_DIMENSION*32/2);
-		int yOffset = Gdx.graphics.getHeight()/2-(Maze.MAZE_DIMENSION*32/2);
+		int xOffset = (1280-(Maze.MAZE_DIMENSION*32))/2;
+		int yOffset = (720-(Maze.MAZE_DIMENSION*32))/2;
 		
-		batch.draw(playerTexture, xOffset+coords.getX()*32+12, yOffset+coords.getY()*32+12);
+		batch.draw(playerTexture, xOffset+coords.getX()*32+10, yOffset+coords.getY()*32+12);
 		
 		return batch;
 	}

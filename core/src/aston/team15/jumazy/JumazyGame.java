@@ -10,17 +10,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class JumazyGame extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private Texture img;
-	private Maze maze;
 	
     private OrthographicCamera cam;
- 
 	private Sprite mapSprite;
+	
+	public static String TITLE = "Jumazy";
+	public static int WIDTH = 1280;
+	public static int HEIGHT = 720;
+	
+	private SystemManager system;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		maze = new Maze();
+		system = new SystemManager();
+		system.push(new TitleSystem(system));
 		
 		mapSprite = new Sprite(new Texture(Gdx.files.internal("cross.jpg")));
 		mapSprite.setPosition(0, 0);
@@ -35,23 +39,22 @@ public class JumazyGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 
-//		handleInput();
 		cam.update();
 		batch.setProjectionMatrix(cam.combined);
 		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0.252f, 0.448f, 0.287f, 1);
 		
-		maze.actions();
+		
+		system.handleInput();
 		
 		batch.begin();
-			batch = maze.drawMaze(batch);
+			batch = system.draw(batch);
 		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 }
