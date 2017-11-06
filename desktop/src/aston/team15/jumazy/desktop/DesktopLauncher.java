@@ -9,10 +9,10 @@ import aston.team15.jumazy.JumazyGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Jumazy";
+		config.title = JumazyGame.TITLE;
 		
-		config.width = 1280;
-		config.height = 720;
+		config.width = JumazyGame.WIDTH;
+		config.height = JumazyGame.HEIGHT;
 
 		config.addIcon("cross.jpg", FileType.Internal);
 		

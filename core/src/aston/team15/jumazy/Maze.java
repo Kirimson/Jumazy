@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
 /**
  * Representation of a maze in the game. Made of of {@link Block} objects
  * Has a set size, denoted in MAZE_DIMENSION
@@ -21,10 +22,10 @@ public class Maze {
 	private Block[][] maze;
 	private Random rnd;
 	private static Block stopBlock;
-	static int MAZE_DIMENSION =16;
+	static int MAZE_DIMENSION =20;
 	Player player;
 	
-	private BitmapFont font;
+	
 	
 	/**
 	 * Creates a new maze
@@ -32,14 +33,16 @@ public class Maze {
 	 * player, the player object
 	 */
 	public Maze() {
-		font = new BitmapFont();
-		font.setColor(0, 0, 0, 1);
 		
 		rnd = new Random();
-		stopBlock = new Block(null, null);
+		stopBlock = new Block(null, null, 0);
 		maze = new Block[MAZE_DIMENSION][MAZE_DIMENSION];
 		player = new Player(new Coordinate(0,0));
 		newGenMaze();
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 	/**
@@ -80,7 +83,6 @@ public class Maze {
 		}
 		
 		return nearBlocks;
-		
 	}
 	
 	/**
@@ -102,12 +104,6 @@ public class Maze {
 		 * I is the column, K is the row of that column. Top cell of the first column would be (I=0,K=3)
 		 */
 		
-		for(int i = 0; i < MAZE_DIMENSION; i++) {
-			for(int k = 0; k < MAZE_DIMENSION; k++) {
-				maze[i][k] = Block.blockFactory("cross", new Coordinate(i, k));
-			}
-		}
-		
 		int mazeOffsetI = 0;
 		int mazeOffsetK = 0;
 		
@@ -123,33 +119,27 @@ public class Maze {
 			System.out.println("I: "+column+" K: "+row);
 			for(column = mazeOffsetI; column < MAZE_DIMENSION/4+mazeOffsetI; column++) {
 				for(row = mazeOffsetK; row < MAZE_DIMENSION/4+mazeOffsetK; row++) {
-					System.out.println("Blobk "+(blobk+1));
-					int type = 6;
+					System.out.println("Block "+(blobk+1));
+
+					String type = "";
 					
-					if(rnd.nextInt(3) == 0) {
-						int gen = rnd.nextInt(9);
-						if(gen < 6) {
-							type = 6;
-						}
-						else if(gen < 8) {
-							type = 2;
-						}
-						else
-							type = 3;
-					}
+					int rand=rnd.nextInt(8);
+					int orientation=rnd.nextInt(3);
+					if(rand>=0 && rand<=3)
+						type = "cross";
+					else if(rand==4)
+						type = "straight";
+					else if(rand==5)
+						type = "corner";
 					else
-					{
-						type = rnd.nextInt(10);
-					}
+						type = "tJunction";
 					
-					if(column == 0 && row == 0)
-						maze[column][row] = Block.blockFactory("tUp", new Coordinate(column, row));
-					else if (column == edgeOfChunk+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
-						maze[column][row] = Block.blockFactory("cross", new Coordinate(column, row));
+					if (column == edgeOfChunk+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
+						maze[column][row] = Block.blockFactory("cross", new Coordinate(column, row), orientation);
 					else if (column == 0+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
-						maze[column][row] = Block.blockFactory("horizontal", new Coordinate(column, row));
+						maze[column][row] = Block.blockFactory("horizontal", new Coordinate(column, row), orientation);
 					else
-						maze[column][row] = Block.blockFactory(type, new Coordinate(column, row));
+						maze[column][row] = Block.blockFactory(type, new Coordinate(column, row), orientation);
 					
 					blobk++;
 				}
@@ -164,7 +154,6 @@ public class Maze {
 				mazeOffsetI = 0;
 			}
 		}
-		
 		statMaze = maze;
 	}
 	
@@ -182,63 +171,5 @@ public class Maze {
 		return b;
 	}
 	
-	/**
-	 * Draws the maze to the given {@link SpriteBatch} object
-	 * @param batch the {@link SpriteBatch} you want to draw to
-	 * @return returns the {@link SpriteBatch} passed, with maze set to draw
-	 */
-	public SpriteBatch drawMaze(SpriteBatch batch) {
-		
-		int xOffset = (Gdx.graphics.getWidth()/2)-(MAZE_DIMENSION*32/2);
-		int yOffset = Gdx.graphics.getHeight()/2-(MAZE_DIMENSION*32/2);
-				
-		for(int i = 0; i < MAZE_DIMENSION; i++) {
-			for(int k = 0; k < MAZE_DIMENSION; k++) {
-				batch.draw(maze[i][k].getTexture(),xOffset+32*i,yOffset+32*k);
-			}
-		}
-		batch = player.drawPlayer(batch);
-		
-		if(player.hasRolled() == false)
-		{
-			font.draw(batch, "Press Space to roll", 100, 100);
-		}
-		else
-		{
-			font.draw(batch, "Spaces left: "+player.getRollSpaces(), 100, 100);
-		}
-		
-		return batch;
-	}
 	
-	/**
-	 * Any action that happens on the maze will be called through this method
-	 * As of now. it is just listening for player movement
-	 * Called each frame by {@link JumazyGame#render()}
-	 */
-	public void actions() {
-		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && player.hasRolled() == false) {
-			player.roll();
-		}
-		
-		if(player.hasRolled())
-		{
-			String direction = "";
-			if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-				direction = "right";
-			}
-			else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-				direction = "left";
-			}
-			else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-				direction = "up";
-			}
-			else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-				direction = "down";
-			}
-			if(direction != "")
-				player.move(direction);
-		}
-	}
 }

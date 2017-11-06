@@ -6,11 +6,20 @@ public class Exit {
 	private boolean left;
 	private boolean right;
 	
-	public Exit(boolean up, boolean down, boolean left, boolean right) {
-		this.up = up;
-		this.down = down;
-		this.left = left;
-		this.right = right;
+	public Exit() {
+		up = false;
+		down = false;
+		left = false;
+		right = false;
+	}
+	
+	public void add(String dir) {
+		switch(dir) {
+			case "up": up = true;break;
+			case "down": down = true;break;
+			case "left": left = true;break;
+			case "right": right = true;break;
+		}
 	}
 	
 	public boolean[] getExits() {
@@ -38,5 +47,16 @@ public class Exit {
 		}
 		System.out.println("why am i here");
 		return false;
+	}
+	
+	public String toString() {
+		String str;
+		
+		str = "up:	"+up+"\n";
+		str += "down:	"+down+"\n";
+		str += "left:	"+left+"\n";
+		str += "right:	"+right+"\n";
+		
+		return str;
 	}
 }

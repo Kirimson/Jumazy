@@ -12,6 +12,7 @@ public class Block {
 	
 	private Texture blockTexture;
 	private Coordinate coords;
+	protected int orientation;
 	protected Exit exits;
 	
 	/**
@@ -20,11 +21,12 @@ public class Block {
 	 * @param tex
 	 * @param coords
 	 */
-	public Block(Texture tex, Coordinate coords) {
+	public Block(Texture tex, Coordinate coords, int orientation) {
 		this.blockTexture = tex;
 		this.coords = coords;
-		exits = new Exit(false, false, false, false);
-	};
+		this.orientation = orientation;
+		exits = new Exit();
+	}
 
 	/**
 	 * Creates a new {@link Block} according to type parameter
@@ -32,44 +34,30 @@ public class Block {
 	 * @param coord a {@link Coordinate} object, to be passed into the {@link Block} the Factory will create
 	 * @return a new {@link Block} object
 	 */
-	public static Block blockFactory(String type, Coordinate coord) {
+	public static Block blockFactory(String type, Coordinate coord, int orientation) {
 		Block tempBlock = null;
 		
 		switch(type) {
-			case "downLeft": tempBlock = new CornerDownLeft(coord);break;
-			case "downRight": tempBlock = new CornerDownRight(coord);break;
-			case "vertical": tempBlock = new StraightVertical(coord);break;
-			case "horizontal": tempBlock = new StraightHorizontal(coord);break;
-			case "upLeft": tempBlock = new CornerUpLeft(coord);break;
-			case "upRight": tempBlock = new CornerUpRight(coord);break;
-			case "cross": tempBlock = new Cross(coord);break;
-			case "tLeft": tempBlock = new TLeft(coord);break;
-			case "tRight": tempBlock = new TRight(coord);break;
-			case "tUp": tempBlock = new TUp(coord);break;
-			case "tDown": tempBlock = new TDown(coord);break;
-			default: tempBlock = new Cross(coord);break;
+			case "corner": tempBlock = new Corner(coord, orientation);break;
+			case "straight": tempBlock = new Straight(coord, orientation);break;
+			case "cross": tempBlock = new Cross(coord, orientation);break;
+			case "tJunction": tempBlock = new TJunction(coord, orientation);break;
+			default: tempBlock = new Cross(coord, orientation);break;
 		}
 		
 		return tempBlock;
 	}
 	
-	public static Block blockFactory(int type, Coordinate coord) {
+	public static Block blockFactory(int type, Coordinate coord, int orientation) {
 		String typeString;
 		switch(type) {
-			case 0: typeString = "downLeft";break;
-			case 1: typeString = "downRight";break;
-			case 2: typeString = "vertical";
-			case 3: typeString = "horizontal";break;
-			case 4: typeString = "upLeft";break;
-			case 5: typeString = "upRight";break;
-			case 6: typeString = "cross";break;
-			case 7: typeString = "tLeft";break;
-			case 8: typeString = "tRight";break;
-			case 9: typeString = "tUp";break;
-			case 10: typeString = "tRight";break;
-			default: typeString = "cross";break;
+			case 0: typeString = "corner";break;
+			case 1: typeString = "straight";break;
+			case 2: typeString = "cross";
+			case 3: typeString = "tJunction";break;
+			default: typeString = "cross";
 		}
-		return blockFactory(typeString, coord);
+		return blockFactory(typeString, coord, orientation);
 	}
 	
 	/**
@@ -105,6 +93,14 @@ public class Block {
 	 */
 	public boolean checkEntrance(String direction) {
 		return exits.checkEntrance(direction);
+	}
+	
+	/**
+	 * Returns the orientation of the {@link Block}
+	 * @return returns an int from 0 to 3, denoting the the {@link Block} orientation
+	 */
+	public int getOrientation() {
+		return orientation;
 	}
 	
 	/**
