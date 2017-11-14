@@ -5,17 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.util.Random;
 
 public class GameSystem extends MainSystem{
 	
 	private BitmapFont font;
 	private Maze maze;
 	private static Texture moves = new Texture("moves.png");
+        private Random rnd;
+        private Weather weather; 
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
 		font = new BitmapFont();
 		font.setColor(1, 1, 1, 1);
+                rnd = new Random();
+                if (rnd.nextBoolean())
+                {
+                    weather = new Sun();
+                }
+                else
+                {
+                    weather = new Rain(); 
+                }
 		maze = new Maze();
 	}
 	
@@ -37,9 +49,11 @@ public class GameSystem extends MainSystem{
 		
 		batch = maze.getPlayer().drawPlayer(batch);
 		
-		if(maze.getPlayer().hasRolled() == false)
+		font.draw(batch, "Weather: " + weather.getName(), 10,80);
+                
+                if(maze.getPlayer().hasRolled() == false)
 		{
-			font.draw(batch, "Press Space to roll", 10,40);
+			font.draw(batch, "Press Space to roll", 10,60);
 		}
 		else
 		{
@@ -60,7 +74,7 @@ public class GameSystem extends MainSystem{
 	public void handleInput() {
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getPlayer().hasRolled() == false) {
-			maze.getPlayer().roll();
+			maze.getPlayer().roll(weather.getMovementMod());
 		}
 		
 		if(maze.getPlayer().hasRolled())
