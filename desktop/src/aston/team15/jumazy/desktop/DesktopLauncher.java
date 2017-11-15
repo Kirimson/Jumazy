@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		config.width = JumazyGame.WIDTH;
 		config.height = JumazyGame.HEIGHT;
 
-		config.addIcon("path.jpg", FileType.Internal);
+		config.addIcon("path.png", FileType.Internal);
 		
 		new LwjglApplication(new JumazyGame(), config);
 	}

@@ -28,7 +28,7 @@ public class JumazyGame extends ApplicationAdapter {
 		system = new SystemManager();
 		system.push(new TitleSystem(system));
 		
-		mapSprite = new Sprite(new Texture(Gdx.files.internal("path.jpg")));
+		mapSprite = new Sprite(new Texture(Gdx.files.internal("path.png")));
 		mapSprite.setPosition(0, 0);
 		mapSprite.setSize(1,1);
 
