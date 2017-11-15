@@ -41,8 +41,11 @@ public class GraphicsManager {
 		//draw player
 		Player player  = maze.getPlayer();
 		int playerOffset = 10;
+		float playerWidth = player.getTexture().getWidth();
+		float playerHeight = player.getTexture().getHeight();
 		
-		batch.draw(player.getTexture(), xOffset+player.getCoords().getX()*blockSize+playerOffset, yOffset+player.getCoords().getY()*blockSize+playerOffset);
+		batch.draw(player.getTexture(), xOffset+player.getCoords().getX()*blockSize+playerOffset, yOffset+player.getCoords().getY()*blockSize+playerOffset, playerWidth/2, playerHeight/2);
+		
 		
 		if(maze.getPlayer().hasRolled() == false)
 		{

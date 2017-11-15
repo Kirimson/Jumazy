@@ -122,4 +122,8 @@ public class Block {
 	public String getName() {
 		return "Base block";
 	}
+	
+	public void addExit(String exit) {
+		exits.add(exit);
+	}
 }

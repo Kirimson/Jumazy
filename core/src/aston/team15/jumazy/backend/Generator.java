@@ -14,67 +14,70 @@ public class Generator {
 		
 		Block[][] maze = new Block[dimension][dimension];
 		
-		int walkerX = 0;
-		int walkerY = 0;
-		int walkerDirection = 0;
-		
-		boolean walkerWalking = true;
-		
-		while(walkerWalking) {
-			maze[walkerX][walkerY] = Block.newFact(0, new Coordinate(walkerX, walkerY));
-			
-			int oldX = walkerX;
-			int oldY = walkerY;
-			boolean validNewCoord = false;
-			int times = 0;
-			
-			do
-			{
-				oldX = walkerX;
-				oldY = walkerY;
-				
-				walkerDirection = rnd.nextInt(4);
-				switch(walkerDirection) {
-				case 0: walkerX++;break; //Walker goes right
-				case 1: walkerX--;break; //Walker goes left
-				case 2: walkerY++;break; //Walker goes up
-				case 3: walkerY--;break; //Walker goes down
-				}
-				
-				if(walkerX >= 0 && walkerX <= dimension && walkerY >= 0 && walkerY <= dimension)
-				{
-					validNewCoord = true;
-				}
-				else
-				{
-					validNewCoord = false;
-					walkerX = oldX;
-					walkerY = oldY;
-				}
-				
-				System.out.println("WalkerX:"+walkerX+" WalkerY:"+walkerY+" valid? "+ validNewCoord );
-			}while(validNewCoord == false);
-			
-			if(walkerX == dimension || walkerY == dimension) {
-				walkerWalking = false;
+		//start with maze full of walls
+		for(int column = 0; column < dimension; column++) {
+			for(int row = 0; row< dimension; row++) {
+					maze[column][row] = Block.newFact(1, new Coordinate(column, row));
 			}
-			times++;
 		}
+		
+		dig(maze, 0, 0);
+		
+//		int createWall = rnd.nextInt(4); //0 = up, 1 = right, 2 = down, 3 = left
+//		String exitDirection = "";
+//		switch(createWall) {
+//		case 0: exitDirection = "top";break;
+//		case 1: exitDirection = "right";break;
+//		case 2: exitDirection = "down";break;
+//		case 3: exitDirection = "left";break;
+//		}
+//		
+//		if(stillWalls(maze, dimension)){
+//			currentCell.addExit(exitDirection);
+//		}
+		
+		return maze;
+	}
 	
+	private void dig(Block[][] maze, int x, int y) {
+		
+		//choose rand direction
+		int direction = rnd.nextInt(4); //0 = up, 1 = right, 2 = down, 3 = left
+		
+		switch(direction) {
+			case 0: {
+				//going up
+				break;
+			}
+			
+			case 1: {
+				//going right
+				break;
+			}
+			
+			case 2: {
+				//going down
+				break;
+			}
+			case 3: {
+				//going left
+				break;
+			}
+		
+		}
+		
+		
+	}
+	
+	private boolean stillWalls(Block[][] maze, int dimension) {
 		
 		for(int column = 0; column < dimension; column++) {
 			for(int row = 0; row< dimension; row++) {
-				
-				try {
-					Block tmp = maze[column][row];
-					tmp.getCoords();
-				}catch (NullPointerException e){
-					maze[column][row] = Block.newFact(1, new Coordinate(column, row));
-				}
+//				if(maze[row][column])
 			}
 		}
 		
-		return maze;
+		return true;
 	}
 	
 	/**

@@ -60,4 +60,12 @@ public class Coordinate {
 	{
 		return "("+x+","+y+")";
 	}
+	
+	public void setX(int val) {
+		x = val;
+	}
+	
+	public void setY(int val) {
+		y = val;
+	}
 }
