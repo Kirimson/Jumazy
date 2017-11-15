@@ -22,7 +22,7 @@ public class GameSystem extends MainSystem{
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		maze = new Maze(20);
+		maze = new Maze(35, 20);
 		gMan = new GraphicsManager();
 	}
 	

@@ -12,31 +12,18 @@ public class Generator {
 		rnd = new Random();
 	}
 	
-	public Block[][] superNewGenMaze(int dimension){
+	public Block[][] superNewGenMaze(int x, int y){
 		
-		Block[][] maze = new Block[dimension][dimension];
+		Block[][] maze = new Block[x][y];
 		
 		//start with maze full of walls
-		for(int column = 0; column < dimension; column++) {
-			for(int row = 0; row< dimension; row++) {
-					maze[column][row] = Block.newFact("wall", new Coordinate(column, row));
+		for(int row = 0; row < x; row++) {
+			for(int column = 0; column< y; column++) {
+					maze[row][column] = Block.newFact("wall", new Coordinate(column, row));
 			}
 		}
 		
 		maze = dig(maze, 0, 0);
-		
-//		int createWall = rnd.nextInt(4); //0 = up, 1 = right, 2 = down, 3 = left
-//		String exitDirection = "";
-//		switch(createWall) {
-//		case 0: exitDirection = "top";break;
-//		case 1: exitDirection = "right";break;
-//		case 2: exitDirection = "down";break;
-//		case 3: exitDirection = "left";break;
-//		}
-//		
-//		if(stillWalls(maze, dimension)){
-//			currentCell.addExit(exitDirection);
-//		}
 		
 		return maze;
 	}
@@ -64,7 +51,7 @@ public class Generator {
 		for( Integer i : directions) {
 			switch(i) {
 			case 1: //Going up
-				if(y + 2 > maze.length-1)
+				if(y + 2 > maze[0].length-1)
 				{
 					System.out.println("Continuing");
 					continue;

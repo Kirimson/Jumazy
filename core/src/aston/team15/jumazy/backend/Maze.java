@@ -13,7 +13,8 @@ public class Maze {
 	private static Block[][] statMaze;
 	private Block[][] maze;
 	private static Block stopBlock;
-	static int MAZE_DIMENSION;
+	static int MAZE_DIMENSIONX;
+	static int MAZE_DIMENSIONY;
 	private Player player;
 	private Generator mazeGenerator;
 	
@@ -23,14 +24,19 @@ public class Maze {
 	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
 	 * player, the player object
 	 */
-	public Maze(int dimension) {
-		MAZE_DIMENSION = dimension;
+	public Maze(int dimensionx, int dimensiony) {
+		MAZE_DIMENSIONX = dimensionx;
+		MAZE_DIMENSIONY = dimensiony;
 		stopBlock = new Block(null, null, 0);
 		player = new Player(new Coordinate(0,0));
 		mazeGenerator = new Generator();
-		maze = mazeGenerator.superNewGenMaze(MAZE_DIMENSION);
+		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
 //		maze = mazeGenerator.newGenMaze(MAZE_DIMENSION);
 		statMaze = maze;
+	}
+	
+	public static Block[][] getMaze(){
+		return statMaze;
 	}
 	
 	public Player getPlayer() {
@@ -63,7 +69,7 @@ public class Maze {
 		nearBlocks[1] = stopBlock;
 		
 		System.out.println("block player is on: "+statMaze[coord.getX()][coord.getY()].toString());
-		if(coord.getX()+xDir >= 0 && coord.getY()+yDir >= 0 && coord.getX()+xDir < MAZE_DIMENSION && coord.getY()+yDir < MAZE_DIMENSION ) {
+		if(coord.getX()+xDir >= 0 && coord.getY()+yDir >= 0 && coord.getX()+xDir < MAZE_DIMENSIONX && coord.getY()+yDir < MAZE_DIMENSIONY ) {
 			
 			System.out.println("block player wants to move to: "+statMaze[coord.getX()+xDir][coord.getY()+yDir].toString());
 			nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
@@ -86,7 +92,7 @@ public class Maze {
 	 */
 	public Block getBlock(int row, int column) {
 		Block b = null;
-		if(row >= 0 && row <= MAZE_DIMENSION && column >= 0 && column <= MAZE_DIMENSION)
+		if(row >= 0 && row <= MAZE_DIMENSIONX && column >= 0 && column <= MAZE_DIMENSIONY)
 			b = maze[row][column];
 		
 		return b;

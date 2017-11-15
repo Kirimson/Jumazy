@@ -24,16 +24,16 @@ public class GraphicsManager {
 	public SpriteBatch draw(SpriteBatch batch, Maze maze) {
 		
 		//draw maze
-		int xOffset = (1280-(Maze.MAZE_DIMENSION*32))/2;
-		int yOffset = (720-(Maze.MAZE_DIMENSION*32))/2;
+		int xOffset = (1280-(Maze.MAZE_DIMENSIONX*32))/2;
+		int yOffset = (720-(Maze.MAZE_DIMENSIONY*32))/2;
 		int blockSize = maze.getBlock(0, 0).getTexture().getHeight();
 		int blockXYStart = 0;
 		int blockOrigin = blockSize/2;
 		int scaleX = JumazyGame.WIDTH/1280;
 		int scaleY = JumazyGame.HEIGHT/720;
 		
-		for(int i = 0; i < Maze.MAZE_DIMENSION; i++) {
-			for(int k = 0; k < Maze.MAZE_DIMENSION; k++) {
+		for(int i = 0; i < Maze.getMaze().length; i++) {
+			for(int k = 0; k <  Maze.getMaze()[0].length; k++) {
 				int blockOrientation = maze.getBlock(i, k).getOrientation();
 				batch.draw(maze.getBlock(i, k).getTexture(), xOffset+blockSize*i, yOffset+blockSize*k, blockOrigin, blockOrigin, blockSize, blockSize, scaleX, scaleY, blockOrientation*-90, blockXYStart, blockXYStart, blockSize, blockSize, false, false);
 			}
