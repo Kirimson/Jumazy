@@ -5,6 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Manages the title screen of the games title screen, sub class of {@link MainSystem}
+ * @author kieran
+ *
+ */
 public class TitleSystem extends MainSystem{
 	
 	private Texture background;

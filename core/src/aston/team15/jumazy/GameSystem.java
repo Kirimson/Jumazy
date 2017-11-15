@@ -5,7 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+/**
+ * Subclass of {@link MainSystem}. The main class containing the maze and gameplay elements of the game.
+ * Allows drawing of the maze, player and other UI elements
+ * @author kieran
+ *
+ */
 public class GameSystem extends MainSystem{
 	
 	private BitmapFont font;
