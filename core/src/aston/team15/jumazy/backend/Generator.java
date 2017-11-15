@@ -1,5 +1,7 @@
 package aston.team15.jumazy.backend;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Generator {
@@ -17,11 +19,11 @@ public class Generator {
 		//start with maze full of walls
 		for(int column = 0; column < dimension; column++) {
 			for(int row = 0; row< dimension; row++) {
-					maze[column][row] = Block.newFact(1, new Coordinate(column, row));
+					maze[column][row] = Block.newFact("wall", new Coordinate(column, row));
 			}
 		}
 		
-		dig(maze, 0, 0);
+		maze = dig(maze, 0, 0);
 		
 //		int createWall = rnd.nextInt(4); //0 = up, 1 = right, 2 = down, 3 = left
 //		String exitDirection = "";
@@ -39,45 +41,84 @@ public class Generator {
 		return maze;
 	}
 	
-	private void dig(Block[][] maze, int x, int y) {
+	private ArrayList<Integer> genRandDirections() {
 		
-		//choose rand direction
-		int direction = rnd.nextInt(4); //0 = up, 1 = right, 2 = down, 3 = left
+		ArrayList<Integer> directions = new ArrayList<Integer>();
 		
-		switch(direction) {
-			case 0: {
-				//going up
-				break;
-			}
-			
-			case 1: {
-				//going right
-				break;
-			}
-			
-			case 2: {
-				//going down
-				break;
-			}
-			case 3: {
-				//going left
-				break;
-			}
-		
+		for(int i = 0; i < 4; i++)
+		{
+			directions.add(i+1);
 		}
+		Collections.shuffle(directions);
 		
+		return directions;
 		
 	}
 	
-	private boolean stillWalls(Block[][] maze, int dimension) {
+	private Block[][] dig(Block[][] maze, int x, int y) {
 		
-		for(int column = 0; column < dimension; column++) {
-			for(int row = 0; row< dimension; row++) {
-//				if(maze[row][column])
+		//choose rand directions
+		ArrayList<Integer> directions = genRandDirections();
+		System.out.println(maze.length);
+		System.out.println(y + 2 < maze.length-1);
+		for( Integer i : directions) {
+			switch(i) {
+			case 1: //Going up
+				if(y + 2 > maze.length-1)
+				{
+					System.out.println("Continuing");
+					continue;
+				}
+				if(maze[x][y + 2].getName().equals("wall")) {
+					System.out.println("FOUND WALL");
+					maze[x][y + 2] = Block.newFact("path", new Coordinate(x, y + 2));
+					maze[x][y + 1] = Block.newFact("path", new Coordinate(x, y + 1));
+					dig(maze, x, y + 2);
+				}
+				break;
+			case 2: //Going right
+				if(x + 2 > maze.length-1)
+				{
+					System.out.println("Continuing");
+					continue;
+				}
+				if(maze[x + 2][y].getName().equals("wall")) {
+					System.out.println("FOUND WALL");
+					maze[x + 2][y] = Block.newFact("path", new Coordinate(x + 2, y));
+					maze[x + 1][y] = Block.newFact("path", new Coordinate(x + 1, y));
+					dig(maze, x + 2, y);
+				}
+				break;
+			case 3: //Going down
+				if(y - 2 < 0)
+				{
+					System.out.println("Continuing");
+					continue;
+				}
+				if(maze[x][y - 2].getName().equals("wall")) {
+					System.out.println("FOUND WALL");
+					maze[x][y - 2] = Block.newFact("path", new Coordinate(x, y - 2));
+					maze[x][y - 1] = Block.newFact("path", new Coordinate(x, y - 1));
+					dig(maze, x, y - 2);
+				}
+				break;
+			case 4: //Going left
+				if(x - 2 < 0)
+				{
+					System.out.println("Continuing");
+					continue;
+				}
+				if(maze[x - 2][y].getName().equals("wall")) {
+					System.out.println("FOUND WALL");
+					maze[x - 2][y] = Block.newFact("path", new Coordinate(x - 2, y));
+					maze[x - 1][y] = Block.newFact("path", new Coordinate(x - 1, y));
+					dig(maze, x - 2, y);
+				}
+				break;
 			}
 		}
-		
-		return true;
+
+		return maze;
 	}
 	
 	/**

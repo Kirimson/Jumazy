@@ -28,8 +28,8 @@ public class Maze {
 		stopBlock = new Block(null, null, 0);
 		player = new Player(new Coordinate(0,0));
 		mazeGenerator = new Generator();
-//		maze = mazeGenerator.superNewGenMaze(MAZE_DIMENSION);
-		maze = mazeGenerator.newGenMaze(MAZE_DIMENSION);
+		maze = mazeGenerator.superNewGenMaze(MAZE_DIMENSION);
+//		maze = mazeGenerator.newGenMaze(MAZE_DIMENSION);
 		statMaze = maze;
 	}
 	

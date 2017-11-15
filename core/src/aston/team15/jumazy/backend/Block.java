@@ -60,9 +60,9 @@ public class Block {
 		return blockFactory(typeString, coord, orientation);
 	}
 	
-	public static Block newFact(int type, Coordinate coord) {
+	public static Block newFact(String type, Coordinate coord) {
 		
-		if(type == 0)
+		if(type == "path")
 			return new Path(coord, 0);
 		else
 			return new Wall(coord, 0);
