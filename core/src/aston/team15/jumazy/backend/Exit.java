@@ -1,4 +1,4 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.backend;
 
 public class Exit {
 	private boolean up;

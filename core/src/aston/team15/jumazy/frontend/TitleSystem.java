@@ -1,9 +1,12 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.frontend;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import aston.team15.jumazy.backend.MainSystem;
+import aston.team15.jumazy.backend.SystemManager;
 
 /**
  * Manages the title screen of the games title screen, sub class of {@link MainSystem}

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import aston.team15.jumazy.JumazyGame;
+import aston.team15.jumazy.frontend.JumazyGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

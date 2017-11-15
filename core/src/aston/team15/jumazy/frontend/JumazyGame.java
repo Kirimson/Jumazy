@@ -1,4 +1,4 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.frontend;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import aston.team15.jumazy.backend.SystemManager;
 
 public class JumazyGame extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -30,7 +32,7 @@ public class JumazyGame extends ApplicationAdapter {
 		mapSprite.setPosition(0, 0);
 		mapSprite.setSize(1,1);
 
-		cam = new OrthographicCamera(1280, 720);
+		cam = new OrthographicCamera(WIDTH, HEIGHT);
 		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
 		cam.update();
 		

@@ -1,4 +1,4 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.backend;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -60,6 +60,14 @@ public class Block {
 		return blockFactory(typeString, coord, orientation);
 	}
 	
+	public static Block newFact(int type, Coordinate coord) {
+		
+		if(type == 0)
+			return new Path(coord, 0);
+		else
+			return new Wall(coord, 0);
+	}
+	
 	/**
 	 * Returns the {@link Texture} of the {@link Block}
 	 * @return {@link Texture} object for the {@link Block}
@@ -107,8 +115,11 @@ public class Block {
 	 * Generates a String representation of the {@link Block}
 	 * @return String representation of the {@link Block}
 	 */
-	@Override
 	public String toString() {
 		return "Base block. 4 walls";
+	}
+	
+	public String getName() {
+		return "Base block";
 	}
 }

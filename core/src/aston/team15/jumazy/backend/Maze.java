@@ -1,12 +1,4 @@
-package aston.team15.jumazy;
-
-import java.util.Random;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+package aston.team15.jumazy.backend;
 
 
 /**
@@ -20,11 +12,10 @@ public class Maze {
 	
 	private static Block[][] statMaze;
 	private Block[][] maze;
-	private Random rnd;
 	private static Block stopBlock;
-	static int MAZE_DIMENSION =20;
-	Player player;
-	
+	static int MAZE_DIMENSION;
+	private Player player;
+	private Generator mazeGenerator;
 	
 	
 	/**
@@ -32,13 +23,13 @@ public class Maze {
 	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
 	 * player, the player object
 	 */
-	public Maze() {
-		
-		rnd = new Random();
+	public Maze(int dimension) {
+		MAZE_DIMENSION = dimension;
 		stopBlock = new Block(null, null, 0);
-		maze = new Block[MAZE_DIMENSION][MAZE_DIMENSION];
 		player = new Player(new Coordinate(0,0));
-		newGenMaze();
+		mazeGenerator = new Generator();
+		maze = mazeGenerator.superNewGenMaze(MAZE_DIMENSION);
+		statMaze = maze;
 	}
 	
 	public Player getPlayer() {
@@ -84,78 +75,7 @@ public class Maze {
 		
 		return nearBlocks;
 	}
-	
-	/**
-	 * Generates a new maze. Loops through each array index, creating a new Block, by using the {@link Block#blockFactory()} method to create a new {@link Block}
-	 * Creates the maze in sections of MAZE_DIMENSION/4 (if maze is 16*16 chunks are 4*4)
-	 */	
-	private void newGenMaze() {
-		/**
-		 * MAZE STRUCTURE EXAMPLE:
-		 * 
-		 *  	---------
-		 *     3|		|
-		 *     2|		|
-		 * ^   1|		|
-		 * |   0|		|
-		 * K	---------
-		 * 	I->  0 1 2 3
-		 * 
-		 * I is the column, K is the row of that column. Top cell of the first column would be (I=0,K=3)
-		 */
-		
-		int mazeOffsetI = 0;
-		int mazeOffsetK = 0;
-		
-		int column = 0;
-		int row = 0;
-		int blobk = 0;
-		
-		int edgeOfChunk = MAZE_DIMENSION/4-1; //edge = very right and very top of each chunk
-		
-		while(blobk != MAZE_DIMENSION*MAZE_DIMENSION)
-		{
-			System.out.println("New Chunk:");
-			System.out.println("I: "+column+" K: "+row);
-			for(column = mazeOffsetI; column < MAZE_DIMENSION/4+mazeOffsetI; column++) {
-				for(row = mazeOffsetK; row < MAZE_DIMENSION/4+mazeOffsetK; row++) {
-					System.out.println("Block "+(blobk+1));
 
-					String type = "";
-					
-					int rand=rnd.nextInt(8);
-					int orientation=rnd.nextInt(3);
-					if(rand>=0 && rand<=3)
-						type = "cross";
-					else if(rand==4)
-						type = "straight";
-					else if(rand==5)
-						type = "corner";
-					else
-						type = "tJunction";
-					
-					if (column == edgeOfChunk+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
-						maze[column][row] = Block.blockFactory("cross", new Coordinate(column, row), orientation);
-					else if (column == 0+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
-						maze[column][row] = Block.blockFactory("horizontal", new Coordinate(column, row), orientation);
-					else
-						maze[column][row] = Block.blockFactory(type, new Coordinate(column, row), orientation);
-					
-					blobk++;
-				}
-			}
-			System.out.println("I: "+column+" K: "+row);
-			 if(column != MAZE_DIMENSION) {
-				mazeOffsetI += MAZE_DIMENSION/4;
-			}
-			else
-			{
-				mazeOffsetK += MAZE_DIMENSION/4;
-				mazeOffsetI = 0;
-			}
-		}
-		statMaze = maze;
-	}
 	
 	/**
 	 * Returns a Block in a set column/row. specified by parameters

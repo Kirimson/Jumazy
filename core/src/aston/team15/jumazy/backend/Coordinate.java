@@ -1,4 +1,4 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.backend;
 
 /**
  * Implementation of a Coordinate system for the maze and its inhabitants, such as {@link Block} and {@link Player}
