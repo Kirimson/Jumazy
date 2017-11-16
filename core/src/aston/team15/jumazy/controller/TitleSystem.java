@@ -1,12 +1,11 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import aston.team15.jumazy.controller.MainSystem;
-import aston.team15.jumazy.controller.SystemManager;
+import aston.team15.jumazy.view.JumazyGame;
 
 /**
  * Manages the title screen of the games title screen, sub class of {@link MainSystem}

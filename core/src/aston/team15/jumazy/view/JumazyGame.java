@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import aston.team15.jumazy.controller.SystemManager;
+import aston.team15.jumazy.controller.TitleSystem;
 
 public class JumazyGame extends ApplicationAdapter {
 	private SpriteBatch batch;

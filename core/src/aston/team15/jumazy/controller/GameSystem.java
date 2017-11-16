@@ -1,13 +1,12 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import aston.team15.jumazy.controller.GraphicsManager;
-import aston.team15.jumazy.controller.MainSystem;
-import aston.team15.jumazy.controller.SystemManager;
 import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.view.GraphicsManager;
+import aston.team15.jumazy.view.JumazyGame;
 /**
  * Subclass of {@link MainSystem}. The main class containing the maze and gameplay elements of the game.
  * Allows drawing of the maze, player and other UI elements

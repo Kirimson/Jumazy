@@ -1,4 +1,4 @@
-package aston.team15.jumazy.controller;
+package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.model.Player;
-import aston.team15.jumazy.view.JumazyGame;
 
 public class GraphicsManager {
 	
