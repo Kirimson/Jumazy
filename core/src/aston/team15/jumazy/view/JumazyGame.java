@@ -1,4 +1,4 @@
-package aston.team15.jumazy.frontend;
+package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import aston.team15.jumazy.backend.SystemManager;
+import aston.team15.jumazy.controller.SystemManager;
 
 public class JumazyGame extends ApplicationAdapter {
 	private SpriteBatch batch;

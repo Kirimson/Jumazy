@@ -1,4 +1,4 @@
-package aston.team15.jumazy.backend;
+package aston.team15.jumazy.model;
 
 import com.badlogic.gdx.graphics.Texture;
 

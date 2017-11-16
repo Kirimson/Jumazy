@@ -1,4 +1,4 @@
-package aston.team15.jumazy.backend;
+package aston.team15.jumazy.model;
 
 
 /**
@@ -13,8 +13,8 @@ public class Maze {
 	private static Block[][] statMaze;
 	private Block[][] maze;
 	private static Block stopBlock;
-	static int MAZE_DIMENSIONX;
-	static int MAZE_DIMENSIONY;
+	public static int MAZE_DIMENSIONX;
+	public static int MAZE_DIMENSIONY;
 	private Player player;
 	private Generator mazeGenerator;
 	
