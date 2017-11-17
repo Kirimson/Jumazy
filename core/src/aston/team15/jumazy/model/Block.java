@@ -34,38 +34,12 @@ public class Block {
 	 * @param coord a {@link Coordinate} object, to be passed into the {@link Block} the Factory will create
 	 * @return a new {@link Block} object
 	 */
-	public static Block blockFactory(String type, Coordinate coord, int orientation) {
-		Block tempBlock = null;
-		
-		switch(type) {
-			case "corner": tempBlock = new Corner(coord, orientation);break;
-			case "straight": tempBlock = new Straight(coord, orientation);break;
-			case "cross": tempBlock = new Cross(coord, orientation);break;
-			case "tJunction": tempBlock = new TJunction(coord, orientation);break;
-			default: tempBlock = new Cross(coord, orientation);break;
-		}
-		
-		return tempBlock;
-	}
-	
-	public static Block blockFactory(int type, Coordinate coord, int orientation) {
-		String typeString;
-		switch(type) {
-			case 0: typeString = "corner";break;
-			case 1: typeString = "straight";break;
-			case 2: typeString = "cross";
-			case 3: typeString = "tJunction";break;
-			default: typeString = "cross";
-		}
-		return blockFactory(typeString, coord, orientation);
-	}
-	
 	public static Block newFact(String type, Coordinate coord) {
 		
 		if(type == "path")
 			return new Path(coord, 0);
 		else
-			return new Wall(coord, 0);
+			return new Wall(coord, 0, type);
 	}
 	
 	/**
@@ -116,10 +90,6 @@ public class Block {
 	 * @return String representation of the {@link Block}
 	 */
 	public String toString() {
-		return "Base block. 4 walls";
-	}
-	
-	public String getName() {
 		return "Base block";
 	}
 	

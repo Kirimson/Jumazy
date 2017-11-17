@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Wall extends Block {
 
-	public Wall(Coordinate coords, int orientation) {
-		super(new Texture("wall.png"), coords, orientation);
+	public Wall(Coordinate coords, int orientation, String type) {
+		super(new Texture("wall"+type+".png"), coords, orientation);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getName() {
+	public String toString() {
 		return "wall";
 	}
 

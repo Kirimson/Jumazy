@@ -8,7 +8,7 @@ public class Path extends Block {
 		super(new Texture("path.png"), coords, orientation);
 	}
 	
-	public String getName() {
+	public String toString() {
 		return "path";
 	}
 }

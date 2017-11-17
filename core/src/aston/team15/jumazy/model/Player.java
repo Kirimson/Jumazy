@@ -92,7 +92,7 @@ public class Player {
 			
 			if(surroundedBlock != null)
 			{
-				if(surroundedBlock[1].getName() == "path") {
+				if(surroundedBlock[1].toString() == "path") {
 					coords.setCoordinates(surroundedBlock[1].getCoords());
 					System.out.println("allowed movement");
 					System.out.println("player new Coords: "+coords.toString());

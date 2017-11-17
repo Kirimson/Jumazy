@@ -7,6 +7,7 @@ import java.util.Random;
 public class Generator {
 	
 	private Random rnd;
+	private Block[][] maze;
 
 	public Generator() {
 		rnd = new Random();
@@ -14,16 +15,14 @@ public class Generator {
 	
 	public Block[][] superNewGenMaze(int x, int y){
 		
-		Block[][] maze = new Block[x][y];
+		maze = new Block[x][y];
 		
 		//start with maze full of walls
-		for(int row = 0; row < x; row++) {
-			for(int column = 0; column< y; column++) {
-					maze[row][column] = Block.newFact("wall", new Coordinate(column, row));
-			}
-		}
 		
-		maze = dig(maze, 0, 0);
+		
+		maze = dig(0, 0);
+		
+		maze = refineMaze(x, y);
 		
 		return maze;
 	}
@@ -42,64 +41,54 @@ public class Generator {
 		
 	}
 	
-	private Block[][] dig(Block[][] maze, int x, int y) {
+	private Block[][] dig(int x, int y) {
 		
 		//choose rand directions
 		ArrayList<Integer> directions = genRandDirections();
-		System.out.println(maze.length);
-		System.out.println(y + 2 < maze.length-1);
 		for( Integer i : directions) {
 			switch(i) {
 			case 1: //Going up
 				if(y + 2 > maze[0].length-1)
 				{
-					System.out.println("Continuing");
 					continue;
 				}
-				if(maze[x][y + 2].getName().equals("wall")) {
-					System.out.println("FOUND WALL");
+				if(maze[x][y + 2] == null) {
 					maze[x][y + 2] = Block.newFact("path", new Coordinate(x, y + 2));
 					maze[x][y + 1] = Block.newFact("path", new Coordinate(x, y + 1));
-					dig(maze, x, y + 2);
+					dig(x, y + 2);
 				}
 				break;
 			case 2: //Going right
 				if(x + 2 > maze.length-1)
 				{
-					System.out.println("Continuing");
 					continue;
 				}
-				if(maze[x + 2][y].getName().equals("wall")) {
-					System.out.println("FOUND WALL");
+				if(maze[x + 2][y] == null) {
 					maze[x + 2][y] = Block.newFact("path", new Coordinate(x + 2, y));
 					maze[x + 1][y] = Block.newFact("path", new Coordinate(x + 1, y));
-					dig(maze, x + 2, y);
+					dig(x + 2, y);
 				}
 				break;
 			case 3: //Going down
 				if(y - 2 < 0)
 				{
-					System.out.println("Continuing");
 					continue;
 				}
-				if(maze[x][y - 2].getName().equals("wall")) {
-					System.out.println("FOUND WALL");
+				if(maze[x][y - 2] == null) {
 					maze[x][y - 2] = Block.newFact("path", new Coordinate(x, y - 2));
 					maze[x][y - 1] = Block.newFact("path", new Coordinate(x, y - 1));
-					dig(maze, x, y - 2);
+					dig(x, y - 2);
 				}
 				break;
 			case 4: //Going left
 				if(x - 2 < 0)
 				{
-					System.out.println("Continuing");
 					continue;
 				}
-				if(maze[x - 2][y].getName().equals("wall")) {
-					System.out.println("FOUND WALL");
+				if(maze[x - 2][y] == null) {
 					maze[x - 2][y] = Block.newFact("path", new Coordinate(x - 2, y));
 					maze[x - 1][y] = Block.newFact("path", new Coordinate(x - 1, y));
-					dig(maze, x - 2, y);
+					dig(x - 2, y);
 				}
 				break;
 			}
@@ -108,78 +97,145 @@ public class Generator {
 		return maze;
 	}
 	
-	/**
-	 * Generates a new maze. Loops through each array index, creating a new Block, by using the {@link Block#blockFactory()} method to create a new {@link Block}
-	 * Creates the maze in sections of MAZE_DIMENSION/4 (if maze is 16*16 chunks are 4*4)
-	 */	
-	public Block[][] newGenMaze(int dimension) {
-		/**
-		 * MAZE STRUCTURE EXAMPLE:
-		 * 
-		 *  	---------
-		 *     3|		|
-		 *     2|		|
-		 * ^   1|		|
-		 * |   0|		|
-		 * K	---------
-		 * 	I->  0 1 2 3
-		 * 
-		 * I is the column, K is the row of that column. Top cell of the first column would be (I=0,K=3)
-		 */
+	private Block[][] refineMaze(int x, int y) {
 		
-		Block[][] maze = new Block[dimension][dimension];
-		
-		int mazeOffsetI = 0;
-		int mazeOffsetK = 0;
-		
-		int column = 0;
-		int row = 0;
-		int blobk = 0;
-		
-		int edgeOfChunk = dimension/4-1; //edge = very right and very top of each chunk
-		
-		while(blobk != dimension*dimension)
-		{
-			System.out.println("New Chunk:");
-			System.out.println("I: "+column+" K: "+row);
-			for(column = mazeOffsetI; column < dimension/4+mazeOffsetI; column++) {
-				for(row = mazeOffsetK; row < dimension/4+mazeOffsetK; row++) {
-					System.out.println("Block "+(blobk+1));
-
-					String type = "";
+		for(int row = 0; row < maze.length; row++) {
+			for(int column = 0; column < maze[0].length; column++) {
+				if(maze[row][column] == null)
+				{
+					String type = genWallType(row, column);
 					
-					int rand=rnd.nextInt(8);
-					int orientation=rnd.nextInt(3);
-					if(rand>=0 && rand<=3)
-						type = "cross";
-					else if(rand==4)
-						type = "straight";
-					else if(rand==5)
-						type = "corner";
-					else
-						type = "tJunction";
-					
-					if (column == edgeOfChunk+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
-						maze[column][row] = Block.blockFactory("cross", new Coordinate(column, row), orientation);
-					else if (column == 0+mazeOffsetI && row == edgeOfChunk-1+mazeOffsetK)
-						maze[column][row] = Block.blockFactory("horizontal", new Coordinate(column, row), orientation);
-					else
-						maze[column][row] = Block.blockFactory(type, new Coordinate(column, row), orientation);
-					
-					blobk++;
+					maze[row][column] = Block.newFact(type, new Coordinate(column, row));
 				}
 			}
-			System.out.println("I: "+column+" K: "+row);
-			 if(column != dimension) {
-				mazeOffsetI += dimension/4;
-			}
-			else
-			{
-				mazeOffsetK += dimension/4;
-				mazeOffsetI = 0;
-			}
 		}
+		
 		return maze;
+	}
+	
+	private String genWallType(int row, int column) {
+		String type = "Both";
+		
+		//order inside the if. up, down left right
+		
+		//if only up wall exist
+		try {
+			if(isWall(row, column + 1) && !isWall(row, column - 1) &&
+					!isWall(row + 1, column) && !isWall(row - 1, column))
+				return "Both";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if all sides
+		try {
+			if(isWall(row, column + 1) && isWall(row, column - 1) &&
+					isWall(row + 1, column) && isWall(row - 1, column))
+				return "TopBlank";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if no sides
+		try {
+			if(!isWall(row, column + 1) && !isWall(row, column - 1) &&
+					!isWall(row + 1, column) && !isWall(row - 1, column))
+				return "BothTop";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if all but down & left sides
+		try {
+			if(isWall(row, column + 1) && !isWall(row, column - 1) &&
+					!isWall(row + 1, column) && isWall(row - 1, column))
+				return "Right";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if all but left sides
+		try {
+			if(isWall(row, column + 1) && isWall(row, column - 1) &&
+					!isWall(row + 1, column) && isWall(row - 1, column))
+				return "TopStraightLeft";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if all but right sides
+		try {
+			if(isWall(row, column + 1) && isWall(row, column - 1) &&
+					isWall(row + 1, column) && !isWall(row - 1, column))
+				return "TopStraightRight";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if all but down sides
+		try {
+			if(isWall(row, column + 1) && !isWall(row, column - 1) &&
+					isWall(row + 1, column) && isWall(row - 1, column))
+				return "Middle";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if but down & right sides
+		try {
+			if(isWall(row, column + 1) && !isWall(row, column - 1) &&
+					isWall(row + 1, column) && !isWall(row - 1, column))
+				return "Left";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if all but up sides
+		try {
+			if(isWall(row, column - 1) &&
+					isWall(row + 1, column) && isWall(row - 1, column))
+				return "TopBoth";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if up and down wall exist
+		try {
+			if(isWall(row, column + 1) && isWall(row, column - 1))
+				return "TopStraight";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if down and left wall exist
+		try {
+			if(isWall(row, column - 1) && isWall(row - 1, column))
+				return "TopRight";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if down and right wall exist
+		try {
+			if(isWall(row, column - 1) && isWall(row + 1, column))
+				return "TopLeft";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if down and no up wall exist
+		try {
+			if(!isWall(row, column + 1) && isWall(row, column - 1))
+				return "TopEnd";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if left and right
+		try {
+			if(isWall(row + 1, column) && isWall(row - 1, column))
+				return "MiddleTop";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if left
+		try {
+			if(isWall(row + 1, column))
+				return "LeftTop";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		//if right
+		try {
+			if(isWall(row - 1, column))
+				return "RightTop";
+		} catch(ArrayIndexOutOfBoundsException e) {}
+		
+		return type;
+	}
+
+	private boolean isWall(int row, int column) {
+		
+		try {
+			if(maze[row][column].toString().equals("wall"))
+				return true;
+		}catch(NullPointerException e) {
+			return true;
+		}
+		
+		return false;
 	}
 
 }
