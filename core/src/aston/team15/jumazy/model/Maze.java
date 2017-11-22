@@ -30,7 +30,7 @@ public class Maze {
 	public Maze(int dimensionx, int dimensiony) {
 		MAZE_DIMENSIONX = dimensionx;
 		MAZE_DIMENSIONY = dimensiony;
-		stopBlock = new Block(null, null, 0);
+		stopBlock = new Block(null, null);
 		mazeGenerator = new Generator();
 		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
 		statMaze = maze;

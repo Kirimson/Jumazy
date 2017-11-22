@@ -35,8 +35,7 @@ public class GraphicsManager {
 		
 		for(int i = 0; i < Maze.getMaze().length; i++) {
 			for(int k = 0; k <  Maze.getMaze()[0].length; k++) {
-				int blockOrientation = maze.getBlock(i, k).getOrientation();
-				batch.draw(maze.getBlock(i, k).getTexture(), xOffset+blockSize*i, yOffset+blockSize*k, blockOrigin, blockOrigin, blockSize, blockSize, scaleX, scaleY, blockOrientation*-90, blockXYStart, blockXYStart, blockSize, blockSize, false, false);
+				batch.draw(maze.getBlock(i, k).getTexture(), xOffset+blockSize*i, yOffset+blockSize*k);
 			}
 		}
 		//draw player
