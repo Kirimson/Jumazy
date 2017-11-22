@@ -45,8 +45,11 @@ public class Maze {
 		players.add(new Player(new Coordinate(0,0)));
 		players.get(0).switchTurn();
 		players.add(new Player(new Coordinate(32,18)));
-		players.add(new Player(new Coordinate(32,0)));
 		players.add(new Player(new Coordinate(0,18)));
+
+		players.add(new Player(new Coordinate(0, (dimensiony-2))));
+		players.add(new Player(new Coordinate((dimensionx-1), 0)));
+
 	}
 	
 	public static Block[][] getMaze(){
