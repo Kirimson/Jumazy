@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Trap extends Path {
 
+	private RiddleGUI gui;
+	
 	public Trap(Coordinate coords) {
 		super(new Texture("trap.png"), coords);
 	}
@@ -13,6 +15,16 @@ public class Trap extends Path {
 	}
 	
 	public void createGUI() {
-		RiddleGUI gui = new RiddleGUI();
+		gui = new RiddleGUI();
+		System.out.println("creating");
+		gui.closeRiddle();
+	}
+	
+	public boolean stillTrapped() {
+		if(!gui.isAlive()) {
+			System.out.println("not trapped no mo");
+			return false;
+		}
+		return true;
 	}
 }

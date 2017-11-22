@@ -2,6 +2,7 @@ package aston.team15.jumazy.model;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 //import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -15,6 +16,7 @@ public class Player {
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;
+	private boolean isTrapped;
 	
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
@@ -46,41 +48,56 @@ public class Player {
 		
 		if(rollSpaces != 0)
 		{
-			System.out.println("Player moving "+direction);
-			System.out.println("Player coords "+coords.toString());
-			System.out.println("getting surrounding blocks...");
-			
-			Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-			
-			if(surroundedBlock != null)
+			if(!isTrapped)
 			{
-				if(surroundedBlock[1].toString() == "path") {
-					coords.setCoordinates(surroundedBlock[1].getCoords());
-					System.out.println("allowed movement");
-					System.out.println("player new Coords: "+coords.toString());
-					rollSpaces--;
-					System.out.println("Spaces left: "+(rollSpaces));
-					
-					checkTrap(surroundedBlock[1]);
-					
-				}
-				else
+				System.out.println("Player moving "+direction);
+				System.out.println("Player coords "+coords.toString());
+				System.out.println("getting surrounding blocks...");
+				
+				Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
+				
+				if(surroundedBlock != null)
 				{
-					System.out.println("denyed movement");
+					if(surroundedBlock[1].toString() == "path") {
+						coords.setCoordinates(surroundedBlock[1].getCoords());
+						System.out.println("allowed movement");
+						System.out.println("player new Coords: "+coords.toString());
+						rollSpaces--;
+						System.out.println("Spaces left: "+(rollSpaces));
+						
+						checkTrap(surroundedBlock[1]);
+						
+					}
+					else
+					{
+						System.out.println("denyed movement");
+					}
 				}
 			}
-		}
-			
-		if(rollSpaces == 0)
-		{
-			rolled = false;
+			else
+			{
+				isTrapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+				if(!isTrapped) {
+					rollSpaces = 0;
+				}
+			}
+				System.out.println(isTrapped);
+				
+			if(rollSpaces == 0)
+			{
+				rolled = false;
+			}
 		}
 	}
 	
 	private void checkTrap(Block path) {
-
+		System.out.println("checking");
 		if(path instanceof Trap) {
-			System.out.println("itsva trp");
+			System.out.println("its a trap");
+			rollSpaces = 1;
+			
+			isTrapped = true;
+			
 			((Trap) path).createGUI();
 		}
 		

@@ -90,6 +90,11 @@ public class Maze {
 		
 		return nearBlocks;
 	}
+	
+	public static Block getBlock(Coordinate coord) {
+		
+		return statMaze[coord.getX()][coord.getY()];
+	}
 
 	
 	/**
