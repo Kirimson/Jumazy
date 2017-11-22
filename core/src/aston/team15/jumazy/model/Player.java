@@ -42,44 +42,6 @@ public class Player {
 		return coords;
 	}
 	
-	/**
-	 * Checks players current and desired {@link Block} using {@link Maze#getSurroundingBlocks(Coordinate, String)}.
-	 * Updates players {@link Coordinate} object if they are able to move to desired block
-	 * @param direction String of the direction the player is moving
-	 */
-	public void move(String direction) {
-		
-		if(rollSpaces != 0)
-		{
-			System.out.println("Player moving "+direction);
-			System.out.println("Player coords "+coords.toString());
-			System.out.println("getting surrounding blocks...");
-			
-			Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-			
-			if(surroundedBlock != null)
-			{
-				if(surroundedBlock[0].checkExit(direction) && surroundedBlock[1].checkEntrance(direction))
-				{
-					coords.setCoordinates(surroundedBlock[1].getCoords());
-					System.out.println("allowed movement");
-					System.out.println("player new Coords: "+coords.toString());
-					rollSpaces--;
-					System.out.println("Spaces left: "+(rollSpaces));
-				}
-				else
-				{
-					System.out.println("denyed movement");
-				}
-			}
-		}
-		
-		if(rollSpaces == 0)
-		{
-			rolled = false;
-		}
-	}
-	
 	public void newMove(String direction) {
 		
 		if(rollSpaces != 0)
@@ -98,6 +60,9 @@ public class Player {
 					System.out.println("player new Coords: "+coords.toString());
 					rollSpaces--;
 					System.out.println("Spaces left: "+(rollSpaces));
+					
+					checkTrap(surroundedBlock[1]);
+					
 				}
 				else
 				{
@@ -110,6 +75,15 @@ public class Player {
 		{
 			rolled = false;
 		}
+	}
+	
+	private void checkTrap(Block path) {
+
+		if(path instanceof Trap) {
+			System.out.println("itsva trp");
+			((Trap) path).createGUI();
+		}
+		
 	}
 	
 	public boolean hasRolled() {
