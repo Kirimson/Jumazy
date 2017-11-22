@@ -1,5 +1,6 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
 
 /**
  * Representation of a maze in the game. Made of of {@link Block} objects
@@ -18,6 +19,7 @@ public class Maze {
 	private Player player;
 	private Generator mazeGenerator;
 	
+	private Weather weather;
 	
 	/**
 	 * Creates a new maze
@@ -31,8 +33,14 @@ public class Maze {
 		player = new Player(new Coordinate(0,0));
 		mazeGenerator = new Generator();
 		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
-//		maze = mazeGenerator.newGenMaze(MAZE_DIMENSION);
 		statMaze = maze;
+		
+		Random rnd = new Random();
+		if(rnd.nextBoolean())
+			weather = new Sun();
+		else
+			weather = new Rain();
+		
 	}
 	
 	public static Block[][] getMaze(){
@@ -96,6 +104,10 @@ public class Maze {
 			b = maze[row][column];
 		
 		return b;
+	}
+
+	public Weather getWeather() {
+		return weather;
 	}
 	
 	

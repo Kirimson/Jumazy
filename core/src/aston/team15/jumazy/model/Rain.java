@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aston.team15.jumazy;
+package aston.team15.jumazy.model;
 
 /**
  *
  * @author brade
  */
-public class Sun extends Weather {
+public class Rain extends Weather{
     
-    public Sun()
+    public Rain()
     {
-        super(1, "Sun"); 
+        super(-1, "Rain");
     }
 }

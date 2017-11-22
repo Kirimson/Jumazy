@@ -4,7 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.Random;
+
 import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.model.Rain;
+import aston.team15.jumazy.model.Sun;
+import aston.team15.jumazy.model.Weather;
 import aston.team15.jumazy.view.GraphicsManager;
 import aston.team15.jumazy.view.JumazyGame;
 /**
@@ -41,7 +46,7 @@ public class GameSystem extends MainSystem{
 	public void handleInput() {
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getPlayer().hasRolled() == false) {
-			maze.getPlayer().roll();
+			maze.getPlayer().roll(maze.getWeather().getMovementMod());
 		}
 		
 		if(maze.getPlayer().hasRolled())

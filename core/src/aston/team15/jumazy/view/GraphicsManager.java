@@ -50,13 +50,18 @@ public class GraphicsManager {
 		
 		if(maze.getPlayer().hasRolled() == false)
 		{
-			font.draw(batch, "Press Space to roll", 10,40);
+			font.draw(batch, "Press Space to roll", 10,60);
 		}
 		else
 		{
 			for (int i=0;i<maze.getPlayer().getRollSpaces();i++) {
 				batch.draw(moves,10+(i*10),20);
 			}
+		}
+		
+		if(maze.getPlayer().hasRolled() == false)
+		{
+			font.draw(batch, "Weather: "+maze.getWeather().getName(), 10,80);
 		}
 		
 		return batch;
