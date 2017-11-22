@@ -122,7 +122,7 @@ public class Player {
                 
                 if(rollSpaces == 0)
                 {
-                    rollSpaces = 1;
+                    rollSpaces = 0;
                 }
 
 		System.out.println("Rolled: " + rollSpaces);

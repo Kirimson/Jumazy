@@ -17,7 +17,6 @@ public class Trap extends Path {
 	public void createGUI() {
 		gui = new RiddleGUI();
 		System.out.println("creating");
-		gui.closeRiddle();
 	}
 	
 	public boolean stillTrapped() {

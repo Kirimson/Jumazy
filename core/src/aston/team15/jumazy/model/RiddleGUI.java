@@ -56,6 +56,7 @@ public class RiddleGUI extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				checkAnswer(answer.getText());
 				isActive = false;
+				dispose();
 			}
 		});
 			
@@ -69,10 +70,6 @@ public class RiddleGUI extends JFrame{
 	
 	public boolean isAlive() {
 		return isActive;
-	}
-	
-	public void closeRiddle() {
-		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 	
 	public String[] retrieveRiddle() {
