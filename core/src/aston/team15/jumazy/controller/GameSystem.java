@@ -40,6 +40,13 @@ public class GameSystem extends MainSystem{
 		return gMan.draw(batch, maze);
 	}
 	
+	public void switchPlayer() {
+		curPlayer++;
+		if (curPlayer >= maze.getPlayers().size()) {
+			curPlayer=0;
+		}
+	}
+	
 	/**
 	 * Any action that happens on the maze will be called through this method
 	 * As of now. it is just listening for player movement
@@ -50,11 +57,8 @@ public class GameSystem extends MainSystem{
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getPlayers().get(curPlayer).hasRolled() == false) {
 			if(!maze.getPlayers().get(curPlayer).getTurnState()){
+				switchPlayer();
 				maze.getPlayers().get(curPlayer).switchTurn();
-				curPlayer++;
-				if (curPlayer>1){
-					curPlayer = 0;
-				}
 			}
 			maze.getPlayers().get(curPlayer).roll(maze.getWeather().getMovementMod());
 			System.out.println("Current player " + curPlayer);
