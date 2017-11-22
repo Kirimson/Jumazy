@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Wall extends Block {
 
 	public Wall(Coordinate coords, int orientation, String type) {
-		super(new Texture("wall"+type+".png"), coords, orientation);
+		super(new Texture("wall"+type+".png"), coords);
 		// TODO Auto-generated constructor stub
 	}
 	

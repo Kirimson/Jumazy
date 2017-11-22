@@ -15,6 +15,7 @@ public class Player {
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;
+	private boolean turn;
 	
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
@@ -24,8 +25,17 @@ public class Player {
 		this.coords = coords;
 		rolled = false;
 		rollSpaces = 0;
-	}
+		turn = false;
+		
+				}
 	
+	public void switchTurn() {
+		turn=!turn;
+	
+	}
+	public boolean getTurnState(){
+		return turn;
+	}
 	/**
 	 * Returns the players texture
 	 * @return {@link Texture} object of the player
@@ -109,6 +119,7 @@ public class Player {
 		if(rollSpaces == 0)
 		{
 			rolled = false;
+			switchTurn();
 		}
 	}
 	

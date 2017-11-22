@@ -12,7 +12,6 @@ public class Block {
 	
 	private Texture blockTexture;
 	private Coordinate coords;
-	protected int orientation;
 	protected Exit exits;
 	
 	/**
@@ -21,10 +20,9 @@ public class Block {
 	 * @param tex
 	 * @param coords
 	 */
-	public Block(Texture tex, Coordinate coords, int orientation) {
+	public Block(Texture tex, Coordinate coords) {
 		this.blockTexture = tex;
 		this.coords = coords;
-		this.orientation = orientation;
 		exits = new Exit();
 	}
 
@@ -38,6 +36,8 @@ public class Block {
 		
 		if(type == "path")
 			return new Path(coord, 0);
+		else if(type == "victory")
+			return new VictoryBlock(coord);
 		else
 			return new Wall(coord, 0, type);
 	}
@@ -75,14 +75,6 @@ public class Block {
 	 */
 	public boolean checkEntrance(String direction) {
 		return exits.checkEntrance(direction);
-	}
-	
-	/**
-	 * Returns the orientation of the {@link Block}
-	 * @return returns an int from 0 to 3, denoting the the {@link Block} orientation
-	 */
-	public int getOrientation() {
-		return orientation;
 	}
 	
 	/**
