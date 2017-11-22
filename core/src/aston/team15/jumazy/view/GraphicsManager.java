@@ -40,30 +40,31 @@ public class GraphicsManager {
 			}
 		}
 		//draw player
-		Player player  = maze.getPlayer();
-		int playerOffset = 10;
-		float playerWidth = player.getTexture().getWidth();
-		float playerHeight = player.getTexture().getHeight();
-		
-		batch.draw(player.getTexture(), xOffset+player.getCoords().getX()*blockSize+playerOffset, yOffset+player.getCoords().getY()*blockSize+playerOffset, playerWidth/2, playerHeight/2);
-		
-		
-		if(maze.getPlayer().hasRolled() == false)
-		{
-			font.draw(batch, "Press Space to roll", 10,60);
-		}
-		else
-		{
-			for (int i=0;i<maze.getPlayer().getRollSpaces();i++) {
-				batch.draw(moves,10+(i*10),20);
+		for (int i = 0; i < maze.getPlayers().size(); i++){
+			Player player  = maze.getPlayers().get(i);
+			int playerOffset = 10;
+			float playerWidth = player.getTexture().getWidth();
+			float playerHeight = player.getTexture().getHeight();
+			
+			batch.draw(player.getTexture(), xOffset+player.getCoords().getX()*blockSize+playerOffset, yOffset+player.getCoords().getY()*blockSize+playerOffset, playerWidth/2, playerHeight/2);
+			
+			
+			if(maze.getPlayers().get(i).hasRolled() == false)
+			{
+				font.draw(batch, "Press Space to roll", 10,60);
+			}
+			else
+			{
+				for (int a=0;a<maze.getPlayers().get(a).getRollSpaces();a++) {
+					batch.draw(moves,10+(i*10),20);
+				}
+			}
+			
+			if(maze.getPlayers().get(i).hasRolled() == false)
+			{
+				font.draw(batch, "Weather: "+maze.getWeather().getName(), 10,80);
 			}
 		}
-		
-		if(maze.getPlayer().hasRolled() == false)
-		{
-			font.draw(batch, "Weather: "+maze.getWeather().getName(), 10,80);
-		}
-		
 		return batch;
 	}
 

@@ -20,7 +20,8 @@ import aston.team15.jumazy.view.JumazyGame;
  */
 public class GameSystem extends MainSystem{
 	
-	
+	private int nextPlayers;
+	private int curPlayer;
 	private Maze maze;
 	private GraphicsManager gMan;
 
@@ -28,6 +29,8 @@ public class GameSystem extends MainSystem{
 		super(sysMan);
 		maze = new Maze(35, 20);
 		gMan = new GraphicsManager();
+		curPlayer = 0;
+		
 	}
 	
 	/**
@@ -45,11 +48,19 @@ public class GameSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getPlayer().hasRolled() == false) {
-			maze.getPlayer().roll(maze.getWeather().getMovementMod());
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getPlayers().get(curPlayer).hasRolled() == false) {
+			if(!maze.getPlayers().get(curPlayer).getTurnState()){
+				maze.getPlayers().get(curPlayer).switchTurn();
+				curPlayer++;
+				if (curPlayer>1){
+					curPlayer = 0;
+				}
+			}
+			maze.getPlayers().get(curPlayer).roll(maze.getWeather().getMovementMod());
+			System.out.println("Current player " + curPlayer);
 		}
 		
-		if(maze.getPlayer().hasRolled())
+		if(maze.getPlayers().get(curPlayer).hasRolled())
 		{
 			String direction = "";
 			if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
@@ -65,7 +76,7 @@ public class GameSystem extends MainSystem{
 				direction = "down";
 			}
 			if(direction != "")
-				maze.getPlayer().newMove(direction);
+				maze.getPlayers().get(curPlayer).newMove(direction);
 		}
 	}
 

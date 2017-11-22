@@ -1,5 +1,6 @@
 package aston.team15.jumazy.model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -16,7 +17,7 @@ public class Maze {
 	private static Block stopBlock;
 	public static int MAZE_DIMENSIONX;
 	public static int MAZE_DIMENSIONY;
-	private Player player;
+	private ArrayList<Player> players;
 	private Generator mazeGenerator;
 	
 	private Weather weather;
@@ -30,7 +31,6 @@ public class Maze {
 		MAZE_DIMENSIONX = dimensionx;
 		MAZE_DIMENSIONY = dimensiony;
 		stopBlock = new Block(null, null, 0);
-		player = new Player(new Coordinate(0,0));
 		mazeGenerator = new Generator();
 		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
 		statMaze = maze;
@@ -41,14 +41,18 @@ public class Maze {
 		else
 			weather = new Rain();
 		
+		players = new ArrayList<Player>();
+		players.add(new Player(new Coordinate(0,0)));
+		players.get(0).switchTurn();
+		players.add(new Player(new Coordinate(32,18)));
 	}
 	
 	public static Block[][] getMaze(){
 		return statMaze;
 	}
 	
-	public Player getPlayer() {
-		return player;
+	public ArrayList<Player> getPlayers() {
+		return players;
 	}
 	
 	/**
