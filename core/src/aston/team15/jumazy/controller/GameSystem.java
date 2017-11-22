@@ -59,11 +59,8 @@ public class GameSystem extends MainSystem{
 			if(!maze.getPlayers().get(curPlayer).getTurnState()){
 				switchPlayer();
 				maze.getPlayers().get(curPlayer).switchTurn();
-
-				curPlayer++;
-				if (curPlayer>3){
-					curPlayer = 0;
-				}
+				
+				
 
 			}
 			maze.getPlayers().get(curPlayer).roll(maze.getWeather().getMovementMod());
