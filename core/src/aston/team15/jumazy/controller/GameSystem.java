@@ -52,7 +52,7 @@ public class GameSystem extends MainSystem{
 			if(!maze.getPlayers().get(curPlayer).getTurnState()){
 				maze.getPlayers().get(curPlayer).switchTurn();
 				curPlayer++;
-				if (curPlayer>1){
+				if (curPlayer>3){
 					curPlayer = 0;
 				}
 			}
