@@ -1,5 +1,7 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Texture;
 
 /**
@@ -12,7 +14,6 @@ public class Block {
 	
 	private Texture blockTexture;
 	private Coordinate coords;
-	protected int orientation;
 	protected Exit exits;
 	
 	/**
@@ -21,10 +22,9 @@ public class Block {
 	 * @param tex
 	 * @param coords
 	 */
-	public Block(Texture tex, Coordinate coords, int orientation) {
+	public Block(Texture tex, Coordinate coords) {
 		this.blockTexture = tex;
 		this.coords = coords;
-		this.orientation = orientation;
 		exits = new Exit();
 	}
 
@@ -37,9 +37,16 @@ public class Block {
 	public static Block newFact(String type, Coordinate coord) {
 		
 		if(type == "path")
-			return new Path(coord, 0);
+		{
+			Random rnd = new Random();
+			
+			if(rnd.nextInt(25) != 0)
+				return new Path(coord);
+			else
+				return new Trap(coord);
+		}
 		else
-			return new Wall(coord, 0, type);
+			return new Wall(coord, type);
 	}
 	
 	/**
@@ -75,14 +82,6 @@ public class Block {
 	 */
 	public boolean checkEntrance(String direction) {
 		return exits.checkEntrance(direction);
-	}
-	
-	/**
-	 * Returns the orientation of the {@link Block}
-	 * @return returns an int from 0 to 3, denoting the the {@link Block} orientation
-	 */
-	public int getOrientation() {
-		return orientation;
 	}
 	
 	/**

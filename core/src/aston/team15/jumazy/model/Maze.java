@@ -30,7 +30,7 @@ public class Maze {
 	public Maze(int dimensionx, int dimensiony) {
 		MAZE_DIMENSIONX = dimensionx;
 		MAZE_DIMENSIONY = dimensiony;
-		stopBlock = new Block(null, null, 0);
+		player = new Player(new Coordinate(0,0));
 		mazeGenerator = new Generator();
 		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
 		statMaze = maze;
@@ -92,9 +92,15 @@ public class Maze {
 		else
 		{
 			System.out.println("player wanted to go OOB");
+			return null;
 		}
 		
 		return nearBlocks;
+	}
+	
+	public static Block getBlock(Coordinate coord) {
+		
+		return statMaze[coord.getX()][coord.getY()];
 	}
 
 	
