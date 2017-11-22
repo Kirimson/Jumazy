@@ -16,13 +16,8 @@ public class Generator {
 	public Block[][] superNewGenMaze(int x, int y){
 		
 		maze = new Block[x][y];
-		
-		//start with maze full of walls
-		
-		
-		maze = dig(0, 0);
-		
-		maze = refineMaze(x, y);
+		dig(0, 0);		
+		refineMaze(x, y);
 		
 		return maze;
 	}
@@ -36,28 +31,31 @@ public class Generator {
 			directions.add(i+1);
 		}
 		Collections.shuffle(directions);
-		
+
 		return directions;
-		
 	}
 	
-	private Block[][] dig(int x, int y) {
+	private void dig(int x, int y) {
 		
 		//choose rand directions
 		ArrayList<Integer> directions = genRandDirections();
 		for( Integer i : directions) {
 			switch(i) {
 			case 1: //Going up
+				//check if block 2 in this direction is out of bounds
 				if(y + 2 > maze[0].length-1)
 				{
 					continue;
 				}
+				//check if block 2 in this direction is a wall
 				if(maze[x][y + 2] == null) {
+					//make that block, and the block before it a new path
 					maze[x][y + 2] = Block.newFact("path", new Coordinate(x, y + 2));
 					maze[x][y + 1] = Block.newFact("path", new Coordinate(x, y + 1));
 					dig(x, y + 2);
 				}
 				break;
+				
 			case 2: //Going right
 				if(x + 2 > maze.length-1)
 				{
@@ -69,6 +67,7 @@ public class Generator {
 					dig(x + 2, y);
 				}
 				break;
+				
 			case 3: //Going down
 				if(y - 2 < 0)
 				{
@@ -80,6 +79,7 @@ public class Generator {
 					dig(x, y - 2);
 				}
 				break;
+				
 			case 4: //Going left
 				if(x - 2 < 0)
 				{
@@ -93,24 +93,20 @@ public class Generator {
 				break;
 			}
 		}
-
-		return maze;
 	}
 	
-	private Block[][] refineMaze(int x, int y) {
+	private void refineMaze(int x, int y) {
 		
 		for(int row = 0; row < maze.length; row++) {
 			for(int column = 0; column < maze[0].length; column++) {
 				if(maze[row][column] == null)
 				{
-					String type = genWallType(row, column);
-					
-					maze[row][column] = Block.newFact(type, new Coordinate(column, row));
+					String wallType = genWallType(row, column);
+					maze[row][column] = Block.newFact(wallType, new Coordinate(column, row));
 				}
 			}
 		}
 		
-		return maze;
 	}
 	
 	private String genWallType(int row, int column) {
@@ -118,7 +114,7 @@ public class Generator {
 		
 		//order inside the if. up, down left right
 		
-		//if only up wall exist
+		//if up wall and all other path exist
 		try {
 			if(isWall(row, column + 1) && !isWall(row, column - 1) &&
 					!isWall(row + 1, column) && !isWall(row - 1, column))
@@ -132,28 +128,28 @@ public class Generator {
 				return "TopBlank";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if no sides
+		//if all sides are path
 		try {
 			if(!isWall(row, column + 1) && !isWall(row, column - 1) &&
 					!isWall(row + 1, column) && !isWall(row - 1, column))
 				return "BothTop";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if all but down & left sides
+		//if right and up are wall, other sides are path
 		try {
 			if(isWall(row, column + 1) && !isWall(row, column - 1) &&
 					!isWall(row + 1, column) && isWall(row - 1, column))
 				return "Right";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if all but left sides
+		//if left side wall, all other path
 		try {
 			if(isWall(row, column + 1) && isWall(row, column - 1) &&
 					!isWall(row + 1, column) && isWall(row - 1, column))
 				return "TopStraightLeft";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if all but right sides
+		//if right side wall all other path
 		try {
 			if(isWall(row, column + 1) && isWall(row, column - 1) &&
 					isWall(row + 1, column) && !isWall(row - 1, column))
@@ -199,25 +195,25 @@ public class Generator {
 				return "TopLeft";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if down and no up wall exist
+		//if down is wall and up is path
 		try {
 			if(!isWall(row, column + 1) && isWall(row, column - 1))
 				return "TopEnd";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if left and right
+		//if left and right is wall
 		try {
 			if(isWall(row + 1, column) && isWall(row - 1, column))
 				return "MiddleTop";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if left
+		//if left is wall
 		try {
 			if(isWall(row + 1, column))
 				return "LeftTop";
 		} catch(ArrayIndexOutOfBoundsException e) {}
 		
-		//if right
+		//if right is wall
 		try {
 			if(isWall(row - 1, column))
 				return "RightTop";
