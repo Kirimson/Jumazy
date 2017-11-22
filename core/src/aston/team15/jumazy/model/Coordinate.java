@@ -1,4 +1,4 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.model;
 
 /**
  * Implementation of a Coordinate system for the maze and its inhabitants, such as {@link Block} and {@link Player}
@@ -59,5 +59,13 @@ public class Coordinate {
 	public String toString()
 	{
 		return "("+x+","+y+")";
+	}
+	
+	public void setX(int val) {
+		x = val;
+	}
+	
+	public void setY(int val) {
+		y = val;
 	}
 }

@@ -1,4 +1,4 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

@@ -1,10 +1,9 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.model;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+//import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Player in Jumazy, has a simple texture and {@link Coordinate} as of right now
@@ -28,17 +27,19 @@ public class Player {
 	}
 	
 	/**
-	 * Similar to {@link Maze#run(SpriteBatch)} however it draws the player onto the batch
-	 * @param batch {@link SpriteBatch} object the player will be drawn onto
-	 * @return {@link SpriteBatch} object with the player set to be drawn
+	 * Returns the players texture
+	 * @return {@link Texture} object of the player
 	 */
-	public SpriteBatch drawPlayer(SpriteBatch batch) {
-		int xOffset = (1280-(Maze.MAZE_DIMENSION*32))/2;
-		int yOffset = (720-(Maze.MAZE_DIMENSION*32))/2;
-		
-		batch.draw(playerTexture, xOffset+coords.getX()*32+10, yOffset+coords.getY()*32+12);
-		
-		return batch;
+	public Texture getTexture() {
+		return playerTexture;
+	}
+	
+	/**
+	 * Returns the players coordinates
+	 * @return {@link Coordinate} object of the player
+	 */
+	public Coordinate getCoords() {
+		return coords;
 	}
 	
 	/**
@@ -73,6 +74,38 @@ public class Player {
 			}
 		}
 		
+		if(rollSpaces == 0)
+		{
+			rolled = false;
+		}
+	}
+	
+	public void newMove(String direction) {
+		
+		if(rollSpaces != 0)
+		{
+			System.out.println("Player moving "+direction);
+			System.out.println("Player coords "+coords.toString());
+			System.out.println("getting surrounding blocks...");
+			
+			Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
+			
+			if(surroundedBlock != null)
+			{
+				if(surroundedBlock[1].toString() == "path") {
+					coords.setCoordinates(surroundedBlock[1].getCoords());
+					System.out.println("allowed movement");
+					System.out.println("player new Coords: "+coords.toString());
+					rollSpaces--;
+					System.out.println("Spaces left: "+(rollSpaces));
+				}
+				else
+				{
+					System.out.println("denyed movement");
+				}
+			}
+		}
+			
 		if(rollSpaces == 0)
 		{
 			rolled = false;

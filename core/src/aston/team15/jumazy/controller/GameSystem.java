@@ -1,10 +1,12 @@
-package aston.team15.jumazy;
+package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.view.GraphicsManager;
+import aston.team15.jumazy.view.JumazyGame;
 /**
  * Subclass of {@link MainSystem}. The main class containing the maze and gameplay elements of the game.
  * Allows drawing of the maze, player and other UI elements
@@ -13,47 +15,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class GameSystem extends MainSystem{
 	
-	private BitmapFont font;
+	
 	private Maze maze;
-	private static Texture moves = new Texture("moves.png");
+	private GraphicsManager gMan;
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		font = new BitmapFont();
-		font.setColor(1, 1, 1, 1);
-		maze = new Maze();
+		maze = new Maze(35, 20);
+		gMan = new GraphicsManager();
 	}
 	
 	/**
-	 * Draws the maze to the given {@link SpriteBatch} object
-	 * @param batch the {@link SpriteBatch} you want to draw to
-	 * @return returns the {@link SpriteBatch} passed, with maze set to draw
+	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
 	 */
-	@Override
 	public SpriteBatch draw(SpriteBatch batch) {
-		
-		int xOffset = (1280-(Maze.MAZE_DIMENSION*32))/2;
-		int yOffset = (720-(Maze.MAZE_DIMENSION*32))/2;
-		for(int i = 0; i < Maze.MAZE_DIMENSION; i++) {
-			for(int k = 0; k < Maze.MAZE_DIMENSION; k++) {
-				batch.draw(maze.getBlock(i, k).getTexture(), xOffset+32*i, yOffset+32*k, 16, 16, 32, 32, 1, 1, maze.getBlock(i, k).getOrientation()*-90, 0, 0, 32, 32, false, false);
-			}
-		}
-		
-		batch = maze.getPlayer().drawPlayer(batch);
-		
-		if(maze.getPlayer().hasRolled() == false)
-		{
-			font.draw(batch, "Press Space to roll", 10,40);
-		}
-		else
-		{
-			for (int i=0;i<maze.getPlayer().getRollSpaces();i++) {
-				batch.draw(moves,10+(i*10),20);
-			}
-		}
-		
-		return batch;
+		return gMan.draw(batch, maze);
 	}
 	
 	/**
@@ -84,7 +60,7 @@ public class GameSystem extends MainSystem{
 				direction = "down";
 			}
 			if(direction != "")
-				maze.getPlayer().move(direction);
+				maze.getPlayer().newMove(direction);
 		}
 	}
 
