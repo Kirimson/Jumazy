@@ -29,7 +29,7 @@ public class Player {
 		rollSpaces = 0;
 		turn = false;
 		
-				}
+		}
 	
 	public void switchTurn() {
 		turn=!turn;
@@ -96,6 +96,7 @@ public class Player {
 			if(rollSpaces == 0)
 			{
 				rolled = false;
+				System.out.println("roold");
 			}
 		}
 	}
