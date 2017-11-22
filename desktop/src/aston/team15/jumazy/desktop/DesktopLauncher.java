@@ -4,7 +4,7 @@ import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import aston.team15.jumazy.JumazyGame;
+import aston.team15.jumazy.view.JumazyGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		config.width = JumazyGame.WIDTH;
 		config.height = JumazyGame.HEIGHT;
 
-		config.addIcon("cross.jpg", FileType.Internal);
+		config.addIcon("path.png", FileType.Internal);
 		
 		new LwjglApplication(new JumazyGame(), config);
 	}
