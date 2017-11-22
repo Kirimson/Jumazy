@@ -18,6 +18,8 @@ public class Maze {
 	public static int MAZE_DIMENSIONX;
 	public static int MAZE_DIMENSIONY;
 	private ArrayList<Player> players;
+	private int currPlayer;
+	private int totalPlayers;
 	private Generator mazeGenerator;
 	
 	private Weather weather;
@@ -27,13 +29,14 @@ public class Maze {
 	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
 	 * player, the player object
 	 */
-	public Maze(int dimensionx, int dimensiony) {
+	public Maze(int dimensionx, int dimensiony, int totalPlayers) {
 		MAZE_DIMENSIONX = dimensionx;
 		MAZE_DIMENSIONY = dimensiony;
 		stopBlock = new Block(null, null, 0);
 		mazeGenerator = new Generator();
 		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
 		statMaze = maze;
+		this.totalPlayers = totalPlayers;
 		
 		Random rnd = new Random();
 		if(rnd.nextBoolean())
@@ -47,6 +50,8 @@ public class Maze {
 		players.add(new Player(new Coordinate(32,18)));
 		players.add(new Player(new Coordinate(0, (dimensiony-2))));
 		players.add(new Player(new Coordinate((dimensionx-1), 0)));
+		
+		currPlayer=0;
 	}
 	
 	public static Block[][] getMaze(){
@@ -55,6 +60,26 @@ public class Maze {
 	
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+	
+	public Player getCurrPlayer() {
+		return getPlayers().get(currPlayer);
+	}
+	
+	public int getCurrPlayerVal() {
+		return currPlayer;
+	}
+	
+	public int getTotalPlayers() {
+		return totalPlayers;
+	}
+
+	
+	public void switchPlayer() {
+		currPlayer++;
+		if (currPlayer >= getPlayers().size()) {
+			currPlayer=0;
+		}
 	}
 	
 	/**
