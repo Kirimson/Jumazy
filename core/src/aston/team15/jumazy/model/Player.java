@@ -120,14 +120,22 @@ public class Player {
 		return rollSpaces;
 	}
 	
-	public void roll() {
+	public void roll(int movementMod) {
 		rolled = true;
 		
 		Random rnd = new Random();
 		
 		rollSpaces = rnd.nextInt(6)+1;
+                
+                rollSpaces += movementMod; 
+                
+                if(rollSpaces == 0)
+                {
+                    rollSpaces = 1;
+                }
 
-		System.out.println("Rolled: "+rollSpaces);
+		System.out.println("Rolled: " + rollSpaces);
+                System.out.println("Weather Modifier: " + movementMod);
 		
 	}
 	
