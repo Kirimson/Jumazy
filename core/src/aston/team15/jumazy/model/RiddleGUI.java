@@ -1,5 +1,6 @@
 package aston.team15.jumazy.model;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,25 +13,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.badlogic.gdx.Gdx;
 
+/**
+ * A simple class which creates the GUI for the user to answer the riddle and is triggered when the player steps on a trap.
+ * @author Shayan
+ *
+ */
+
 public class RiddleGUI extends JFrame{
-	private JLabel question;
+	private JLabel background;
+	private JTextArea question;
 	private JTextField answer;
 	private JButton submit;
 	private String[] cells = null;
 	private boolean isActive;
 	
 	
-	public static void main(String[] args) {
-		RiddleGUI gui = new RiddleGUI();
-	}
-
 	public RiddleGUI() {
 		super("Riddle");
 		isActive = true;
@@ -38,15 +44,23 @@ public class RiddleGUI extends JFrame{
 	}
 	
 	private void createGUI() {
+		setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
 		String[] riddleText = retrieveRiddle();
-		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 75));
-		question = new JLabel(riddleText[0]);
-		question.setFont(question.getFont().deriveFont(24.0f));
+		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		question = new JTextArea(riddleText[0], 3, 16);
+		question.setLineWrap(true);
+		question.setWrapStyleWord(true);
+		question.setFont(question.getFont().deriveFont(16.0f));
 		question.setFont(question.getFont().deriveFont(3));
+		question.setEditable(false);
+		question.setOpaque(false);
+		question.setForeground(Color.white);
 		add(question);
 		
-		answer = new JTextField(25);
+		
+		answer = new JTextField(20);
 		add(answer);
+		
 		
 		submit = new JButton("Submit");
 		add(submit);
@@ -62,7 +76,8 @@ public class RiddleGUI extends JFrame{
 			
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setSize(400, 400);
+		setSize(300, 275);
+		getContentPane().setBackground(Color.green);
 		setVisible(true);
 		
 		
