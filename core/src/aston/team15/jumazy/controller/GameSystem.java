@@ -21,15 +21,13 @@ import aston.team15.jumazy.view.JumazyGame;
 public class GameSystem extends MainSystem{
 	
 	private int nextPlayers;
-	private int curPlayer;
 	private Maze maze;
 	private GraphicsManager gMan;
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		maze = new Maze(35, 20);
+		maze = new Maze(35, 20, 4);
 		gMan = new GraphicsManager();
-		curPlayer = 0;
 		
 	}
 	
@@ -40,13 +38,6 @@ public class GameSystem extends MainSystem{
 		return gMan.draw(batch, maze);
 	}
 	
-	public void switchPlayer() {
-		curPlayer++;
-		if (curPlayer >= maze.getPlayers().size()) {
-			curPlayer=0;
-		}
-	}
-	
 	/**
 	 * Any action that happens on the maze will be called through this method
 	 * As of now. it is just listening for player movement
@@ -55,16 +46,16 @@ public class GameSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getPlayers().get(curPlayer).hasRolled() == false) {
-			if(!maze.getPlayers().get(curPlayer).getTurnState()){
-				switchPlayer();
-				maze.getPlayers().get(curPlayer).switchTurn();
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getCurrPlayer().hasRolled() == false) {
+			if(!maze.getCurrPlayer().getTurnState()){
+				maze.switchPlayer();
+				maze.getCurrPlayer().switchTurn();
 			}
-			maze.getPlayers().get(curPlayer).roll(maze.getWeather().getMovementMod());
-			System.out.println("Current player " + curPlayer);
+			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
+			System.out.println("Current player " + maze.getCurrPlayerVal());
 		}
 		
-		if(maze.getPlayers().get(curPlayer).hasRolled())
+		if(maze.getCurrPlayer().hasRolled())
 		{
 			String direction = "";
 			if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
@@ -80,7 +71,7 @@ public class GameSystem extends MainSystem{
 				direction = "down";
 			}
 			if(direction != "")
-				maze.getPlayers().get(curPlayer).newMove(direction);
+				maze.getCurrPlayer().newMove(direction);
 		}
 	}
 

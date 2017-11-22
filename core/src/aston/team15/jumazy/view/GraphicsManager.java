@@ -35,27 +35,30 @@ public class GraphicsManager {
 		
 		for(int i = 0; i < Maze.getMaze().length; i++) {
 			for(int k = 0; k <  Maze.getMaze()[0].length; k++) {
-				batch.draw(maze.getBlock(i, k).getTexture(), xOffset+blockSize*i, yOffset+blockSize*k, blockOrigin, blockOrigin, blockSize, blockSize, scaleX, scaleY, 0, blockXYStart, blockXYStart, blockSize, blockSize, false, false);
+				int blockOrientation = maze.getBlock(i, k).getOrientation();
+				batch.draw(maze.getBlock(i, k).getTexture(), xOffset+blockSize*i, yOffset+blockSize*k, blockOrigin, blockOrigin, blockSize, blockSize, scaleX, scaleY, blockOrientation*-90, blockXYStart, blockXYStart, blockSize, blockSize, false, false);
 			}
 		}
 		//draw player
-		for (int i = 0; i < maze.getPlayers().size(); i++){
+		for (int i = 0; i < maze.getTotalPlayers(); i++){
 			Player player  = maze.getPlayers().get(i);
 			int playerOffset = 10;
 			float playerWidth = player.getTexture().getWidth();
 			float playerHeight = player.getTexture().getHeight();
 			
 			batch.draw(player.getTexture(), xOffset+player.getCoords().getX()*blockSize+playerOffset, yOffset+player.getCoords().getY()*blockSize+playerOffset, playerWidth/2, playerHeight/2);
+			batch.draw(new Texture("playeroutline.png"), xOffset+maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset, yOffset+maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset, playerWidth/2, playerHeight/2);
+
+			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", 10,100);
 			
-			
-			if(maze.getPlayers().get(i).hasRolled() == false)
+			if(maze.getCurrPlayer().hasRolled() == false)
 			{
 				font.draw(batch, "Press Space to roll", 10,60);
 			}
 			else
 			{
-				for (int a=0;a<maze.getPlayers().get(a).getRollSpaces();a++) {
-					batch.draw(moves,10+(i*10),20);
+				for (int a=0;a<maze.getCurrPlayer().getRollSpaces();a++) {
+					batch.draw(moves,10+(a*10),20);
 				}
 			}
 			
