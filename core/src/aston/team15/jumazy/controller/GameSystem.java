@@ -46,6 +46,16 @@ public class GameSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getCurrPlayer().hasRolled() == false && maze.getCurrPlayer().isTrapped() == false) {
+			if(!maze.getCurrPlayer().getTurnState()){
+				maze.switchPlayer();
+				maze.getCurrPlayer().switchTurn();
+				System.out.println("DOING THIS");
+			}
+			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
+			System.out.println("Current player " + maze.getCurrPlayerVal());
+		}
+		
 		if(maze.getCurrPlayer().hasRolled())
 		{
 			String direction = "";
@@ -61,20 +71,16 @@ public class GameSystem extends MainSystem{
 			else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
 				direction = "down";
 			}
+			
 			if(direction != "")
 				maze.getCurrPlayer().newMove(direction);
 		}
 		
-		maze.getCurrPlayer().trapCheck();
-		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getCurrPlayer().hasRolled() == false) {
-			if(!maze.getCurrPlayer().getTurnState()){
-				maze.switchPlayer();
-				maze.getCurrPlayer().switchTurn();
-			}
-			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
-			System.out.println("Current player " + maze.getCurrPlayerVal());
+		if(maze.getCurrPlayer().isTrapped()) {
+			maze.getCurrPlayer().checkStillTrapped();
 		}
+		
+		
 	}
 
 }

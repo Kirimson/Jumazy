@@ -106,10 +106,8 @@ public class Maze {
 		nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
 		nearBlocks[1] = stopBlock;
 		
-		System.out.println("block player is on: "+statMaze[coord.getX()][coord.getY()].toString());
 		if(coord.getX()+xDir >= 0 && coord.getY()+yDir >= 0 && coord.getX()+xDir < MAZE_DIMENSIONX && coord.getY()+yDir < MAZE_DIMENSIONY ) {
 			
-			System.out.println("block player wants to move to: "+statMaze[coord.getX()+xDir][coord.getY()+yDir].toString());
 			nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
 			nearBlocks[1] = statMaze[coord.getX()+xDir][coord.getY()+yDir];
 		}

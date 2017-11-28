@@ -16,7 +16,7 @@ public class Player {
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;
-	private boolean isTrapped;
+	private boolean trapped;
 	private boolean turn;
 	private boolean trappedLast;
 	
@@ -59,11 +59,10 @@ public class Player {
 		
 		if(rollSpaces != 0)
 		{
-			if(!isTrapped)
+			if(!trapped)
 			{
 				System.out.println("Player moving "+direction);
 				System.out.println("Player coords "+coords.toString());
-				System.out.println("getting surrounding blocks...");
 				
 				Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
 				
@@ -76,10 +75,7 @@ public class Player {
 						rollSpaces--;
 						System.out.println("Spaces left: "+(rollSpaces));
 						
-						if(!trappedLast)
-							checkTrap(surroundedBlock[1]);
-						else
-							trappedLast = false;
+						checkTrap(surroundedBlock[1]);
 						
 					}
 					else
@@ -88,49 +84,47 @@ public class Player {
 					}
 				}
 			}
+			else
+			{
+				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+				if(!trapped) {
+					System.out.println("woo2");
+				}
+			}
 		
-				System.out.println(isTrapped);
+			System.out.println(trapped);
 				
 			if(rollSpaces == 0)
 			{
 				rolled = false;
-				System.out.println("roold");
+				switchTurn();
 			}
 		}
 	}
 	
 	private void checkTrap(Block path) {
 		
-		System.out.println("checking");
+		System.out.println("checking if on a trap");
 		if(path instanceof Trap) {
-			System.out.println("its a trap");
-			rollSpaces = 1;
+			System.out.println("on a trap");
+			rollSpaces = 0;
 			
-			isTrapped = true;
+			trapped = true;
 			((Trap) path).createGUI();
-			
-			isTrapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-			if(!isTrapped) {
-			System.out.println("not trapped");
-				rollSpaces = 0;
-			}
 		}
-	
-		
 	}
 	
-	public void trapCheck() {
-		
-		if(Maze.getBlock(coords) instanceof Trap)
-		{
-			isTrapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-			if(!isTrapped) {
-				
-				rollSpaces = 0;
-				rolled = false;
-				trappedLast = true;
-			}
+	public void checkStillTrapped() {
+		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+		if(!trapped) {
+		System.out.println("no longer trapped");
+			rollSpaces = 0;
 		}
+	}
+	
+	public boolean isTrapped() {
+		
+		return trapped;
 	}
 	
 	public boolean hasRolled() {
