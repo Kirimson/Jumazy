@@ -18,6 +18,7 @@ public class Player {
 	private int rollSpaces;
 	private boolean isTrapped;
 	private boolean turn;
+	private boolean trappedLast;
 	
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
@@ -28,7 +29,7 @@ public class Player {
 		rolled = false;
 		rollSpaces = 0;
 		turn = false;
-		
+		trappedLast = false;
 		}
 	
 	public void switchTurn() {
@@ -75,7 +76,10 @@ public class Player {
 						rollSpaces--;
 						System.out.println("Spaces left: "+(rollSpaces));
 						
-						checkTrap(surroundedBlock[1]);
+						if(!trappedLast)
+							checkTrap(surroundedBlock[1]);
+						else
+							trappedLast = false;
 						
 					}
 					else
@@ -84,13 +88,7 @@ public class Player {
 					}
 				}
 			}
-			else
-			{
-				isTrapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-				if(!isTrapped) {
-					rollSpaces = 0;
-				}
-			}
+		
 				System.out.println(isTrapped);
 				
 			if(rollSpaces == 0)
@@ -102,6 +100,7 @@ public class Player {
 	}
 	
 	private void checkTrap(Block path) {
+		
 		System.out.println("checking");
 		if(path instanceof Trap) {
 			System.out.println("its a trap");
@@ -109,8 +108,29 @@ public class Player {
 			
 			isTrapped = true;
 			((Trap) path).createGUI();
+			
+			isTrapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+			if(!isTrapped) {
+			System.out.println("not trapped");
+				rollSpaces = 0;
+			}
 		}
+	
 		
+	}
+	
+	public void trapCheck() {
+		
+		if(Maze.getBlock(coords) instanceof Trap)
+		{
+			isTrapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+			if(!isTrapped) {
+				
+				rollSpaces = 0;
+				rolled = false;
+				trappedLast = true;
+			}
+		}
 	}
 	
 	public boolean hasRolled() {
@@ -128,12 +148,12 @@ public class Player {
 		
 		rollSpaces = rnd.nextInt(6)+1;
                 
-                rollSpaces += movementMod; 
-                
-                if(rollSpaces == 0)
-                {
-                    rollSpaces = 1;
-                }
+        rollSpaces += movementMod; 
+        
+        if(rollSpaces == 0)
+        {
+            rollSpaces = 1;
+        }
 
 		System.out.println("Rolled: " + rollSpaces);
                 System.out.println("Weather Modifier: " + movementMod);

@@ -46,15 +46,6 @@ public class GameSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getCurrPlayer().hasRolled() == false) {
-			if(!maze.getCurrPlayer().getTurnState()){
-				maze.switchPlayer();
-				maze.getCurrPlayer().switchTurn();
-			}
-			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
-			System.out.println("Current player " + maze.getCurrPlayerVal());
-		}
-		
 		if(maze.getCurrPlayer().hasRolled())
 		{
 			String direction = "";
@@ -72,6 +63,17 @@ public class GameSystem extends MainSystem{
 			}
 			if(direction != "")
 				maze.getCurrPlayer().newMove(direction);
+		}
+		
+		maze.getCurrPlayer().trapCheck();
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getCurrPlayer().hasRolled() == false) {
+			if(!maze.getCurrPlayer().getTurnState()){
+				maze.switchPlayer();
+				maze.getCurrPlayer().switchTurn();
+			}
+			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
+			System.out.println("Current player " + maze.getCurrPlayerVal());
 		}
 	}
 
