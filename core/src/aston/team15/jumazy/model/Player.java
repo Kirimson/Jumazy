@@ -70,8 +70,8 @@ public class Player {
 		return coords;
 	}
 	
-	private void setStartOfMove(Coordinate coord) {
-		startOfMove=new Coordinate(coords.getX(), coords.getY());
+	public void setStartOfMove(Coordinate coord) {
+		startOfMove=new Coordinate(coord.getX(), coord.getY());
 	}
 	
 	public void moveToStartOfTurn() {
@@ -134,7 +134,10 @@ public class Player {
 			rollSpaces = 0;
 			
 			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
+			{
+				System.out.println("answer wrong");
 				moveToStartOfTurn();
+			}
 		}
 	}
 	
@@ -162,7 +165,7 @@ public class Player {
             rollSpaces = 1;
         }
 
-        setStartOfMove(coords);
+//        setStartOfMove(coords);
         
 		System.out.println("Rolled: " + rollSpaces);
                 System.out.println("Weather Modifier: " + movementMod);
