@@ -92,6 +92,11 @@ public class GameSystem extends MainSystem{
 		if(maze.getCurrPlayer().isTrapped()) {
 			maze.getCurrPlayer().checkStillTrapped();
 		}
+		
+		if(maze.getCurrPlayer().isVictor()) {
+			int winner = maze.getCurrPlayer().getPlayerNumber();
+			sysManager.setNewSystem(new WinSystem(sysManager, winner));
+		}
 
 	}
 	

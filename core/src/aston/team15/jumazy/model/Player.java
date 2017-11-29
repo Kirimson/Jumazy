@@ -21,6 +21,9 @@ public class Player {
 	private boolean trappedLast;
 	private Coordinate startOfMove;
 	private Coordinate lastMove;
+	private boolean victoryState;
+	private static int playerCount = 1;
+	private int playerNumber;
 	
 	
 	/**
@@ -35,7 +38,9 @@ public class Player {
 		trappedLast = false;
 		lastMove=coords;
 		startOfMove=coords;
-		}
+		playerNumber = playerCount;
+		playerCount++;
+	}
 	
 	public void switchTurn() {
 		turn = !turn;
@@ -100,6 +105,7 @@ public class Player {
 						System.out.println("Spaces left: "+(rollSpaces));
 						
 						checkTrap(surroundedBlock[1]);
+						checkVictory(surroundedBlock[1]);
 							
 					}
 					else
@@ -129,6 +135,16 @@ public class Player {
 			
 			trapped = true;
 			((Trap) path).createGUI();
+		}
+	}
+	
+	private void checkVictory(Block path) {
+		System.out.println("checking for victory");
+		if(path instanceof VictoryPath) {
+			System.out.println("victory path reached");
+			
+			victoryState = true;
+			((VictoryPath) path).showWon(playerNumber);
 		}
 	}
 	
@@ -169,4 +185,11 @@ public class Player {
 		
 	}
 	
+	public boolean isVictor() {
+		return victoryState;
+	}
+	
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
 }

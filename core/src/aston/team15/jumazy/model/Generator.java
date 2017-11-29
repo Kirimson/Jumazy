@@ -8,6 +8,8 @@ public class Generator {
 	
 	private Random rnd;
 	private Block[][] maze;
+	private int xMiddle;
+	private int yMiddle;
 
 	public Generator() {
 		rnd = new Random();
@@ -17,6 +19,9 @@ public class Generator {
 		
 		maze = new Block[x][y];
 		dig(0, 0);		
+		xMiddle = x/2;
+		yMiddle = y/2;
+		System.out.println("the middle of the maze:" + xMiddle + "," + yMiddle);
 		refineMaze(x, y);
 		
 		return maze;
@@ -96,6 +101,12 @@ public class Generator {
 	}
 	
 	private void refineMaze(int x, int y) {
+		
+		for (int i = -1; i<=1; i++) {			
+			for (int a = -1; a<=1; a++) {
+				maze[xMiddle+i][yMiddle+a] = Block.newFact("victory", new Coordinate(xMiddle+i,yMiddle+a));
+			}
+		}
 		
 		for(int row = 0; row < maze.length; row++) {
 			for(int column = 0; column < maze[0].length; column++) {
