@@ -1,9 +1,11 @@
 package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -42,9 +44,7 @@ public class JumazyGame extends ApplicationAdapter {
 		
 		lightSprite = new Texture("light.png");
 
-		cam = new OrthographicCamera(WIDTH, HEIGHT);
-		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-		cam.update();
+		
 		
 		lightBuffer = new FrameBuffer(Format.RGBA8888, WIDTH,HEIGHT, false);
 
@@ -56,6 +56,10 @@ public class JumazyGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 
+		OrthographicCamera cam = system.peek().getCamera();
+		cam.update();
+		batch.setProjectionMatrix(cam.combined);
+		
 		cam.update();
 		batch.setProjectionMatrix(cam.combined);
 		
@@ -72,56 +76,27 @@ public class JumazyGame extends ApplicationAdapter {
 		
 	if(system.getGameRunning() == true){
 		batch.begin();
-		batch.draw(lightBufferRegion, 0, 0,8,8);               
-		
-		
-		lightBuffer.begin();
+		 Pixmap overlay = new Pixmap(WIDTH,HEIGHT, Pixmap.Format.RGBA8888);
+		    overlay.setColor(0, 0, 0, 0.4f);
+		    overlay.fillRectangle(0, 0, WIDTH + 100, HEIGHT);
 
-				
-				Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-				Gdx.gl.glEnable(GL20.GL_BLEND);
-						        
-				// set the ambient color values, this is the "global" light of your scene
-				// imagine it being the sun.  Usually the alpha value is just 1, and you change the darkness/brightness with the Red, Green and Blue values for best effect
+		    // Now change the settings so we are drawing transparent circles
+		    overlay.setBlending(Pixmap.Blending.None);
+		    overlay.setColor(1, 1, 1, 0f);
+		  
+		    overlay.fillCircle(100, 100, 100);
+		    overlay.fillCircle(400, 100, 100);
+		    overlay.fillCircle(100, 600, 100);
+		    overlay.fillCircle(500, 500, 100);
+		    overlay.setBlending(Pixmap.Blending.SourceOver);
 
-				Gdx.gl.glClearColor(0.38f,0.38f,0.24f,1f);
-				Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-					
-				batch.end();
-				// start rendering the lights to our spriteBatch
-				batch.begin();
-
-
-				// set the color of your light (red,green,blue,alpha values)
-				batch.setColor(0.4f, 0.4f, 0f, 1.0f);
-
-				// tx and ty contain the center of the light source
-				float tx= (20);
-				float ty= (20);
-
-				// tw will be the size of the light source based on the "distance"
-				// (the light image is 128x128)
-				// and 96 is the "distance"  
-				// Experiment with this value between based on your game resolution 
-				// my lights are 8 up to 128 in distance
-				float tw=(128/100f)*2;
-
-				// make sure the center is still the center based on the "distance"
-				tx-=(tw/2);
-				ty-=(tw/2);
-
-				
-				// and render the sprite
-				batch.draw(lightSprite, tx,ty,tw,tw,0,0,8,8,false,true);
-
-				batch.end();
-				lightBuffer.end();
-
-
-				// now we render the lightBuffer to the default "frame buffer"
-				// with the right blending !
-
-				Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_ZERO);
+		    // Turn it into a texture
+		    Texture lighting = new Texture(overlay);
+		    overlay.dispose();
+		    
+		    // Draw it to the screen
+		    batch.draw(lighting, 0, 0);
+		batch.end();
 		}
 	}
 	
