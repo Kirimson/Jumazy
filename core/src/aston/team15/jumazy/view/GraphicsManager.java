@@ -80,7 +80,7 @@ public class GraphicsManager {
 		
 		//light holes
 		 Pixmap overlay = new Pixmap(JumazyGame.WIDTH+100,JumazyGame.HEIGHT, Pixmap.Format.RGBA8888);
-	    overlay.setColor(0, 0, 0, 0.4f);
+	    overlay.setColor(0, 0, 0, 0.9f);
 	    overlay.fillRectangle(0, 0, JumazyGame.WIDTH+100, JumazyGame.HEIGHT);
 
 	    // Now change the settings so we are drawing transparent circles

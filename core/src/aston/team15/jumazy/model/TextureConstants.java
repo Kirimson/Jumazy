@@ -47,8 +47,8 @@ public class TextureConstants {
 		case "TopLeft":return topLeft;
 		case "TopRight":return topRight;
 		case "TopStraight":return topStraight;
-		case "TopStraightL":return topStraightL;
-		case "TopStraightR":return topStraightR;
+		case "TopStraightLeft":return topStraightL;
+		case "TopStraightRight":return topStraightR;
 		case "outline":return outline;
 		case "player":return player;
 		case "border":return border;
