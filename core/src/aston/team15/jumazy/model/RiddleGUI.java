@@ -57,7 +57,7 @@ public class RiddleGUI{
 		responseFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
 		String[] riddleText = retrieveRiddle();
 		questionFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
-		question = new JTextArea(riddleText[0], 3, 16);
+		question = new JTextArea(riddleText[0], 2, 16);
 		question.setLineWrap(true);
 		question.setWrapStyleWord(true);
 		question.setFont(question.getFont().deriveFont(16.0f));
@@ -101,7 +101,7 @@ public class RiddleGUI{
 				responseFrame.add(responseLabel);
 				responseFrame.add(continueGame);
 				responseFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-				responseFrame.setSize(300, 200);
+				responseFrame.setSize(300, 175);
 				responseFrame.setVisible(true);
 				
 				
