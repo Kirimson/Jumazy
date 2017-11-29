@@ -37,6 +37,7 @@ public class TitleSystem extends MainSystem{
 	public void handleInput() {
 		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			sysManager.setNewSystem(new GameSystem(sysManager));
+			sysManager.setGameRunning();
 		}
 	}
 	

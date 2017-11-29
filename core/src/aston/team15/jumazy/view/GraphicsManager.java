@@ -74,7 +74,6 @@ public class GraphicsManager {
 			if(maze.getPlayersList().get(i).rolled() == true) {
 				font.draw(batch, "Weather: "+maze.getWeather().getName(), 10,80);
 			}
-			batch.draw(TextureConstants.getTexture("border"), xOffset-32, yOffset-34);
 			
 		}
 		return batch;
