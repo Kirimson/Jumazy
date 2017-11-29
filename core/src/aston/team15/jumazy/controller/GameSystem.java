@@ -26,7 +26,7 @@ public class GameSystem extends MainSystem{
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		maze = new Maze(69,43,4); //(35, 20, 4);
+		maze = new Maze(35, 20, 4);
 		gMan = new GraphicsManager();
 		setupCamera();
 	}
