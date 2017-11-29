@@ -44,25 +44,29 @@ public class Maze {
 			weather = new Rain();
 		
 		players = new ArrayList<Player>();
+		if(totalPlayers>0)
 		players.add(new Player(new Coordinate(0,0)));
-		players.get(0).switchTurn();
-		players.add(new Player(new Coordinate(32,18)));
-		players.add(new Player(new Coordinate(0, (dimensiony-2))));
+		if(totalPlayers>1)
+		players.add(new Player(new Coordinate( 0, (dimensiony-2))));
+		if(totalPlayers>2)
+		players.add(new Player(new Coordinate((dimensionx-1),(dimensiony-2))));
+		if(totalPlayers>3)
 		players.add(new Player(new Coordinate((dimensionx-1), 0)));
 		
 		currPlayer=0;
+		getCurrPlayer().switchTurn();
 	}
 	
 	public static Block[][] getMaze(){
 		return statMaze;
 	}
 	
-	public ArrayList<Player> getPlayers() {
+	public ArrayList<Player> getPlayersList() {
 		return players;
 	}
 	
 	public Player getCurrPlayer() {
-		return getPlayers().get(currPlayer);
+		return getPlayersList().get(currPlayer);
 	}
 	
 	public int getCurrPlayerVal() {
@@ -74,11 +78,13 @@ public class Maze {
 	}
 
 	
-	public void switchPlayer() {
-		currPlayer++;
-		if (currPlayer >= getPlayers().size()) {
-			currPlayer=0;
-		}
+	public void nextPlayer() {
+		getCurrPlayer().switchTurn();			//end current players turn
+		
+		currPlayer++;							//increment to next player
+		currPlayer = currPlayer%totalPlayers;
+		
+		getCurrPlayer().switchTurn();			//start next players turn
 	}
 	
 	/**

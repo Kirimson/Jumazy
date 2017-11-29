@@ -26,9 +26,9 @@ public class GameSystem extends MainSystem{
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		maze = new Maze(35, 20, 4);
+		maze = new Maze(69,43,4); //(35, 20, 4);
 		gMan = new GraphicsManager();
-		
+		setupCamera();
 	}
 	
 	/**
@@ -46,17 +46,30 @@ public class GameSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && maze.getCurrPlayer().hasRolled() == false && maze.getCurrPlayer().isTrapped() == false) {
-			if(!maze.getCurrPlayer().getTurnState()){
-				maze.switchPlayer();
-				maze.getCurrPlayer().switchTurn();
-				System.out.println("DOING THIS");
-			}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
+		&& maze.getCurrPlayer().rolled() == false 
+		&& maze.getCurrPlayer().isTrapped() == false) {
+			focusCamera();
+			maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
+			maze.getCurrPlayer().switchRolled();
 			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
 			System.out.println("Current player " + maze.getCurrPlayerVal());
 		}
 		
-		if(maze.getCurrPlayer().hasRolled())
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
+		&& maze.getCurrPlayer().getRollSpaces() == 0
+		&& maze.getCurrPlayer().isTrapped() == false) {
+			unfocusCamera();
+			maze.nextPlayer();
+			System.out.println("CHANGE TURN");
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.B)
+		&& maze.getCurrPlayer().isTrapped() == false) {
+			maze.getCurrPlayer().moveToStartOfTurn();
+		}
+		
+		if(maze.getCurrPlayer().rolled())
 		{
 			String direction = "";
 			if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
@@ -79,8 +92,31 @@ public class GameSystem extends MainSystem{
 		if(maze.getCurrPlayer().isTrapped()) {
 			maze.getCurrPlayer().checkStillTrapped();
 		}
-		
-		
-	}
 
+	}
+	
+	private void focusCamera() {
+		cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
+		float currPlayerXPos = gMan.getCurPlayerFloatXPos( maze);
+		float currPlayerYPos = gMan.getCurPlayerFloatYPos(maze);
+		System.out.println(currPlayerXPos+"+"+currPlayerYPos);
+		if(currPlayerXPos<=-314)
+			currPlayerXPos=-324+(GAME_WIDTH/2);
+		if(currPlayerYPos<=-318)
+			currPlayerYPos=-334+(GAME_HEIGHT/2);
+		if(currPlayerXPos>=1862)
+			currPlayerXPos=1888-(GAME_WIDTH/2);
+		if(currPlayerYPos>=994)
+			currPlayerYPos=1018-(GAME_HEIGHT/2);
+		cam.position.set(currPlayerXPos,currPlayerYPos, 0);
+	}
+	
+	private void unfocusCamera() {
+		setupCamera();
+	}
+	
+	protected void setupCamera() {
+		cam.setToOrtho(false,GAME_WIDTH*2, GAME_HEIGHT*2);
+		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
+	}
 }

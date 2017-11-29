@@ -19,6 +19,9 @@ public class Player {
 	private boolean trapped;
 	private boolean turn;
 	private boolean trappedLast;
+	private Coordinate startOfMove;
+	private Coordinate lastMove;
+	
 	
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
@@ -30,15 +33,27 @@ public class Player {
 		rollSpaces = 0;
 		turn = false;
 		trappedLast = false;
+		lastMove=coords;
+		startOfMove=coords;
 		}
 	
 	public void switchTurn() {
-		turn=!turn;
-	
+		turn = !turn;
 	}
+	
 	public boolean getTurnState(){
 		return turn;
 	}
+	
+	public void switchRolled() {
+		rolled = !rolled;
+		
+	}
+	
+	public boolean rolled() {
+		return rolled;
+	}
+	
 	/**
 	 * Returns the players texture
 	 * @return {@link Texture} object of the player
@@ -55,6 +70,14 @@ public class Player {
 		return coords;
 	}
 	
+	public void setStartOfMove(Coordinate coord) {
+		startOfMove=coord;
+	}
+	
+	public void moveToStartOfTurn() {
+		coords.setCoordinates(startOfMove);
+	}
+	
 	public void newMove(String direction) {
 		
 		if(rollSpaces != 0)
@@ -68,7 +91,8 @@ public class Player {
 				
 				if(surroundedBlock != null)
 				{
-					if(surroundedBlock[1].toString() == "path") {
+					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove) {
+						lastMove=coords;
 						coords.setCoordinates(surroundedBlock[1].getCoords());
 						System.out.println("allowed movement");
 						System.out.println("player new Coords: "+coords.toString());
@@ -76,7 +100,7 @@ public class Player {
 						System.out.println("Spaces left: "+(rollSpaces));
 						
 						checkTrap(surroundedBlock[1]);
-						
+							
 					}
 					else
 					{
@@ -93,12 +117,6 @@ public class Player {
 			}
 		
 			System.out.println(trapped);
-				
-			if(rollSpaces == 0)
-			{
-				rolled = false;
-				switchTurn();
-			}
 		}
 	}
 	
@@ -123,7 +141,6 @@ public class Player {
 	}
 	
 	public boolean isTrapped() {
-		
 		return trapped;
 	}
 	
@@ -140,9 +157,7 @@ public class Player {
 		
 		Random rnd = new Random();
 		
-		rollSpaces = rnd.nextInt(6)+1;
-                
-        rollSpaces += movementMod; 
+		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
         
         if(rollSpaces == 0)
         {
