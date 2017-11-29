@@ -11,19 +11,16 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 import aston.team15.jumazy.view.JumazyGame;
 
-/**
- * Manages the title screen of the games title screen, sub class of {@link MainSystem}
- * @author kieran
- *
- */
-public class TitleSystem extends MainSystem{
-	
+public class WinSystem extends MainSystem{
+
 	private Texture background;
 	private Texture playBtn;
 	private BitmapFont font12;
-	
-	public TitleSystem(SystemManager sysMan) {
+	private int winningPlayer;
+
+	public WinSystem(SystemManager sysMan, int winner) {
 		super(sysMan);
+		winningPlayer = winner;
 		background= new Texture("junglebg1.png");
 		playBtn= new Texture("playBtn2.png");
 		setupCamera();
@@ -39,16 +36,14 @@ public class TitleSystem extends MainSystem{
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
 		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
-		font12.draw(batch, "Press " + " to roll", 100,100);
+		font12.draw(batch, "Player " + winningPlayer + " wins!", 100,100);
 		return batch;
 	}
 
 	@Override
 	public void handleInput() {
-		if (Gdx.input.getX()>568 && Gdx.input.getY()<504 && Gdx.input.getX()<731 && Gdx.input.getY()>455) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-				sysManager.setNewSystem(new GameSystem(sysManager));
-			}
+		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			sysManager.setNewSystem(new GameSystem(sysManager));
 		}
 	}
 	
