@@ -30,14 +30,18 @@ public class TitleSystem extends MainSystem{
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
 		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
+		//System.out.println("play"+((JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10));
+		//System.out.println("play"+((JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120)); //568 216
+		
 		return batch;
 	}
 
 	@Override
 	public void handleInput() {
-		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			sysManager.setNewSystem(new GameSystem(sysManager));
-			sysManager.setGameRunning();
+		if (Gdx.input.getX()>568 && Gdx.input.getY()<504 && Gdx.input.getX()<731 && Gdx.input.getY()>455) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+				sysManager.setNewSystem(new GameSystem(sysManager));
+			}
 		}
 	}
 	

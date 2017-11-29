@@ -44,14 +44,15 @@ public class Maze {
 			weather = new Rain();
 		
 		players = new ArrayList<Player>();
+		
 		if(totalPlayers>0)
-		players.add(new Player(new Coordinate(0,0)));
+			players.add(new Player(new Coordinate(0,0)));
 		if(totalPlayers>1)
-		players.add(new Player(new Coordinate( 0, (dimensiony-2))));
+			players.add(new Player(new Coordinate((dimensionx-1),(dimensiony-2))));
 		if(totalPlayers>2)
-		players.add(new Player(new Coordinate((dimensionx-1),(dimensiony-2))));
+			players.add(new Player(new Coordinate( 0, (dimensiony-2))));
 		if(totalPlayers>3)
-		players.add(new Player(new Coordinate((dimensionx-1), 0)));
+			players.add(new Player(new Coordinate((dimensionx-1), 0)));
 		
 		currPlayer=0;
 		getCurrPlayer().switchTurn();
