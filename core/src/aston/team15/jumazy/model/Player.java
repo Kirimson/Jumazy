@@ -2,6 +2,7 @@ package aston.team15.jumazy.model;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 //import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -11,11 +12,16 @@ import com.badlogic.gdx.graphics.Texture;
  *
  */
 public class Player {
-	private Texture playerTexture = new Texture("player.png");
+	private Texture playerTexture = TextureConstants.getTexture("player");
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;
+	private boolean trapped;
 	private boolean turn;
+	private boolean trappedLast;
+	private Coordinate startOfMove;
+	private Coordinate lastMove;
+	
 	
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
@@ -26,16 +32,28 @@ public class Player {
 		rolled = false;
 		rollSpaces = 0;
 		turn = false;
-		
-				}
+		trappedLast = false;
+		lastMove=coords;
+		startOfMove=coords;
+		}
 	
 	public void switchTurn() {
-		turn=!turn;
-	
+		turn = !turn;
 	}
+	
 	public boolean getTurnState(){
 		return turn;
 	}
+	
+	public void switchRolled() {
+		rolled = !rolled;
+		
+	}
+	
+	public boolean rolled() {
+		return rolled;
+	}
+	
 	/**
 	 * Returns the players texture
 	 * @return {@link Texture} object of the player
@@ -52,75 +70,78 @@ public class Player {
 		return coords;
 	}
 	
-	/**
-	 * Checks players current and desired {@link Block} using {@link Maze#getSurroundingBlocks(Coordinate, String)}.
-	 * Updates players {@link Coordinate} object if they are able to move to desired block
-	 * @param direction String of the direction the player is moving
-	 */
-	public void move(String direction) {
-		
-		if(rollSpaces != 0)
-		{
-			System.out.println("Player moving "+direction);
-			System.out.println("Player coords "+coords.toString());
-			System.out.println("getting surrounding blocks...");
-			
-			Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-			
-			if(surroundedBlock != null)
-			{
-				if(surroundedBlock[0].checkExit(direction) && surroundedBlock[1].checkEntrance(direction))
-				{
-					coords.setCoordinates(surroundedBlock[1].getCoords());
-					System.out.println("allowed movement");
-					System.out.println("player new Coords: "+coords.toString());
-					rollSpaces--;
-					System.out.println("Spaces left: "+(rollSpaces));
-				}
-				else
-				{
-					System.out.println("denyed movement");
-				}
-			}
-		}
-		
-		if(rollSpaces == 0)
-		{
-			rolled = false;
-		}
+	public void setStartOfMove(Coordinate coord) {
+		startOfMove=coord;
+	}
+	
+	public void moveToStartOfTurn() {
+		coords.setCoordinates(startOfMove);
 	}
 	
 	public void newMove(String direction) {
 		
 		if(rollSpaces != 0)
 		{
-			System.out.println("Player moving "+direction);
-			System.out.println("Player coords "+coords.toString());
-			System.out.println("getting surrounding blocks...");
-			
-			Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-			
-			if(surroundedBlock != null)
+			if(!trapped)
 			{
-				if(surroundedBlock[1].toString() == "path") {
-					coords.setCoordinates(surroundedBlock[1].getCoords());
-					System.out.println("allowed movement");
-					System.out.println("player new Coords: "+coords.toString());
-					rollSpaces--;
-					System.out.println("Spaces left: "+(rollSpaces));
-				}
-				else
+				System.out.println("Player moving "+direction);
+				System.out.println("Player coords "+coords.toString());
+				
+				Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
+				
+				if(surroundedBlock != null)
 				{
-					System.out.println("denyed movement");
+					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove) {
+						lastMove=coords;
+						coords.setCoordinates(surroundedBlock[1].getCoords());
+						System.out.println("allowed movement");
+						System.out.println("player new Coords: "+coords.toString());
+						rollSpaces--;
+						System.out.println("Spaces left: "+(rollSpaces));
+						
+						checkTrap(surroundedBlock[1]);
+							
+					}
+					else
+					{
+						System.out.println("denyed movement");
+					}
 				}
 			}
+			else
+			{
+				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+				if(!trapped) {
+					System.out.println("woo2");
+				}
+			}
+		
+			System.out.println(trapped);
 		}
+	}
+	
+	private void checkTrap(Block path) {
+		
+		System.out.println("checking if on a trap");
+		if(path instanceof Trap) {
+			System.out.println("on a trap");
+			rollSpaces = 0;
 			
-		if(rollSpaces == 0)
-		{
-			rolled = false;
-			switchTurn();
+			trapped = true;
+			((Trap) path).createGUI();
 		}
+	}
+	
+	public void checkStillTrapped() {
+		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+		if(!trapped) {
+		System.out.println("no longer trapped");
+			rollSpaces = 0;
+		}
+	}
+	
+	public boolean isTrapped() {
+		return trapped;
 	}
 	
 	public boolean hasRolled() {
@@ -136,14 +157,12 @@ public class Player {
 		
 		Random rnd = new Random();
 		
-		rollSpaces = rnd.nextInt(6)+1;
-                
-                rollSpaces += movementMod; 
-                
-                if(rollSpaces == 0)
-                {
-                    rollSpaces = 1;
-                }
+		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
+        
+        if(rollSpaces == 0)
+        {
+            rollSpaces = 1;
+        }
 
 		System.out.println("Rolled: " + rollSpaces);
                 System.out.println("Weather Modifier: " + movementMod);
