@@ -1,5 +1,6 @@
 package aston.team15.jumazy.view;
 
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,7 @@ public class GraphicsManager {
 		
 		for (int i = 0; i < maze.getTotalPlayers(); i++) {
 			Player player  = maze.getPlayersList().get(i);
+			
 			int playerOffset = 10;
 			float playerWidth = player.getTexture().getWidth();
 			float playerHeight = player.getTexture().getHeight();
@@ -75,6 +77,29 @@ public class GraphicsManager {
 			}
 			
 		}
+		
+		//light holes
+		 Pixmap overlay = new Pixmap(JumazyGame.WIDTH+100,JumazyGame.HEIGHT, Pixmap.Format.RGBA8888);
+	    overlay.setColor(0, 0, 0, 0.4f);
+	    overlay.fillRectangle(0, 0, JumazyGame.WIDTH+100, JumazyGame.HEIGHT);
+
+	    // Now change the settings so we are drawing transparent circles
+	    overlay.setBlending(Pixmap.Blending.None);
+	    overlay.setColor(1, 1, 1, 0f);
+	  
+	    for(Player p : maze.getPlayersList()) {
+	    	overlay.fillCircle(100,100, 100);
+	    }
+	    
+	    overlay.setBlending(Pixmap.Blending.SourceOver);
+
+	    // Turn it into a texture
+	    Texture lighting = new Texture(overlay);
+	    overlay.dispose();
+	    
+	    // Draw it to the screen
+	    batch.draw(lighting, 0, 0);
+		
 		return batch;
 	}
 	

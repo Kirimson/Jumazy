@@ -8,16 +8,22 @@ public class Generator {
 	
 	private Random rnd;
 	private Block[][] maze;
+	private int xMiddle;
+	private int yMiddle;
 
 	public Generator() {
 		rnd = new Random();
 	}
 	
-	public Block[][] superNewGenMaze(int x, int y){
+	public Block[][] superNewGenMaze(int dimensionx, int dimensiony){
 		
-		maze = new Block[x][y];
+		maze = new Block[dimensionx][dimensiony];
 		dig(0, 0);		
-		refineMaze(x, y);
+		xMiddle = dimensionx/2;
+		yMiddle = dimensiony/2;
+		System.out.println("the middle of the maze:" + xMiddle + "," + yMiddle);
+		refineMaze(dimensionx, dimensiony);
+		
 		
 		return maze;
 	}
@@ -97,12 +103,19 @@ public class Generator {
 	
 	private void refineMaze(int x, int y) {
 		
+		for (int i = -1; i<=1; i++) {			
+			for (int a = -1; a<=1; a++) {
+				maze[xMiddle+i][yMiddle+a] = Block.newFact("victory", new Coordinate(xMiddle+i,yMiddle+a));
+			}
+		}
+
+		
 		for(int row = 0; row < maze.length; row++) {
 			for(int column = 0; column < maze[0].length; column++) {
 				if(maze[row][column] == null)
 				{
 					String wallType = genWallType(row, column);
-					maze[row][column] = Block.newFact(wallType, new Coordinate(column, row));
+					maze[row][column] = Block.newFact(wallType, new Coordinate(row, column));
 				}
 			}
 		}
