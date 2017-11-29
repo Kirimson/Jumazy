@@ -50,7 +50,6 @@ public class GameSystem extends MainSystem{
 		&& maze.getCurrPlayer().rolled() == false 
 		&& maze.getCurrPlayer().isTrapped() == false) {
 			focusCamera();
-//			maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
 			maze.getCurrPlayer().switchRolled();
 			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
 			System.out.println("Current player " + maze.getCurrPlayerVal());
@@ -59,6 +58,7 @@ public class GameSystem extends MainSystem{
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
 		&& maze.getCurrPlayer().getRollSpaces() == 0
 		&& maze.getCurrPlayer().isTrapped() == false) {
+			maze.getCurrPlayer().switchRolled();
 			unfocusCamera();
 			maze.nextPlayer();
 			System.out.println("CHANGE TURN");
@@ -87,6 +87,13 @@ public class GameSystem extends MainSystem{
 			
 			if(direction != "")
 				maze.getCurrPlayer().newMove(direction);
+			
+//			if(maze.getCurrPlayer().getRollSpaces() == 0) {
+//				unfocusCamera();
+//				maze.nextPlayer();
+//				System.out.println("CHANGE TURN");
+//			}
+			
 		}
 		
 		if(maze.getCurrPlayer().isTrapped()) {
