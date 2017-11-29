@@ -30,7 +30,7 @@ public class Maze {
 	public Maze(int dimensionx, int dimensiony) {
 		MAZE_DIMENSIONX = dimensionx;
 		MAZE_DIMENSIONY = dimensiony;
-		player = new Player(new Coordinate(0,0));
+		
 		mazeGenerator = new Generator();
 		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
 		statMaze = maze;

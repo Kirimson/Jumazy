@@ -54,8 +54,8 @@ public class GraphicsManager {
 			}
 			else
 			{
-				for (int a=0;a<maze.getPlayers().get(a).getRollSpaces();a++) {
-					batch.draw(moves,10+(i*10),20);
+				for (int a=0;a<maze.getPlayers().get(i).getRollSpaces();a++) {
+					batch.draw(moves,10+(a*10),20);
 				}
 			}
 			
