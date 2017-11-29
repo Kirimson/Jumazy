@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
  *
  */
 public class Player {
-	private Texture playerTexture = new Texture("player.png");
+	private Texture playerTexture = TextureConstants.getTexture("player");
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;

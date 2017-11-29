@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.model.Player;
+import aston.team15.jumazy.model.TextureConstants;
 
 public class GraphicsManager {
 	
@@ -50,11 +51,12 @@ public class GraphicsManager {
 			float playerHeight = player.getTexture().getHeight();
 			float playerXPos = xOffset+player.getCoords().getX()*blockSize+playerOffset;
 			float playerYPos = yOffset+player.getCoords().getY()*blockSize+playerOffset;
+			
 			batch.draw(player.getTexture(), playerXPos,playerYPos, playerWidth/2, playerHeight/2);
 			
 			currPlayerPosX= xOffset+maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
 			currPlayerPosY= yOffset+maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
-			batch.draw(new Texture("playeroutline.png"),currPlayerPosX, currPlayerPosY, playerWidth/2, playerHeight/2);
+			batch.draw(TextureConstants.getTexture("outline"),currPlayerPosX, currPlayerPosY, playerWidth/2, playerHeight/2);
 
 			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", 10,100);
 			
@@ -71,7 +73,7 @@ public class GraphicsManager {
 			if(maze.getPlayersList().get(i).rolled() == true) {
 				font.draw(batch, "Weather: "+maze.getWeather().getName(), 10,80);
 			}
-			batch.draw(new Texture("border.png"), xOffset-32, yOffset-34);
+			batch.draw(TextureConstants.getTexture("border"), xOffset-32, yOffset-34);
 			
 		}
 		return batch;

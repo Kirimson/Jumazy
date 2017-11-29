@@ -4,27 +4,32 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class TextureConstants {
 
-	private static Texture path = new Texture("path.png");
-	private static Texture trap = new Texture("trap.png");
-	private static Texture both = new Texture("wallBoth.png");
-	private static Texture bothTop = new Texture("wallBothTop.png");
-	private static Texture left = new Texture("wallLeft.png");
-	private static Texture leftTop = new Texture("wallLeftTop.png");
-	private static Texture middle = new Texture("wallMiddle.png");
-	private static Texture middleTop = new Texture("wallMiddleTop.png");
-	private static Texture right = new Texture("wallRight.png");
-	private static Texture rightTop = new Texture("wallRightTop.png");
-	private static Texture topBlank = new Texture("wallTopBlank.png");
-	private static Texture topBoth = new Texture("wallTopBoth.png");
-	private static Texture topEnd = new Texture("wallTopEnd.png");
-	private static Texture topLeft = new Texture("wallTopLeft.png");
-	private static Texture topRight = new Texture("wallTopRight.png");
-	private static Texture topStraight = new Texture("wallTopStraight.png");
-	private static Texture topStraightL = new Texture("wallTopStraightLeft.png");
-	private static Texture topStraightR = new Texture("wallTopStraightRight.png");
+	private static final Texture path = new Texture("path.png");
+	private static final Texture trap = new Texture("trap.png");
+	private static final Texture both = new Texture("wallBoth.png");
+	private static final Texture bothTop = new Texture("wallBothTop.png");
+	private static final Texture left = new Texture("wallLeft.png");
+	private static final Texture leftTop = new Texture("wallLeftTop.png");
+	private static final Texture middle = new Texture("wallMiddle.png");
+	private static final Texture middleTop = new Texture("wallMiddleTop.png");
+	private static final Texture right = new Texture("wallRight.png");
+	private static final Texture rightTop = new Texture("wallRightTop.png");
+	private static final Texture topBlank = new Texture("wallTopBlank.png");
+	private static final Texture topBoth = new Texture("wallTopBoth.png");
+	private static final Texture topEnd = new Texture("wallTopEnd.png");
+	private static final Texture topLeft = new Texture("wallTopLeft.png");
+	private static final Texture topRight = new Texture("wallTopRight.png");
+	private static final Texture topStraight = new Texture("wallTopStraight.png");
+	private static final Texture topStraightL = new Texture("wallTopStraightLeft.png");
+	private static final Texture topStraightR = new Texture("wallTopStraightRight.png");
+	private static final Texture outline = new Texture("playeroutline.png");
+	private static final Texture player = new Texture("player.png");
+	private static final Texture border = new Texture("border.png");
 	
 	public static Texture getTexture(String name) {
 
+		
+		
 		switch(name) {
 		case "path":return path;
 		case "trap":return trap;
@@ -44,6 +49,9 @@ public class TextureConstants {
 		case "TopStraight":return topStraight;
 		case "TopStraightL":return topStraightL;
 		case "TopStraightR":return topStraightR;
+		case "outline":return outline;
+		case "player":return player;
+		case "border":return border;
 		default: return path;
 		}
 		
