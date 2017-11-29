@@ -51,7 +51,9 @@ public class RiddleGUI{
 	
 	private void createGUI() {
 		questionFrame = new JFrame("Question");
+		questionFrame.setLocation(1920/2, 1080/2);
 		responseFrame = new JFrame("Response");
+		responseFrame.setLocation(1920/2, 1080/2);
 		continueGame = new JButton("Continue");
 		questionFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
 		responseFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));

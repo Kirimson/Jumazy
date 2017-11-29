@@ -29,8 +29,8 @@ public class GraphicsManager {
 	public SpriteBatch draw(SpriteBatch batch, Maze maze) {
 		
 		//draw maze
-		int xOffset = 140+(1280-(Maze.MAZE_DIMENSIONX*32))/2;
-		int yOffset = (720-(Maze.MAZE_DIMENSIONY*32))/2;
+//		int xOffset = 140+(1280-(Maze.MAZE_DIMENSIONX*32))/2;
+//		int yOffset = (720-(Maze.MAZE_DIMENSIONY*32))/2;
 		int blockSize = maze.getBlock(0, 0).getTexture().getHeight();
 		int blockXYStart = 0;
 		int blockOrigin = blockSize/2;
@@ -39,7 +39,9 @@ public class GraphicsManager {
 		
 		for(int i = 0; i < Maze.getMaze().length; i++) {
 			for(int k = 0; k <  Maze.getMaze()[0].length; k++) {
-				batch.draw(maze.getBlock(i, k).getTexture(), 5+xOffset+blockSize*i, yOffset+blockSize*k, blockOrigin, blockOrigin, blockSize, blockSize, scaleX, scaleY, 0, blockXYStart, blockXYStart, blockSize, blockSize, false, false);
+				//batch.draw(maze.getBlock(i, k).getTexture(), 5+xOffset+blockSize*i, yOffset+blockSize*k, 
+				//blockOrigin, blockOrigin, blockSize, blockSize, scaleX, scaleY, 0, blockXYStart, blockXYStart, blockSize, blockSize, false, false);
+				batch.draw(maze.getBlock(i, k).getTexture(), blockSize*i, blockSize*k);
 			}
 		}
 		
@@ -51,13 +53,17 @@ public class GraphicsManager {
 			int playerOffset = 10;
 			float playerWidth = player.getTexture().getWidth();
 			float playerHeight = player.getTexture().getHeight();
-			float playerXPos = xOffset+player.getCoords().getX()*blockSize+playerOffset;
-			float playerYPos = yOffset+player.getCoords().getY()*blockSize+playerOffset;
+//			float playerXPos = xOffset+player.getCoords().getX()*blockSize+playerOffset;
+//			float playerYPos = yOffset+player.getCoords().getY()*blockSize+playerOffset;
+			float playerXPos = player.getCoords().getX()*blockSize+playerOffset;
+			float playerYPos = player.getCoords().getY()*blockSize+playerOffset;
 			
 			batch.draw(player.getTexture(), playerXPos,playerYPos, playerWidth/2, playerHeight/2);
 			
-			currPlayerPosX= xOffset+maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
-			currPlayerPosY= yOffset+maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
+//			currPlayerPosX= xOffset+maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
+//			currPlayerPosY= yOffset+maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
+			currPlayerPosX= maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
+			currPlayerPosY= maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
 			batch.draw(TextureConstants.getTexture("outline"),currPlayerPosX, currPlayerPosY, playerWidth/2, playerHeight/2);
 
 			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", 10,100);
@@ -79,18 +85,17 @@ public class GraphicsManager {
 		}
 		
 		//light holes
-		 Pixmap overlay = new Pixmap(JumazyGame.WIDTH+100,JumazyGame.HEIGHT, Pixmap.Format.RGBA8888);
-	    overlay.setColor(0, 0, 0, 0.4f);
-	    overlay.fillRectangle(0, 0, JumazyGame.WIDTH+100, JumazyGame.HEIGHT);
+		 Pixmap overlay = new Pixmap(maze.getWidth()*blockSize, maze.getHeight()*blockSize, Pixmap.Format.RGBA8888);
+	    overlay.setColor(0, 0, 0, 0.9f);
+	    overlay.fillRectangle(0, 0, maze.getWidth()*blockSize, maze.getHeight()*blockSize);
 
 	    // Now change the settings so we are drawing transparent circles
 	    overlay.setBlending(Pixmap.Blending.None);
 	    overlay.setColor(1, 1, 1, 0f);
 	  
 	    for(Player p : maze.getPlayersList()) {
-	    	overlay.fillCircle(100,100, 100);
+	    	overlay.fillCircle(p.getCoords().getX()*blockSize, JumazyGame.HEIGHT - p.getCoords().getY()*blockSize, 150);
 	    }
-	    
 	    overlay.setBlending(Pixmap.Blending.SourceOver);
 
 	    // Turn it into a texture

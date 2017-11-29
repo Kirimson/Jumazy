@@ -24,7 +24,6 @@ public class Generator {
 		System.out.println("the middle of the maze:" + xMiddle + "," + yMiddle);
 		refineMaze(dimensionx, dimensiony);
 		
-		
 		return maze;
 	}
 	
@@ -108,7 +107,6 @@ public class Generator {
 				maze[xMiddle+i][yMiddle+a] = Block.newFact("victory", new Coordinate(xMiddle+i,yMiddle+a));
 			}
 		}
-
 		
 		for(int row = 0; row < maze.length; row++) {
 			for(int column = 0; column < maze[0].length; column++) {

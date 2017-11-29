@@ -44,6 +44,8 @@ public class Block {
 				return new Path(coord);
 			else
 				return new Trap(coord);
+		} else if (type == "victory") {
+			return new VictoryPath(coord);
 		}
 		else
 			return new Wall(coord, type);
