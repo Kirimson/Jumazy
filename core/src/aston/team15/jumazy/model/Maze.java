@@ -155,5 +155,11 @@ public class Maze {
 		return statMaze[coord.getX()][coord.getY()];
 	}
 	
+	public int getWidth() {
+		return MAZE_DIMENSIONX;
+	}
 	
+	public int getHeight() {
+		return MAZE_DIMENSIONY;
+	}
 }
