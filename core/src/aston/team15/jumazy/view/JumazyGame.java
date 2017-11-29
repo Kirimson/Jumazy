@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import aston.team15.jumazy.controller.SystemManager;
 import aston.team15.jumazy.controller.TitleSystem;
 
-public class JumazyGame extends ApplicationAdapter {
+public class JumazyGame extends ApplicationAdapter{
 	private SpriteBatch batch;
 	
     private OrthographicCamera cam;
@@ -26,22 +26,28 @@ public class JumazyGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
+		//cam = new OrthographicCamera();
+		
 		system = new SystemManager();
 		system.push(new TitleSystem(system));
 		
 		mapSprite = new Sprite(new Texture(Gdx.files.internal("path.png")));
 		mapSprite.setPosition(0, 0);
-		mapSprite.setSize(1,1);
-
-		cam = new OrthographicCamera(WIDTH, HEIGHT);
-		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-		cam.update();
+		mapSprite.setSize(1,1); /*(WIDTH, HEIGHT);
+		cam.position.set(WIDTH/2, HEIGHT/2, 0);//(cam.viewportWidth /2f , cam.viewportHeight /2f, 0);
+		cam.update();*/
+/*
+		cam = new OrthographicCamera(WIDTH*3, HEIGHT*3);
+		cam.position.set(WIDTH/2, HEIGHT/2, 0);//(cam.viewportWidth /2f , cam.viewportHeight /2f, 0);
+		cam.update();*/
 		
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 
+		OrthographicCamera cam = system.peek().getCamera();
 		cam.update();
 		batch.setProjectionMatrix(cam.combined);
 		
@@ -57,7 +63,7 @@ public class JumazyGame extends ApplicationAdapter {
 	}
 	
 	@Override
-	public void dispose () {
+	public void dispose() {
 		batch.dispose();
 	}
 }

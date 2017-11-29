@@ -21,7 +21,6 @@ public class Trap extends Path {
 	
 	public boolean stillTrapped() {
 		if(!gui.isAlive()) {
-			System.out.println("not trapped no mo");
 			return false;
 		}
 		return true;
