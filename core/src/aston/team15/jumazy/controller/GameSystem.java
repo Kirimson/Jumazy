@@ -23,6 +23,7 @@ public class GameSystem extends MainSystem{
 	private int nextPlayers;
 	private Maze maze;
 	private GraphicsManager gMan;
+	
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);

@@ -16,7 +16,6 @@ public class Trap extends Path {
 	
 	public void createGUI() {
 		gui = new RiddleGUI();
-		System.out.println("creating");
 	}
 	
 	public boolean stillTrapped() {
@@ -24,5 +23,9 @@ public class Trap extends Path {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean wasCorrect() {
+		return gui.isCorrect();
 	}
 }

@@ -28,25 +28,35 @@ import com.badlogic.gdx.Gdx;
  *
  */
 
-public class RiddleGUI extends JFrame{
-	private JLabel background;
+public class RiddleGUI{
+	private JFrame questionFrame;
+	private JFrame responseFrame;
 	private JTextArea question;
+	private JLabel responseLabel;
 	private JTextField answer;
 	private JButton submit;
+	private JButton continueGame;
 	private String[] cells = null;
 	private boolean isActive;
+	private boolean correct;
 	
+	public static void main(String[] args) {
+		RiddleGUI r = new RiddleGUI();
+	}
 	
 	public RiddleGUI() {
-		super("Riddle");
 		isActive = true;
 		createGUI();
 	}
 	
 	private void createGUI() {
-		setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
+		questionFrame = new JFrame("Question");
+		responseFrame = new JFrame("Response");
+		continueGame = new JButton("Continue");
+		questionFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
+		responseFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
 		String[] riddleText = retrieveRiddle();
-		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		questionFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		question = new JTextArea(riddleText[0], 3, 16);
 		question.setLineWrap(true);
 		question.setWrapStyleWord(true);
@@ -55,36 +65,73 @@ public class RiddleGUI extends JFrame{
 		question.setEditable(false);
 		question.setOpaque(false);
 		question.setForeground(Color.white);
-		add(question);
+		questionFrame.add(question);
+		
 		
 		
 		answer = new JTextField(20);
-		add(answer);
+		questionFrame.add(answer);
 		
 		
 		submit = new JButton("Submit");
-		add(submit);
+		questionFrame.add(submit);
 		
 		
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				checkAnswer(answer.getText());
+				correct = checkAnswer(answer.getText());
 				isActive = false;
-				dispose();
+				questionFrame.dispose();
+				
+				responseLabel = new JLabel();
+				
+				responseFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+				
+				if(correct == true) {
+					responseLabel.setText("You are correct");
+					
+				}
+				else {
+					responseLabel.setText("You are not correct");
+				
+				}
+				
+				responseLabel.setFont(question.getFont().deriveFont(28.0f));
+				responseLabel.setForeground(Color.white);
+				responseFrame.add(responseLabel);
+				responseFrame.add(continueGame);
+				responseFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				responseFrame.setSize(300, 200);
+				responseFrame.setVisible(true);
+				
+				
+				
+
+				
+			}
+		});
+		
+		continueGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				responseFrame.dispose();
 			}
 		});
 			
+		questionFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		questionFrame.setSize(300, 250);
+		questionFrame.setVisible(true);
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setSize(300, 275);
-		getContentPane().setBackground(Color.green);
-		setVisible(true);
+		
 		
 		
 	}
 	
 	public boolean isAlive() {
 		return isActive;
+	}
+	
+	public boolean isCorrect() {
+		return correct;
 	}
 	
 	public String[] retrieveRiddle() {
@@ -111,11 +158,11 @@ public class RiddleGUI extends JFrame{
 		return cells;
 	}
 	
-	public String checkAnswer(String answer) {
+	public boolean checkAnswer(String answer) {
 		if(answer.equals(cells[1])) {
 			System.out.println("correct");
-			return "correct";
+			return true;
 		}
-		return "incorrect";
+		return false;
 	}
 }

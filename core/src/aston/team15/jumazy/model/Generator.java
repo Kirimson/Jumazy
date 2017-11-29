@@ -15,14 +15,14 @@ public class Generator {
 		rnd = new Random();
 	}
 	
-	public Block[][] superNewGenMaze(int x, int y){
+	public Block[][] superNewGenMaze(int dimensionx, int dimensiony){
 		
-		maze = new Block[x][y];
+		maze = new Block[dimensionx][dimensiony];
 		dig(0, 0);		
-		xMiddle = x/2;
-		yMiddle = y/2;
+		xMiddle = dimensionx/2;
+		yMiddle = dimensiony/2;
 		System.out.println("the middle of the maze:" + xMiddle + "," + yMiddle);
-		refineMaze(x, y);
+		refineMaze(dimensionx, dimensiony);
 		
 		return maze;
 	}
@@ -113,7 +113,7 @@ public class Generator {
 				if(maze[row][column] == null)
 				{
 					String wallType = genWallType(row, column);
-					maze[row][column] = Block.newFact(wallType, new Coordinate(column, row));
+					maze[row][column] = Block.newFact(wallType, new Coordinate(row, column));
 				}
 			}
 		}

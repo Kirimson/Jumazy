@@ -45,8 +45,10 @@ public class TitleSystem extends MainSystem{
 
 	@Override
 	public void handleInput() {
-		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			sysManager.setNewSystem(new GameSystem(sysManager));
+		if (Gdx.input.getX()>568 && Gdx.input.getY()<504 && Gdx.input.getX()<731 && Gdx.input.getY()>455) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+				sysManager.setNewSystem(new GameSystem(sysManager));
+			}
 		}
 	}
 	
