@@ -24,6 +24,10 @@ public class SystemManager {
 		systemStack.push(system);
 	}
 	
+	public MainSystem peek() {
+		return systemStack.peek();
+	}
+	
 	/**
 	 * Removes the top system on the stack and replaces it with the new system to be used in game
 	 * @param system new {@link MainSystem} to be used

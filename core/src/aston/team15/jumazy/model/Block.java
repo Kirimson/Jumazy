@@ -1,5 +1,7 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Texture;
 
 /**
@@ -35,11 +37,16 @@ public class Block {
 	public static Block newFact(String type, Coordinate coord) {
 		
 		if(type == "path")
-			return new Path(coord, 0);
-		else if(type == "victory")
-			return new VictoryBlock(coord);
+		{
+			Random rnd = new Random();
+			
+			if(rnd.nextInt(25) != 0)
+				return new Path(coord);
+			else
+				return new Trap(coord);
+		}
 		else
-			return new Wall(coord, 0, type);
+			return new Wall(coord, type);
 	}
 	
 	/**
