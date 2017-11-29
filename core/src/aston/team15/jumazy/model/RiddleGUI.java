@@ -35,7 +35,7 @@ public class RiddleGUI extends JFrame{
 	private JButton submit;
 	private String[] cells = null;
 	private boolean isActive;
-	
+	private boolean correct;
 	
 	public RiddleGUI() {
 		super("Riddle");
@@ -68,7 +68,7 @@ public class RiddleGUI extends JFrame{
 		
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				checkAnswer(answer.getText());
+				correct = checkAnswer(answer.getText());
 				isActive = false;
 				dispose();
 			}
@@ -85,6 +85,10 @@ public class RiddleGUI extends JFrame{
 	
 	public boolean isAlive() {
 		return isActive;
+	}
+	
+	public boolean isCorrect() {
+		return correct;
 	}
 	
 	public String[] retrieveRiddle() {
@@ -111,11 +115,11 @@ public class RiddleGUI extends JFrame{
 		return cells;
 	}
 	
-	public String checkAnswer(String answer) {
+	public boolean checkAnswer(String answer) {
 		if(answer.equals(cells[1])) {
 			System.out.println("correct");
-			return "correct";
+			return true;
 		}
-		return "incorrect";
+		return false;
 	}
 }

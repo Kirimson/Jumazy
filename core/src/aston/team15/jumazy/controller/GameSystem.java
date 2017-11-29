@@ -50,7 +50,7 @@ public class GameSystem extends MainSystem{
 		&& maze.getCurrPlayer().rolled() == false 
 		&& maze.getCurrPlayer().isTrapped() == false) {
 			focusCamera();
-			maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
+//			maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
 			maze.getCurrPlayer().switchRolled();
 			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
 			System.out.println("Current player " + maze.getCurrPlayerVal());

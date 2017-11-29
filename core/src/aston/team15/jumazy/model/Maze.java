@@ -85,6 +85,7 @@ public class Maze {
 		currPlayer = currPlayer%totalPlayers;
 		
 		getCurrPlayer().switchTurn();			//start next players turn
+		
 	}
 	
 	/**

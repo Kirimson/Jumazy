@@ -46,6 +46,7 @@ public class GraphicsManager {
 		
 		for (int i = 0; i < maze.getTotalPlayers(); i++) {
 			Player player  = maze.getPlayersList().get(i);
+			
 			int playerOffset = 10;
 			float playerWidth = player.getTexture().getWidth();
 			float playerHeight = player.getTexture().getHeight();

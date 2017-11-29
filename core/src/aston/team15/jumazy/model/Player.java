@@ -34,7 +34,7 @@ public class Player {
 		turn = false;
 		trappedLast = false;
 		lastMove=coords;
-		startOfMove=coords;
+		startOfMove= new Coordinate(coords.getX(), coords.getY());
 		}
 	
 	public void switchTurn() {
@@ -70,8 +70,8 @@ public class Player {
 		return coords;
 	}
 	
-	public void setStartOfMove(Coordinate coord) {
-		startOfMove=coord;
+	private void setStartOfMove(Coordinate coord) {
+		startOfMove=new Coordinate(coords.getX(), coords.getY());
 	}
 	
 	public void moveToStartOfTurn() {
@@ -111,12 +111,7 @@ public class Player {
 			else
 			{
 				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-				if(!trapped) {
-					System.out.println("woo2");
-				}
 			}
-		
-			System.out.println(trapped);
 		}
 	}
 	
@@ -137,6 +132,9 @@ public class Player {
 		if(!trapped) {
 		System.out.println("no longer trapped");
 			rollSpaces = 0;
+			
+			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
+				moveToStartOfTurn();
 		}
 	}
 	
@@ -164,6 +162,8 @@ public class Player {
             rollSpaces = 1;
         }
 
+        setStartOfMove(coords);
+        
 		System.out.println("Rolled: " + rollSpaces);
                 System.out.println("Weather Modifier: " + movementMod);
 		
