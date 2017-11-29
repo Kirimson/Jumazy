@@ -74,30 +74,9 @@ public class JumazyGame extends ApplicationAdapter {
 			batch = system.draw(batch);
 		batch.end();
 		
-	if(system.getGameRunning() == true){
-		batch.begin();
-		 Pixmap overlay = new Pixmap(WIDTH,HEIGHT, Pixmap.Format.RGBA8888);
-		    overlay.setColor(0, 0, 0, 0.4f);
-		    overlay.fillRectangle(0, 0, WIDTH + 100, HEIGHT);
-
-		    // Now change the settings so we are drawing transparent circles
-		    overlay.setBlending(Pixmap.Blending.None);
-		    overlay.setColor(1, 1, 1, 0f);
-		  
-		    overlay.fillCircle(100, 100, 100);
-		    overlay.fillCircle(400, 100, 100);
-		    overlay.fillCircle(100, 600, 100);
-		    overlay.fillCircle(500, 500, 100);
-		    overlay.setBlending(Pixmap.Blending.SourceOver);
-
-		    // Turn it into a texture
-		    Texture lighting = new Texture(overlay);
-		    overlay.dispose();
-		    
-		    // Draw it to the screen
-		    batch.draw(lighting, 0, 0);
-		batch.end();
-		}
+//	if(system.getGameRunning() == true){
+//		
+//		}
 	}
 	
 	@Override
