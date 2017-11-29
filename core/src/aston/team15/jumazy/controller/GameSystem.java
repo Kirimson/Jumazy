@@ -27,7 +27,7 @@ public class GameSystem extends MainSystem{
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		maze = new Maze(35, 20, 4);
+		maze = new Maze(41, 24, 4);
 		gMan = new GraphicsManager();
 		setupCamera();
 	}
@@ -87,7 +87,10 @@ public class GameSystem extends MainSystem{
 			}
 			
 			if(direction != "")
+			{
 				maze.getCurrPlayer().newMove(direction);
+				focusCamera();
+			}
 		}
 		
 		if(maze.getCurrPlayer().isTrapped()) {
@@ -105,7 +108,6 @@ public class GameSystem extends MainSystem{
 		cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
 		float currPlayerXPos = gMan.getCurPlayerFloatXPos( maze);
 		float currPlayerYPos = gMan.getCurPlayerFloatYPos(maze);
-		System.out.println(currPlayerXPos+"+"+currPlayerYPos);
 		if(currPlayerXPos<=-314)
 			currPlayerXPos=-324+(GAME_WIDTH/2);
 		if(currPlayerYPos<=-318)
@@ -122,7 +124,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	protected void setupCamera() {
-		cam.setToOrtho(false,GAME_WIDTH*2, GAME_HEIGHT*2);
+		cam.setToOrtho(false,GAME_WIDTH*1.2f, GAME_HEIGHT*1.2f);
 		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
 	}
 }
