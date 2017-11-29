@@ -7,12 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.badlogic.gdx.Gdx;
 
 /**
  * A simple class which creates the GUI for the user to answer the riddle and is triggered when the player steps on a trap.
@@ -83,19 +85,20 @@ public class RiddleGUI{
 				isActive = false;
 				questionFrame.dispose();
 				
+				File sound;
 				responseLabel = new JLabel();
-				
 				responseFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 				
 				if(correct == true) {
 					responseLabel.setText("You are correct");
-					
+					sound = new File("../core/assets/correct.wav");
 				}
 				else {
 					responseLabel.setText("You are not correct");
-				
+					sound = new File("../core/assets/incorrect.wav");
 				}
 				
+				playSound(sound);
 				responseLabel.setFont(question.getFont().deriveFont(28.0f));
 				responseLabel.setForeground(Color.white);
 				responseFrame.add(responseLabel);
@@ -103,10 +106,6 @@ public class RiddleGUI{
 				responseFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				responseFrame.setSize(300, 175);
 				responseFrame.setVisible(true);
-				
-				
-				
-
 				
 			}
 		});
@@ -120,10 +119,16 @@ public class RiddleGUI{
 		questionFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		questionFrame.setSize(300, 250);
 		questionFrame.setVisible(true);
-		
-		
-		
-		
+	}
+	
+	public void playSound(File sound) {
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(sound));
+			clip.start();
+		}catch(Exception e){
+			System.out.println(e);
+		}
 	}
 	
 	public boolean isAlive() {
