@@ -32,12 +32,11 @@ public class WinSystem extends MainSystem{
 	}
 
 	@Override
-	public SpriteBatch draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch) {
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
 		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
 		font12.draw(batch, "Player " + winningPlayer + " wins!", 100,100);
-		return batch;
 	}
 
 	@Override
