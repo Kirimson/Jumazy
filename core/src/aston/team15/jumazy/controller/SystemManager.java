@@ -53,8 +53,8 @@ public class SystemManager {
 	 * @param batch SpriteBacth to be modified
 	 * @return modified SpriteBatch to be drawn
 	 */
-	public SpriteBatch draw(SpriteBatch batch) {
-		return systemStack.peek().draw(batch);
+	public void draw(SpriteBatch batch) {
+		systemStack.peek().draw(batch);
 	}
 	
 	public boolean getGameRunning(){

@@ -23,7 +23,7 @@ public class GameSystem extends MainSystem{
 	private int nextPlayers;
 	private Maze maze;
 	private GraphicsManager gMan;
-	
+	private boolean playerMoved = true;
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
@@ -35,8 +35,8 @@ public class GameSystem extends MainSystem{
 	/**
 	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
 	 */
-	public SpriteBatch draw(SpriteBatch batch) {
-		return gMan.draw(batch, maze);
+	public void draw(SpriteBatch batch) {
+		gMan.draw(batch, maze, playerMoved);
 	}
 	
 	/**
@@ -89,7 +89,12 @@ public class GameSystem extends MainSystem{
 			if(direction != "")
 			{
 				maze.getCurrPlayer().newMove(direction);
+				playerMoved = true;
 				focusCamera();
+			}
+			else
+			{
+				playerMoved = false;
 			}
 		}
 		
