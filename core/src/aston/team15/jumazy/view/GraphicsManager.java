@@ -53,7 +53,7 @@ public class GraphicsManager {
 			
 			currPlayerPosX= maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
 			currPlayerPosY= maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
-			batch.draw(TextureConstants.getTexture("outline"),currPlayerPosX, currPlayerPosY, playerWidth/2, playerHeight/2);
+			batch.draw(TextureConstants.getTexture("playeroutline"),currPlayerPosX, currPlayerPosY, playerWidth/2, playerHeight/2);
 
 			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", 10,100);
 			
