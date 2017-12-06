@@ -49,6 +49,11 @@ public class GameSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+			System.out.println("pause");
+			sysManager.push(new PauseSystem(sysManager));
+		}
+		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
 		&& maze.getCurrPlayer().rolled() == false 
 		&& maze.getCurrPlayer().isTrapped() == false) {

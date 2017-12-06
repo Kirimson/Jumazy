@@ -19,7 +19,7 @@ public class SystemManager {
 		running = false;
 	}
 	
-	private void pop() {
+	public void pop() {
 		systemStack.pop();
 	}
 	
