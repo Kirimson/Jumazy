@@ -126,8 +126,6 @@ public class Player {
 		System.out.println("checking if on a trap");
 		if(path instanceof Trap) {
 			System.out.println("on a trap");
-			rollSpaces = 0;
-			
 			trapped = true;
 			((Trap) path).createGUI();
 		}
@@ -147,11 +145,10 @@ public class Player {
 		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
 		if(!trapped) {
 		System.out.println("no longer trapped");
-			rollSpaces = 0;
-			
 			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
 			{
 				System.out.println("answer wrong");
+				rollSpaces = 0;
 				moveToStartOfTurn();
 			}
 		}

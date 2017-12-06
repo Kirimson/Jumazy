@@ -42,7 +42,7 @@ public class WinSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			sysManager.setNewSystem(new GameSystem(sysManager));
+			sysManager.setNewSystem(new MultiplayerSystem(sysManager));
 		}
 	}
 	
