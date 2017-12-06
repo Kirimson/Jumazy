@@ -111,17 +111,6 @@ public class GameSystem extends MainSystem{
 		}
 
 	}
-	
-//	private void updateCamera() {
-//		float currPlayerXPos = gMan.getCurPlayerFloatXPos( maze);
-//		float currPlayerYPos = gMan.getCurPlayerFloatYPos(maze);
-//		
-//		if(cam.position.x != currPlayerXPos && cam.position.y != currPlayerYPos)
-//		{
-//			cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
-//			cam.position.set(cam.position.x+1,cam.position.y+1, 0);
-//		}
-//	}
 
 	/**
 	 * Sets the camera position and updates it to a target Vertex3
