@@ -3,6 +3,7 @@ package aston.team15.jumazy.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
@@ -24,6 +25,7 @@ public class GameSystem extends MainSystem{
 	private Maze maze;
 	private GraphicsManager gMan;
 	private boolean playerMoved = true;
+	private boolean focusCam = false;
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
@@ -50,7 +52,7 @@ public class GameSystem extends MainSystem{
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
 		&& maze.getCurrPlayer().rolled() == false 
 		&& maze.getCurrPlayer().isTrapped() == false) {
-			focusCamera();
+			focusCam = true;
 			maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
 			maze.getCurrPlayer().switchRolled();
 			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
@@ -60,7 +62,7 @@ public class GameSystem extends MainSystem{
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
 		&& maze.getCurrPlayer().getRollSpaces() == 0
 		&& maze.getCurrPlayer().isTrapped() == false) {
-			unfocusCamera();
+			focusCam = false;
 			maze.nextPlayer();
 			System.out.println("CHANGE TURN");
 		}
@@ -90,13 +92,14 @@ public class GameSystem extends MainSystem{
 			{
 				maze.getCurrPlayer().newMove(direction);
 				playerMoved = true;
-				focusCamera();
 			}
 			else
 			{
 				playerMoved = false;
 			}
 		}
+		
+		focusCamera();
 		
 		if(maze.getCurrPlayer().isTrapped()) {
 			maze.getCurrPlayer().checkStillTrapped();
@@ -108,24 +111,42 @@ public class GameSystem extends MainSystem{
 		}
 
 	}
-	
+
+	/**
+	 * Sets the camera position and updates it to a target Vertex3
+	 */
 	private void focusCamera() {
-		cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
-		float currPlayerXPos = gMan.getCurPlayerFloatXPos( maze);
-		float currPlayerYPos = gMan.getCurPlayerFloatYPos(maze);
-		if(currPlayerXPos<=-314)
-			currPlayerXPos=-324+(GAME_WIDTH/2);
-		if(currPlayerYPos<=-318)
-			currPlayerYPos=-334+(GAME_HEIGHT/2);
-		if(currPlayerXPos>=1862)
-			currPlayerXPos=1888-(GAME_WIDTH/2);
-		if(currPlayerYPos>=994)
-			currPlayerYPos=1018-(GAME_HEIGHT/2);
-		cam.position.set(currPlayerXPos,currPlayerYPos, 0);
+		//if camera needs to be focused on one player
+		if(focusCam) {
+			cam.zoom = 0.75f;
+			//get players coordinates
+			Vector3 target = new Vector3(
+					gMan.getCurPlayerFloatXPos(maze),
+					gMan.getCurPlayerFloatYPos(maze), 0);
+			//zoom to that players coordinates
+				cameraZoom(target);
+			
+		}else{//camera needs to be set to default location
+			cam.zoom = 1.0f;
+			Vector3 target = new Vector3(
+					GAME_WIDTH/2,
+					 GAME_HEIGHT/2, 0);
+			cameraZoom(target);
+		}
+		
 	}
 	
-	private void unfocusCamera() {
-		setupCamera();
+	/**
+	 * smoothly zoom to set coordinates
+	 * @param target the target coordinates camera should zoom to
+	 */
+	private void cameraZoom(Vector3 target){
+		Vector3 camPosition = cam.position;
+		final float speed=0.1f,invertSpeed=1.0f-speed;
+		camPosition.scl(invertSpeed);
+		target.scl(speed);
+		camPosition.add(target);
+		cam.position.set(camPosition);
 	}
 	
 	protected void setupCamera() {

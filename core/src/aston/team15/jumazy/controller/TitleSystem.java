@@ -20,18 +20,12 @@ public class TitleSystem extends MainSystem{
 	
 	private Texture background;
 	private Texture playBtn;
-	private BitmapFont font12;
 	
 	public TitleSystem(SystemManager sysMan) {
 		super(sysMan);
 		background= new Texture("junglebg1.png");
 		playBtn= new Texture("playBtn2.png");
 		setupCamera();
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Mario-Kart-DS.ttf"));
-		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 72;
-		font12 = generator.generateFont(parameter); // font size 12 pixels
-		generator.dispose();
 	}
 
 	@Override
@@ -39,7 +33,6 @@ public class TitleSystem extends MainSystem{
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
 		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
-		font12.draw(batch, "Press " + " to roll", 100,100);
 	}
 
 	@Override
