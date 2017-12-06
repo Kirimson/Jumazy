@@ -18,7 +18,6 @@ public class Player {
 	private int rollSpaces;
 	private boolean trapped;
 	private boolean turn;
-	private boolean trappedLast;
 	private Coordinate startOfMove;
 	private Coordinate lastMove;
 	private boolean victoryState;
@@ -37,7 +36,6 @@ public class Player {
 		rolled = false;
 		rollSpaces = 0;
 		turn = false;
-		trappedLast = false;
 		lastMove=coords;
 		playerNumber = playerCount;
 		playerCount++;
@@ -95,56 +93,39 @@ public class Player {
 		{
 			if(!trapped)
 			{
-				System.out.println("Player moving "+direction);
-				System.out.println("Player coords "+coords.toString());
-
 				Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-
 				if(surroundedBlock != null)
 				{
-					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove) {
+					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove)
+          {
 						lastMove=coords;
 						coords.setCoordinates(surroundedBlock[1].getCoords());
-						System.out.println("allowed movement");
-						System.out.println("player new Coords: "+coords.toString());
 						rollSpaces--;
+						checkTrap(surroundedBlock[1]);
+						checkVictory(surroundedBlock[1]);
 						dieAnimation.decrease();
-						System.out.println("Spaces left: "+(rollSpaces));
 
 						checkTrap(surroundedBlock[1]);
 						checkVictory(surroundedBlock[1]);
 
 					}
-					else
-					{
-						System.out.println("denyed movement");
-					}
 				}
 			}
 			else
-			{
 				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-			}
 		}
 	}
 
 	private void checkTrap(Block path) {
-
-		System.out.println("checking if on a trap");
+		
 		if(path instanceof Trap) {
-			System.out.println("on a trap");
-			rollSpaces = 0;
-
 			trapped = true;
 			((Trap) path).createGUI();
 		}
 	}
 
 	private void checkVictory(Block path) {
-		System.out.println("checking for victory");
 		if(path instanceof VictoryPath) {
-			System.out.println("victory path reached");
-
 			victoryState = true;
 			((VictoryPath) path).showWon(playerNumber);
 		}
@@ -153,12 +134,9 @@ public class Player {
 	public void checkStillTrapped() {
 		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
 		if(!trapped) {
-			System.out.println("no longer trapped");
-			rollSpaces = 0;
-
 			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
 			{
-				System.out.println("answer wrong");
+				rollSpaces = 0;
 				moveToStartOfTurn();
 			}
 		}
@@ -177,27 +155,14 @@ public class Player {
 	}
 
 	public void roll(int movementMod) {
-		rolled = true;
-
 		Random rnd = new Random();
-
-		int roll = rnd.nextInt(6) + 1;
-
-		rollSpaces = roll + movementMod;
-
-		//rollSpaces = rnd.nextInt(6) + 1 + movementMod;
+		rolled = true;
+		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
 
 		if(rollSpaces == 0)
-		{
-			rollSpaces = 1;
-		}
-
+            rollSpaces = 1;
+    
 		dieAnimation.setFinalDie(rollSpaces);
-		//        setStartOfMove(coords);
-
-		System.out.println("Rolled: " + rollSpaces);
-		System.out.println("Weather Modifier: " + movementMod);
-
 	}
 
 	public boolean isVictor() {

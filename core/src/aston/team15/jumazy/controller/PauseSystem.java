@@ -11,26 +11,21 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 import aston.team15.jumazy.view.JumazyGame;
 
-/**
- * Manages the title screen of the games title screen, sub class of {@link MainSystem}
- * @author kieran
- *
- */
-public class TitleSystem extends MainSystem{
-	
+public class PauseSystem extends MainSystem{
+
 	private Texture background;
-	private Texture playBtn;
 	private BitmapFont font12;
-	
-	public TitleSystem(SystemManager sysMan) {
+	private Texture playBtn;
+
+	public PauseSystem(SystemManager sysMan) {
 		super(sysMan);
 		background= new Texture("background.jpg");
-		playBtn= new Texture("startButton.png");
 		setupCamera();
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Mario-Kart-DS.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 72;
 		font12 = generator.generateFont(parameter); // font size 12 pixels
+		playBtn= new Texture("startButton.png");
 		generator.dispose();
 	}
 
@@ -39,17 +34,18 @@ public class TitleSystem extends MainSystem{
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
 		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-170,250,80);
-		font12.draw(batch, "Press " + " to roll", 100,100);
+		font12.draw(batch, "Paused! Press P to unpause", 100,100);
 	}
 
 	@Override
 	public void handleInput() {
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<552 && Gdx.input.getX()<777 && Gdx.input.getY()>474) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-				sysManager.setNewSystem(new MenuSystem(sysManager));
+				sysManager.pop();
 			}
 		}
 	}
+	
 	
 	protected void setupCamera() {
 		cam.setToOrtho(false);
