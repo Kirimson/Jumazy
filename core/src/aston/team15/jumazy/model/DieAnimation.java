@@ -16,10 +16,10 @@ public class DieAnimation {
 	private Texture die4 = new Texture("number4.png");
 	private Texture die5 = new Texture("number5.png");
 	private Texture die6 = new Texture("number6.png");
+	private Texture die7 = new Texture("number7.png");
 	private int imageConstantAppearances = 24;
 	private int imageExponentialAppearances = 8;
 	private float shortTime = 0.03125f;
-	//private float longestTime = 0.1f;
 	private float nextTime = shortTime;
 	private int count = 1;
 	private float m = 1.125f;
@@ -27,7 +27,7 @@ public class DieAnimation {
 	private float currentElapsedTime = 0.0f;
 
 	private Random gen = new Random();
-	Texture[] pictureArray = {die1, die2, die3, die4, die5, die6};
+	Texture[] pictureArray = {die1, die2, die3, die4, die5, die6, die7};
 	SpriteBatch batch = new SpriteBatch();
 	private boolean animationFinished = false;
 
@@ -59,7 +59,9 @@ public class DieAnimation {
 	}
 	
 	public void setFinalDie(int finalDie) {
+		reset();
 		this.finalDie = finalDie;
+		getNewIndex();
 	}
 
 	public void draw(SpriteBatch batch, float x, float y) {
@@ -71,14 +73,12 @@ public class DieAnimation {
 			if(count == (imageConstantAppearances + imageExponentialAppearances)) {
 				animationFinished = true;
 			}
-
 		} else if(animationFinished) { 
 			batch.draw(pictureArray[finalDie - 1], x+50, y+50);
 		} else {
 			batch.draw(pictureArray[currentPicIndex], x+50, y+50);
-			System.out.println(Gdx.graphics.getDeltaTime());
 			currentElapsedTime += Gdx.graphics.getDeltaTime();
-			System.out.println(Gdx.graphics.getDeltaTime() + " : " + currentElapsedTime + " : " + nextTime);
+			
 		}
 	}
 	
@@ -86,5 +86,21 @@ public class DieAnimation {
 		if(finalDie > 1) {
 		finalDie--;
 		}
+	}
+	
+	public void reset() {
+		animationFinished = false;
+		currentElapsedTime = 0.0f;
+		imageConstantAppearances = 24;
+		imageExponentialAppearances = 8;
+		shortTime = 0.03125f;
+		nextTime = shortTime;
+		count = 1;
+		m = 1.125f;
+		currentPicIndex = -1;
+	}
+
+	public boolean getAnimationFinished() {
+		return animationFinished;
 	}
 }
