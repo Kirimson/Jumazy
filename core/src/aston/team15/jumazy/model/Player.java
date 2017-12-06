@@ -105,9 +105,6 @@ public class Player {
 						checkVictory(surroundedBlock[1]);
 						dieAnimation.decrease();
 
-						checkTrap(surroundedBlock[1]);
-						checkVictory(surroundedBlock[1]);
-
 					}
 				}
 			}
