@@ -2,6 +2,7 @@ package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
@@ -26,12 +27,15 @@ public class GameSystem extends MainSystem{
 	private GraphicsManager gMan;
 	private boolean playerMoved = true;
 	private boolean focusCam = false;
+	private Sound ambientMusic;
 
 	public GameSystem(SystemManager sysMan, int players) {
 		super(sysMan);
 		maze = new Maze(41, 24, players);
 		gMan = new GraphicsManager();
 		setupCamera();
+		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
+		ambientMusic.play();
 	}
 	
 	/**
