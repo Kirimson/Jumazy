@@ -45,11 +45,15 @@ public class GraphicsManager {
 		}
 		
 		//draw player
+		Player player  = maze.getPlayersList().get(0);
+		
+		int playerOffset = 10;
+		currPlayerPosX= maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
+		currPlayerPosY= maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
 		
 		for (int i = 0; i < maze.getTotalPlayers(); i++) {
-			Player player  = maze.getPlayersList().get(i);
+			player  = maze.getPlayersList().get(i);
 			
-			int playerOffset = 10;
 			float playerWidth = player.getTexture().getWidth();
 			float playerHeight = player.getTexture().getHeight();
 			float playerXPos = player.getCoords().getX()*blockSize+playerOffset;
@@ -57,8 +61,6 @@ public class GraphicsManager {
 			
 			batch.draw(player.getTexture(), playerXPos,playerYPos, playerWidth/2, playerHeight/2);
 			
-			currPlayerPosX= maze.getCurrPlayer().getCoords().getX()*blockSize+playerOffset;
-			currPlayerPosY= maze.getCurrPlayer().getCoords().getY()*blockSize+playerOffset;
 			batch.draw(TextureConstants.getTexture("outline"),currPlayerPosX, currPlayerPosY, playerWidth/2, playerHeight/2);
 
 			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", 10,100);
@@ -97,7 +99,7 @@ public class GraphicsManager {
 			font.draw(batch, "Press Space to roll", -100,-100);
 		} 
 		else if(maze.getCurrPlayer().getRollSpaces() > 0){
-			maze.getCurrPlayer().getDieAnim().draw(batch);
+			maze.getCurrPlayer().getDieAnim().draw(batch, currPlayerPosX, currPlayerPosY);
 		}
 	    
 	    if(maze.getCurrPlayer().rolled() == true) {

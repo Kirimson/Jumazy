@@ -62,9 +62,9 @@ public class DieAnimation {
 		this.finalDie = finalDie;
 	}
 
-	public void draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch, float x, float y) {
 		if(currentElapsedTime > nextTime && !animationFinished ) {
-			batch.draw(pictureArray[getNewIndex()], 100, 100, 100, 100);
+			batch.draw(pictureArray[getNewIndex()], x+50, y+50);
 			currentElapsedTime = 0.0f;
 			count++;
 			getNextTime();
@@ -73,9 +73,9 @@ public class DieAnimation {
 			}
 
 		} else if(animationFinished) { 
-			batch.draw(pictureArray[finalDie - 1], 100, 100, 100, 100);
+			batch.draw(pictureArray[finalDie - 1], x+50, y+50);
 		} else {
-			batch.draw(pictureArray[currentPicIndex], 100, 100, 100, 100);
+			batch.draw(pictureArray[currentPicIndex], x+50, y+50);
 			System.out.println(Gdx.graphics.getDeltaTime());
 			currentElapsedTime += Gdx.graphics.getDeltaTime();
 			System.out.println(Gdx.graphics.getDeltaTime() + " : " + currentElapsedTime + " : " + nextTime);
