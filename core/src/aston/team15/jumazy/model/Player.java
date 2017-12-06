@@ -24,6 +24,7 @@ public class Player {
 	private boolean victoryState;
 	private static int playerCount = 1;
 	private int playerNumber;
+	private DieAnimation dieAnimation;
 	
 	
 	/**
@@ -31,6 +32,7 @@ public class Player {
 	 * @param coords {@link Coordinates} of the new Player object
 	 */
 	public Player(Coordinate coords) {
+		dieAnimation = new DieAnimation();
 		this.coords = coords;
 		rolled = false;
 		rollSpaces = 0;
@@ -41,6 +43,10 @@ public class Player {
 		playerCount++;
 		startOfMove= new Coordinate(coords.getX(), coords.getY());
 		}
+	
+	public DieAnimation getDieAnim() {
+		return dieAnimation;
+	}
 	
 	public void switchTurn() {
 		turn = !turn;
@@ -102,6 +108,7 @@ public class Player {
 						System.out.println("allowed movement");
 						System.out.println("player new Coords: "+coords.toString());
 						rollSpaces--;
+						dieAnimation.decrease();
 						System.out.println("Spaces left: "+(rollSpaces));
 						
 						checkTrap(surroundedBlock[1]);
@@ -174,8 +181,13 @@ public class Player {
 		
 		Random rnd = new Random();
 		
-		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
-        
+		int roll = rnd.nextInt(6) + 1;
+		
+		rollSpaces = roll + movementMod;
+		
+		dieAnimation.setFinalDie(rollSpaces);
+		//rollSpaces = rnd.nextInt(6) + 1 + movementMod;
+		
         if(rollSpaces == 0)
         {
             rollSpaces = 1;
