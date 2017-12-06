@@ -11,47 +11,51 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 import aston.team15.jumazy.view.JumazyGame;
 
-public class WinSystem extends MainSystem{
-
+public class TutorialSystem extends MainSystem{
+	
+	private Texture backButton4;
 	private Texture background;
-	private Texture playBtn;
-	private BitmapFont font12;
-	private int winningPlayer;
 
-	public WinSystem(SystemManager sysMan, int winner) {
+	public TutorialSystem(SystemManager sysMan) {
 		super(sysMan);
-		winningPlayer = winner;
-		background= new Texture("junglebg1.png");
-		playBtn= new Texture("playBtn2.png");
+		// TODO Auto-generated constructor stub
+		backButton4=new Texture("backButton.png");
+		background= new Texture("background.jpg");
 		setupCamera();
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Mario-Kart-DS.ttf"));
-		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 72;
-		font12 = generator.generateFont(parameter); // font size 12 pixels
-		generator.dispose();
 	}
 
 	@Override
 	public void draw(SpriteBatch batch) {
+		// TODO Auto-generated method stub
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
-		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
-		font12.draw(batch, "Player " + winningPlayer + " wins!", 100,100);
+		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
+		batch.draw(backButton4,(JumazyGame.WIDTH/2)-(backButton4.getWidth()/2)+500,(JumazyGame.HEIGHT/2)-(backButton4.getHeight()/2)-300,150,50);
+		
 	}
 
 	@Override
 	public void handleInput() {
-		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			sysManager.setNewSystem(new MultiplayerSystem(sysManager));
+		// TODO Auto-generated method stub
+		if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+				sysManager.setNewSystem(new MenuSystem(sysManager));
+			}
 		}
+		
 	}
-	
+
+	@Override
 	protected void setupCamera() {
+		// TODO Auto-generated method stub
 		cam.setToOrtho(false);
 		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
+		
 	}
 	
 	public OrthographicCamera getCamera() {
 		return cam;
 	}
+
 }
+

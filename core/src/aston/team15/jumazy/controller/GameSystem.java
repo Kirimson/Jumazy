@@ -27,9 +27,9 @@ public class GameSystem extends MainSystem{
 	private boolean playerMoved = true;
 	private boolean focusCam = false;
 
-	public GameSystem(SystemManager sysMan) {
+	public GameSystem(SystemManager sysMan, int players) {
 		super(sysMan);
-		maze = new Maze(41, 24, 4);
+		maze = new Maze(41, 24, players);
 		gMan = new GraphicsManager();
 		setupCamera();
 	}
@@ -48,6 +48,11 @@ public class GameSystem extends MainSystem{
 	 */
 	@Override
 	public void handleInput() {
+		
+		if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+			System.out.println("pause");
+			sysManager.push(new PauseSystem(sysManager));
+		}
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
 		&& maze.getCurrPlayer().rolled() == false 
