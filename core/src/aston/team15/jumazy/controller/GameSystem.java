@@ -23,10 +23,11 @@ public class GameSystem extends MainSystem{
 	private int nextPlayers;
 	private Maze maze;
 	private GraphicsManager gMan;
+	private boolean playerMoved = true;
 
 	public GameSystem(SystemManager sysMan) {
 		super(sysMan);
-		maze = new Maze(35, 20, 4);
+		maze = new Maze(41, 24, 4);
 		gMan = new GraphicsManager();
 		setupCamera();
 	}
@@ -34,8 +35,8 @@ public class GameSystem extends MainSystem{
 	/**
 	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
 	 */
-	public SpriteBatch draw(SpriteBatch batch) {
-		return gMan.draw(batch, maze);
+	public void draw(SpriteBatch batch) {
+		gMan.draw(batch, maze, playerMoved);
 	}
 	
 	/**
@@ -86,11 +87,24 @@ public class GameSystem extends MainSystem{
 			}
 			
 			if(direction != "")
+			{
 				maze.getCurrPlayer().newMove(direction);
+				playerMoved = true;
+				focusCamera();
+			}
+			else
+			{
+				playerMoved = false;
+			}
 		}
 		
 		if(maze.getCurrPlayer().isTrapped()) {
 			maze.getCurrPlayer().checkStillTrapped();
+		}
+		
+		if(maze.getCurrPlayer().isVictor()) {
+			int winner = maze.getCurrPlayer().getPlayerNumber();
+			sysManager.setNewSystem(new WinSystem(sysManager, winner));
 		}
 
 	}
@@ -99,7 +113,6 @@ public class GameSystem extends MainSystem{
 		cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
 		float currPlayerXPos = gMan.getCurPlayerFloatXPos( maze);
 		float currPlayerYPos = gMan.getCurPlayerFloatYPos(maze);
-		System.out.println(currPlayerXPos+"+"+currPlayerYPos);
 		if(currPlayerXPos<=-314)
 			currPlayerXPos=-324+(GAME_WIDTH/2);
 		if(currPlayerYPos<=-318)
@@ -116,7 +129,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	protected void setupCamera() {
-		cam.setToOrtho(false,GAME_WIDTH*2, GAME_HEIGHT*2);
+		cam.setToOrtho(false,GAME_WIDTH*1.2f, GAME_HEIGHT*1.2f);
 		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
 	}
 }

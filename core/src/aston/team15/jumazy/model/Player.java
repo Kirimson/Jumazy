@@ -21,6 +21,9 @@ public class Player {
 	private boolean trappedLast;
 	private Coordinate startOfMove;
 	private Coordinate lastMove;
+	private boolean victoryState;
+	private static int playerCount = 1;
+	private int playerNumber;
 	
 	
 	/**
@@ -34,7 +37,9 @@ public class Player {
 		turn = false;
 		trappedLast = false;
 		lastMove=coords;
-		startOfMove=coords;
+		playerNumber = playerCount;
+		playerCount++;
+		startOfMove= new Coordinate(coords.getX(), coords.getY());
 		}
 	
 	public void switchTurn() {
@@ -71,7 +76,7 @@ public class Player {
 	}
 	
 	public void setStartOfMove(Coordinate coord) {
-		startOfMove=coord;
+		startOfMove=new Coordinate(coord.getX(), coord.getY());
 	}
 	
 	public void moveToStartOfTurn() {
@@ -100,6 +105,7 @@ public class Player {
 						System.out.println("Spaces left: "+(rollSpaces));
 						
 						checkTrap(surroundedBlock[1]);
+						checkVictory(surroundedBlock[1]);
 							
 					}
 					else
@@ -111,12 +117,7 @@ public class Player {
 			else
 			{
 				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-				if(!trapped) {
-					System.out.println("woo2");
-				}
 			}
-		
-			System.out.println(trapped);
 		}
 	}
 	
@@ -132,11 +133,27 @@ public class Player {
 		}
 	}
 	
+	private void checkVictory(Block path) {
+		System.out.println("checking for victory");
+		if(path instanceof VictoryPath) {
+			System.out.println("victory path reached");
+			
+			victoryState = true;
+			((VictoryPath) path).showWon(playerNumber);
+		}
+	}
+	
 	public void checkStillTrapped() {
 		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
 		if(!trapped) {
 		System.out.println("no longer trapped");
 			rollSpaces = 0;
+			
+			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
+			{
+				System.out.println("answer wrong");
+				moveToStartOfTurn();
+			}
 		}
 	}
 	
@@ -164,9 +181,18 @@ public class Player {
             rollSpaces = 1;
         }
 
+//        setStartOfMove(coords);
+        
 		System.out.println("Rolled: " + rollSpaces);
                 System.out.println("Weather Modifier: " + movementMod);
 		
 	}
 	
+	public boolean isVictor() {
+		return victoryState;
+	}
+	
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
 }

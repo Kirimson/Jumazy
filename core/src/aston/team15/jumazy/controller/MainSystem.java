@@ -21,7 +21,7 @@ public abstract class MainSystem {
 		cam = new OrthographicCamera();
 	}
 	
-	public abstract SpriteBatch draw(SpriteBatch batch);
+	public abstract void draw(SpriteBatch batch);
 	public abstract void handleInput();
 	protected abstract void setupCamera();
 	
