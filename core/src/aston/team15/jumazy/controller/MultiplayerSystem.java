@@ -33,7 +33,7 @@ public class MultiplayerSystem extends MainSystem{
 		// TODO Auto-generated method stub
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
-		batch.draw(twoP,(JumazyGame.WIDTH/2)-(twoP.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(twoP.getHeight()/2)+75,250,80);
+		batch.draw(twoP,(JumazyGame.WIDTH/2)-(twoP.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(twoP.getHeight()/2),250,80);
 		batch.draw(fourP,(JumazyGame.WIDTH/2)-(fourP.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(fourP.getHeight()/2)-100,250,80);
 		batch.draw(backButton2,(JumazyGame.WIDTH/2)-(backButton2.getWidth()/2)+500,(JumazyGame.HEIGHT/2)-(backButton2.getHeight()/2)-300,150,50);
 	}
@@ -41,7 +41,7 @@ public class MultiplayerSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-		if (Gdx.input.getX()>529 && Gdx.input.getY()<305 && Gdx.input.getX()<775 && Gdx.input.getY()>231) {
+		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<775 && Gdx.input.getY()>304) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				sysManager.setNewSystem(new GameSystem(sysManager, 2));
 			}

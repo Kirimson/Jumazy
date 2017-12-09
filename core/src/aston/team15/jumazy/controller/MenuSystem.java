@@ -35,24 +35,24 @@ public class MenuSystem extends MainSystem{
 		// TODO Auto-generated method stub
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
-		batch.draw(playButton,(JumazyGame.WIDTH/2)-(playButton.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(playButton.getHeight()/2)+100,250,80);
-		batch.draw(texturePackButton,(JumazyGame.WIDTH/2)-(texturePackButton.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(texturePackButton.getHeight()/2),250,80);
-		batch.draw(tutorialButton,(JumazyGame.WIDTH/2)-(tutorialButton.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(tutorialButton.getHeight()/2)-100,250,80);
+		batch.draw(playButton,(JumazyGame.WIDTH/2)-(playButton.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(playButton.getHeight()/2),250,80);
+		batch.draw(texturePackButton,(JumazyGame.WIDTH/2)-(texturePackButton.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(texturePackButton.getHeight()/2)-100,250,80);
+		batch.draw(tutorialButton,(JumazyGame.WIDTH/2)-(tutorialButton.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(tutorialButton.getHeight()/2)-200,250,80);
 		batch.draw(backButton1,(JumazyGame.WIDTH/2)-(backButton1.getWidth()/2)+500,(JumazyGame.HEIGHT/2)-(backButton1.getHeight()/2)-300,150,50);
 	}
 
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-		if (Gdx.input.getX()>529 && Gdx.input.getY()<280 && Gdx.input.getX()<775 && Gdx.input.getY()>200) {
+		if (Gdx.input.getX()>529 && Gdx.input.getY()<380 && Gdx.input.getX()<775 && Gdx.input.getY()>300) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				sysManager.setNewSystem(new MultiplayerSystem(sysManager));
 			}
-		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<377 && Gdx.input.getX()<775 && Gdx.input.getY()>307) {
+		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<477 && Gdx.input.getX()<775 && Gdx.input.getY()>407) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				sysManager.setNewSystem(new TextureSystem(sysManager));
 			}
-		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<481 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
+		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<581 && Gdx.input.getX()<775 && Gdx.input.getY()>506) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				sysManager.setNewSystem(new TutorialSystem(sysManager));
 			}
