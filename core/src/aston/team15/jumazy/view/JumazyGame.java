@@ -71,7 +71,7 @@ public class JumazyGame extends ApplicationAdapter {
 		system.handleInput();
 		
 		batch.begin();
-			batch = system.draw(batch);
+			system.draw(batch);
 		batch.end();
 		
 //	if(system.getGameRunning() == true){

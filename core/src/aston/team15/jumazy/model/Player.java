@@ -18,42 +18,51 @@ public class Player {
 	private int rollSpaces;
 	private boolean trapped;
 	private boolean turn;
-	private boolean trappedLast;
 	private Coordinate startOfMove;
 	private Coordinate lastMove;
-	
-	
+	private boolean victoryState;
+	private static int playerCount = 1;
+	private int playerNumber;
+	private DieAnimation dieAnimation;
+
+
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
 	 * @param coords {@link Coordinates} of the new Player object
 	 */
 	public Player(Coordinate coords) {
+		dieAnimation = new DieAnimation();
 		this.coords = coords;
 		rolled = false;
 		rollSpaces = 0;
 		turn = false;
-		trappedLast = false;
 		lastMove=coords;
+		playerNumber = playerCount;
+		playerCount++;
 		startOfMove= new Coordinate(coords.getX(), coords.getY());
-		}
-	
+	}
+
+	public DieAnimation getDieAnim() {
+		return dieAnimation;
+	}
+
 	public void switchTurn() {
 		turn = !turn;
 	}
-	
+
 	public boolean getTurnState(){
 		return turn;
 	}
-	
+
 	public void switchRolled() {
 		rolled = !rolled;
-		
+
 	}
-	
+
 	public boolean rolled() {
 		return rolled;
 	}
-	
+
 	/**
 	 * Returns the players texture
 	 * @return {@link Texture} object of the player
@@ -61,7 +70,7 @@ public class Player {
 	public Texture getTexture() {
 		return playerTexture;
 	}
-	
+
 	/**
 	 * Returns the players coordinates
 	 * @return {@link Coordinate} object of the player
@@ -69,107 +78,95 @@ public class Player {
 	public Coordinate getCoords() {
 		return coords;
 	}
-	
+
 	public void setStartOfMove(Coordinate coord) {
 		startOfMove=new Coordinate(coord.getX(), coord.getY());
 	}
-	
+
 	public void moveToStartOfTurn() {
 		coords.setCoordinates(startOfMove);
 	}
-	
+
 	public void newMove(String direction) {
-		
-		if(rollSpaces != 0)
+
+		if(rollSpaces != 0 && dieAnimation.getAnimationFinished())
 		{
 			if(!trapped)
 			{
-				System.out.println("Player moving "+direction);
-				System.out.println("Player coords "+coords.toString());
-				
 				Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-				
 				if(surroundedBlock != null)
 				{
-					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove) {
+					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove)
+          {
 						lastMove=coords;
 						coords.setCoordinates(surroundedBlock[1].getCoords());
-						System.out.println("allowed movement");
-						System.out.println("player new Coords: "+coords.toString());
 						rollSpaces--;
-						System.out.println("Spaces left: "+(rollSpaces));
-						
 						checkTrap(surroundedBlock[1]);
-							
-					}
-					else
-					{
-						System.out.println("denyed movement");
+						checkVictory(surroundedBlock[1]);
+						dieAnimation.decrease();
+
 					}
 				}
 			}
 			else
-			{
 				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-			}
 		}
 	}
-	
+
 	private void checkTrap(Block path) {
 		
-		System.out.println("checking if on a trap");
 		if(path instanceof Trap) {
-			System.out.println("on a trap");
-			rollSpaces = 0;
-			
 			trapped = true;
 			((Trap) path).createGUI();
 		}
 	}
-	
+
+	private void checkVictory(Block path) {
+		if(path instanceof VictoryPath) {
+			victoryState = true;
+			((VictoryPath) path).showWon(playerNumber);
+		}
+	}
+
 	public void checkStillTrapped() {
 		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
 		if(!trapped) {
-		System.out.println("no longer trapped");
-			rollSpaces = 0;
-			
 			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
 			{
-				System.out.println("answer wrong");
+				rollSpaces = 0;
 				moveToStartOfTurn();
 			}
 		}
 	}
-	
+
 	public boolean isTrapped() {
 		return trapped;
 	}
-	
+
 	public boolean hasRolled() {
 		return rolled;
 	}
-	
+
 	public int getRollSpaces() {
 		return rollSpaces;
 	}
-	
-	public void roll(int movementMod) {
-		rolled = true;
-		
-		Random rnd = new Random();
-		
-		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
-        
-        if(rollSpaces == 0)
-        {
-            rollSpaces = 1;
-        }
 
-//        setStartOfMove(coords);
-        
-		System.out.println("Rolled: " + rollSpaces);
-                System.out.println("Weather Modifier: " + movementMod);
-		
+	public void roll(int movementMod) {
+		Random rnd = new Random();
+		rolled = true;
+		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
+
+		if(rollSpaces == 0)
+            rollSpaces = 1;
+    
+		dieAnimation.setFinalDie(rollSpaces);
 	}
-	
+
+	public boolean isVictor() {
+		return victoryState;
+	}
+
+	public int getPlayerNumber() {
+		return playerNumber;
+	}
 }
