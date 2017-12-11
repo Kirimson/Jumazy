@@ -6,12 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.Random;
-
 import aston.team15.jumazy.model.Maze;
-import aston.team15.jumazy.model.Rain;
-import aston.team15.jumazy.model.Sun;
-import aston.team15.jumazy.model.Weather;
 import aston.team15.jumazy.view.GraphicsManager;
 import aston.team15.jumazy.view.JumazyGame;
 /**
@@ -111,7 +106,6 @@ public class GameSystem extends MainSystem{
 				}
 			}
 			
-			
 			focusCamera();
 			
 			if(maze.getCurrPlayer().isTrapped()) {
@@ -135,8 +129,8 @@ public class GameSystem extends MainSystem{
 			cam.zoom = 0.75f;
 			//get players coordinates
 			Vector3 target = new Vector3(
-					gMan.getCurPlayerFloatXPos(maze),
-					gMan.getCurPlayerFloatYPos(maze), 0);
+					maze.getCurrPlayer().getX(),
+					maze.getCurrPlayer().getY(), 0);
 			//zoom to that players coordinates
 				cameraZoom(target);
 			

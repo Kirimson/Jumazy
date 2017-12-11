@@ -52,7 +52,7 @@ public class GraphicsManager {
 				outlineSprite.draw(batch);
 			}
 			
-			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", 10,100);
+			font.draw(batch, "Player "+(maze.getCurrPlayerVal()+1)+"'s Turn!", maze.getCurrPlayer().getX(),maze.getCurrPlayer().getY());
 			
 		}
 		
@@ -86,21 +86,24 @@ public class GraphicsManager {
 			font.draw(batch, "Press Space to roll", -100,-100);
 		} 
 		else if(maze.getCurrPlayer().getRollSpaces() > 0){
-			maze.getCurrPlayer().getDieAnim().draw(batch, currPlayerPosX, currPlayerPosY);
+			maze.getCurrPlayer().getDieAnim().draw(batch, maze.getCurrPlayer().getX()+50, maze.getCurrPlayer().getY()+50);
 		}
 	    
 	    if(maze.getCurrPlayer().rolled() == true) {
-			font.draw(batch, "Weather: "+maze.getWeather().getName(), currPlayerPosX-JumazyGame.WIDTH/3, currPlayerPosY-JumazyGame.HEIGHT/3);
+			font.draw(batch, "Weather: "+maze.getWeather().getName(), maze.getCurrPlayer().getX(), maze.getCurrPlayer().getY());
 		}
 	    
 	    if(pause) {
-	    	Texture pauseTex = TextureConstants.getTexture("pause");
+	    	Texture pauseTex = TextureConstants.getTexture("pausepage");
 	    	Sprite pauseSprite = new Sprite(pauseTex);
 	    	
 	    	pauseSprite.setSize(pauseTex.getWidth(), pauseTex.getHeight());
 	    	pauseSprite.setRegion(pauseTex);
-	    	pauseSprite.setX(cam.position.x/2);
-	    	pauseSprite.setY(cam.position.y/2);
+	    	
+	    	pauseSprite.scale(0.5f);
+	    	
+	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()/2));
+	    	pauseSprite.setY(cam.position.y-(pauseTex.getHeight()/2));
 	    	
 	    	pauseSprite.draw(batch);
 	    	
