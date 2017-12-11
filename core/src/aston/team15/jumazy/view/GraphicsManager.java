@@ -99,8 +99,8 @@ public class GraphicsManager {
 	    	
 	    	pauseSprite.setSize(pauseTex.getWidth(), pauseTex.getHeight());
 	    	pauseSprite.setRegion(pauseTex);
-	    	pauseSprite.setX(cam.position.x/2);
-	    	pauseSprite.setY(cam.position.y/2);
+	    	pauseSprite.setX(cam.position.x);
+	    	pauseSprite.setY(cam.position.y);
 	    	
 	    	pauseSprite.draw(batch);
 	    	
