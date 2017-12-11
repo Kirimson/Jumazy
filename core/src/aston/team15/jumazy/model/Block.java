@@ -2,7 +2,9 @@ package aston.team15.jumazy.model;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
  * A simple block class, used as a superclass to all types of blocks.
@@ -10,9 +12,9 @@ import com.badlogic.gdx.graphics.Texture;
  * @author kieran
  *
  */
-public class Block {
+public class Block extends Sprite{
 	
-	private Texture blockTexture;
+//	private Texture blockTexture;
 	private Coordinate coords;
 	protected Exit exits;
 	
@@ -23,8 +25,13 @@ public class Block {
 	 * @param coords
 	 */
 	public Block(Texture tex, Coordinate coords) {
-		this.blockTexture = tex;
+		setRegion(tex);
 		this.coords = coords;
+		setSize(Gdx.graphics.getHeight() *0.045f, Gdx.graphics.getHeight() *0.045f);
+		
+		setX(coords.getX()*getWidth());
+		setY(coords.getY()*getHeight());
+		
 		exits = new Exit();
 	}
 
@@ -55,10 +62,10 @@ public class Block {
 	 * Returns the {@link Texture} of the {@link Block}
 	 * @return {@link Texture} object for the {@link Block}
 	 */
-	public Texture getTexture()
-	{
-		return blockTexture;
-	}
+//	public Texture getTexture()
+//	{
+//		return texture;
+//	}
 	
 	/**
 	 * Returns the {@link Coordinates} of the {@link Block}
