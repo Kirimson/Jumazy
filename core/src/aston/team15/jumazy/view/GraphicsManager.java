@@ -97,13 +97,11 @@ public class GraphicsManager {
 	    	Texture pauseTex = TextureConstants.getTexture("pausepage");
 	    	Sprite pauseSprite = new Sprite(pauseTex);
 	    	
-	    	pauseSprite.setSize(pauseTex.getWidth(), pauseTex.getHeight());
+	    	
 	    	pauseSprite.setRegion(pauseTex);
-	    	
-	    	pauseSprite.scale(0.5f);
-	    	
-	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()/2));
-	    	pauseSprite.setY(cam.position.y-(pauseTex.getHeight()/2));
+	    	pauseSprite.setSize((pauseTex.getWidth()*cam.zoom)/3, (pauseTex.getHeight()*cam.zoom)/3);
+	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()*cam.zoom)/6);
+	    	pauseSprite.setY(cam.position.y-((pauseTex.getHeight()*cam.zoom)/3-(JumazyGame.HEIGHT/2*cam.zoom)));
 	    	
 	    	pauseSprite.draw(batch);
 	    	
