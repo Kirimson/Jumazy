@@ -94,13 +94,16 @@ public class GraphicsManager {
 		}
 	    
 	    if(pause) {
-	    	Texture pauseTex = TextureConstants.getTexture("pause");
+	    	Texture pauseTex = TextureConstants.getTexture("pausepage");
 	    	Sprite pauseSprite = new Sprite(pauseTex);
 	    	
 	    	pauseSprite.setSize(pauseTex.getWidth(), pauseTex.getHeight());
 	    	pauseSprite.setRegion(pauseTex);
-	    	pauseSprite.setX(cam.position.x);
-	    	pauseSprite.setY(cam.position.y);
+	    	
+	    	pauseSprite.scale(0.5f);
+	    	
+	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()/2));
+	    	pauseSprite.setY(cam.position.y-(pauseTex.getHeight()/2));
 	    	
 	    	pauseSprite.draw(batch);
 	    	
