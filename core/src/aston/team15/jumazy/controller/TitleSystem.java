@@ -41,11 +41,11 @@ public class TitleSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<777 && Gdx.input.getY()>304) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.P)) {
 				sysManager.setNewSystem(new MenuSystem(sysManager));
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<479 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
 				Gdx.app.exit();
 			}
 		}

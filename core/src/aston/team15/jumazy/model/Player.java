@@ -3,16 +3,14 @@ package aston.team15.jumazy.model;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-//import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
  * Player in Jumazy, has a simple texture and {@link Coordinate} as of right now
  * @author kieran
  *
  */
-public class Player {
-	private Texture playerTexture = TextureConstants.getTexture("player");
+public class Player extends Sprite{
 	private Coordinate coords;
 	private boolean rolled;
 	private int rollSpaces;
@@ -31,8 +29,10 @@ public class Player {
 	 * @param coords {@link Coordinates} of the new Player object
 	 */
 	public Player(Coordinate coords) {
+		setRegion(TextureConstants.getTexture("player"));
 		dieAnimation = new DieAnimation();
 		this.coords = coords;
+		
 		rolled = false;
 		rollSpaces = 0;
 		turn = false;
@@ -40,6 +40,12 @@ public class Player {
 		playerNumber = playerCount;
 		playerCount++;
 		startOfMove= new Coordinate(coords.getX(), coords.getY());
+		
+		setSize(Gdx.graphics.getHeight() *0.045f, Gdx.graphics.getHeight() *0.045f);
+		
+		setX(coords.getX()*getWidth());
+		setY(coords.getY()*getHeight());
+		
 	}
 
 	public DieAnimation getDieAnim() {
@@ -67,9 +73,9 @@ public class Player {
 	 * Returns the players texture
 	 * @return {@link Texture} object of the player
 	 */
-	public Texture getTexture() {
-		return playerTexture;
-	}
+//	public Texture getTexture() {
+//		return playerTexture;
+//	}
 
 	/**
 	 * Returns the players coordinates
@@ -100,6 +106,8 @@ public class Player {
           {
 						lastMove=coords;
 						coords.setCoordinates(surroundedBlock[1].getCoords());
+						setX(coords.getX()*getWidth());
+						setY(coords.getY()*getHeight());
 						rollSpaces--;
 						checkTrap(surroundedBlock[1]);
 						checkVictory(surroundedBlock[1]);
