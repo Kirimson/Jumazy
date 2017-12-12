@@ -1,8 +1,11 @@
 package aston.team15.jumazy.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -23,14 +26,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
 /**
- * A simple class which creates the GUI for the user to answer the riddle and is triggered when the player steps on a trap.
+ * A simple class which creates the GUI for the user to answer the riddle and is
+ * triggered when the player steps on a trap.
+ * 
  * @author Shayan
  *
  */
 
-public class RiddleGUI{
+public class RiddleGUI {
 	private JFrame questionFrame;
 	private JFrame responseFrame;
 	private JTextArea question;
@@ -41,21 +45,21 @@ public class RiddleGUI{
 	private String[] cells = null;
 	private boolean isActive;
 	private boolean correct;
-	
+
 	public static void main(String[] args) {
 		RiddleGUI r = new RiddleGUI();
 	}
-	
+
 	public RiddleGUI() {
 		isActive = true;
 		createGUI();
 	}
-	
+
 	private void createGUI() {
 		questionFrame = new JFrame("Question");
-		questionFrame.setLocation(1920/2, 1080/2);
+		centreWindow(questionFrame);
 		responseFrame = new JFrame("Response");
-		responseFrame.setLocation(1920/2, 1080/2);
+		centreWindow(responseFrame);
 		continueGame = new JButton("Continue");
 		questionFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
 		responseFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
@@ -70,36 +74,31 @@ public class RiddleGUI{
 		question.setOpaque(false);
 		question.setForeground(Color.white);
 		questionFrame.add(question);
-		
-		
-		
+
 		answer = new JTextField(20);
 		questionFrame.add(answer);
-		
-		
+
 		submit = new JButton("Submit");
 		questionFrame.add(submit);
-		
-		
+
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				correct = checkAnswer(answer.getText());
 				isActive = false;
 				questionFrame.dispose();
-				
+
 				File sound;
 				responseLabel = new JLabel();
 				responseFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
-				
-				if(correct == true) {
+
+				if (correct == true) {
 					responseLabel.setText("You are correct");
 					sound = new File("../core/assets/correct.wav");
-				}
-				else {
+				} else {
 					responseLabel.setText("You are not correct");
 					sound = new File("../core/assets/incorrect.wav");
 				}
-				
+
 				playSound(sound);
 				responseLabel.setFont(question.getFont().deriveFont(28.0f));
 				responseLabel.setForeground(Color.white);
@@ -108,68 +107,78 @@ public class RiddleGUI{
 				responseFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				responseFrame.setSize(300, 175);
 				responseFrame.setVisible(true);
-				
+
 			}
 		});
-		
+
 		continueGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				responseFrame.dispose();
 			}
 		});
-			
+
 		questionFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		questionFrame.setSize(300, 250);
 		questionFrame.setVisible(true);
 	}
-	
+
 	public void playSound(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(sound));
 			clip.start();
-		}catch(Exception e){
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	public boolean isAlive() {
 		return isActive;
 	}
-	
+
 	public boolean isCorrect() {
 		return correct;
 	}
-	
+
 	public String[] retrieveRiddle() {
 		File file = new File("../core/assets/riddles.csv");
-		
+
 		try {
 			Scanner inputStream = new Scanner(file);
 			String line;
 			List<String> lines = new ArrayList<>();
-			while(inputStream.hasNext()) 
-			{
+			while (inputStream.hasNext()) {
 				line = inputStream.nextLine();
 				lines.add(line);
-				 
+
 			}
-			
+
 			Collections.shuffle(lines);
-			
+
 			cells = lines.get(0).split(",");
-		}catch (FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
-		
+
 		return cells;
 	}
-	
+
 	public boolean checkAnswer(String answer) {
-		if(answer.equals(cells[1])) {
-			System.out.println("correct");
-			return true;
+		int i = 1;
+		while (i < cells.length) {
+			if (answer.toLowerCase().equals(cells[i].toLowerCase())) {
+				System.out.println("correct");
+				return true;
+			}
+			i++;
 		}
 		return false;
+	}
+	
+	public static void centreWindow(Window frame) {
+	    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) (((dimension.getWidth() - frame.getWidth()) / 2) - 200);
+	    int y = (int) (((dimension.getHeight() - frame.getHeight()) / 2) - 200);
+	    frame.setLocation(x, y);
 	}
 }
