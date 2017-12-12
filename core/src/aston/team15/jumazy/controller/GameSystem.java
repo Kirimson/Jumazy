@@ -158,7 +158,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	protected void setupCamera() {
-		cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
+		cam.setToOrtho(false,GAME_WIDTH*1.2f, GAME_HEIGHT*1.2f);
 		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
 	}
 }
