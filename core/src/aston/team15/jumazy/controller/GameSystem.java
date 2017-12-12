@@ -99,7 +99,7 @@ public class GameSystem extends MainSystem{
 				{
 					maze.getCurrPlayer().newMove(direction);
 					playerMoved = true;
-				}
+				} 
 				else
 				{
 					playerMoved = false;
@@ -112,7 +112,7 @@ public class GameSystem extends MainSystem{
 				maze.getCurrPlayer().checkStillTrapped();
 			}
 			
-			if(maze.getCurrPlayer().isVictor()) {
+			if(maze.getCurrPlayer().isVictor() || Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
 				int winner = maze.getCurrPlayer().getPlayerNumber();
 				sysManager.setNewSystem(new WinSystem(sysManager, winner));
 			}
