@@ -33,7 +33,7 @@ public class GraphicsManager {
 		stage = new Stage(view);
 		Gdx.input.setInputProcessor(stage);
 		
-		Button testButton = new Button(0,0);
+		Button testButton = new Button(100,100,"Test");
 		testButton.setTouchable(Touchable.enabled);
         stage.addActor(testButton);
 	}
@@ -46,7 +46,6 @@ public class GraphicsManager {
 	 * @return returns the {@link SpriteBatch} passed, with maze set to draw
 	 */
 	public void draw(SpriteBatch batch, Maze maze, boolean updateHoles, boolean pause, OrthographicCamera cam) {
-		//update viewport
 		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		
 		

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class VictoryPath extends Path {
 
 	public VictoryPath(Coordinate coords) {
-		super(new Texture("playBtn2.png"), coords);
+		super(new Texture("victory.png"), coords);
 	}
 
 	public String toString() {
