@@ -60,9 +60,9 @@ public class GraphicsManager {
 		{
 			int blockSize = maze.getBlock(0, 0).getTexture().getHeight();
 			lighting.dispose();
-			Pixmap overlay = new Pixmap(maze.getWidth()*blockSize, maze.getHeight()*blockSize, Pixmap.Format.RGBA8888);
+			Pixmap overlay = new Pixmap(maze.getWidth()*blockSize + 64, maze.getHeight()*blockSize + 10, Pixmap.Format.RGBA8888);
 		    overlay.setColor(0, 0, 0, 0.9f);
-		    overlay.fillRectangle(0, 0, maze.getWidth()*blockSize, maze.getHeight()*blockSize);
+		    overlay.fillRectangle(0, 0, maze.getWidth()*blockSize + 22, maze.getHeight()*blockSize +10);
 
 		    // Now change the settings so we are drawing transparent circles
 		    overlay.setBlending(Pixmap.Blending.None);
@@ -90,7 +90,7 @@ public class GraphicsManager {
 		}
 	    
 	    if(maze.getCurrPlayer().rolled() == true) {
-			font.draw(batch, "Weather: "+maze.getWeather().getName(), maze.getCurrPlayer().getX(), maze.getCurrPlayer().getY());
+			font.draw(batch, "Weather: "+maze.getWeather().getName(), maze.getCurrPlayer().getX(), maze.getCurrPlayer().getY()-20);
 		}
 	    
 	    if(pause) {
