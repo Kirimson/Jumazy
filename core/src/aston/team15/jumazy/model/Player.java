@@ -103,7 +103,7 @@ public class Player extends Sprite{
 				if(surroundedBlock != null)
 				{
 					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove)
-          {
+					{
 						lastMove=coords;
 						coords.setCoordinates(surroundedBlock[1].getCoords());
 						setX(coords.getX()*getWidth());
