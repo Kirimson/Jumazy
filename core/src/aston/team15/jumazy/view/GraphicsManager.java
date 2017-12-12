@@ -56,27 +56,27 @@ public class GraphicsManager {
 			
 		}
 		
-//		if(updateHoles)
-//		{
-//			int blockSize = maze.getBlock(0, 0).getTexture().getHeight();
-//			lighting.dispose();
-//			Pixmap overlay = new Pixmap(maze.getWidth()*blockSize + 64, maze.getHeight()*blockSize + 10, Pixmap.Format.RGBA8888);
-//		    overlay.setColor(0, 0, 0, 0.9f);
-//		    overlay.fillRectangle(0, 0, maze.getWidth()*blockSize + 22, maze.getHeight()*blockSize +10);
-//
-//		    // Now change the settings so we are drawing transparent circles
-//		    overlay.setBlending(Pixmap.Blending.None);
-//		    overlay.setColor(1, 1, 1, 0f);
-//		  
-//		    for(Player p : maze.getPlayersList()) {
-//		    	overlay.fillCircle(p.getCoords().getX()*blockSize, JumazyGame.HEIGHT - p.getCoords().getY()*blockSize, 150);
-//		    }
-//		    overlay.setBlending(Pixmap.Blending.SourceOver);
-//
-//		    // Turn it into a texture
-//		    lighting = new Texture(overlay);
-//		    overlay.dispose();
-//		}
+		if(updateHoles)
+		{
+			int blockSize = maze.getBlock(0, 0).getTexture().getHeight();
+			lighting.dispose();
+			Pixmap overlay = new Pixmap(maze.getWidth()*blockSize + 64, maze.getHeight()*blockSize + 10, Pixmap.Format.RGBA8888);
+		    overlay.setColor(0, 0, 0, 0.9f);
+		    overlay.fillRectangle(0, 0, maze.getWidth()*blockSize + 22, maze.getHeight()*blockSize +10);
+
+		    // Now change the settings so we are drawing transparent circles
+		    overlay.setBlending(Pixmap.Blending.None);
+		    overlay.setColor(1, 1, 1, 0f);
+		  
+		    for(Player p : maze.getPlayersList()) {
+		    	overlay.fillCircle(p.getCoords().getX()*blockSize, JumazyGame.HEIGHT - p.getCoords().getY()*blockSize, 150);
+		    }
+		    overlay.setBlending(Pixmap.Blending.SourceOver);
+
+		    // Turn it into a texture
+		    lighting = new Texture(overlay);
+		    overlay.dispose();
+		}
 		
 	    
 	    // Draw it to the screen
