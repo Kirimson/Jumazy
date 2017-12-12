@@ -22,8 +22,6 @@ public class Button extends Actor {
     
     private BitmapFont font12;
     
-    private SystemManager newSystem;
-    
     public Button(float x, float y, String text){
     	
     	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wood_sticks.ttf"));
@@ -42,7 +40,7 @@ public class Button extends Actor {
         addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 started = true;
-                System.out.println("CLICKED");
+                SystemManager.setNewSystem(new MenuSystem());
                 return true;
             }
         });

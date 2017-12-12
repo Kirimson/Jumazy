@@ -18,8 +18,8 @@ public class WinSystem extends MainSystem{
 	private BitmapFont font12;
 	private int winningPlayer;
 
-	public WinSystem(SystemManager sysMan, int winner) {
-		super(sysMan);
+	public WinSystem(int winner) {
+		super();
 		winningPlayer = winner;
 		background= new Texture("junglebg1.png");
 		playBtn= new Texture("playBtn2.png");
@@ -42,7 +42,7 @@ public class WinSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			sysManager.setNewSystem(new MultiplayerSystem(sysManager));
+			sysManager.setNewSystem(new MultiplayerSystem());
 		}
 	}
 	

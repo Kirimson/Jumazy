@@ -22,8 +22,8 @@ public class TitleSystem extends MainSystem{
 	private Texture playBtn;
 	private Texture exitButton;
 	
-	public TitleSystem(SystemManager sysMan) {
-		super(sysMan);
+	public TitleSystem() {
+		super();
 		background= new Texture("background.jpg");
 		playBtn= new Texture("startButton.png");
 		exitButton=new Texture("exitButton.png");
@@ -42,7 +42,7 @@ public class TitleSystem extends MainSystem{
 	public void handleInput() {
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<777 && Gdx.input.getY()>304) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-				sysManager.setNewSystem(new MenuSystem(sysManager));
+				sysManager.setNewSystem(new MenuSystem());
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<479 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.Q)) {

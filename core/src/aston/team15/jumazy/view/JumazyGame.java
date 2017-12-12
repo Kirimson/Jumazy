@@ -36,7 +36,7 @@ public class JumazyGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		system = new SystemManager();
-		system.push(new TitleSystem(system));
+		system.push(new TitleSystem());
 		
 		mapSprite = new Sprite(new Texture(Gdx.files.internal("path.png")));
 		mapSprite.setPosition(0, 0);

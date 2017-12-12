@@ -19,8 +19,8 @@ public class MenuSystem extends MainSystem{
 	private Texture backButton1;
 	private Texture background;
 
-	public MenuSystem(SystemManager sysMan) {
-		super(sysMan);
+	public MenuSystem() {
+		super();
 		// TODO Auto-generated constructor stub
 		playButton=new Texture("playButton.png");
 		texturePackButton=new Texture("texturesButton.png");
@@ -46,19 +46,19 @@ public class MenuSystem extends MainSystem{
 		// TODO Auto-generated method stub
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<380 && Gdx.input.getX()<775 && Gdx.input.getY()>300) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-				sysManager.setNewSystem(new MultiplayerSystem(sysManager));
+				sysManager.setNewSystem(new MultiplayerSystem());
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<477 && Gdx.input.getX()<775 && Gdx.input.getY()>407) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-				sysManager.setNewSystem(new TextureSystem(sysManager));
+				sysManager.setNewSystem(new TextureSystem());
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<581 && Gdx.input.getX()<775 && Gdx.input.getY()>506) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-				sysManager.setNewSystem(new TutorialSystem(sysManager));
+				sysManager.setNewSystem(new TutorialSystem());
 			}
 		}else if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.B)) {
-				sysManager.setNewSystem(new TitleSystem(sysManager));
+				sysManager.setNewSystem(new TitleSystem());
 			}
 		}
 		

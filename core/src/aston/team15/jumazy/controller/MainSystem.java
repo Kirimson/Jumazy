@@ -19,8 +19,7 @@ public abstract class MainSystem {
 	protected static final int GAME_WIDTH = 1280;
 	protected static final int GAME_HEIGHT = 720;
 
-	public MainSystem(SystemManager sysMan) {
-		sysManager = sysMan;
+	public MainSystem() {
 		cam = new OrthographicCamera();
 		viewport = new ScreenViewport(cam);
 	}

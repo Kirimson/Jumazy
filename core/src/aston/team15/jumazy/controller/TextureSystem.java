@@ -23,8 +23,8 @@ public class TextureSystem extends MainSystem{
 	private Texture backButton3;
 	private Texture background;
 	
-	public TextureSystem(SystemManager sysMan) {
-		super(sysMan);
+	public TextureSystem() {
+		super();
 		texture1= new Texture("texture1Button.png");
 		texture2= new Texture("texture2Button.png");
 		texture3= new Texture("texture3Button.png");
@@ -49,7 +49,7 @@ public class TextureSystem extends MainSystem{
 	public void handleInput() {
 		if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.B)) {
-				sysManager.setNewSystem(new MenuSystem(sysManager));
+				sysManager.setNewSystem(new MenuSystem());
 			}
 		}
 	}

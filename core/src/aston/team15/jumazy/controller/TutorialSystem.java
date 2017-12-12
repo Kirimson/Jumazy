@@ -18,8 +18,8 @@ public class TutorialSystem extends MainSystem{
 	private Texture backButton4;
 	private Texture background;
 
-	public TutorialSystem(SystemManager sysMan) {
-		super(sysMan);
+	public TutorialSystem() {
+		super();
 		// TODO Auto-generated constructor stub
 		backButton4=new Texture("backButton.png");
 		background= new Texture("background.jpg");
@@ -53,7 +53,7 @@ public class TutorialSystem extends MainSystem{
 		// TODO Auto-generated method stub
 		if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.B)) {
-				sysManager.setNewSystem(new MenuSystem(sysManager));
+				sysManager.setNewSystem(new MenuSystem());
 			}
 		}
 		

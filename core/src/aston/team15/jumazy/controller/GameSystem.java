@@ -25,8 +25,8 @@ public class GameSystem extends MainSystem{
 	private Sound ambientMusic;
 	private boolean pause = false;
 
-	public GameSystem(SystemManager sysMan, int players) {
-		super(sysMan);
+	public GameSystem(int players) {
+		super();
 		maze = new Maze(41, 24, players);
 		gMan = new GraphicsManager();
 		setupCamera();
@@ -114,7 +114,7 @@ public class GameSystem extends MainSystem{
 			
 			if(maze.getCurrPlayer().isVictor()) {
 				int winner = maze.getCurrPlayer().getPlayerNumber();
-				sysManager.setNewSystem(new WinSystem(sysManager, winner));
+				sysManager.setNewSystem(new WinSystem(winner));
 			}
 		}
 
