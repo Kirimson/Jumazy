@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
+import aston.team15.jumazy.view.JumazyGame;
+
 //import aston.team15.jumazy.model.TextureConstants;
 
 public class Button extends Actor {
@@ -19,14 +21,15 @@ public class Button extends Actor {
     float actorX = 0, actorY = 0;
     private boolean clicked = false;
     private String text;
-    
+    float scalex = MainSystem.scalex;
+	float scaley = MainSystem.scaley;
     private BitmapFont font12;
     
     public Button(float x, float y, String text, boolean minusSelf){
     	clicked = false;
     	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wood_sticks.ttf"));
     	FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-    	parameter.size = 36;
+    	parameter.size = (int) 36;
     	parameter.color = Color.BLACK;
     	font12 = generator.generateFont(parameter); // font size 12 pixels
     	generator.dispose();
@@ -35,10 +38,12 @@ public class Button extends Actor {
     	
     	actorX = x;
     	if(minusSelf)
-    		x -= texture.getWidth();
+    		x -= texture.getWidth()/scalex;
     	
     	actorY = y;
-    	
+
+		
+		
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
         addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -50,7 +55,7 @@ public class Button extends Actor {
         
     @Override
     public void draw(Batch batch, float alpha){
-        batch.draw(texture,actorX, actorY);
+        batch.draw(texture,actorX, actorY, texture.getWidth(), texture.getHeight());
 
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(font12,text);

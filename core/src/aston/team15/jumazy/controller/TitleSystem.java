@@ -26,7 +26,7 @@ public class TitleSystem extends MainSystem{
 
 		float base = (stage.getHeight()/2);
 		
-		playButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,base,"Play", true);
+		playButton = new Button((stage.getWidth()/2-butTex.getWidth()/2),base,"Play", true);
 		playButton.setTouchable(Touchable.enabled);
 		stage.addActor(playButton);
 		

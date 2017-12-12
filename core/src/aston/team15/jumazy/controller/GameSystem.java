@@ -58,7 +58,7 @@ public class GameSystem extends MainSystem{
 	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
 	 */
 	public void draw(SpriteBatch batch) {
-		gMan.draw(batch, maze, playerMoved, pause, cam);
+		gMan.draw(batch, maze, playerMoved, pause, stage);
 		
 		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		
@@ -173,8 +173,8 @@ public class GameSystem extends MainSystem{
 		}else{//camera needs to be set to default location
 			cam.zoom = 1.0f;
 			Vector3 target = new Vector3(
-					GAME_WIDTH/2,
-					 GAME_HEIGHT/2, 0);
+					stage.getWidth()/2,
+					 stage.getHeight()/2, 0);
 			cameraZoom(target);
 		}
 		
@@ -194,7 +194,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	protected void setupCamera() {
-		cam.setToOrtho(false,GAME_WIDTH*1.2f, GAME_HEIGHT*1.2f);
-		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
+		cam.setToOrtho(false,stage.getWidth()*1.2f, stage.getHeight()*1.2f);
+		cam.position.set(stage.getWidth()/2, stage.getHeight()/2, 0);
 	}
 }
