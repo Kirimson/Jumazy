@@ -33,10 +33,12 @@ public class GraphicsManager {
 		stage = new Stage(view);
 		Gdx.input.setInputProcessor(stage);
 		
-		Button testButton = new Button();
+		Button testButton = new Button(0,0);
 		testButton.setTouchable(Touchable.enabled);
         stage.addActor(testButton);
 	}
+	
+	
 	
 	/**
 	 * Draws the maze to the given {@link SpriteBatch} object
@@ -44,6 +46,9 @@ public class GraphicsManager {
 	 * @return returns the {@link SpriteBatch} passed, with maze set to draw
 	 */
 	public void draw(SpriteBatch batch, Maze maze, boolean updateHoles, boolean pause, OrthographicCamera cam) {
+		//update viewport
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		
 		
 		//draw maze
 		for(int i = 0; i < Maze.getMaze().length; i++) {

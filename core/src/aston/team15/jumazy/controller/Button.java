@@ -13,7 +13,11 @@ public class Button extends Actor {
     float actorX = 0, actorY = 0;
     public boolean started = false;
 
-    public Button(){
+    public Button(float x, float y){
+    	
+    	actorX = x;
+    	actorY = y;
+    	
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
         addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -31,8 +35,6 @@ public class Button extends Actor {
         
         @Override
         public void act(float delta){
-            if(started){
-                actorX+=5;
-            }
+            //empty
         }
     }
