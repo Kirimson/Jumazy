@@ -91,6 +91,8 @@ public class Player extends Sprite{
 
 	public void moveToStartOfTurn() {
 		coords.setCoordinates(startOfMove);
+		setX(coords.getX()*getWidth());
+		setY(coords.getY()*getHeight());
 	}
 
 	public void newMove(String direction) {
