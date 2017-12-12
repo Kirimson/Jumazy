@@ -4,9 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import aston.team15.jumazy.model.DieAnimation;
 import aston.team15.jumazy.model.Maze;
@@ -15,14 +21,52 @@ import aston.team15.jumazy.model.TextureConstants;
 
 public class GraphicsManager {
 	
+	public class MyActor extends Actor {
+        Texture texture = TextureConstants.getTexture("path");
+        float actorX = 0, actorY = 0;
+        public boolean started = false;
+
+        public MyActor(){
+            setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
+            addListener(new InputListener(){
+                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                    started = true;
+                    System.out.println("CLICKED");
+                    return true;
+                }
+            });
+        }
+            
+            @Override
+            public void draw(Batch batch, float alpha){
+                batch.draw(texture,actorX,actorY);
+            }
+            
+            @Override
+            public void act(float delta){
+                if(started){
+                    actorX+=5;
+                }
+            }
+        }
+	
+	
 	private BitmapFont font;
 	private float currPlayerPosX;
 	private float currPlayerPosY;
 	private Texture lighting = new Texture("path.png");
 	
+	private Stage stage;
+	
 	public GraphicsManager() {
 		font = new BitmapFont();
 		font.setColor(1, 1, 1, 1);
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+		
+		MyActor myActor = new MyActor();
+		myActor.setTouchable(Touchable.enabled);
+        stage.addActor(myActor);
 	}
 	
 	/**
@@ -97,16 +141,16 @@ public class GraphicsManager {
 	    	Texture pauseTex = TextureConstants.getTexture("pausepage");
 	    	Sprite pauseSprite = new Sprite(pauseTex);
 	    	
-	    	
 	    	pauseSprite.setRegion(pauseTex);
 	    	pauseSprite.setSize((pauseTex.getWidth()*cam.zoom)/3, (pauseTex.getHeight()*cam.zoom)/3);
 	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()*cam.zoom)/6);
 	    	pauseSprite.setY(cam.position.y-((pauseTex.getHeight()*cam.zoom)/3-(JumazyGame.HEIGHT/2*cam.zoom)));
 	    	
 	    	pauseSprite.draw(batch);
-	    	
 	    }
 	    
+	    stage.act(Gdx.graphics.getDeltaTime());
+	    stage.draw();
 	}
 	
 	public float getCurPlayerFloatXPos(Maze maze) {
