@@ -43,7 +43,7 @@ public class DieAnimation {
 
 	
 	/**
-	 * @return
+	 * @return index the picture which is currently being displayed
 	 */
 	public int getNewIndex() {
 		boolean found = false; // by default a picture has not been found

@@ -42,15 +42,15 @@ public class MultiplayerSystem extends MainSystem{
 	public void handleInput() {
 		// TODO Auto-generated method stub
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<775 && Gdx.input.getY()>304) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
 				sysManager.setNewSystem(new GameSystem(sysManager, 2));
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<480 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
 				sysManager.setNewSystem(new GameSystem(sysManager, 4));
 			}
 		}else if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.B)) {
 				sysManager.setNewSystem(new MenuSystem(sysManager));
 			}
 		}

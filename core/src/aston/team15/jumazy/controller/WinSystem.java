@@ -21,12 +21,12 @@ public class WinSystem extends MainSystem{
 	public WinSystem(SystemManager sysMan, int winner) {
 		super(sysMan);
 		winningPlayer = winner;
-		background= new Texture("junglebg1.png");
+		background= new Texture("winnerpage.jpg");
 		playBtn= new Texture("playBtn2.png");
 		setupCamera();
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Mario-Kart-DS.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 72;
+		parameter.size = 50;
 		font12 = generator.generateFont(parameter); // font size 12 pixels
 		generator.dispose();
 	}
@@ -36,7 +36,7 @@ public class WinSystem extends MainSystem{
 		cam.update();
 		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
 		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
-		font12.draw(batch, "Player " + winningPlayer + " wins!", 100,100);
+		font12.draw(batch, "Player " + winningPlayer + " wins!", (JumazyGame.WIDTH/2 - 160),(JumazyGame.HEIGHT/2 + 100));
 	}
 
 	@Override

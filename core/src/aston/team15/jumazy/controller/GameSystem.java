@@ -6,12 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.Random;
-
 import aston.team15.jumazy.model.Maze;
-import aston.team15.jumazy.model.Rain;
-import aston.team15.jumazy.model.Sun;
-import aston.team15.jumazy.model.Weather;
 import aston.team15.jumazy.view.GraphicsManager;
 import aston.team15.jumazy.view.JumazyGame;
 /**
@@ -28,6 +23,7 @@ public class GameSystem extends MainSystem{
 	private boolean playerMoved = true;
 	private boolean focusCam = false;
 	private Sound ambientMusic;
+	private boolean pause = false;
 
 	public GameSystem(SystemManager sysMan, int players) {
 		super(sysMan);
@@ -42,7 +38,7 @@ public class GameSystem extends MainSystem{
 	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
 	 */
 	public void draw(SpriteBatch batch) {
-		gMan.draw(batch, maze, playerMoved);
+		gMan.draw(batch, maze, playerMoved, pause, cam);
 	}
 	
 	/**
@@ -54,69 +50,72 @@ public class GameSystem extends MainSystem{
 	public void handleInput() {
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
-			System.out.println("pause");
-			sysManager.push(new PauseSystem(sysManager));
+			
+			pause = !pause;
+			System.out.println("pause "+pause);
 		}
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
-		&& maze.getCurrPlayer().rolled() == false 
-		&& maze.getCurrPlayer().isTrapped() == false) {
-			focusCam = true;
-			maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
-			maze.getCurrPlayer().switchRolled();
-			maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
-			System.out.println("Current player " + maze.getCurrPlayerVal());
-		}
-		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
-		&& maze.getCurrPlayer().getRollSpaces() == 0
-		&& maze.getCurrPlayer().isTrapped() == false) {
-			focusCam = false;
-			maze.nextPlayer();
-			System.out.println("CHANGE TURN");
-		}
-		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.B)
-		&& maze.getCurrPlayer().isTrapped() == false) {
-			maze.getCurrPlayer().moveToStartOfTurn();
-		}
-		
-		if(maze.getCurrPlayer().rolled())
-		{
-			String direction = "";
-			if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-				direction = "right";
-			}
-			else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-				direction = "left";
-			}
-			else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-				direction = "up";
-			}
-			else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-				direction = "down";
+		if(!pause) {
+			if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
+			&& maze.getCurrPlayer().rolled() == false 
+			&& maze.getCurrPlayer().isTrapped() == false) {
+				focusCam = true;
+				maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
+				maze.getCurrPlayer().switchRolled();
+				maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
+				System.out.println("Current player " + maze.getCurrPlayerVal());
 			}
 			
-			if(direction != "")
-			{
-				maze.getCurrPlayer().newMove(direction);
-				playerMoved = true;
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
+			&& maze.getCurrPlayer().getRollSpaces() == 0
+			&& maze.getCurrPlayer().isTrapped() == false) {
+				focusCam = false;
+				maze.nextPlayer();
+				System.out.println("CHANGE TURN");
 			}
-			else
-			{
-				playerMoved = false;
+			
+			if(Gdx.input.isKeyJustPressed(Input.Keys.B)
+			&& maze.getCurrPlayer().isTrapped() == false) {
+				maze.getCurrPlayer().moveToStartOfTurn();
 			}
-		}
-		
-		focusCamera();
-		
-		if(maze.getCurrPlayer().isTrapped()) {
-			maze.getCurrPlayer().checkStillTrapped();
-		}
-		
-		if(maze.getCurrPlayer().isVictor()) {
-			int winner = maze.getCurrPlayer().getPlayerNumber();
-			sysManager.setNewSystem(new WinSystem(sysManager, winner));
+			
+			if(maze.getCurrPlayer().rolled())
+			{
+				String direction = "";
+				if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+					direction = "right";
+				}
+				else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+					direction = "left";
+				}
+				else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+					direction = "up";
+				}
+				else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+					direction = "down";
+				}
+				
+				if(direction != "")
+				{
+					maze.getCurrPlayer().newMove(direction);
+					playerMoved = true;
+				} 
+				else
+				{
+					playerMoved = false;
+				}
+			}
+			
+			focusCamera();
+			
+			if(maze.getCurrPlayer().isTrapped()) {
+				maze.getCurrPlayer().checkStillTrapped();
+			}
+			
+			if(maze.getCurrPlayer().isVictor() || Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
+				int winner = maze.getCurrPlayer().getPlayerNumber();
+				sysManager.setNewSystem(new WinSystem(sysManager, winner));
+			}
 		}
 
 	}
@@ -130,8 +129,8 @@ public class GameSystem extends MainSystem{
 			cam.zoom = 0.75f;
 			//get players coordinates
 			Vector3 target = new Vector3(
-					gMan.getCurPlayerFloatXPos(maze),
-					gMan.getCurPlayerFloatYPos(maze), 0);
+					maze.getCurrPlayer().getX(),
+					maze.getCurrPlayer().getY(), 0);
 			//zoom to that players coordinates
 				cameraZoom(target);
 			
