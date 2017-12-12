@@ -21,36 +21,6 @@ import aston.team15.jumazy.model.TextureConstants;
 
 public class GraphicsManager {
 	
-	public class MyActor extends Actor {
-        Texture texture = TextureConstants.getTexture("path");
-        float actorX = 0, actorY = 0;
-        public boolean started = false;
-
-        public MyActor(){
-            setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
-            addListener(new InputListener(){
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    started = true;
-                    System.out.println("CLICKED");
-                    return true;
-                }
-            });
-        }
-            
-            @Override
-            public void draw(Batch batch, float alpha){
-                batch.draw(texture,actorX,actorY);
-            }
-            
-            @Override
-            public void act(float delta){
-                if(started){
-                    actorX+=5;
-                }
-            }
-        }
-	
-	
 	private BitmapFont font;
 	private float currPlayerPosX;
 	private float currPlayerPosY;
@@ -64,9 +34,9 @@ public class GraphicsManager {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		
-		MyActor myActor = new MyActor();
-		myActor.setTouchable(Touchable.enabled);
-        stage.addActor(myActor);
+		Button testButton = new Button();
+		testButton.setTouchable(Touchable.enabled);
+        stage.addActor(testButton);
 	}
 	
 	/**
