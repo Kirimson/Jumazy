@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import aston.team15.jumazy.view.JumazyGame;
 
@@ -17,12 +18,22 @@ public class WinSystem extends MainSystem{
 	private Texture playBtn;
 	private BitmapFont font12;
 	private int winningPlayer;
+	private Button playButton;
 
 	public WinSystem(int winner) {
 		super();
 		winningPlayer = winner;
 		background= new Texture("winnerpage.jpg");
-		playBtn= new Texture("playBtn2.png");
+		Texture butTex = new Texture("ButtonNormal.png");
+		
+		Texture tutTex = new Texture("Monkey Menu.png");
+		
+		UIComponent tutorialUI = new UIComponent(stage.getWidth()/2-tutTex.getWidth()/2, stage.getHeight()-tutTex.getHeight(), tutTex);
+		stage.addActor(tutorialUI);
+		
+		playButton = new Button((stage.getWidth()/2)-(butTex.getWidth()/2)+(stage.getWidth()/(2.5f)),0+butTex.getHeight(),"Play Again", true);
+		playButton.setTouchable(Touchable.enabled);
+		stage.addActor(playButton);
 		setupCamera();
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Mario-Kart-DS.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -33,10 +44,18 @@ public class WinSystem extends MainSystem{
 
 	@Override
 	public void draw(SpriteBatch batch) {
+		
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		
+		stage.getBatch().begin();
+			stage.getBatch().draw(background, 0, 0, stage.getWidth(), stage.getHeight());
+			font12.draw(stage.getBatch(), "Player " + winningPlayer + " wins!", (JumazyGame.WIDTH/2 - 160),(JumazyGame.HEIGHT/2 + 100));
+		stage.getBatch().end();
+		
+		stage.act();
+		stage.draw();
+		
 		cam.update();
-		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
-		batch.draw(playBtn,(JumazyGame.WIDTH/2)-(playBtn.getWidth()/2)+10,(JumazyGame.HEIGHT/2)-(playBtn.getHeight()/2)-120);
-		font12.draw(batch, "Player " + winningPlayer + " wins!", (JumazyGame.WIDTH/2 - 160),(JumazyGame.HEIGHT/2 + 100));
 	}
 
 	@Override
