@@ -15,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 //import aston.team15.jumazy.model.TextureConstants;
 
 public class Button extends Actor {
-    Texture texture = new Texture("ButtonNormal.png");
+    Texture texture = new Texture("ButtonNew.png");
     float actorX = 0, actorY = 0;
-    public boolean clicked = false;
+    private boolean clicked = false;
     private String text;
     
     private BitmapFont font12;

@@ -5,51 +5,73 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import aston.team15.jumazy.view.JumazyGame;
 
 public class MultiplayerSystem extends MainSystem{
 	
-	private Texture twoP;
-	private Texture fourP;
-	private Texture backButton2;
-	private Texture background;
 
+	private Button twoP;
+	private Button fourP;
+	private Button backButton;
+	private Texture background;
+	
 	public MultiplayerSystem() {
 		super();
-		// TODO Auto-generated constructor stub
-		twoP=new Texture("2playerButton.png");
-		fourP=new Texture("4playerButton.png");
-		backButton2=new Texture("backButton.png");
+//		twoP=new Texture("2playerButton.png");
+//		fourP=new Texture("4playerButton.png");
+//		backButton2=new Texture("backButton.png");
+//		background= new Texture("background.jpg");
+		
+		Texture butTex = new Texture("ButtonNormal.png");
 		background= new Texture("background.jpg");
+
+		float base = (stage.getHeight()/2);
+		
+		twoP = new Button(stage.getWidth()/2-butTex.getWidth()/2,base,"Two Player", true);
+		twoP.setTouchable(Touchable.enabled);
+		stage.addActor(twoP);
+		
+		fourP = new Button(stage.getWidth()/2-butTex.getWidth()/2,base-(stage.getHeight()/9),"Four Player", true);
+		fourP.setTouchable(Touchable.enabled);
+		stage.addActor(fourP);
+		
+		backButton = new Button((stage.getWidth()/2)-(butTex.getWidth()/2)+(stage.getWidth()/(2.5f)),0+butTex.getHeight(),"Back", true);
+		backButton.setTouchable(Touchable.enabled);
+		stage.addActor(backButton);
+		
 		setupCamera();
 	}
 
 	@Override
 	public void draw(SpriteBatch batch) {
-		// TODO Auto-generated method stub
+		
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		
+		stage.getBatch().begin();
+			stage.getBatch().draw(background, 0, 0, stage.getWidth(), stage.getHeight());
+		stage.getBatch().end();
+		
+		stage.act();
+		stage.draw();
+		
 		cam.update();
-		batch.draw(background, 0, 0, JumazyGame.WIDTH, JumazyGame.HEIGHT);
-		batch.draw(twoP,(JumazyGame.WIDTH/2)-(twoP.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(twoP.getHeight()/2),250,80);
-		batch.draw(fourP,(JumazyGame.WIDTH/2)-(fourP.getWidth()/2)-30,(JumazyGame.HEIGHT/2)-(fourP.getHeight()/2)-100,250,80);
-		batch.draw(backButton2,(JumazyGame.WIDTH/2)-(backButton2.getWidth()/2)+500,(JumazyGame.HEIGHT/2)-(backButton2.getHeight()/2)-300,150,50);
 	}
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
-		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<775 && Gdx.input.getY()>304) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-				SystemManager.setNewSystem(new GameSystem(2));
-			}
-		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<480 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
-				SystemManager.setNewSystem(new GameSystem(4));
-			}
-		}else if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
-			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.B)) {
-				SystemManager.setNewSystem(new MenuSystem());
-			}
+		if(twoP.wasClicked()) {
+			SystemManager.setNewSystem(new GameSystem(2));
+		}
+		
+		if(fourP.wasClicked()) {
+			SystemManager.setNewSystem(new GameSystem(4));
+		}
+		
+		if(backButton.wasClicked()) {
+			SystemManager.setNewSystem(new MenuSystem());
 		}
 		
 	}

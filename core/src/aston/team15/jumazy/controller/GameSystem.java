@@ -6,10 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.model.TextureConstants;
@@ -29,7 +26,7 @@ public class GameSystem extends MainSystem{
 	private boolean focusCam = false;
 	private Sound ambientMusic;
 	private boolean pause = false;
-	private Stage stage;
+	
 	private Button resumeButton;
 	private Button quitButton;
 
@@ -41,10 +38,7 @@ public class GameSystem extends MainSystem{
 		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
 		ambientMusic.play();
 		
-		Viewport view = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		stage = new Stage(view);
-		Gdx.input.setInputProcessor(stage);
-		
+		//UI
 		Texture butTex = new Texture("ButtonNormal.png");
 		Texture pauseTex = TextureConstants.getTexture("pausepageNew");
 		
@@ -68,11 +62,10 @@ public class GameSystem extends MainSystem{
 		
 		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		
-		
-		
 		if(pause) {
 		    stage.draw();
 		    
+		    //check pause actor buttons
 		    if(resumeButton.wasClicked()) {
 		    	pause = false;
 		    }

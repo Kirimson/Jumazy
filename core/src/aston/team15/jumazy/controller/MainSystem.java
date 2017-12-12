@@ -1,8 +1,11 @@
 package aston.team15.jumazy.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -18,10 +21,15 @@ public abstract class MainSystem {
 	
 	protected static final int GAME_WIDTH = 1280;
 	protected static final int GAME_HEIGHT = 720;
-
+	protected Stage stage;
 	public MainSystem() {
 		cam = new OrthographicCamera();
 		viewport = new ScreenViewport(cam);
+		
+		Viewport view = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		stage = new Stage(view);
+		Gdx.input.setInputProcessor(stage);
+		
 	}
 	
 	public abstract void draw(SpriteBatch batch);

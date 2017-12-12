@@ -20,6 +20,14 @@ public class UIComponent extends Actor {
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
     }
 	
+	public UIComponent(float x, float y, Texture texture, float width, float height) {
+		this(x, y, texture);
+		
+		setHeight(height);
+		setWidth(width);
+		
+	}
+	
 	 @Override
 	    public void draw(Batch batch, float alpha){
 	        batch.draw(texture,actorX, actorY);
