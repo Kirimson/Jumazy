@@ -20,10 +20,6 @@ public class MultiplayerSystem extends MainSystem{
 	
 	public MultiplayerSystem() {
 		super();
-//		twoP=new Texture("2playerButton.png");
-//		fourP=new Texture("4playerButton.png");
-//		backButton2=new Texture("backButton.png");
-//		background= new Texture("background.jpg");
 		
 		Texture butTex = new Texture("ButtonNormal.png");
 		background= new Texture("background.jpg");
@@ -78,7 +74,6 @@ public class MultiplayerSystem extends MainSystem{
 
 	@Override
 	protected void setupCamera() {
-		// TODO Auto-generated method stub
 		cam.setToOrtho(false);
 		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
 		
