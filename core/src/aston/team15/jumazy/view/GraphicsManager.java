@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import aston.team15.jumazy.controller.Button;
 import aston.team15.jumazy.model.DieAnimation;
 import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.model.Player;
