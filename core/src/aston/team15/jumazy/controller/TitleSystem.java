@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 import aston.team15.jumazy.view.JumazyGame;
 
@@ -42,7 +39,7 @@ public class TitleSystem extends MainSystem{
 	public void handleInput() {
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<777 && Gdx.input.getY()>304) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-				sysManager.setNewSystem(new MenuSystem());
+				SystemManager.setNewSystem(new MenuSystem());
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<479 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.Q)) {

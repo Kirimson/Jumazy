@@ -17,7 +17,6 @@ import aston.team15.jumazy.view.JumazyGame;
  */
 public class GameSystem extends MainSystem{
 	
-	private int nextPlayers;
 	private Maze maze;
 	private GraphicsManager gMan;
 	private boolean playerMoved = true;
@@ -114,7 +113,7 @@ public class GameSystem extends MainSystem{
 			
 			if(maze.getCurrPlayer().isVictor()) {
 				int winner = maze.getCurrPlayer().getPlayerNumber();
-				sysManager.setNewSystem(new WinSystem(winner));
+				SystemManager.setNewSystem(new WinSystem(winner));
 			}
 		}
 

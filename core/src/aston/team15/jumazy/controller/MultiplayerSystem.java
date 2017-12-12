@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 import aston.team15.jumazy.view.JumazyGame;
 
@@ -43,15 +40,15 @@ public class MultiplayerSystem extends MainSystem{
 		// TODO Auto-generated method stub
 		if (Gdx.input.getX()>529 && Gdx.input.getY()<382 && Gdx.input.getX()<775 && Gdx.input.getY()>304) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-				sysManager.setNewSystem(new GameSystem(2));
+				SystemManager.setNewSystem(new GameSystem(2));
 			}
 		}else if (Gdx.input.getX()>529 && Gdx.input.getY()<480 && Gdx.input.getX()<775 && Gdx.input.getY()>406) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
-				sysManager.setNewSystem(new GameSystem(4));
+				SystemManager.setNewSystem(new GameSystem(4));
 			}
 		}else if (Gdx.input.getX()>1059 && Gdx.input.getY()<681 && Gdx.input.getX()<1203 && Gdx.input.getY()>635) {
 			if(Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.B)) {
-				sysManager.setNewSystem(new MenuSystem());
+				SystemManager.setNewSystem(new MenuSystem());
 			}
 		}
 		

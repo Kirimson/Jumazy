@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import aston.team15.jumazy.controller.Button;
+import aston.team15.jumazy.controller.UIComponent;
 import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.model.Player;
 import aston.team15.jumazy.model.TextureConstants;
@@ -33,12 +34,16 @@ public class GraphicsManager {
 		stage = new Stage(view);
 		Gdx.input.setInputProcessor(stage);
 		
-		Button testButton = new Button(100,100,"Test");
+		Texture butTex = new Texture("ButtonNormal.png");
+		Texture pauseTex = TextureConstants.getTexture("pausepageNew");
+		
+		Button testButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,stage.getHeight()-pauseTex.getHeight()+100,"Exit", true);
 		testButton.setTouchable(Touchable.enabled);
+        
+        UIComponent pauseUI = new UIComponent(stage.getWidth()/2-pauseTex.getWidth()/2, stage.getHeight()-pauseTex.getHeight(), pauseTex);
+        stage.addActor(pauseUI);
         stage.addActor(testButton);
 	}
-	
-	
 	
 	/**
 	 * Draws the maze to the given {@link SpriteBatch} object
@@ -111,19 +116,26 @@ public class GraphicsManager {
 		}
 	    
 	    if(pause) {
-	    	Texture pauseTex = TextureConstants.getTexture("pausepage");
-	    	Sprite pauseSprite = new Sprite(pauseTex);
 	    	
-	    	pauseSprite.setRegion(pauseTex);
-	    	pauseSprite.setSize((pauseTex.getWidth()*cam.zoom)/3, (pauseTex.getHeight()*cam.zoom)/3);
-	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()*cam.zoom)/6);
-	    	pauseSprite.setY(cam.position.y-((pauseTex.getHeight()*cam.zoom)/3-(JumazyGame.HEIGHT/2*cam.zoom)));
+//	    	Sprite pauseSprite = new Sprite(pauseTex);
 	    	
-	    	pauseSprite.draw(batch);
+	    	
+	    	
+//	    	pauseSprite.setRegion(pauseTex);
+//	    	pauseSprite.setSize((pauseTex.getWidth()*cam.zoom)/3, (pauseTex.getHeight()*cam.zoom)/3);
+//	    	pauseSprite.setX(cam.position.x-(pauseTex.getWidth()*cam.zoom)/6);
+//	    	pauseSprite.setY(cam.position.y-((pauseTex.getHeight()*cam.zoom)/3-(JumazyGame.HEIGHT/2*cam.zoom))+JumazyGame.HEIGHT*0.1f);
+	    	
+//	    	pauseSprite.draw(batch);
+	    	
+	    	
+	    	
+	    	
+//	    	stage.act(Gdx.graphics.getDeltaTime());
+		    stage.draw();
+	    	
 	    }
 	    
-	    stage.act(Gdx.graphics.getDeltaTime());
-	    stage.draw();
 	}
 	
 	public float getCurPlayerFloatXPos(Maze maze) {

@@ -22,7 +22,7 @@ public class Button extends Actor {
     
     private BitmapFont font12;
     
-    public Button(float x, float y, String text){
+    public Button(float x, float y, String text, boolean minusSelf){
     	
     	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wood_sticks.ttf"));
     	FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -34,6 +34,9 @@ public class Button extends Actor {
     	this.text = text;
     	
     	actorX = x;
+    	if(minusSelf)
+    		x -= texture.getWidth();
+    	
     	actorY = y;
     	
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
