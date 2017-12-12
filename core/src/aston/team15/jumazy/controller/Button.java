@@ -17,13 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Button extends Actor {
     Texture texture = new Texture("ButtonNormal.png");
     float actorX = 0, actorY = 0;
-    public boolean started = false;
+    public boolean clicked = false;
     private String text;
     
     private BitmapFont font12;
     
     public Button(float x, float y, String text, boolean minusSelf){
-    	
+    	clicked = false;
     	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wood_sticks.ttf"));
     	FreeTypeFontParameter parameter = new FreeTypeFontParameter();
     	parameter.size = 36;
@@ -42,8 +42,7 @@ public class Button extends Actor {
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
         addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                started = true;
-                SystemManager.setNewSystem(new MenuSystem());
+                clicked = true;
                 return true;
             }
         });
@@ -64,6 +63,12 @@ public class Button extends Actor {
     
     @Override
     public void act(float delta){
-        //empty
+        if(clicked) {
+        	clicked = false;
+        }
     }
+
+	public boolean wasClicked() {
+		return clicked;
+	}
 }

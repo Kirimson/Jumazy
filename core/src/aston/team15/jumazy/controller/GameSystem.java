@@ -3,10 +3,16 @@ package aston.team15.jumazy.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.model.TextureConstants;
 import aston.team15.jumazy.view.GraphicsManager;
 import aston.team15.jumazy.view.JumazyGame;
 /**
@@ -23,6 +29,9 @@ public class GameSystem extends MainSystem{
 	private boolean focusCam = false;
 	private Sound ambientMusic;
 	private boolean pause = false;
+	private Stage stage;
+	private Button resumeButton;
+	private Button quitButton;
 
 	public GameSystem(int players) {
 		super();
@@ -31,6 +40,24 @@ public class GameSystem extends MainSystem{
 		setupCamera();
 		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
 		ambientMusic.play();
+		
+		Viewport view = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		stage = new Stage(view);
+		Gdx.input.setInputProcessor(stage);
+		
+		Texture butTex = new Texture("ButtonNormal.png");
+		Texture pauseTex = TextureConstants.getTexture("pausepageNew");
+		
+		quitButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,stage.getHeight()-pauseTex.getHeight()+100,"Exit", true);
+		quitButton.setTouchable(Touchable.enabled);
+		
+		resumeButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,stage.getHeight()-pauseTex.getHeight()+200,"Resume", true);
+		resumeButton.setTouchable(Touchable.enabled);
+        
+        UIComponent pauseUI = new UIComponent(stage.getWidth()/2-pauseTex.getWidth()/2, stage.getHeight()-pauseTex.getHeight(), pauseTex);
+        stage.addActor(pauseUI);
+        stage.addActor(resumeButton);
+        stage.addActor(quitButton);
 	}
 	
 	/**
@@ -38,6 +65,23 @@ public class GameSystem extends MainSystem{
 	 */
 	public void draw(SpriteBatch batch) {
 		gMan.draw(batch, maze, playerMoved, pause, cam);
+		
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		
+		
+		
+		if(pause) {
+		    stage.draw();
+		    
+		    if(resumeButton.wasClicked()) {
+		    	pause = false;
+		    }
+		    if(quitButton.wasClicked()) {
+		    	SystemManager.setNewSystem(new MenuSystem());
+		    }
+		    
+	    }
+		stage.act();
 	}
 	
 	/**
