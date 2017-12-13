@@ -76,7 +76,7 @@ public class GraphicsManager {
 		  
 		    for(Player p : maze.getPlayersList()) {
 		    	if (p.getPlayerNumber() == 2 ||p.getPlayerNumber() == 4){
-		    		int px = (int) (((p.getCoords().getX()*blockSize + (p.getWidth()/2)) / scalex) + 44);
+		    		int px = (int) (((p.getCoords().getX()*blockSize + (p.getWidth()/2)) / scalex) );
 			    	int py = (int) (((JumazyGame.HEIGHT - p.getCoords().getY()*blockSize+(p.getHeight()/2)) / scaley));
 			    	overlay.fillCircle(px, py, 150);
 		    	}
