@@ -164,7 +164,7 @@ public class Player extends Sprite{
 	public void roll(int movementMod) {
 		Random rnd = new Random();
 		rolled = true;
-		rollSpaces = rnd.nextInt(4) + 3 + movementMod;
+		rollSpaces = rnd.nextInt(6) + 1 + movementMod;
 
 		if(rollSpaces == 0)
             rollSpaces = 1;

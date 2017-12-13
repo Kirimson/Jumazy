@@ -148,10 +148,6 @@ public class GameSystem extends MainSystem{
 				maze.getCurrPlayer().checkStillTrapped();
 			}
 			
-			if(maze.getCurrPlayer().isVictor() || Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
-				int winner = maze.getCurrPlayer().getPlayerNumber();
-				SystemManager.setNewSystem(new WinSystem(winner));
-			}
 		}
 
 	}
