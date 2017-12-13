@@ -3,15 +3,14 @@ package aston.team15.jumazy.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,8 +60,13 @@ public class RiddleGUI {
 		responseFrame = new JFrame("Response");
 		centreWindow(responseFrame);
 		continueGame = new JButton("Continue");
-		questionFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
-		responseFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
+		
+		ImageIcon bg = null;
+		URL url = RiddleGUI.class.getResource("/jungleGUI.jpg");
+		bg = new ImageIcon(url);
+		
+		questionFrame.setContentPane(new JLabel(bg));
+		responseFrame.setContentPane(new JLabel(bg));
 		String[] riddleText = retrieveRiddle();
 		questionFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		question = new JTextArea(riddleText[0], 2, 16);
@@ -87,16 +91,28 @@ public class RiddleGUI {
 				isActive = false;
 				questionFrame.dispose();
 
-				File sound;
+				File sound = null;
 				responseLabel = new JLabel();
 				responseFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
 				if (correct == true) {
 					responseLabel.setText("You are correct");
-					sound = new File("../core/assets/correct.wav");
+					
+					URL url = RiddleGUI.class.getResource("/correct.wav");
+					try {
+						sound = new File(url.toURI());
+					} catch (URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+					
 				} else {
 					responseLabel.setText("You are not correct");
-					sound = new File("../core/assets/incorrect.wav");
+					URL url = RiddleGUI.class.getResource("/incorrect.wav");
+					try {
+						sound = new File(url.toURI());
+					} catch (URISyntaxException e1) {
+						e1.printStackTrace();
+					}
 				}
 
 				playSound(sound);
@@ -141,8 +157,15 @@ public class RiddleGUI {
 	}
 
 	public String[] retrieveRiddle() {
-		File file = new File("../core/assets/riddles.csv");
-
+		
+		File file = null;
+		URL url = RiddleGUI.class.getResource("/riddles.csv");
+		try {
+			file = new File(url.toURI());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		
 		try {
 			Scanner inputStream = new Scanner(file);
 			String line;
@@ -152,14 +175,13 @@ public class RiddleGUI {
 				lines.add(line);
 
 			}
-
+			inputStream.close();
 			Collections.shuffle(lines);
 
 			cells = lines.get(0).split(",");
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
-
 		return cells;
 	}
 
