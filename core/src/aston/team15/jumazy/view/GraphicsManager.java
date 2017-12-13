@@ -59,14 +59,14 @@ public class GraphicsManager {
 			lighting.dispose();
 			float scalex = (JumazyGame.WIDTH/stage.getWidth());
 			float scaley = (JumazyGame.HEIGHT/stage.getHeight());
-			int x = (int) ((maze.getWidth()*blockSize) / scalex);
+			int x = (int) ((maze.getWidth()*blockSize) / scalex + 100);
 			int y = (int) (((maze.getHeight()*blockSize) + (10/scaley)) / scaley);
 		    int x3 = (int) (stage.getWidth());
 		    int y3 = (int) (stage.getHeight());
 			Pixmap overlay = new Pixmap(x,y, Pixmap.Format.RGBA8888);
 			//Pixmap overlay = new Pixmap(maze.getWidth()*blockSize + 64, maze.getHeight()*blockSize + 10, Pixmap.Format.RGBA8888);
 		    overlay.setColor(0, 0, 0, 0.9f);
-		    int x2 = (int) ((maze.getWidth()*blockSize) / scalex );
+		    int x2 = (int) ((maze.getWidth()*blockSize) / scalex);
 		    int y2 = (int) ((maze.getHeight()*blockSize + (10/scaley)) / scaley);
 		    overlay.fillRectangle(0, 0, x, y);
 

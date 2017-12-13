@@ -29,7 +29,7 @@ public class Button extends Actor {
     	clicked = false;
     	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wood_sticks.ttf"));
     	FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-    	parameter.size = (int) 36;
+    	parameter.size = (int) 30;
     	parameter.color = Color.BLACK;
     	font12 = generator.generateFont(parameter); // font size 12 pixels
     	generator.dispose();
