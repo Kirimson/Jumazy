@@ -75,9 +75,17 @@ public class GraphicsManager {
 		    overlay.setColor(1, 1, 1, 0f);
 		  
 		    for(Player p : maze.getPlayersList()) {
+		    	if (p.getPlayerNumber() == 2 ||p.getPlayerNumber() == 4){
+		    		int px = (int) (((p.getCoords().getX()*blockSize + (p.getWidth()/2)) / scalex) + 44);
+			    	int py = (int) (((JumazyGame.HEIGHT - p.getCoords().getY()*blockSize+(p.getHeight()/2)) / scaley));
+			    	overlay.fillCircle(px, py, 150);
+		    	}
+		    	else{
 		    	int px = (int) ((p.getCoords().getX()*blockSize + (p.getWidth()/2)) / scalex);
 		    	int py = (int) ((JumazyGame.HEIGHT - p.getCoords().getY()*blockSize+(p.getHeight()/2)) / scaley);
 		    	overlay.fillCircle(px, py, 150);
+		    	}
+		    	//overlay.fillCircle(px, py, 150);
 		    }
 		    overlay.setBlending(Pixmap.Blending.SourceOver);
 
