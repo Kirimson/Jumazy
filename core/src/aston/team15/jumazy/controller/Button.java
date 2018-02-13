@@ -1,6 +1,7 @@
 package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -24,6 +25,7 @@ public class Button extends Actor {
     float scalex = MainSystem.scalex;
 	float scaley = MainSystem.scaley;
     private BitmapFont font12;
+    private Sound buttonSound;
     
     public Button(float x, float y, String text, boolean minusSelf){
     	clicked = false;
@@ -47,6 +49,8 @@ public class Button extends Actor {
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
         addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            	buttonSound = Gdx.audio.newSound(Gdx.files.internal("Button.wav"));
+            	buttonSound.play();
                 clicked = true;
                 return true;
             }
