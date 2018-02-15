@@ -15,18 +15,18 @@ public class Player extends Sprite{
 	private boolean rolled;
 	private int rollSpaces;
 	private boolean trapped;
-	private boolean turn;
+	private boolean turnDone = false;
 	private Coordinate startOfMove;
 	private Coordinate lastMove;
 	private boolean victoryState;
 	private static int playerCount = 1;
 	private int playerNumber;
 	private DieAnimation dieAnimation;
-
+	private boolean willContinue = false;
 
 	/**
 	 * Creates a new {@link Player} object, using a {@link Coordinate} object to set its position
-	 * @param coords {@link Coordinates} of the new Player object
+	 * @param coords {@link Coordinate} of the new Player object
 	 */
 	public Player(Coordinate coords) {
 		setRegion(TextureConstants.getTexture("player"));
@@ -35,7 +35,7 @@ public class Player extends Sprite{
 		
 		rolled = false;
 		rollSpaces = 0;
-		turn = false;
+		turnDone = false;
 		lastMove=coords;
 		playerNumber = playerCount;
 		playerCount++;
@@ -51,13 +51,17 @@ public class Player extends Sprite{
 	public DieAnimation getDieAnim() {
 		return dieAnimation;
 	}
-
-	public void switchTurn() {
-		turn = !turn;
+	
+	public boolean willContinue() {
+		return willContinue;
 	}
 
-	public boolean getTurnState(){
-		return turn;
+	public void switchTurn() {
+		turnDone = !turnDone;
+	}
+
+	public boolean getTurnDone(){
+		return turnDone;
 	}
 
 	public void switchRolled() {
@@ -68,14 +72,6 @@ public class Player extends Sprite{
 	public boolean rolled() {
 		return rolled;
 	}
-
-	/**
-	 * Returns the players texture
-	 * @return {@link Texture} object of the player
-	 */
-//	public Texture getTexture() {
-//		return playerTexture;
-//	}
 
 	/**
 	 * Returns the players coordinates
@@ -114,13 +110,15 @@ public class Player extends Sprite{
 						checkTrap(surroundedBlock[1]);
 						checkVictory(surroundedBlock[1]);
 						dieAnimation.decrease();
-
 					}
 				}
 			}
 			else
 				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
 		}
+
+		if(rollSpaces == 0)
+			turnDone = true;
 	}
 
 	private void checkTrap(Block path) {
@@ -146,6 +144,15 @@ public class Player extends Sprite{
 				rollSpaces = 0;
 				moveToStartOfTurn();
 			}
+			else
+			{
+				//chance for extra turnDone if riddle answered correctly
+//				if(new Random().nextInt(9) == 0)
+					willContinue = true;
+					System.out.println("set to true");
+//				else
+//					System.out.println("did not get extra turn");
+			}
 		}
 	}
 
@@ -170,6 +177,11 @@ public class Player extends Sprite{
             rollSpaces = 1;
     
 		dieAnimation.setFinalDie(rollSpaces);
+	}
+
+	public void resetTurn(){
+		turnDone = false;
+		willContinue = false;
 	}
 
 	public boolean isVictor() {

@@ -68,7 +68,7 @@ public class Block extends Sprite{
 //	}
 	
 	/**
-	 * Returns the {@link Coordinates} of the {@link Block}
+	 * Returns the {@link Coordinate} of the {@link Block}
 	 * @return returns a {@link Coordinate} object of the {@link Block}
 	 */
 	public Coordinate getCoords() {

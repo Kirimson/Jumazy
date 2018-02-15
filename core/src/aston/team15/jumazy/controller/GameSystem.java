@@ -55,7 +55,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	/**
-	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
+	 * Sends needed parameters to the {@link GraphicsManager} to draw all needed textures
 	 */
 	public void draw(SpriteBatch batch) {
 		gMan.draw(batch, maze, playerMoved, pause, stage);
@@ -93,8 +93,8 @@ public class GameSystem extends MainSystem{
 		
 		if(!pause) {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
-			&& maze.getCurrPlayer().rolled() == false 
-			&& maze.getCurrPlayer().isTrapped() == false) {
+			&& !maze.getCurrPlayer().rolled()
+			&& !maze.getCurrPlayer().isTrapped()) {
 				focusCam = true;
 				maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
 				maze.getCurrPlayer().switchRolled();
@@ -102,16 +102,8 @@ public class GameSystem extends MainSystem{
 				System.out.println("Current player " + maze.getCurrPlayerVal());
 			}
 			
-			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
-			&& maze.getCurrPlayer().getRollSpaces() == 0
-			&& maze.getCurrPlayer().isTrapped() == false) {
-				focusCam = false;
-				maze.nextPlayer();
-				System.out.println("CHANGE TURN");
-			}
-			
 			if(Gdx.input.isKeyJustPressed(Input.Keys.B)
-			&& maze.getCurrPlayer().isTrapped() == false) {
+			&& !maze.getCurrPlayer().isTrapped()) {
 				maze.getCurrPlayer().moveToStartOfTurn();
 			}
 			
@@ -147,7 +139,18 @@ public class GameSystem extends MainSystem{
 			if(maze.getCurrPlayer().isTrapped()) {
 				maze.getCurrPlayer().checkStillTrapped();
 			}
-			
+
+			if(maze.getCurrPlayer().getTurnDone()
+					&& maze.getCurrPlayer().getRollSpaces() == 0) {
+				maze.getCurrPlayer().resetTurn();
+				focusCam = false;
+				
+				if(!maze.getCurrPlayer().willContinue())
+				{
+					maze.nextPlayer();
+					System.out.println("CHANGE TURN");
+				}
+			}
 		}
 
 	}

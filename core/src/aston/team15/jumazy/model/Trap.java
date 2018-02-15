@@ -3,6 +3,7 @@ package aston.team15.jumazy.model;
 import com.badlogic.gdx.graphics.Texture;
 
 import aston.team15.jumazy.view.RiddleGUI;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 public class Trap extends Path {
 

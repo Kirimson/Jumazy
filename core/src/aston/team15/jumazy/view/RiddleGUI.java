@@ -60,13 +60,9 @@ public class RiddleGUI {
 		responseFrame = new JFrame("Response");
 		centreWindow(responseFrame);
 		continueGame = new JButton("Continue");
-		
-		ImageIcon bg = null;
-		URL url = RiddleGUI.class.getResource("/jungleGUI.jpg");
-		bg = new ImageIcon(url);
-		
-		questionFrame.setContentPane(new JLabel(bg));
-		responseFrame.setContentPane(new JLabel(bg));
+
+		questionFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
+		responseFrame.setContentPane(new JLabel(new ImageIcon("../core/assets/jungleGUI.jpg")));
 		String[] riddleText = retrieveRiddle();
 		questionFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		question = new JTextArea(riddleText[0], 2, 16);
@@ -95,24 +91,12 @@ public class RiddleGUI {
 				responseLabel = new JLabel();
 				responseFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
-				if (correct == true) {
+				if (correct) {
 					responseLabel.setText("You are correct");
-					
-					URL url = RiddleGUI.class.getResource("/correct.wav");
-					try {
-						sound = new File(url.toURI());
-					} catch (URISyntaxException e1) {
-						e1.printStackTrace();
-					}
-					
+					sound = new File("../core/assets/correct.wav");
 				} else {
 					responseLabel.setText("You are not correct");
-					URL url = RiddleGUI.class.getResource("/incorrect.wav");
-					try {
-						sound = new File(url.toURI());
-					} catch (URISyntaxException e1) {
-						e1.printStackTrace();
-					}
+					sound = new File("../core/assets/incorrect.wav");
 				}
 
 				playSound(sound);
@@ -157,15 +141,9 @@ public class RiddleGUI {
 	}
 
 	public String[] retrieveRiddle() {
-		
-		File file = null;
-		URL url = RiddleGUI.class.getResource("/riddles.csv");
-		try {
-			file = new File(url.toURI());
-		} catch (URISyntaxException e1) {
-			e1.printStackTrace();
-		}
-		
+
+		File file = new File("../core/assets/riddles.csv");
+
 		try {
 			Scanner inputStream = new Scanner(file);
 			String line;
@@ -173,7 +151,6 @@ public class RiddleGUI {
 			while (inputStream.hasNext()) {
 				line = inputStream.nextLine();
 				lines.add(line);
-
 			}
 			inputStream.close();
 			Collections.shuffle(lines);
