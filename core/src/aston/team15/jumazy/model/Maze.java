@@ -33,7 +33,7 @@ public class Maze {
 		MAZE_DIMENSIONX = dimensionx;
 		MAZE_DIMENSIONY = dimensiony;
 		mazeGenerator = new Generator();
-		maze = mazeGenerator.superNewGenMaze(dimensionx, dimensiony);
+//		maze = mazeGenerator.genMaze(dimensionx, dimensiony);
 		statMaze = maze;
 		this.totalPlayers = totalPlayers;
 		

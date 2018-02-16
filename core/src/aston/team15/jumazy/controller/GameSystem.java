@@ -32,7 +32,7 @@ public class GameSystem extends MainSystem{
 
 	public GameSystem(int players) {
 		super();
-		maze = new Maze(41, 24, players);
+		maze = new Maze(30, 30, players);
 		gMan = new GraphicsManager();
 		setupCamera();
 		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
