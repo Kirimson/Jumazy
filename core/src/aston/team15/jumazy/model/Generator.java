@@ -1,11 +1,13 @@
 package aston.team15.jumazy.model;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.Random;
 
 public class Generator {
 	
 	private Random rnd;
-	private String[][] maze;
+	private Block[][] maze;
 	private int xMiddle;
 	private int yMiddle;
 
@@ -24,7 +26,7 @@ public class Generator {
 	 * @param roomSize the size of each room (currently just a square)
 	 * @return the maze
 	 */
-	public String[][] genMaze(int roomAmount, int roomSize){
+	public Block[][] genMaze(int roomAmount, int roomSize){
 
 		//currently has a hard set size for each room (10*10)
 		int roomsAcross = 3;
@@ -32,25 +34,15 @@ public class Generator {
 			if(roomAmount % i == 0 && i !=roomAmount)
 				roomsAcross = i;
 		}
-		System.out.println(roomsAcross);
-		//loop from 1-10, mod roomAmount with it, first to produce 0 is roomsAcross. simples
 
-		//amount of rooms that will be across and up the maze
-
-
-		int extraRoom = (roomAmount % roomsAcross == 0 ? 0 : 1);
-
-		int roomsDown = roomAmount / roomsAcross + extraRoom;
-
-		//total amount of rooms in maze
-//		int roomAmount = roomlength * roomlength; //9
+		int roomsDown = roomAmount / roomsAcross;
 
 		//create maze with enough space to store all cells of all rooms in a square shape
-		maze = new String[roomSize*roomsDown][roomSize*roomsAcross];
+		maze = new Block[roomSize*roomsDown][roomSize*roomsAcross];
 
 		//create roomAmount rooms
 		for (int i = 0; i < roomAmount; i++) {
-			String[][] room = genRoom(roomSize);
+			Block[][] room = genRoom(roomSize);
 
 			//set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a 30*30 maze)
@@ -70,16 +62,27 @@ public class Generator {
 		}
 
 		//prints out rooms
-		for(int mazerow = 0; mazerow < maze.length; mazerow++){
-			for (int mazecol = 0; mazecol < maze[0].length; mazecol++){
-				String current = maze[mazerow][mazecol];
-				if(current != null)
-					System.out.print(current);
+//		for (Block[] mazeRow : maze) {
+//			for (Block current : mazeRow) {
+//				if (current != null)
+////					current.updateCoords(maz);
+//					System.out.print(current.toString());
+//			}
+//			System.out.println();
+//		}
+		for(int mazerow = 0; mazerow < maze.length; mazerow++) {
+			for (int mazecol = 0; mazecol < maze[0].length; mazecol++) {
+				Block current = maze[mazerow][mazecol];
+				current.updateCoords(mazerow, mazecol);
+				if (current != null){
+					System.out.print(current.toString());
+				}
+				System.out.println();
 			}
-			System.out.println();
 		}
-		
-		return maze;
+
+
+					return maze;
 	}
 
 	/**
@@ -87,17 +90,17 @@ public class Generator {
 	 * @param size width/height of room
 	 * @return
 	 */
-	private String[][] genRoom(int size) {
+	private Block[][] genRoom(int size) {
 
-		String[][] room = new String[size][size];
+		Block[][] room = new Block[size][size];
 
 		for(int i = 0; i < size; i++){
 			for (int k = 0; k < size; k++){
 				if(i == 0 || i == size-1 || k == 0 || k == size-1){
-					room[i][k] = "*";
+					room[i][k] = new Wall(new Coordinate(0,0), "Right");
 				}
 				else{
-					room[i][k] = "o";
+					room[i][k] = new Path(new Coordinate(0,0));
 				}
 			}
 		}

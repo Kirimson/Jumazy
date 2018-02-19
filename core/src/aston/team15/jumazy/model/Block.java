@@ -59,16 +59,7 @@ public class Block extends Sprite{
 	}
 	
 	/**
-	 * Returns the {@link Texture} of the {@link Block}
-	 * @return {@link Texture} object for the {@link Block}
-	 */
-//	public Texture getTexture()
-//	{
-//		return texture;
-//	}
-	
-	/**
-	 * Returns the {@link Coordinates} of the {@link Block}
+	 * Returns the {@link Coordinate} of the {@link Block}
 	 * @return returns a {@link Coordinate} object of the {@link Block}
 	 */
 	public Coordinate getCoords() {
@@ -103,5 +94,11 @@ public class Block extends Sprite{
 	
 	public void addExit(String exit) {
 		exits.add(exit);
+	}
+
+	public void updateCoords(int x, int y){
+		coords = new Coordinate(x, y);
+		setX(coords.getX()*getWidth());
+		setY(coords.getY()*getHeight());
 	}
 }

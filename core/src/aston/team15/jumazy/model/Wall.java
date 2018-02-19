@@ -9,7 +9,7 @@ public class Wall extends Block {
 	}
 	
 	public String toString() {
-		return "wall";
+		return "*";
 	}
 
 }

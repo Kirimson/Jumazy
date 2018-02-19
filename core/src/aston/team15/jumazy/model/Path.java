@@ -13,7 +13,7 @@ public class Path extends Block {
 	}
 
 	public String toString() {
-		return "path";
+		return "O";
 	}
 
 }

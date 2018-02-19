@@ -30,10 +30,10 @@ public class Maze {
 	 * player, the player object
 	 */
 	public Maze(int dimensionx, int dimensiony, int totalPlayers) {
-		MAZE_DIMENSIONX = dimensionx;
-		MAZE_DIMENSIONY = dimensiony;
 		mazeGenerator = new Generator();
-//		maze = mazeGenerator.genMaze(dimensionx, dimensiony);
+		maze = mazeGenerator.genMaze(10, 11);
+		MAZE_DIMENSIONX = maze.length;
+		MAZE_DIMENSIONY = maze[0].length;
 		statMaze = maze;
 		this.totalPlayers = totalPlayers;
 		
@@ -46,7 +46,7 @@ public class Maze {
 		players = new ArrayList<Player>();
 		
 		if(totalPlayers>0)
-			players.add(new Player(new Coordinate(0,0)));
+			players.add(new Player(new Coordinate(1,1)));
 		if(totalPlayers>1)
 			players.add(new Player(new Coordinate((dimensionx-1),(dimensiony-2))));
 		if(totalPlayers>2)

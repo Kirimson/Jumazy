@@ -101,7 +101,7 @@ public class GraphicsManager {
 //		lightSprite.setY(0);
 	    
 	    // Draw it to the screen
-	    batch.draw(lighting, 0, 0);
+//	    batch.draw(lighting, 0, 0);
 //		lightSprite.draw(batch);
 		
 	    if(maze.getCurrPlayer().rolled() == false) {
