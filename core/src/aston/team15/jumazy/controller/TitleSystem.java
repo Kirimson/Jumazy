@@ -18,10 +18,13 @@ public class TitleSystem extends MainSystem{
 	//	private Texture playBtn;
 	//	private Texture exitButton;
 	private Button playButton, quitButton, settingsButton;
-	private boolean playMusic = true;
 
 	public TitleSystem() {
 		super();
+		
+		GameSound gs = new GameSound();
+		gs.playMenuMusic();
+		
 		Texture butTex = new Texture("ButtonNormal.png");
 		background= new Texture("background.jpg");
 
@@ -55,10 +58,6 @@ public class TitleSystem extends MainSystem{
 		stage.draw();
 
 		cam.update();
-	}
-
-	public boolean getPlayMusic() {
-		return playMusic;
 	}
 	
 	@Override
