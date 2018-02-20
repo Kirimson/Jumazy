@@ -46,7 +46,7 @@ public class JumazyGame extends ApplicationAdapter {
 
 		
 		
-		lightBuffer = new FrameBuffer(Format.RGBA8888, WIDTH,HEIGHT, false);
+		lightBuffer = new FrameBuffer(Format.RGB888, WIDTH,HEIGHT, false);
 
 		lightBuffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 

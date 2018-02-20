@@ -1,7 +1,9 @@
 package aston.team15.jumazy.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -12,11 +14,13 @@ public class MenuSystem extends MainSystem{
 	private Button playButton, textureButton, tutorialButton, backButton;
 	
 	public MenuSystem() {
-		super();
+		super(); //What does this do? When I comment it out nothing changes. - Dom
 
 		Texture butTex = new Texture("ButtonNormal.png");
 		background= new Texture("background.jpg");
-
+		
+		//Pixmap fade = new Pixmap(1.0f, 1.0f, Pixmap.Format.RGBA8888);
+		
 		float base = (stage.getHeight()/2);
 		
 		playButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,base,"Play", true);
@@ -70,6 +74,9 @@ public class MenuSystem extends MainSystem{
 			SystemManager.setNewSystem(new TitleSystem());
 		}
 		
+	}
+	
+	public void cursorHover() {
 	}
 
 	@Override

@@ -13,7 +13,6 @@ import aston.team15.jumazy.view.JumazyGame;
 
 public class TutorialSystem extends MainSystem{
 	
-	private Texture backButton4;
 	private Texture background;
 	private Button backButton;
 
