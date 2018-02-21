@@ -13,11 +13,13 @@ public class Room {
     public void makeRoom(){
         for(int i = 0; i < roomSize; i++){
 			for (int k = 0; k < roomSize; k++){
+				int blockX =(roomSize*coords.getX())+i;
+				int blockY =(roomSize*coords.getY())+i;
 				if(i == 0 || i == roomSize-1 || k == 0 || k == roomSize-1){
-					blocks[i][k] = new Wall(new Coordinate(i,k), "Right");
+					blocks[i][k] = new Wall(new Coordinate(blockX,blockY), "Right");
 				}
 				else{
-					blocks[i][k] = new Path(new Coordinate(i, (coords.getY()+1) * k));
+					blocks[i][k] = new Path( new Coordinate( blockX,blockY ) );
 				}
 			}
 		}
