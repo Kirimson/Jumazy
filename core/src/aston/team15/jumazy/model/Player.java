@@ -117,7 +117,10 @@ public class Player extends Sprite{
 				}
 			}
 			else
+			{
 				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+//				((Trap)Maze.getBlock(coords)).renderGui();
+			}
 		}
 	}
 

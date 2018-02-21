@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 import aston.team15.jumazy.view.JumazyGame;
+import aston.team15.jumazy.view.Question;
 
 public class MenuSystem extends MainSystem{
 	
@@ -18,6 +19,7 @@ public class MenuSystem extends MainSystem{
 	private Texture tutorialButton;
 	private Texture backButton1;
 	private Texture background;
+	
 
 	public MenuSystem(SystemManager sysMan) {
 		super(sysMan);
@@ -28,6 +30,7 @@ public class MenuSystem extends MainSystem{
 		backButton1=new Texture("backButton.png");
 		background= new Texture("background.jpg");
 		setupCamera();
+		
 	}
 
 	@Override

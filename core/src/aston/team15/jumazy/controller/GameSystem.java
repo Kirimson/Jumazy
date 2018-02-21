@@ -109,6 +109,7 @@ public class GameSystem extends MainSystem{
 			focusCamera();
 			
 			if(maze.getCurrPlayer().isTrapped()) {
+				
 				maze.getCurrPlayer().checkStillTrapped();
 			}
 			
