@@ -33,7 +33,7 @@ public class GameSystem extends MainSystem{
 
 	public GameSystem(int players) {
 		super();
-		maze = new Maze(3, 2, players);
+		maze = new Maze(4, 2, players);
 		gMan = new GraphicsManager();
 		setupCamera();
 		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
@@ -60,7 +60,7 @@ public class GameSystem extends MainSystem{
 	 * Sends needed parameters to the {@link GraphicsManager} to draw all needed textures
 	 */
 	public void draw(SpriteBatch batch) {
-		gMan.draw(batch, maze, playerMoved, pause, stage);
+		gMan.draw(batch, maze, playerMoved, pause, stage, dieAnimation);
 		
 		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		
@@ -103,9 +103,10 @@ public class GameSystem extends MainSystem{
 				maze.getCurrPlayer().switchRolled();
 
 				currPlayer.roll(maze.getWeather().getMovementMod());
+
 				dieAnimation.setFinalDie(currPlayer.getRollSpaces());
 			}
-			
+//			System.out.println(currPlayer.getRollSpaces());
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
 			&& maze.getCurrPlayer().getRollSpaces() == 0
 			&& !maze.getCurrPlayer().isTrapped()) {
@@ -118,7 +119,9 @@ public class GameSystem extends MainSystem{
 			{
 				if(!currPlayer.isTrapped()){
 					Block movingBlock = findDirection(currPlayer);
-					if(movingBlock instanceof Path){
+//					System.out.println(movingBlock.toString());
+					if(movingBlock instanceof Path && movingBlock != null){
+						System.out.println("here");
 						currPlayer.updateCoords(movingBlock.getCoords());
 						currPlayer.reduceRolls();
 						currPlayer.checkTrap(movingBlock);
@@ -131,6 +134,7 @@ public class GameSystem extends MainSystem{
 					Trap current = (Trap)maze.getBlock(currPlayer.getCoords());
 					if(!current.stillTrapped()){
 						if(!current.wasCorrect()){
+							System.out.println("boo2");
 							currPlayer.moveToStartOfTurn();
 						}
 					}
@@ -156,7 +160,10 @@ public class GameSystem extends MainSystem{
 		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
 			yDir--;
 
-		Coordinate movingBlock = new Coordinate(currPlayer.getCoords().getX() + xDir, currPlayer.getCoords().getY() + yDir);
+		Coordinate movingBlock;
+		if(!(xDir == 0 && yDir == 0))
+			movingBlock = new Coordinate(currPlayer.getCoords().getX() + xDir, currPlayer.getCoords().getY() + yDir);
+		else return null;
 
 		return maze.getBlock(movingBlock);
 	}

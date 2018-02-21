@@ -1,16 +1,12 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.model.Coordinate;
+import aston.team15.jumazy.model.*;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import aston.team15.jumazy.model.Maze;
-import aston.team15.jumazy.model.Player;
-import aston.team15.jumazy.model.TextureConstants;
 
 public class GraphicsManager {
 	
@@ -29,11 +25,10 @@ public class GraphicsManager {
 	 * @param batch the {@link SpriteBatch} you want to draw to
 	 * @return returns the {@link SpriteBatch} passed, with maze set to draw
 	 */
-	public void draw(SpriteBatch batch, Maze maze, boolean updateHoles, boolean pause,Stage stage) {
+	public void draw(SpriteBatch batch, Maze maze, boolean updateHoles, boolean pause, Stage stage, DieAnimation die) {
 		//draw maze
 		for(int i = 0; i < Maze.getBlocksAcross(); i++) {
 			for(int k = 0; k <  Maze.getBlocksDown(); k++) {
-				System.out.println(i+", "+k);
 				maze.getBlock(new Coordinate(i,k)).draw(batch);
 			}
 		}
@@ -108,7 +103,7 @@ public class GraphicsManager {
 			font.draw(batch, "Press Space to roll", -100,-100);
 		} 
 		else if(maze.getCurrPlayer().getRollSpaces() > 0) {
-			maze.getCurrPlayer().getDieAnim().draw(batch, maze.getCurrPlayer().getX()+50, maze.getCurrPlayer().getY()+50);
+			die.draw(batch, maze.getCurrPlayer().getX()+50, maze.getCurrPlayer().getY()+50);
 		}
 	    
 	    if(maze.getCurrPlayer().rolled() == true) {

@@ -48,9 +48,9 @@ public class Player extends Sprite{
 		
 	}
 
-	public DieAnimation getDieAnim() {
-		return dieAnimation;
-	}
+//	public DieAnimation getDieAnim() {
+//		return dieAnimation;
+//	}
 
 	public void switchTurn() {
 		turn = !turn;
@@ -151,6 +151,7 @@ public class Player extends Sprite{
 
 		if(rollSpaces == 0)
             rollSpaces = 1;
+		System.out.println(rollSpaces);
 	}
 
 	public boolean isVictor() {

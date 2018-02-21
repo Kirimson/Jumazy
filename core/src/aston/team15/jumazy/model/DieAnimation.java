@@ -84,7 +84,7 @@ public class DieAnimation {
 				animationFinished = true;
 			}
 		} else if (animationFinished) {
-			batch.draw(pictureArray[finalDie - 1], x + 50, y + 50);
+			batch.draw(pictureArray[finalDie-1], x + 50, y + 50);
 		} else {
 			batch.draw(pictureArray[currentPicIndex], x + 50, y + 50);
 			currentElapsedTime += Gdx.graphics.getDeltaTime();

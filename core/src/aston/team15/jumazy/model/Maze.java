@@ -49,11 +49,11 @@ public class Maze {
 		if(totalPlayers>0)
 			players.add(new Player(new Coordinate(1,1)));
 		if(totalPlayers>1)
-			players.add(new Player(new Coordinate((roomsAcross-1),(roomsDown-2))));
+			players.add(new Player(new Coordinate((Maze.getBlocksAcross()-2),(Maze.getBlocksDown()-2))));
 		if(totalPlayers>2)
-			players.add(new Player(new Coordinate( 0, (roomsDown-2))));
+			players.add(new Player(new Coordinate(1,(Maze.getBlocksDown()-2))));
 		if(totalPlayers>3)
-			players.add(new Player(new Coordinate((roomsAcross-1), 0)));
+			players.add(new Player(new Coordinate((Maze.getBlocksAcross()-2),1)));
 		
 		currPlayer=0;
 		getCurrPlayer().switchTurn();
@@ -99,9 +99,12 @@ public class Maze {
 //		Block b = null;
 		int roomX = coord.getX() / ROOM_SIZE;
 		int roomY = coord.getY() / ROOM_SIZE;
-		Room room = maze[roomX][roomY];
 
-		return room.getBlock(coord);
+		int blockX = coord.getX() %ROOM_SIZE;
+		int blockY = coord.getY() %ROOM_SIZE;
+
+		Coordinate blockCoord = new Coordinate(blockX, blockY);
+		return maze[roomX][roomY].getBlock(blockCoord);
 	}
 
 	public Weather getWeather() {
