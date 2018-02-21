@@ -15,7 +15,7 @@ public class Room {
         for(int i = 0; i < roomSize; i++){
 			for (int k = 0; k < roomSize; k++){
 				int blockX =(roomSize*coords.getX())+i;
-				int blockY =(roomSize*coords.getY())+i;
+				int blockY =(roomSize*coords.getY())+k;
 				if(i == 0 || i == roomSize-1 || k == 0 || k == roomSize-1){
 					blocks[i][k] = new Wall(new Coordinate(blockX,blockY), "Right");
 				}
@@ -28,7 +28,7 @@ public class Room {
     }
 
     public Block getBlock(Coordinate coord) {
-        return blocks[coord.getX()-1][coord.getY()-1];
+        return blocks[coord.getX()][coord.getY()];
     }
 
 //    public String toString(){

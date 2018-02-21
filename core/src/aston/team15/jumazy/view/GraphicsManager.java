@@ -33,6 +33,7 @@ public class GraphicsManager {
 		//draw maze
 		for(int i = 0; i < Maze.getBlocksAcross(); i++) {
 			for(int k = 0; k <  Maze.getBlocksDown(); k++) {
+				System.out.println(i+", "+k);
 				maze.getBlock(new Coordinate(i,k)).draw(batch);
 			}
 		}

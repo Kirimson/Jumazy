@@ -99,8 +99,9 @@ public class Maze {
 //		Block b = null;
 		int roomX = coord.getX() / ROOM_SIZE;
 		int roomY = coord.getY() / ROOM_SIZE;
+		Room room = maze[roomX][roomY];
 
-		return maze[roomX][roomY].getBlock(coord);
+		return room.getBlock(coord);
 	}
 
 	public Weather getWeather() {
