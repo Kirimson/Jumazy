@@ -1,5 +1,6 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.model.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -8,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-import aston.team15.jumazy.model.Maze;
-import aston.team15.jumazy.model.TextureConstants;
 import aston.team15.jumazy.view.GraphicsManager;
 import aston.team15.jumazy.view.JumazyGame;
 /**
@@ -30,14 +29,17 @@ public class GameSystem extends MainSystem{
 	private Button resumeButton;
 	private Button quitButton;
 
+	private DieAnimation dieAnimation;
+
 	public GameSystem(int players) {
 		super();
-		maze = new Maze(30, 30, players);
+		maze = new Maze(3, 2, players);
 		gMan = new GraphicsManager();
 		setupCamera();
 		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
 		ambientMusic.play();
-		
+		dieAnimation = new DieAnimation();
+
 		//UI
 		Texture butTex = new Texture("ButtonNormal.png");
 		Texture pauseTex = TextureConstants.getTexture("pausepageNew");
@@ -55,7 +57,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	/**
-	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
+	 * Sends needed parameters to the {@link GraphicsManager} to draw all needed textures
 	 */
 	public void draw(SpriteBatch batch) {
 		gMan.draw(batch, maze, playerMoved, pause, stage);
@@ -92,64 +94,71 @@ public class GameSystem extends MainSystem{
 		}
 		
 		if(!pause) {
+			Player currPlayer = maze.getCurrPlayer();
 			if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
-			&& maze.getCurrPlayer().rolled() == false 
-			&& maze.getCurrPlayer().isTrapped() == false) {
+			&& !maze.getCurrPlayer().rolled()
+			&& !maze.getCurrPlayer().isTrapped()) {
 				focusCam = true;
-				maze.getCurrPlayer().setStartOfMove(maze.getCurrPlayer().getCoords());
+				currPlayer.setStartOfMove(currPlayer.getCoords());
 				maze.getCurrPlayer().switchRolled();
-				maze.getCurrPlayer().roll(maze.getWeather().getMovementMod());
-				System.out.println("Current player " + maze.getCurrPlayerVal());
+
+				currPlayer.roll(maze.getWeather().getMovementMod());
+				dieAnimation.setFinalDie(currPlayer.getRollSpaces());
 			}
 			
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) 
 			&& maze.getCurrPlayer().getRollSpaces() == 0
-			&& maze.getCurrPlayer().isTrapped() == false) {
+			&& !maze.getCurrPlayer().isTrapped()) {
 				focusCam = false;
 				maze.nextPlayer();
 				System.out.println("CHANGE TURN");
 			}
-			
-			if(Gdx.input.isKeyJustPressed(Input.Keys.B)
-			&& maze.getCurrPlayer().isTrapped() == false) {
-				maze.getCurrPlayer().moveToStartOfTurn();
-			}
-			
-			if(maze.getCurrPlayer().rolled())
+
+			if(currPlayer.getRollSpaces() > 0 && dieAnimation.getAnimationFinished())
 			{
-				String direction = "";
-				if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-					direction = "right";
+				if(!currPlayer.isTrapped()){
+					Block movingBlock = findDirection(currPlayer);
+					if(movingBlock instanceof Path){
+						currPlayer.updateCoords(movingBlock.getCoords());
+						currPlayer.reduceRolls();
+						currPlayer.checkTrap(movingBlock);
+						currPlayer.checkVictory(movingBlock);
+						dieAnimation.decrease();
+					}
 				}
-				else if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-					direction = "left";
-				}
-				else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-					direction = "up";
-				}
-				else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-					direction = "down";
-				}
-				
-				if(direction != "")
-				{
-					maze.getCurrPlayer().newMove(direction);
-					playerMoved = true;
-				} 
 				else
 				{
-					playerMoved = false;
+					Trap current = (Trap)maze.getBlock(currPlayer.getCoords());
+					if(!current.stillTrapped()){
+						if(!current.wasCorrect()){
+							currPlayer.moveToStartOfTurn();
+						}
+					}
 				}
 			}
 			
 			focusCamera();
-			
-			if(maze.getCurrPlayer().isTrapped()) {
-				maze.getCurrPlayer().checkStillTrapped();
-			}
-			
 		}
+	}
 
+	private Block findDirection(Player currPlayer){
+		int xDir = 0, yDir = 0;
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+			xDir++;
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+			xDir--;
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
+			yDir++;
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+			yDir--;
+
+		Coordinate movingBlock = new Coordinate(currPlayer.getCoords().getX() + xDir, currPlayer.getCoords().getY() + yDir);
+
+		return maze.getBlock(movingBlock);
 	}
 
 	/**

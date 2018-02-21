@@ -8,9 +8,10 @@ public class Room {
     public Room(Coordinate coords){
         blocks = new Block[roomSize][roomSize];
         this.coords = coords;
+        makeRoom();
     }
 
-    public void makeRoom(){
+    private void makeRoom(){
         for(int i = 0; i < roomSize; i++){
 			for (int k = 0; k < roomSize; k++){
 				int blockX =(roomSize*coords.getX())+i;
@@ -19,9 +20,18 @@ public class Room {
 					blocks[i][k] = new Wall(new Coordinate(blockX,blockY), "Right");
 				}
 				else{
-					blocks[i][k] = new Path( new Coordinate( blockX,blockY ) );
+					blocks[i][k] = new Path( new Coordinate( blockX,blockY ));
 				}
+//                System.out.println(coords.toString());
 			}
 		}
     }
+
+    public Block getBlock(Coordinate coord) {
+        return blocks[coord.getX()-1][coord.getY()-1];
+    }
+
+//    public String toString(){
+//        return "";
+//    }
 }

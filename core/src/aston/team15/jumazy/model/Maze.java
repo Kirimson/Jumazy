@@ -12,16 +12,16 @@ import java.util.Random;
  */
 public class Maze {
 	
-	private static Block[][] statMaze;
-	private Block[][] maze;
+	private static Room[][] statMaze;
+	private Room[][] maze;
 	private static Block stopBlock;
-	public static int MAZE_DIMENSIONX;
-	public static int MAZE_DIMENSIONY;
+	public static int MAZE_ROOMS_ACROSS;
+	public static int MAZE_ROOMS_DOWN;
 	private ArrayList<Player> players;
 	private int currPlayer;
 	private int totalPlayers;
 	private Generator mazeGenerator;
-	
+	public static int ROOM_SIZE = 10;
 	private Weather weather;
 	
 	/**
@@ -29,12 +29,13 @@ public class Maze {
 	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
 	 * player, the player object
 	 */
-	public Maze(int dimensionx, int dimensiony, int totalPlayers) {
+	public Maze(int roomsAcross, int roomsDown, int totalPlayers) {
 		mazeGenerator = new Generator();
-		maze = mazeGenerator.genMaze(9, 11);
-		MAZE_DIMENSIONX = maze.length;
-		MAZE_DIMENSIONY = maze[0].length;
-		statMaze = maze;
+		maze = mazeGenerator.genMaze(roomsAcross, roomsDown);
+		MAZE_ROOMS_ACROSS = maze.length;
+		MAZE_ROOMS_DOWN = maze[0].length;
+
+//		statMaze = maze;
 		this.totalPlayers = totalPlayers;
 		
 		Random rnd = new Random();
@@ -48,18 +49,14 @@ public class Maze {
 		if(totalPlayers>0)
 			players.add(new Player(new Coordinate(1,1)));
 		if(totalPlayers>1)
-			players.add(new Player(new Coordinate((dimensionx-1),(dimensiony-2))));
+			players.add(new Player(new Coordinate((roomsAcross-1),(roomsDown-2))));
 		if(totalPlayers>2)
-			players.add(new Player(new Coordinate( 0, (dimensiony-2))));
+			players.add(new Player(new Coordinate( 0, (roomsDown-2))));
 		if(totalPlayers>3)
-			players.add(new Player(new Coordinate((dimensionx-1), 0)));
+			players.add(new Player(new Coordinate((roomsAcross-1), 0)));
 		
 		currPlayer=0;
 		getCurrPlayer().switchTurn();
-	}
-	
-	public static Block[][] getMaze(){
-		return statMaze;
 	}
 	
 	public ArrayList<Player> getPlayersList() {
@@ -94,72 +91,27 @@ public class Maze {
 	}
 	
 	/**
-	 * Returns a 2D array of {@link Block} objects.
-	 * Checks Coordinate object and adds block at that coordinate to nearBlocks array.
-	 * Checks direction player wants to go. checks if that direction will lead them out of bounds, adding the next Block to nearBlocks accordingly.
-	 * Yeah, this shouldn't really be in {@link Maze}, but it's easy to implement like this, sooo...
-	 * 
-	 * @param coord a {@link Coordinate} object giving the base location the method should start at
-	 * @param direction String denoting direction the method needs to check
-	 * @return 2D array of Block objects, listing the current block and the block next to it, according to direction
-	 */
-	public static Block[] getSurroundingBlocks(Coordinate coord, String direction) {
-		int xDir = 0;
-		int yDir = 0;
-		
-		switch(direction) {
-			case "up": yDir = 1;break;
-			case "down": yDir = -1;break;
-			case "left": xDir = -1;break;
-			case "right": xDir = 1;break;
-		}
-		
-		Block[] nearBlocks = new Block[2];
-		nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
-		nearBlocks[1] = stopBlock;
-		
-		if(coord.getX()+xDir >= 0 && coord.getY()+yDir >= 0 && coord.getX()+xDir < MAZE_DIMENSIONX && coord.getY()+yDir < MAZE_DIMENSIONY ) {
-			
-			nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
-			nearBlocks[1] = statMaze[coord.getX()+xDir][coord.getY()+yDir];
-		}
-		else
-		{
-			System.out.println("player wanted to go OOB");
-			return null;
-		}
-		
-		return nearBlocks;
-	}
-
-	
-	/**
 	 * Returns a Block in a set column/row. specified by parameters
-	 * @param row row wanted {@link Block} is on
-	 * @param column column wanted {@link Block} is on
+	 * @param coord {@Link Coordinate} wanted {@link Block} is on
 	 * @return
 	 */
-	public Block getBlock(int row, int column) {
-		Block b = null;
-		if(row >= 0 && row <= MAZE_DIMENSIONX && column >= 0 && column <= MAZE_DIMENSIONY)
-			b = maze[row][column];
-		
-		return b;
+	public Block getBlock(Coordinate coord) {
+//		Block b = null;
+		int roomX = coord.getX() / ROOM_SIZE;
+		int roomY = coord.getY() / ROOM_SIZE;
+
+		return maze[roomX][roomY].getBlock(coord);
 	}
 
 	public Weather getWeather() {
 		return weather;
 	}
 	
-	public static Block getBlock(Coordinate coord) {
-		return statMaze[coord.getX()][coord.getY()];
+	public static int getBlocksAcross() {
+		return MAZE_ROOMS_ACROSS * ROOM_SIZE;
 	}
-	
-	public int getWidth() {
-		return MAZE_DIMENSIONX;
-	}
-	
-	public int getHeight() {
-		return MAZE_DIMENSIONY;
+
+	public static int getBlocksDown() {
+		return MAZE_ROOMS_DOWN * ROOM_SIZE;
 	}
 }

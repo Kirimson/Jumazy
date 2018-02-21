@@ -30,7 +30,7 @@ public class Block extends Sprite{
 		setSize(Gdx.graphics.getHeight() *0.045f, Gdx.graphics.getHeight() *0.045f);
 		
 		setX(coords.getX()*getWidth());
-		setY(coords.getY()*getHeight();
+		setY(coords.getY()*getHeight());
 		exits = new Exit();
 	}
 

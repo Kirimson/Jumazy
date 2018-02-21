@@ -1,7 +1,6 @@
 package aston.team15.jumazy.view;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import aston.team15.jumazy.model.Coordinate;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,9 +31,9 @@ public class GraphicsManager {
 	 */
 	public void draw(SpriteBatch batch, Maze maze, boolean updateHoles, boolean pause,Stage stage) {
 		//draw maze
-		for(int i = 0; i < Maze.getMaze().length; i++) {
-			for(int k = 0; k <  Maze.getMaze()[0].length; k++) {
-				maze.getBlock(i, k).draw(batch);
+		for(int i = 0; i < Maze.getBlocksAcross(); i++) {
+			for(int k = 0; k <  Maze.getBlocksDown(); k++) {
+				maze.getBlock(new Coordinate(i,k)).draw(batch);
 			}
 		}
 		
@@ -55,19 +54,19 @@ public class GraphicsManager {
 		}
 		
 		if(updateHoles) {
-			int blockSize = maze.getBlock(0, 0).getRegionHeight();
+			int blockSize = maze.getBlock(new Coordinate(0,0)).getRegionHeight();
 			lighting.dispose();
 			float scalex = (JumazyGame.WIDTH/stage.getWidth());
 			float scaley = (JumazyGame.HEIGHT/stage.getHeight());
-			int x = (int) ((maze.getWidth()*blockSize) / scalex + 100);
-			int y = (int) (((maze.getHeight()*blockSize) + (10/scaley)) / scaley);
+			int x = (int) ((maze.getBlocksAcross()*blockSize) / scalex + 100);
+			int y = (int) (((Maze.getBlocksAcross()*blockSize) + (10/scaley)) / scaley);
 		    int x3 = (int) (stage.getWidth());
 		    int y3 = (int) (stage.getHeight());
 			Pixmap overlay = new Pixmap(x,y, Pixmap.Format.RGBA8888);
-			//Pixmap overlay = new Pixmap(maze.getWidth()*blockSize + 64, maze.getHeight()*blockSize + 10, Pixmap.Format.RGBA8888);
+			//Pixmap overlay = new Pixmap(maze.getBlocksAcross()*blockSize + 64, maze.getHeight()*blockSize + 10, Pixmap.Format.RGBA8888);
 		    overlay.setColor(0, 0, 0, 0.9f);
-		    int x2 = (int) ((maze.getWidth()*blockSize) / scalex);
-		    int y2 = (int) ((maze.getHeight()*blockSize + (10/scaley)) / scaley);
+		    int x2 = (int) ((maze.getBlocksAcross()*blockSize) / scalex);
+		    int y2 = (int) ((Maze.getBlocksAcross()*blockSize + (10/scaley)) / scaley);
 		    overlay.fillRectangle(0, 0, x, y);
 
 		    // Now change the settings so we are drawing transparent circles
@@ -96,7 +95,7 @@ public class GraphicsManager {
 		
 //		Sprite lightSprite = new Sprite();
 //		lightSprite.setRegion(lighting);
-//		lightSprite.setSize(Gdx.graphics.getWidth()*1.2f, Gdx.graphics.getHeight()*1.2f);
+//		lightSprite.setSize(Gdx.graphics.getBlocksAcross()*1.2f, Gdx.graphics.getHeight()*1.2f);
 //		lightSprite.setX(0);
 //		lightSprite.setY(0);
 	    

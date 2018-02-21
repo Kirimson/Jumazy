@@ -22,13 +22,20 @@ public class Generator {
 
 	/**
 	 *
-	 * @param mazeX
-	 * @param mazeY
+	 * @param roomsAcross
+	 * @param roomsDown
 	 * @return
 	 */
-	public Room[][] genMaze(int mazeX, int mazeY){
+	public Room[][] genMaze(int roomsAcross, int roomsDown){
 
-		Room[][] maze = new Room[mazeX][mazeY];
+		Room[][] maze = new Room[roomsAcross][roomsDown];
+
+		for(int roomX = 0; roomX < roomsAcross; roomX++){
+			for(int roomY = 0; roomY < roomsDown; roomY++){
+				maze[roomX][roomY] = new Room(new Coordinate(roomX, roomY));
+				System.out.println(maze[roomX][roomY].toString());
+			}
+		}
 
 //		//currently has a hard set size for each room (10*10)
 //		int roomsAcross = 3;
@@ -40,19 +47,19 @@ public class Generator {
 //		int roomsDown = roomAmount / roomsAcross;
 //
 //		//create maze with enough space to store all cells of all rooms in a square shape
-//		maze = new Block[roomSize*roomsDown][roomSize*roomsAcross];
+//		maze = new Block[ROOM_SIZE*roomsDown][ROOM_SIZE*roomsAcross];
 //
 //		//create roomAmount rooms
 //		for (int i = 0; i < roomAmount; i++) {
-//			Block[][] room = genRoom(roomSize);
+//			Block[][] room = genRoom(ROOM_SIZE);
 //
 //			//set the xoffset to start putting cells into the maze
 //			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a 30*30 maze)
-//			int xoffset=(i*roomSize % (roomSize*roomsDown)); //xoffset
+//			int xoffset=(i*ROOM_SIZE % (ROOM_SIZE*roomsDown)); //xoffset
 //
 //			//y offset for placing cells of room into maze
 //			//when over the limit of the length, move cells down
-//			int yoffset=(i*roomSize / (roomSize*roomsDown)*roomSize); //xoffset
+//			int yoffset=(i*ROOM_SIZE / (ROOM_SIZE*roomsDown)*ROOM_SIZE); //xoffset
 //
 //			//add cells into maze using offsets
 //			for(int mazerow = 0; mazerow < room.length; mazerow++){

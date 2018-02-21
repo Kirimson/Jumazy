@@ -86,44 +86,27 @@ public class Player extends Sprite{
 	}
 
 	public void setStartOfMove(Coordinate coord) {
-		startOfMove=new Coordinate(coord.getX(), coord.getY());
+		startOfMove=coord;
+	}
+
+	public void updateCoords(Coordinate coord){
+		coords = coord;
+		setX(coords.getX() * getWidth());
+		setY(coords.getY() * getHeight());
 	}
 
 	public void moveToStartOfTurn() {
 		coords.setCoordinates(startOfMove);
 		setX(coords.getX()*getWidth());
 		setY(coords.getY()*getHeight());
+		rollSpaces = 0;
 	}
 
-	public void newMove(String direction) {
-
-		if(rollSpaces != 0 && dieAnimation.getAnimationFinished())
-		{
-			if(!trapped)
-			{
-				Block[] surroundedBlock = Maze.getSurroundingBlocks(coords, direction);
-				if(surroundedBlock != null)
-				{
-					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove)
-					{
-						lastMove=coords;
-						coords.setCoordinates(surroundedBlock[1].getCoords());
-						setX(coords.getX()*getWidth());
-						setY(coords.getY()*getHeight());
-						rollSpaces--;
-						checkTrap(surroundedBlock[1]);
-						checkVictory(surroundedBlock[1]);
-						dieAnimation.decrease();
-
-					}
-				}
-			}
-			else
-				trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-		}
+	public void reduceRolls(){
+		rollSpaces--;
 	}
 
-	private void checkTrap(Block path) {
+	public void checkTrap(Block path) {
 		
 		if(path instanceof Trap) {
 			trapped = true;
@@ -131,23 +114,23 @@ public class Player extends Sprite{
 		}
 	}
 
-	private void checkVictory(Block path) {
+	public void checkVictory(Block path) {
 		if(path instanceof VictoryPath) {
 			victoryState = true;
 			((VictoryPath) path).showWon(playerNumber);
 		}
 	}
 
-	public void checkStillTrapped() {
-		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
-		if(!trapped) {
-			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
-			{
-				rollSpaces = 0;
-				moveToStartOfTurn();
-			}
-		}
-	}
+//	public void checkStillTrapped() {
+//		trapped = ((Trap)Maze.getBlock(coords)).stillTrapped();
+//		if(!trapped) {
+//			if(((Trap)Maze.getBlock(coords)).wasCorrect() == false)
+//			{
+//				rollSpaces = 0;
+//				moveToStartOfTurn();
+//			}
+//		}
+//	}
 
 	public boolean isTrapped() {
 		return trapped;
@@ -168,8 +151,6 @@ public class Player extends Sprite{
 
 		if(rollSpaces == 0)
             rollSpaces = 1;
-    
-		dieAnimation.setFinalDie(rollSpaces);
 	}
 
 	public boolean isVictor() {
@@ -178,5 +159,9 @@ public class Player extends Sprite{
 
 	public int getPlayerNumber() {
 		return playerNumber;
+	}
+
+	public void setTrapped(boolean trapped) {
+		this.trapped = trapped;
 	}
 }
