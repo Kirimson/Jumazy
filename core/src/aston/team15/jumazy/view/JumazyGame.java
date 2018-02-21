@@ -36,7 +36,7 @@ public class JumazyGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		system = new SystemManager();
-		system.push(new TitleSystem(system));
+		SystemManager.push(new TitleSystem());
 		
 		mapSprite = new Sprite(new Texture(Gdx.files.internal("path.png")));
 		mapSprite.setPosition(0, 0);
@@ -64,7 +64,7 @@ public class JumazyGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(cam.combined);
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.252f, 0.448f, 0.287f, 1);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		
 		
 		

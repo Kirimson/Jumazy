@@ -3,10 +3,13 @@ package aston.team15.jumazy.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.model.TextureConstants;
 import aston.team15.jumazy.view.GraphicsManager;
 import aston.team15.jumazy.view.JumazyGame;
 /**
@@ -17,28 +20,61 @@ import aston.team15.jumazy.view.JumazyGame;
  */
 public class GameSystem extends MainSystem{
 	
-	private int nextPlayers;
 	private Maze maze;
 	private GraphicsManager gMan;
 	private boolean playerMoved = true;
 	private boolean focusCam = false;
 	private Sound ambientMusic;
 	private boolean pause = false;
+	
+	private Button resumeButton;
+	private Button quitButton;
 
-	public GameSystem(SystemManager sysMan, int players) {
-		super(sysMan);
+	public GameSystem(int players) {
+		super();
 		maze = new Maze(41, 24, players);
 		gMan = new GraphicsManager();
 		setupCamera();
 		ambientMusic = Gdx.audio.newSound(Gdx.files.internal("Creepy Music.mp3"));
 		ambientMusic.play();
+		
+		//UI
+		Texture butTex = new Texture("ButtonNormal.png");
+		Texture pauseTex = TextureConstants.getTexture("pausepageNew");
+		
+		quitButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,stage.getHeight()-pauseTex.getHeight()+100,"Exit", true);
+		quitButton.setTouchable(Touchable.enabled);
+		
+		resumeButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,stage.getHeight()-pauseTex.getHeight()+200,"Resume", true);
+		resumeButton.setTouchable(Touchable.enabled);
+        
+        UIComponent pauseUI = new UIComponent(stage.getWidth()/2-pauseTex.getWidth()/2, stage.getHeight()-pauseTex.getHeight(), pauseTex);
+        stage.addActor(pauseUI);
+        stage.addActor(resumeButton);
+        stage.addActor(quitButton);
 	}
 	
 	/**
 	 * Sends needed parameters to the {@link GraphcisManager} to draw all needed textures
 	 */
 	public void draw(SpriteBatch batch) {
-		gMan.draw(batch, maze, playerMoved, pause, cam);
+		gMan.draw(batch, maze, playerMoved, pause, stage);
+		
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		
+		if(pause) {
+		    stage.draw();
+		    
+		    //check pause actor buttons
+		    if(resumeButton.wasClicked()) {
+		    	pause = false;
+		    }
+		    if(quitButton.wasClicked()) {
+		    	SystemManager.setNewSystem(new MenuSystem());
+		    }
+		    
+	    }
+		stage.act();
 	}
 	
 	/**
@@ -99,7 +135,7 @@ public class GameSystem extends MainSystem{
 				{
 					maze.getCurrPlayer().newMove(direction);
 					playerMoved = true;
-				}
+				} 
 				else
 				{
 					playerMoved = false;
@@ -113,10 +149,6 @@ public class GameSystem extends MainSystem{
 				maze.getCurrPlayer().checkStillTrapped();
 			}
 			
-			if(maze.getCurrPlayer().isVictor()) {
-				int winner = maze.getCurrPlayer().getPlayerNumber();
-				sysManager.setNewSystem(new WinSystem(sysManager, winner));
-			}
 		}
 
 	}
@@ -138,8 +170,8 @@ public class GameSystem extends MainSystem{
 		}else{//camera needs to be set to default location
 			cam.zoom = 1.0f;
 			Vector3 target = new Vector3(
-					GAME_WIDTH/2,
-					 GAME_HEIGHT/2, 0);
+					stage.getWidth()/2,
+					 stage.getHeight()/2, 0);
 			cameraZoom(target);
 		}
 		
@@ -159,7 +191,7 @@ public class GameSystem extends MainSystem{
 	}
 	
 	protected void setupCamera() {
-		cam.setToOrtho(false,GAME_WIDTH, GAME_HEIGHT);
-		cam.position.set(GAME_WIDTH/2, GAME_HEIGHT/2, 0);
+		cam.setToOrtho(false,stage.getWidth()*1.2f, stage.getHeight()*1.2f);
+		cam.position.set(stage.getWidth()/2, stage.getHeight()/2, 0);
 	}
 }

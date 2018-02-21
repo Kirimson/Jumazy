@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class SystemManager {
 
-	private Stack<MainSystem> systemStack;
+	private static Stack<MainSystem> systemStack;
 	
 	private boolean running;
 	
@@ -19,11 +19,11 @@ public class SystemManager {
 		running = false;
 	}
 	
-	public void pop() {
+	public static void pop() {
 		systemStack.pop();
 	}
 	
-	public void push(MainSystem system) {
+	public static void push(MainSystem system) {
 		systemStack.push(system);
 	}
 	
@@ -35,7 +35,7 @@ public class SystemManager {
 	 * Removes the top system on the stack and replaces it with the new system to be used in game
 	 * @param system new {@link MainSystem} to be used
 	 */
-	public void setNewSystem(MainSystem system) {
+	public static void setNewSystem(MainSystem system) {
 		pop();
 		push(system);
 	}

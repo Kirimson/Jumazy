@@ -91,6 +91,8 @@ public class Player extends Sprite{
 
 	public void moveToStartOfTurn() {
 		coords.setCoordinates(startOfMove);
+		setX(coords.getX()*getWidth());
+		setY(coords.getY()*getHeight());
 	}
 
 	public void newMove(String direction) {
@@ -103,7 +105,7 @@ public class Player extends Sprite{
 				if(surroundedBlock != null)
 				{
 					if(surroundedBlock[1].toString() == "path" && surroundedBlock[1].getCoords()!=lastMove)
-          {
+					{
 						lastMove=coords;
 						coords.setCoordinates(surroundedBlock[1].getCoords());
 						setX(coords.getX()*getWidth());
