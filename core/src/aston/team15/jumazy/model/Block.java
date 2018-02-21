@@ -31,7 +31,7 @@ public class Block extends Sprite{
 		
 		setX(coords.getX()*getWidth());
 		setY(coords.getY()*getHeight());
-		
+		set
 		exits = new Exit();
 	}
 
