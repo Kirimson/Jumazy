@@ -41,6 +41,38 @@ public class Room {
     public void addExit(Coordinate direction) {
         System.out.println("Room "+coords.toString()+" now has an exit in "+direction.toString());
         exits.add(direction);
+
+        //x y
+        switch (direction.toString()){
+            case "(1,0)":
+                System.out.println("WOO2");
+                blocks[roomSize-1][4] = new Path(blocks[roomSize-1][4].getCoords());
+                blocks[roomSize-1][5] = new Path(blocks[roomSize-1][5].getCoords());
+                break;
+            case "(-1,0)":
+                System.out.println("WOO2");
+                blocks[0][4] = new Path(blocks[0][4].getCoords());
+                blocks[0][5] = new Path(blocks[0][5].getCoords());
+                break;
+            case "(0,1)":
+                System.out.println("WOO2");
+                blocks[5][roomSize-1] = new Path(blocks[5][roomSize-1].getCoords());
+                blocks[4][roomSize-1] = new Path(blocks[4][roomSize-1].getCoords());
+                break;
+            case "(0,-1)":
+                System.out.println("WOO2");
+                blocks[4][0] = new Path(blocks[4][0].getCoords());
+                blocks[5][0] = new Path(blocks[5][0].getCoords());
+                break;
+        }
+
+    }
+
+    public boolean hasExit(Coordinate coord){
+        for(Coordinate c : exits){
+            if(c.equals(coord)) return true;
+        }
+        return false;
     }
 
     public String toString(){

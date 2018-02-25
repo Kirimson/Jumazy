@@ -82,27 +82,18 @@ public class Generator {
 
 		Collections.shuffle(directions);
 
-		for (int i = directions.size()-1; i > 1; i--)
-			directions.remove(i);
-
 		for (Coordinate c : directions){
 			System.out.println("New Exit: "+c.toString());
 
 			Room thisRoom = maze[row][col];
 			Room linkRoom = maze[row + c.getX()][col + c.getY()];
 			//check if exit doesn't exist already
-			if(!thisRoom.getExits().contains(c)){
-				//check that each room doesn't have more than 2 exits
-				if(thisRoom.getExits().size() < 2 && linkRoom.getExits().size() < 2){
-					//add this coordinate to room
-					thisRoom.addExit(c);
-					//add inverse coordinate to other room
-					linkRoom.addExit(new Coordinate((c.getX() * -1),(c.getY() * -1)));
-				} else {
-					System.out.println("skipped");
-				}
-			} else {
-				System.out.println("skipped");
+			if(!thisRoom.hasExit(c)){
+				//add this coordinate to room
+				thisRoom.addExit(c);
+				//add inverse coordinate to other room
+				linkRoom.addExit(new Coordinate((c.getX() * -1),(c.getY() * -1)));
+				break;
 			}
 		}
 	}
