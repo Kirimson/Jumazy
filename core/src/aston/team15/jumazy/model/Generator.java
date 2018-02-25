@@ -2,12 +2,14 @@ package aston.team15.jumazy.model;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Generator {
 	
 	private Random rnd;
-	private Block[][] maze;
+	private Room[][] maze;
 	private int xMiddle;
 	private int yMiddle;
 
@@ -15,95 +17,105 @@ public class Generator {
 		rnd = new Random();
 	}
 
+	Generator(int roomsAcross, int roomsDown) {
+		rnd = new Random();
+		maze = new Room[roomsAcross][roomsDown];
+	}
+
 	public static void main(String[] args) {
-		Generator gen = new Generator();
-		gen.genMaze(10,11);
+		Generator gen = new Generator(3,3);
+//		gen.genRandDirections(2,2);
 	}
 
 	/**
 	 *
-	 * @param roomsAcross
-	 * @param roomsDown
+	 * @param roomsAcross how many rooms across there are
+	 * @param roomsDown how many rooms down there are
 	 * @return
 	 */
 	public Room[][] genMaze(int roomsAcross, int roomsDown){
-
-		Room[][] maze = new Room[roomsAcross][roomsDown];
+		System.out.println(roomsAcross+" and "+roomsDown);
+		maze = new Room[roomsAcross][roomsDown];
 
 		for(int roomX = 0; roomX < roomsAcross; roomX++){
 			for(int roomY = 0; roomY < roomsDown; roomY++){
 				maze[roomX][roomY] = new Room(new Coordinate(roomX, roomY));
-				System.out.println(maze[roomX][roomY].toString());
 			}
 		}
 
-//		//currently has a hard set size for each room (10*10)
-//		int roomsAcross = 3;
-//		for(int i = 1; i <= 10; i++){
-//			if(roomAmount % i == 0 && i !=roomAmount)
-//				roomsAcross = i;
-//		}
-//
-//		int roomsDown = roomAmount / roomsAcross;
-//
-//		//create maze with enough space to store all cells of all rooms in a square shape
-//		maze = new Block[ROOM_SIZE*roomsDown][ROOM_SIZE*roomsAcross];
-//
-//		//create roomAmount rooms
-//		for (int i = 0; i < roomAmount; i++) {
-//			Block[][] room = genRoom(ROOM_SIZE);
-//
-//			//set the xoffset to start putting cells into the maze
-//			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a 30*30 maze)
-//			int xoffset=(i*ROOM_SIZE % (ROOM_SIZE*roomsDown)); //xoffset
-//
-//			//y offset for placing cells of room into maze
-//			//when over the limit of the length, move cells down
-//			int yoffset=(i*ROOM_SIZE / (ROOM_SIZE*roomsDown)*ROOM_SIZE); //xoffset
-//
-//			//add cells into maze using offsets
-//			for(int mazerow = 0; mazerow < room.length; mazerow++){
-//				for (int mazecol = 0; mazecol < room[0].length; mazecol++){
-//					maze[xoffset+mazecol][yoffset+mazerow] = room[mazecol][mazerow];
-//				}
-//			}
-//
-//		}
-//
-//		for(int mazerow = 0; mazerow < maze.length; mazerow++) {
-//			for (int mazecol = 0; mazecol < maze[0].length; mazecol++) {
-//				Block current = maze[mazerow][mazecol];
-//				current.updateCoords(mazerow, mazecol);
-//				if (current != null){
-//					System.out.print(current.toString());
-//				}
-//				System.out.println();
-//			}
-//		}
+		createLinks();
 
-
-					return maze;
+		return maze;
 	}
+
+	private void createLinks() {
+//		MAZE_ROOMS_ACROSS = maze.length;
+//		MAZE_ROOMS_DOWN = maze[0].length;
+		for(int row = 0; row < maze.length; row++){
+			for(int col = 0; col < maze[0].length; col++)
+			{
+				System.out.println("New Room: "+row+", "+col);
+				genRandDirections(row, col);
+			}
+		}
+	}
+
+	/**
+	 * Creates an ArrayList of two valid directions given a column and row of the maze
+	 * @param row current column
+	 * @param col current row
+	 * @return ArrayList of directions
+	 */
+	private void genRandDirections(int row, int col) {
+
+		ArrayList<Coordinate> directions = new ArrayList<>();
+
+		//check up, right, down, left dirs. if allowed, add coord direction to list
+		if(!(col + 1 > maze[0].length-1))
+			directions.add(new Coordinate(0,1));
+		if(!(row + 1 > maze.length-1))
+			directions.add(new Coordinate(1,0));
+		if(col != 0)
+			directions.add(new Coordinate(0,-1));
+		if(row != 0)
+			directions.add(new Coordinate(-1,0));
+
+		Collections.shuffle(directions);
+
+		for (int i = directions.size()-1; i > 1; i--)
+			directions.remove(i);
+
+		for (Coordinate c : directions){
+			System.out.println("New Exit: "+c.toString());
+
+			Room thisRoom = maze[row][col];
+			Room linkRoom = maze[row + c.getX()][col + c.getY()];
+			//check if exit doesn't exist already
+			if(!thisRoom.getExits().contains(c)){
+				//check that each room doesn't have more than 2 exits
+				if(thisRoom.getExits().size() < 2 && linkRoom.getExits().size() < 2){
+					//add this coordinate to room
+					thisRoom.addExit(c);
+					//add inverse coordinate to other room
+					linkRoom.addExit(new Coordinate((c.getX() * -1),(c.getY() * -1)));
+				} else {
+					System.out.println("skipped");
+				}
+			} else {
+				System.out.println("skipped");
+			}
+		}
+	}
+
 
 	/**
 	 * Creates a new room, surrounded will walls, and filled with floors
 	 * @param size width/height of room
-	 * @return
+	 * @return a new room
 	 */
 	private Block[][] genRoom(int size) {
 
 		Block[][] room = new Block[size][size];
-//
-//		for(int i = 0; i < size; i++){
-//			for (int k = 0; k < size; k++){
-//				if(i == 0 || i == size-1 || k == 0 || k == size-1){
-//					room[i][k] = new Wall(new Coordinate(0,0), "Right");
-//				}
-//				else{
-//					room[i][k] = new Path(new Coordinate(0,0));
-//				}
-//			}
-//		}
 
 		return room;
 	}

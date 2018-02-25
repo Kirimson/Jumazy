@@ -1,12 +1,16 @@
 package aston.team15.jumazy.model;
 
+import java.util.ArrayList;
+
 public class Room {
     private Coordinate coords;
     private Block[][] blocks;
     private int roomSize = 10;
+    private ArrayList<Coordinate> exits;
 
     public Room(Coordinate coords){
         blocks = new Block[roomSize][roomSize];
+        exits = new ArrayList<>();
         this.coords = coords;
         makeRoom();
     }
@@ -22,7 +26,6 @@ public class Room {
 				else{
 					blocks[i][k] = new Path( new Coordinate( blockX,blockY ));
 				}
-//                System.out.println(coords.toString());
 			}
 		}
     }
@@ -31,7 +34,16 @@ public class Room {
         return blocks[coord.getX()][coord.getY()];
     }
 
-//    public String toString(){
-//        return "";
-//    }
+    public ArrayList<Coordinate> getExits() {
+        return exits;
+    }
+
+    public void addExit(Coordinate direction) {
+        System.out.println("Room "+coords.toString()+" now has an exit in "+direction.toString());
+        exits.add(direction);
+    }
+
+    public String toString(){
+        return "R";
+    }
 }

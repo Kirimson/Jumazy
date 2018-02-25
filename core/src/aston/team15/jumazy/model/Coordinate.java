@@ -68,4 +68,10 @@ public class Coordinate {
 	public void setY(int val) {
 		y = val;
 	}
+
+	public boolean equals(Coordinate other){
+		if(this.x == other.getX() && this.y == other.getY())
+			return true;
+		return false;
+	}
 }
