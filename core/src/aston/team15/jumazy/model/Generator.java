@@ -1,7 +1,5 @@
 package aston.team15.jumazy.model;
 
-import com.badlogic.gdx.graphics.Texture;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -15,16 +13,6 @@ public class Generator {
 
 	Generator() {
 		rnd = new Random();
-	}
-
-	Generator(int roomsAcross, int roomsDown) {
-		rnd = new Random();
-		maze = new Room[roomsAcross][roomsDown];
-	}
-
-	public static void main(String[] args) {
-		Generator gen = new Generator(3,3);
-//		gen.genRandDirections(2,2);
 	}
 
 	/**
@@ -42,19 +30,14 @@ public class Generator {
 				maze[roomX][roomY] = new Room(new Coordinate(roomX, roomY));
 			}
 		}
-
 		createLinks();
-
 		return maze;
 	}
 
 	private void createLinks() {
-//		MAZE_ROOMS_ACROSS = maze.length;
-//		MAZE_ROOMS_DOWN = maze[0].length;
 		for(int row = 0; row < maze.length; row++){
 			for(int col = 0; col < maze[0].length; col++)
 			{
-				System.out.println("New Room: "+row+", "+col);
 				genRandDirections(row, col);
 			}
 		}
@@ -82,22 +65,22 @@ public class Generator {
 
 		Collections.shuffle(directions);
 
-		for (Coordinate c : directions){
-			System.out.println("New Exit: "+c.toString());
+		for (Coordinate coord : directions){
+			System.out.println("New Exit: "+coord.toString());
 
 			Room thisRoom = maze[row][col];
-			Room linkRoom = maze[row + c.getX()][col + c.getY()];
+			Room linkRoom = maze[row + coord.getX()][col + coord.getY()];
 			//check if exit doesn't exist already
-			if(!thisRoom.hasExit(c)){
+			if(!thisRoom.hasExit(coord)){
+				int type = new Random().nextInt(10);
 				//add this coordinate to room
-				thisRoom.addExit(c);
+				thisRoom.addExit(coord,type);
 				//add inverse coordinate to other room
-				linkRoom.addExit(new Coordinate((c.getX() * -1),(c.getY() * -1)));
+				linkRoom.addExit(new Coordinate((coord.getX() * -1),(coord.getY() * -1)),type);
 				break;
 			}
 		}
 	}
-
 
 	/**
 	 * Creates a new room, surrounded will walls, and filled with floors
@@ -110,6 +93,4 @@ public class Generator {
 
 		return room;
 	}
-
-
 }

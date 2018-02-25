@@ -38,34 +38,44 @@ public class Room {
         return exits;
     }
 
-    public void addExit(Coordinate direction) {
-        System.out.println("Room "+coords.toString()+" now has an exit in "+direction.toString());
+    public void addExit(Coordinate direction, int type) {
         exits.add(direction);
 
-        //x y
+        int offset = (type > 4 ? 2 : -2);
         switch (direction.toString()){
             case "(1,0)":
-                System.out.println("WOO2");
-                blocks[roomSize-1][4] = new Path(blocks[roomSize-1][4].getCoords());
-                blocks[roomSize-1][5] = new Path(blocks[roomSize-1][5].getCoords());
+                blocks[roomSize-1][4 + offset] = new Path(blocks[roomSize-1][4 + offset].getCoords());
+                blocks[roomSize-1][5 + offset] = new Path(blocks[roomSize-1][5 + offset].getCoords());
+                if(type > 7){
+                    blocks[roomSize-1][4 - offset] = new Path(blocks[roomSize-1][4 - offset].getCoords());
+                    blocks[roomSize-1][5 - offset] = new Path(blocks[roomSize-1][5 - offset].getCoords());
+                }
                 break;
             case "(-1,0)":
-                System.out.println("WOO2");
-                blocks[0][4] = new Path(blocks[0][4].getCoords());
-                blocks[0][5] = new Path(blocks[0][5].getCoords());
+                blocks[0][4 + offset] = new Path(blocks[0][4 + offset].getCoords());
+                blocks[0][5 + offset] = new Path(blocks[0][5 + offset].getCoords());
+                if(type > 7){
+                    blocks[0][4 - offset] = new Path(blocks[0][4 - offset].getCoords());
+                    blocks[0][5 - offset] = new Path(blocks[0][5 - offset].getCoords());
+                }
                 break;
             case "(0,1)":
-                System.out.println("WOO2");
-                blocks[5][roomSize-1] = new Path(blocks[5][roomSize-1].getCoords());
-                blocks[4][roomSize-1] = new Path(blocks[4][roomSize-1].getCoords());
+                blocks[5 + offset][roomSize-1] = new Path(blocks[5 + offset][roomSize-1].getCoords());
+                blocks[4 + offset][roomSize-1] = new Path(blocks[4 + offset][roomSize-1].getCoords());
+                if(type > 7){
+                    blocks[5 - offset][roomSize-1] = new Path(blocks[5 - offset][roomSize-1].getCoords());
+                    blocks[4 - offset][roomSize-1] = new Path(blocks[4 - offset][roomSize-1].getCoords());
+                }
                 break;
             case "(0,-1)":
-                System.out.println("WOO2");
-                blocks[4][0] = new Path(blocks[4][0].getCoords());
-                blocks[5][0] = new Path(blocks[5][0].getCoords());
+                blocks[4 + offset][0] = new Path(blocks[4 + offset][0].getCoords());
+                blocks[5 + offset][0] = new Path(blocks[5 + offset][0].getCoords());
+                if(type > 7){
+                    blocks[5 - offset][0] = new Path(blocks[5 - offset][0].getCoords());
+                    blocks[4 - offset][0] = new Path(blocks[4 - offset][0].getCoords());
+                }
                 break;
         }
-
     }
 
     public boolean hasExit(Coordinate coord){
