@@ -77,7 +77,6 @@ public class Generator {
 				thisRoom.addExit(coord,type);
 				//add inverse coordinate to other room
 				linkRoom.addExit(new Coordinate((coord.getX() * -1),(coord.getY() * -1)),type);
-				break;
 			}
 		}
 	}
