@@ -1,5 +1,6 @@
 package aston.team15.jumazy.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,28 +16,29 @@ public class Maze {
 	private static Room[][] statMaze;
 	private Room[][] maze;
 	private static Block stopBlock;
-	public static int MAZE_ROOMS_ACROSS;
-	public static int MAZE_ROOMS_DOWN;
+	private static int mazeRoomsAcross;
+	private static int mazeRoomsDown;
+	private static int roomSize; 
 	private ArrayList<Player> players;
 	private int currPlayer;
 	private int totalPlayers;
 	private Generator mazeGenerator;
-	public static int ROOM_SIZE = 10;
 	private Weather weather;
 	
 	/**
 	 * Creates a new maze
 	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
 	 * player, the player object
+	 * @throws IOException 
 	 */
-	public Maze(int roomsAcross, int roomsDown, int totalPlayers) {
-		mazeGenerator = new Generator();
-		maze = mazeGenerator.genMaze(roomsAcross, roomsDown);
-		MAZE_ROOMS_ACROSS = maze.length;
-		MAZE_ROOMS_DOWN = maze[0].length;
-
-//		statMaze = maze;
+	public Maze(int roomsAcross, int roomsDown, int totalPlayers, int roomSize) {
+		mazeRoomsAcross = roomsAcross;
+		mazeRoomsDown = roomsDown;
 		this.totalPlayers = totalPlayers;
+		this.roomSize = roomSize;
+		
+		mazeGenerator = new Generator();
+		maze = mazeGenerator.genMaze(mazeRoomsAcross, mazeRoomsDown, roomSize);
 		
 		Random rnd = new Random();
 		if(rnd.nextBoolean())
@@ -97,11 +99,11 @@ public class Maze {
 	 */
 	public Block getBlock(Coordinate coord) {
 //		Block b = null;
-		int roomX = coord.getX() / ROOM_SIZE;
-		int roomY = coord.getY() / ROOM_SIZE;
+		int roomX = coord.getX() / roomSize;
+		int roomY = coord.getY() / roomSize;
 
-		int blockX = coord.getX() %ROOM_SIZE;
-		int blockY = coord.getY() %ROOM_SIZE;
+		int blockX = coord.getX() %roomSize;
+		int blockY = coord.getY() %roomSize;
 
 		Coordinate blockCoord = new Coordinate(blockX, blockY);
 		return maze[roomX][roomY].getBlock(blockCoord);
@@ -112,10 +114,34 @@ public class Maze {
 	}
 	
 	public static int getBlocksAcross() {
-		return MAZE_ROOMS_ACROSS * ROOM_SIZE;
+		return mazeRoomsAcross * roomSize;
 	}
 
 	public static int getBlocksDown() {
-		return MAZE_ROOMS_DOWN * ROOM_SIZE;
+		return mazeRoomsDown * roomSize;
+	}
+
+	public static int getMazeRoomsAcross() {
+		return mazeRoomsAcross;
+	}
+
+	public static void setMazeRoomsAcross(int mazeRoomsAcross) {
+		Maze.mazeRoomsAcross = mazeRoomsAcross;
+	}
+
+	public static int getMazeRoomsDown() {
+		return mazeRoomsDown;
+	}
+
+	public static void setMazeRoomsDown(int mazeRoomsDown) {
+		Maze.mazeRoomsDown = mazeRoomsDown;
+	}
+
+	public static int getRoomSize() {
+		return roomSize;
+	}
+
+	public static void setRoomSize(int roomSize) {
+		Maze.roomSize = roomSize;
 	}
 }

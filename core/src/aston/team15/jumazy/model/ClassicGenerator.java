@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Generator {
+public class ClassicGenerator {
 
     private Random rnd;
     private Block[][] maze;
     private int xMiddle;
     private int yMiddle;
 
-    public Generator() {
+    public ClassicGenerator() {
         rnd = new Random();
     }
 

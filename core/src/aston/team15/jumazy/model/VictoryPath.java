@@ -4,12 +4,16 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class VictoryPath extends Path {
 
+	public VictoryPath() {
+		super(TextureConstants.getTexture("VictoryTile"), new Coordinate(0,0));
+	}
+
 	public VictoryPath(Coordinate coords) {
-		super(new Texture("VictoryTile.png"), coords);
+		super(TextureConstants.getTexture("VictoryTile"), coords);
 	}
 
 	public String toString() {
-		return "victory";
+		return "V";
 	}
 	
 	public void showWon(int playerNumber) {

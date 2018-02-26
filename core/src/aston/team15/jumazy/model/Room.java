@@ -5,23 +5,40 @@ import java.util.ArrayList;
 public class Room {
     private Coordinate coords;
     private Block[][] blocks;
-    private int roomSize = 10;
+    private static int roomSize;
     private ArrayList<Coordinate> exits;
 
-    public Room(Coordinate coords){
+    public Room(Coordinate coords, ArrayList<Block> layout){
         blocks = new Block[roomSize][roomSize];
         exits = new ArrayList<>();
         this.coords = coords;
-        makeRoom();
+        setRoom(layout);
     }
 
-    private void makeRoom(){
+    private void setRoom(ArrayList<Block> layout){
+    	int blockIndex = 0;
+        for(int k = 0; k < roomSize; k++){
+			for (int i = 0; i < roomSize; i++){
+				int blockX =(roomSize*coords.getX())+i;
+				int blockY =(roomSize*coords.getY())+k;
+				if(i == 0 || i == roomSize-1 || k == 0 || k == roomSize-1){
+					blocks[i][k] = new Wall(new Coordinate(blockX,blockY), "TopEnd");
+				}
+				else{
+					blocks[i][k] = layout.get(blockIndex++);
+					blocks[i][k].updateCoords(new Coordinate(blockX,blockY));
+				}
+			}
+		}
+    }
+
+    private void setRoom(){
         for(int i = 0; i < roomSize; i++){
 			for (int k = 0; k < roomSize; k++){
 				int blockX =(roomSize*coords.getX())+i;
 				int blockY =(roomSize*coords.getY())+k;
 				if(i == 0 || i == roomSize-1 || k == 0 || k == roomSize-1){
-					blocks[i][k] = new Wall(new Coordinate(blockX,blockY), "Right");
+					blocks[i][k] = new Wall(new Coordinate(blockX,blockY), "TopEnd");
 				}
 				else{
 					blocks[i][k] = new Path( new Coordinate( blockX,blockY ));
@@ -86,6 +103,10 @@ public class Room {
     }
 
     public String toString(){
-        return "R";
+        return "[]";
     }
+
+	public static void setRoomSize(int blocksAcrossRoom) {
+		roomSize = blocksAcrossRoom;
+	}
 }

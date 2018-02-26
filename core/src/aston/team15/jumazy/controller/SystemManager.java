@@ -1,5 +1,6 @@
 package aston.team15.jumazy.controller;
 
+import java.io.IOException;
 import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -43,6 +44,7 @@ public class SystemManager {
 	/**
 	 * Accesses the top system in the stack and calls its handleInput method
 	 * @return modified SpriteBatch to be drawn
+	 * @throws IOException 
 	 */
 	public void handleInput() {
 		systemStack.peek().handleInput();

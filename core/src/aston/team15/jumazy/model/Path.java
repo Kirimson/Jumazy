@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Path extends Block {
 
+	public Path() {
+		super(TextureConstants.getTexture("path"), new Coordinate(0,0));
+	}
+
 	public Path(Coordinate coords) {
 		super(TextureConstants.getTexture("path"), coords);
 	}

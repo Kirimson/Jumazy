@@ -13,5 +13,9 @@ public abstract class ActionBlock extends Block {
 	public void actionSwitch() {
 		actionTriggered = !actionTriggered;
 	}
+
+	public String toString() {
+		return "A";
+	}
 	
 }

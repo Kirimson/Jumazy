@@ -58,9 +58,20 @@ public class Block extends Sprite{
 	}
 	
 	/**
-	 * Returns the {@link Coordinate} of the {@link Block}
-	 * @return returns a {@link Coordinate} object of the {@link Block}
+	 * Returns the X of the {@link Coordinate} of the {@link Block}
+	 * @return returns an {@link int} value of the {@link Block}
 	 */
+	public int getXCoord() {
+		return coords.getX();
+	}
+	
+	/**
+	 * Returns the Y of the {@link Coordinate} of the {@link Block}
+	 * @return returns an {@link int} value of the {@link Block}
+	 */
+	public int getYCoord() {
+		return coords.getY();
+	}
 	public Coordinate getCoords() {
 		return coords;
 	}
@@ -97,6 +108,11 @@ public class Block extends Sprite{
 
 	public void updateCoords(int x, int y){
 		coords = new Coordinate(x, y);
+		setX(coords.getX()*getWidth());
+		setY(coords.getY()*getHeight());
+	}
+
+	public void updateCoords(Coordinate coords){
 		setX(coords.getX()*getWidth());
 		setY(coords.getY()*getHeight());
 	}

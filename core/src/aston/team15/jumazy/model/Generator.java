@@ -1,5 +1,7 @@
 package aston.team15.jumazy.model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -10,6 +12,7 @@ public class Generator {
 	private Room[][] maze;
 	private int xMiddle;
 	private int yMiddle;
+	private ArrayList<ArrayList<Block>> allRoomLayouts;
 
 	Generator() {
 		rnd = new Random();
@@ -20,14 +23,29 @@ public class Generator {
 	 * @param roomsAcross how many rooms across there are
 	 * @param roomsDown how many rooms down there are
 	 * @return
+	 * @throws IOException 
 	 */
-	public Room[][] genMaze(int roomsAcross, int roomsDown){
-		System.out.println(roomsAcross+" and "+roomsDown);
+	public Room[][] genMaze(int roomsAcross, int roomsDown, int roomSize) {
+		Room.setRoomSize(roomSize);
+		System.out.println(roomsAcross+" across, "+roomsDown+" down, size "+roomSize);
+		
+		RoomParser roomParser;
+		try {
+			roomParser = new RoomParser(roomSize);
+			allRoomLayouts = roomParser.generateRoomLayouts();
+		} catch (IOException e) {
+			System.out.println("Parsing fail");
+			e.printStackTrace();
+		}
+		
 		maze = new Room[roomsAcross][roomsDown];
-
+		Random randLayout = new Random();
+		int layoutIndex;
 		for(int roomX = 0; roomX < roomsAcross; roomX++){
 			for(int roomY = 0; roomY < roomsDown; roomY++){
-				maze[roomX][roomY] = new Room(new Coordinate(roomX, roomY));
+				layoutIndex = randLayout.nextInt(allRoomLayouts.size());
+				ArrayList<Block> layout = allRoomLayouts.get(layoutIndex);
+				maze[roomX][roomY] = new Room(new Coordinate(roomX, roomY),layout);
 			}
 		}
 		createLinks();
