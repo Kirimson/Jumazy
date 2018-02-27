@@ -5,13 +5,17 @@ import com.badlogic.gdx.audio.Sound;
 
 public class GameSound {
 
-	private Sound menuMusic = Gdx.audio.newSound(Gdx.files.internal("14-I Smell Pussy feat. G-Unit.mp3"));
+	private static Sound menuMusic = Gdx.audio.newSound(Gdx.files.internal("Menu-Music.mp3"));
 	
-	public void playMenuMusic() {
+	public static void playMenuMusic() {
 		menuMusic.play();
 	}
 	
-	public void stopMenuMusic() {
+	public static void stopMenuMusic() {
 		menuMusic.stop();
+	}
+	
+	public static void loopMenuMusic() {
+		menuMusic.loop();
 	}
 }

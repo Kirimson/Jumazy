@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.SystemManager;
 import aston.team15.jumazy.controller.TitleSystem;
 
@@ -51,6 +52,9 @@ public class JumazyGame extends ApplicationAdapter {
 		lightBuffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
 		lightBufferRegion = new TextureRegion(lightBuffer.getColorBufferTexture(),0,lightBuffer.getHeight()-HEIGHT,WIDTH,HEIGHT);
+		
+		GameSound.playMenuMusic();
+		GameSound.loopMenuMusic();
 	}
 
 	@Override

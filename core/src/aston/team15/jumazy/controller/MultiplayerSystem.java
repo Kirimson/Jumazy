@@ -60,14 +60,16 @@ public class MultiplayerSystem extends MainSystem{
 	public void handleInput() {
 		if(twoP.wasClicked()) {
 			SystemManager.setNewSystem(new GameSystem(2));
+			GameSound.stopMenuMusic();
 		}
 		
 		if(fourP.wasClicked()) {
 			SystemManager.setNewSystem(new GameSystem(4));
+			GameSound.stopMenuMusic();
 		}
 		
 		if(backButton.wasClicked()) {
-			SystemManager.setNewSystem(new MenuSystem());
+			SystemManager.setNewSystem(new DifficultySystem());
 		}
 		
 	}

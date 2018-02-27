@@ -43,8 +43,6 @@ public class Button extends Actor {
     		x -= texture.getWidth()/scalex;
     	
     	actorY = y;
-
-		
 		
         setBounds(actorX,actorY,texture.getWidth(),texture.getHeight());
         addListener(new InputListener(){
@@ -55,6 +53,12 @@ public class Button extends Actor {
                 return true;
             }
         });
+    }
+    
+    public Button(float x, float y, String text, boolean minusSelf, float height, float width){
+    	this(x, y, text, minusSelf);
+    	setHeight(height);
+    	setWidth(width);
     }
         
     @Override

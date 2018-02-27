@@ -23,7 +23,7 @@ public class MenuSystem extends MainSystem{
 		
 		float base = (stage.getHeight()/2);
 		
-		playButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,base,"Play", true);
+		playButton = new Button(stage.getWidth()/2-butTex.getWidth()/2,base,"Start Game", true);
 		playButton.setTouchable(Touchable.enabled);
 		stage.addActor(playButton);
 		
@@ -59,7 +59,7 @@ public class MenuSystem extends MainSystem{
 	@Override
 	public void handleInput() {
 		if(playButton.wasClicked()) {
-			SystemManager.setNewSystem(new MultiplayerSystem());
+			SystemManager.setNewSystem(new DifficultySystem());
 		}
 		
 		if(textureButton.wasClicked()) {

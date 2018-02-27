@@ -21,10 +21,7 @@ public class TitleSystem extends MainSystem{
 
 	public TitleSystem() {
 		super();
-		
-		GameSound gs = new GameSound();
-		gs.playMenuMusic();
-		
+
 		Texture butTex = new Texture("ButtonNormal.png");
 		background= new Texture("background.jpg");
 
@@ -34,7 +31,7 @@ public class TitleSystem extends MainSystem{
 		playButton.setTouchable(Touchable.enabled);
 		stage.addActor(playButton);
 
-		settingsButton = new Button((stage.getWidth()/2-butTex.getWidth()/2),base-(stage.getHeight()/9),"Settings", true);
+		settingsButton = new Button((stage.getWidth()/2-butTex.getWidth()/2),base-(stage.getHeight()/9),"Options", true);
 		settingsButton.setTouchable(Touchable.enabled);
 		stage.addActor(settingsButton);
 
