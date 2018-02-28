@@ -7,7 +7,7 @@ public class PlayerModel {
 	private String symbol;
 	private Maze maze;
 
-	public PlayerModel(int row, int col, String symbol, Maze maze) {
+	PlayerModel(int row, int col, String symbol, Maze maze) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
@@ -16,11 +16,8 @@ public class PlayerModel {
 		maze.setCoordinateString(col, row, symbol);
 	}
 
-	public boolean checkValidMove(int newRow, int newCol) {
-		if (!maze.getCoordinateString(newRow, newCol).equals("*"))
-			return true;
-		else
-			return false;
+	private boolean checkValidMove(int newRow, int newCol) {
+		return !maze.getCoordinateString(newRow, newCol).equals("*");
 	}
 
 	public void move(MoveDirections direction) {
@@ -45,8 +42,7 @@ public class PlayerModel {
 			maze.setCoordinateString(col, row, "O");
 			row += rowDiff;
 			col += colDiff;
-			
-			maze.setCoordinateString(row, col, symbol);
+			maze.setCoordinateString(col, row, symbol);
 		}
 	}
 
