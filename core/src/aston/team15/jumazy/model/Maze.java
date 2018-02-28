@@ -1,5 +1,7 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
+
 public class Maze {
 
 	private String[][] maze;
@@ -56,26 +58,58 @@ public class Maze {
 		}
 
 		createDoors(roomsAcross, roomsDown, mazeString);
+
 		return mazeString;
 	}
 
 	private void createDoors(int roomsAcross, int roomsDown, String[][] maze) {
-		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
-			for (int y = 1; y < (roomsDown * 10) - 1; y += 4) {
-				if (y % 9 != 0) {
-//					float randomFloat = new Random().nextFloat();
 
-					// if (randomFloat < 0.4) {
-					maze[y][x] = "O";
-					maze[y + 1][x] = "O";
-					maze[y][x + 1] = "O";
-					maze[y + 1][x + 1] = "O";
-					// }
+		for (int x = 9; x < (roomsAcross * 10)-1; x += 10) {
+			for (int y = 2; y < (roomsDown * 10)-1; y += 10) {
+				if (y % 9 != 0) {
+					float randomFloat = new Random().nextFloat();
+					if (randomFloat < 0.65) {
+						makeCommonDoors(y, x, maze);
+					}
+
+					if (randomFloat > 0.35) {
+						maze[y + 4][x] = "O";
+						maze[y + 5][x] = "O";
+						maze[y + 4][x + 1] = "O";
+						maze[y + 5][x + 1] = "O";
+					}
 				} else {
 					y -= 2;
 				}
 			}
 		}
+
+		for (int y = 9; y < (roomsDown * 10) - 1; y += 10) {
+			for (int x = 2; x < (roomsAcross * 10) - 1; x += 10) {
+				if (x % 9 != 0) {
+					float randomFloat = new Random().nextFloat();
+					if (randomFloat < 0.65) {
+						makeCommonDoors(y, x, maze);
+					}
+
+					if (randomFloat > 0.35) {
+						maze[y][x + 4] = "O";
+						maze[y + 1][x + 4] = "O";
+						maze[y][x + 5] = "O";
+						maze[y + 1][x + 5] = "O";
+					}
+				} else {
+					x -= 2;
+				}
+			}
+		}
+	}
+
+	private void makeCommonDoors(int y, int x, String[][] maze) {
+		maze[y][x] = "O";
+		maze[y + 1][x] = "O";
+		maze[y][x + 1] = "O";
+		maze[y + 1][x + 1] = "O";
 	}
 
 	/**
