@@ -1,165 +1,132 @@
 package aston.team15.jumazy.model;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-/**
- * Representation of a maze in the game. Made of of {@link Block} objects
- * Has a set size, denoted in MAZE_DIMENSION
- * Contains players that will be inside the maze
- * @author kieran
- *
- */
 public class Maze {
-	
-	private static Block[][] statMaze;
-	private Block[][] maze;
-	private static Block stopBlock;
-	public static int MAZE_DIMENSIONX;
-	public static int MAZE_DIMENSIONY;
-	private ArrayList<Player> players;
-	private int currPlayer;
-	private int totalPlayers;
-	private Generator mazeGenerator;
-	
-	private Weather weather;
-	
-	/**
-	 * Creates a new maze
-	 * stopBlock is a {@link Block} to stop movement OOB, rather than having player "move" to the same coordinates as the block they are on
-	 * player, the player object
-	 */
-	public Maze(int dimensionx, int dimensiony, int totalPlayers) {
-		mazeGenerator = new Generator();
-//		maze = mazeGenerator.genMaze(10, 11);
-		MAZE_DIMENSIONX = maze.length;
-		MAZE_DIMENSIONY = maze[0].length;
-		statMaze = maze;
-		this.totalPlayers = totalPlayers;
-		
-		Random rnd = new Random();
-		if(rnd.nextBoolean())
-			weather = new Sun();
-		else
-			weather = new Rain();
-		
-		players = new ArrayList<Player>();
-		
-		if(totalPlayers>0)
-			players.add(new Player(new Coordinate(1,1)));
-		if(totalPlayers>1)
-			players.add(new Player(new Coordinate((dimensionx-1),(dimensiony-2))));
-		if(totalPlayers>2)
-			players.add(new Player(new Coordinate( 0, (dimensiony-2))));
-		if(totalPlayers>3)
-			players.add(new Player(new Coordinate((dimensionx-1), 0)));
-		
-		currPlayer=0;
-		getCurrPlayer().switchTurn();
-	}
-	
-	public static Block[][] getMaze(){
-		return statMaze;
-	}
-	
-	public ArrayList<Player> getPlayersList() {
-		return players;
-	}
-	
-	public Player getCurrPlayer() {
-		return getPlayersList().get(currPlayer);
-	}
-	
-	public int getCurrPlayerVal() {
-		return currPlayer;
-	}
-	
-	public int getTotalPlayers() {
-		return totalPlayers;
+
+	private String[][] maze;
+
+	public Maze(int roomsAcross, int roomsDown, int players) {
+		maze = genMaze(roomsAcross, roomsDown, players);
+
+		PlayerModel player1 = new PlayerModel(1, 1, "1", this);
+		player1.move(MoveDirections.DOWN);
+
+		maze[maze.length - 2][maze[0].length - 2] = "2";
+
+		if (players == 4) {
+			maze[maze.length - 2][1] = "3";
+			maze[1][maze[0].length - 2] = "4";
+		}
+		;
 	}
 
-	
-	public void nextPlayer() {
-		getCurrPlayer().switchTurn();			//end current players turn
-		if(getCurrPlayer().hasRolled())
-			getCurrPlayer().switchRolled();
-
-		currPlayer++;							//increment to next player
-		if(currPlayer == totalPlayers)
-			currPlayer = 0;
-		
-		System.out.println(currPlayer);
-		getCurrPlayer().switchTurn();			//start next players turn
-		
-	}
-	
 	/**
-	 * Returns a 2D array of {@link Block} objects.
-	 * Checks Coordinate object and adds block at that coordinate to nearBlocks array.
-	 * Checks direction player wants to go. checks if that direction will lead them out of bounds, adding the next Block to nearBlocks accordingly.
-	 * Yeah, this shouldn't really be in {@link Maze}, but it's easy to implement like this, sooo...
+	 * Creates a maze based on rooms connected to each other
 	 * 
-	 * @param coord a {@link Coordinate} object giving the base location the method should start at
-	 * @param direction String denoting direction the method needs to check
-	 * @return 2D array of Block objects, listing the current block and the block next to it, according to direction
+	 * @param roomsAcross
+	 *            amount of rooms in maze
+	 * @param roomsDown
+	 *            the size of each room (currently just a square)
+	 * @return the maze
 	 */
-	public static Block[] getSurroundingBlocks(Coordinate coord, String direction) {
-		int xDir = 0;
-		int yDir = 0;
-		
-		switch(direction) {
-			case "up": yDir = 1;break;
-			case "down": yDir = -1;break;
-			case "left": xDir = -1;break;
-			case "right": xDir = 1;break;
+	public String[][] genMaze(int roomsAcross, int roomsDown, int players) {
+
+		// create maze with enough space to store all cells of all rooms in a square
+		// shape
+		String[][] mazeString = new String[10 * roomsDown][10 * roomsAcross];
+
+		// create roomAmount rooms
+		for (int i = 0; i < roomsAcross * roomsDown; i++) {
+			String[][] room = genRoom(10);
+
+			// set the xoffset to start putting cells into the maze
+			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
+			// 30*30 maze)
+			int xoffset = (i * 10 % (10 * roomsDown)); // xoffset
+
+			// y offset for placing cells of room into maze
+			// when over the limit of the length, move cells down
+			int yoffset = (i * 10 / (10 * roomsDown) * 10); // xoffset
+
+			// add cells into maze using offsets
+			for (int mazeY = 0; mazeY < room.length; mazeY++) {
+				for (int mazeX = 0; mazeX < room[0].length; mazeX++) {
+					mazeString[xoffset + mazeX][yoffset + mazeY] = room[mazeY][mazeX];
+				}
+			}
 		}
-		
-		Block[] nearBlocks = new Block[2];
-		nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
-		nearBlocks[1] = stopBlock;
-		
-		if(coord.getX()+xDir >= 0 && coord.getY()+yDir >= 0 && coord.getX()+xDir < MAZE_DIMENSIONX && coord.getY()+yDir < MAZE_DIMENSIONY ) {
-			
-			nearBlocks[0] = statMaze[coord.getX()][coord.getY()];
-			nearBlocks[1] = statMaze[coord.getX()+xDir][coord.getY()+yDir];
-		}
-		else
-		{
-			System.out.println("player wanted to go OOB");
-			return null;
-		}
-		
-		return nearBlocks;
+
+		createDoors(roomsAcross, roomsDown, mazeString);
+		return mazeString;
 	}
 
-	
+	private void createDoors(int roomsAcross, int roomsDown, String[][] maze) {
+		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
+			for (int y = 1; y < (roomsDown * 10) - 1; y += 4) {
+				if (y % 9 != 0) {
+//					float randomFloat = new Random().nextFloat();
+
+					// if (randomFloat < 0.4) {
+					maze[y][x] = "O";
+					maze[y + 1][x] = "O";
+					maze[y][x + 1] = "O";
+					maze[y + 1][x + 1] = "O";
+					// }
+				} else {
+					y -= 2;
+				}
+			}
+		}
+	}
+
 	/**
-	 * Returns a Block in a set column/row. specified by parameters
-	 * @param row row wanted {@link Block} is on
-	 * @param column column wanted {@link Block} is on
+	 * Creates a new room, surrounded will walls, and filled with floors
+	 * 
+	 * @param size
+	 *            width/height of room
 	 * @return
 	 */
-	public Block getBlock(int row, int column) {
-		Block b = null;
-		if(row >= 0 && row <= MAZE_DIMENSIONX && column >= 0 && column <= MAZE_DIMENSIONY)
-			b = maze[row][column];
-		
-		return b;
+	private String[][] genRoom(int size) {
+
+		String[][] room = new String[size][size];
+
+		for (int i = 0; i < size; i++) {
+			for (int k = 0; k < size; k++) {
+				if (i == 0 || i == size - 1 || k == 0 || k == size - 1) {
+					room[i][k] = "*";
+				} else {
+					room[i][k] = "O";
+				}
+			}
+		}
+
+		return room;
 	}
 
-	public Weather getWeather() {
-		return weather;
+	public String[][] getMaze() {
+		return maze;
 	}
-	
-	public static Block getBlock(Coordinate coord) {
-		return statMaze[coord.getX()][coord.getY()];
+
+	public String toString() {
+		String str = "";
+
+		for (int mazerow = maze.length - 1; mazerow >= 0; mazerow--) {
+			for (int mazecol = 0; mazecol < maze[0].length; mazecol++) {
+				String current = maze[mazerow][mazecol];
+				if (current != null) {
+					str += current;
+				}
+			}
+			str += "\n";
+		}
+
+		return str;
 	}
-	
-	public int getWidth() {
-		return MAZE_DIMENSIONX;
+
+	public void setCoordinateString(int row, int col, String symbol) {
+		maze[row][col] = symbol;
 	}
-	
-	public int getHeight() {
-		return MAZE_DIMENSIONY;
+
+	public String getCoordinateString(int row, int col) {
+		return maze[row][col];
 	}
 }
