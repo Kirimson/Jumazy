@@ -31,7 +31,7 @@ public class Maze {
 	 */
 	public Maze(int dimensionx, int dimensiony, int totalPlayers) {
 		mazeGenerator = new Generator();
-		maze = mazeGenerator.genMaze(10, 11);
+//		maze = mazeGenerator.genMaze(10, 11);
 		MAZE_DIMENSIONX = maze.length;
 		MAZE_DIMENSIONY = maze[0].length;
 		statMaze = maze;

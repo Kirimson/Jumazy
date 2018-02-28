@@ -7,7 +7,7 @@ import java.util.Random;
 public class Generator {
 	
 	private Random rnd;
-	private Block[][] maze;
+	private String[][] maze;
 	private int xMiddle;
 	private int yMiddle;
 
@@ -17,40 +17,31 @@ public class Generator {
 
 	public static void main(String[] args) {
 		Generator gen = new Generator();
-		gen.genMaze(10,11);
+		gen.genMaze(4,2);
 	}
 
 	/**
 	 * Creates a maze based on rooms connected to each other
-	 * @param roomAmount amount of rooms in maze
-	 * @param roomSize the size of each room (currently just a square)
+	 * @param roomsAcross amount of rooms in maze
+	 * @param roomsDown the size of each room (currently just a square)
 	 * @return the maze
 	 */
-	public Block[][] genMaze(int roomAmount, int roomSize){
-
-		//currently has a hard set size for each room (10*10)
-		int roomsAcross = 3;
-		for(int i = 1; i <= 10; i++){
-			if(roomAmount % i == 0 && i !=roomAmount)
-				roomsAcross = i;
-		}
-
-		int roomsDown = roomAmount / roomsAcross;
+	public String[][] genMaze(int roomsAcross, int roomsDown){
 
 		//create maze with enough space to store all cells of all rooms in a square shape
-		maze = new Block[roomSize*roomsDown][roomSize*roomsAcross];
+		maze = new String[10*roomsDown][10*roomsAcross];
 
 		//create roomAmount rooms
-		for (int i = 0; i < roomAmount; i++) {
-			Block[][] room = genRoom(roomSize);
+		for (int i = 0; i < roomsAcross*roomsDown; i++) {
+			String[][] room = genRoom(10);
 
 			//set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a 30*30 maze)
-			int xoffset=(i*roomSize % (roomSize*roomsDown)); //xoffset
+			int xoffset=(i*10 % (10*roomsDown)); //xoffset
 
 			//y offset for placing cells of room into maze
 			//when over the limit of the length, move cells down
-			int yoffset=(i*roomSize / (roomSize*roomsDown)*roomSize); //xoffset
+			int yoffset=(i*10 / (10*roomsDown)*10); //xoffset
 
 			//add cells into maze using offsets
 			for(int mazerow = 0; mazerow < room.length; mazerow++){
@@ -58,7 +49,6 @@ public class Generator {
 					maze[xoffset+mazecol][yoffset+mazerow] = room[mazecol][mazerow];
 				}
 			}
-
 		}
 
 		//prints out rooms
@@ -70,19 +60,19 @@ public class Generator {
 //			}
 //			System.out.println();
 //		}
+
 		for(int mazerow = 0; mazerow < maze.length; mazerow++) {
 			for (int mazecol = 0; mazecol < maze[0].length; mazecol++) {
-				Block current = maze[mazerow][mazecol];
-				current.updateCoords(mazerow, mazecol);
+				String current = maze[mazerow][mazecol];
+//				current.updateCoords(mazerow, mazecol);
 				if (current != null){
 					System.out.print(current.toString());
 				}
-				System.out.println();
 			}
+			System.out.println();
 		}
 
-
-					return maze;
+		return maze;
 	}
 
 	/**
@@ -90,17 +80,17 @@ public class Generator {
 	 * @param size width/height of room
 	 * @return
 	 */
-	private Block[][] genRoom(int size) {
+	private String[][] genRoom(int size) {
 
-		Block[][] room = new Block[size][size];
+		String[][] room = new String[size][size];
 
 		for(int i = 0; i < size; i++){
 			for (int k = 0; k < size; k++){
 				if(i == 0 || i == size-1 || k == 0 || k == size-1){
-					room[i][k] = new Wall(new Coordinate(0,0), "Right");
+					room[i][k] = "*";
 				}
 				else{
-					room[i][k] = new Path(new Coordinate(0,0));
+					room[i][k] = "O";
 				}
 			}
 		}
