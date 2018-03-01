@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Maze {
+	//row is y and maze[0].length
+	//col is x and maze.length
+	//array goes (y,x)/(row,col)
 
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
@@ -14,14 +17,12 @@ public class Maze {
 		players = new ArrayList<PlayerModel>();
 
 		players.add(new PlayerModel(1, 1, "1", this));
-		players.add(new PlayerModel(maze[0].length - 2, maze.length - 2, "2", this));
+		players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
 
 		if (playerAmount == 4) {
-			players.add(new PlayerModel(1, maze.length - 2, "3", this));
-			players.add(new PlayerModel(maze[0].length - 2, 1, "4", this));
+			players.add(new PlayerModel(maze.length - 2, 1, "3", this));
+			players.add(new PlayerModel(1, maze[0].length - 2, "4", this));
 		}
-
-		players.get(2).move(MoveDirections.DOWN);
 	}
 
 	/**
@@ -46,16 +47,16 @@ public class Maze {
 			// set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
 			// 30*30 maze)
-			int xoffset = (i * 10 % (10 * roomsDown)); // xoffset
+			int yoffset = (i * 10 % (10 * roomsDown)); // xoffset
 
 			// y offset for placing cells of room into maze
 			// when over the limit of the length, move cells down
-			int yoffset = (i * 10 / (10 * roomsDown) * 10); // xoffset
+			int xoffset = (i * 10 / (10 * roomsDown) * 10); // xoffset
 
 			// add cells into maze using offsets
-			for (int mazeY = 0; mazeY < room.length; mazeY++) {
-				for (int mazeX = 0; mazeX < room[0].length; mazeX++) {
-					mazeString[xoffset + mazeX][yoffset + mazeY] = room[mazeY][mazeX];
+			for (int mazeX = 0; mazeX < room.length; mazeX++) {
+				for (int mazeY = 0; mazeY < room[0].length; mazeY++) {
+					mazeString[yoffset + mazeY][xoffset + mazeX] = room[mazeX][mazeY];
 				}
 			}
 		}
@@ -84,8 +85,8 @@ public class Maze {
 			}
 		}
 
-		for (int y = 9; y < (roomsDown * 10) - 1; y += 10) {
-			for (int x = 2; x < (roomsAcross * 10) - 1; x += 10) {
+		for (int x = 2; x < (roomsAcross * 10) - 1; x += 10) {
+			for (int y = 9; y < (roomsDown * 10) - 1; y += 10) {
 				if (x % 9 != 0) {
 					float randomFloat = new Random().nextFloat();
 					if (randomFloat < 0.65)
