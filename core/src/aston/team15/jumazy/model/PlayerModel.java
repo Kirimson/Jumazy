@@ -2,6 +2,10 @@ package aston.team15.jumazy.model;
 
 public class PlayerModel {
 
+	public enum MoveDirection {
+		RIGHT, LEFT, DOWN, UP
+	}
+	
 	private int row;
 	private int col;
 	private String playerSymbol;
@@ -22,7 +26,7 @@ public class PlayerModel {
 		return !maze.getCoordinateString(newRow, newCol).equals("*");
 	}
 
-	public void move(MoveDirections direction) {
+	public void move(MoveDirection direction) {
 		int rowDiff = 0, colDiff = 0;
 
 		switch (direction) {
