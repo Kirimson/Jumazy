@@ -10,13 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.Jumazy;
-import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.model.PlayerModel;
 
 public class GameScreen implements Screen {
 
 	private Jumazy game;
 	private Stage stage;
+
 //	private ArrayList<Actor> players;
 //	private int currPlayer;
 
@@ -70,6 +70,12 @@ public class GameScreen implements Screen {
 					return true;
 				case Input.Keys.ENTER:
 					//switch turn
+					game.getDice().setCanRoll();
+					return true;
+				case Input.Keys.SPACE:
+					//make roll and set it to max bound of game (weather mod will affect this when re-implemented)
+					if(game.getDice().canRoll())
+						game.getDice().setDie(6);
 					return true;
 				default:
 					return false;

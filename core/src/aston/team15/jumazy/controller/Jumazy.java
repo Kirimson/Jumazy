@@ -1,5 +1,6 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.model.DiceModel;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,13 +17,14 @@ public class Jumazy extends Game {
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 
 	private Maze maze;
+	private DiceModel dice;
 	private Skin gameSkin;
 	private TextureAtlas textures;
 
 	public Jumazy() {
 		super();
 		maze = new Maze(4, 2, 4);
-		
+		dice = new DiceModel();
 		System.out.println(maze.toString());
 	}
 
@@ -42,6 +44,15 @@ public class Jumazy extends Game {
 	@Override
 	public void render() {
 		super.render();
+
+		/* game logic stuff */
+		//Dice rolling
+		if(!dice.isRollFinished() && dice.getRoll() != -1){
+			dice.roll();
+
+			if(dice.isRollFinished())
+				System.out.println("Roll is: "+dice.getRoll());
+		}
 	}
 
 	@Override
@@ -56,9 +67,17 @@ public class Jumazy extends Game {
 		return gameSkin;
 	}
 
+	public DiceModel getDice() {
+		return dice;
+	}
+
 	public void moveCurrentPlayer(MoveDirection direction) {
-		maze.getPlayer(1).move(direction);
-		System.out.println(maze.toString());
+		if(dice.isRollFinished() && dice.getRoll() > 0) {
+			maze.getPlayer(1).move(direction);
+			dice.decreaseRoll();
+			System.out.println(maze.toString());
+			System.out.println("Moves left: "+dice.getRoll());
+		}
 	}
 
 	public void passTurnToNextPlayer() {

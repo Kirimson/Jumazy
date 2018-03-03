@@ -13,21 +13,11 @@ public class DiceModel {
     private float currentElapsedTime = 0.0f; //
     private Random gen = new Random(); // random number generator
     private boolean rollFinished = false; // true if animation is finished
+    private boolean canRoll = true;
 
     private long lastTime = System.nanoTime();
 
     private int finalDie = -1;
-
-    public static void main(String args[]) {
-        DiceModel dice = new DiceModel();
-        while (!dice.isRollFinished()) {
-            System.out.println(dice.roll(6));
-        }
-        System.out.println("DONE");
-        System.out.println(dice.getRoll());
-        dice.decreaseRoll();
-        System.out.println(dice.getRoll());
-    }
 
     public DiceModel(){
 
@@ -60,9 +50,9 @@ public class DiceModel {
         }
     }
 
-    public void setFinalDie(int finalDie) {
+    public void setDie(int maxRoll) {
         reset();
-        this.finalDie = finalDie;
+        this.finalDie = new Random().nextInt(maxRoll) + 1;
         getNewIndex();
     }
 
@@ -77,7 +67,7 @@ public class DiceModel {
     }
 
     public void decreaseRoll() {
-        if (finalDie > 1) {
+        if (finalDie >= 1) {
             finalDie--;
         }
     }
@@ -86,11 +76,16 @@ public class DiceModel {
         return rollFinished;
     }
 
-    public int roll(int maxRoll) {
-        int rollNumber = finalDie;
-        if(finalDie == -1){
-            finalDie = new Random().nextInt(maxRoll)+1;
-        }
+    public void setCanRoll(){
+        canRoll = true;
+    }
+
+    public boolean canRoll(){
+        return canRoll;
+    }
+
+    public int roll() {
+        int rollNumber;
 
         if (currentElapsedTime > nextTime && !rollFinished) {
             rollNumber = getNewIndex();
@@ -100,6 +95,7 @@ public class DiceModel {
             int imageExponentialAppearances = 8;
             if (count == (imageConstantAppearances + imageExponentialAppearances)) {
                 rollFinished = true;
+                canRoll = false;
                 rollNumber = finalDie;
             }
         } else {
