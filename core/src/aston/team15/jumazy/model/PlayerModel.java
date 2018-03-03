@@ -6,20 +6,21 @@ public class PlayerModel {
 		RIGHT, LEFT, DOWN, UP
 	}
 	
+	private Maze maze;
 	private int row;
 	private int col;
-	private String playerSymbol;
-	private String currentSymbol;
-	private Maze maze;
+	private String playerSymbol; 
+	private String currentlyOn;
 
-	PlayerModel(int row, int col, String symbol, Maze maze) {
+	PlayerModel(int row, int col, String playerSymbol, Maze maze) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
-		playerSymbol = symbol;
-		currentSymbol = maze.getCoordinateString(row, col);
-
-		maze.setCoordinateString(row, col, symbol);
+		this.playerSymbol = playerSymbol;
+		
+		currentlyOn = "O";
+		
+		maze.setCoordinateString(row, col, playerSymbol);
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
@@ -27,7 +28,7 @@ public class PlayerModel {
 	}
 
 	public void move(MoveDirection direction) {
-		int rowDiff = 0, colDiff = 0;
+		int rowDiff = 0, colDiff = 0; 
 
 		switch (direction) {
 		case RIGHT:
@@ -44,12 +45,14 @@ public class PlayerModel {
 			break;
 		}
 
-		if (checkValidMove(row + rowDiff, col + colDiff)) {
-			maze.setCoordinateString(row, col, currentSymbol);
+		if (checkValidMove(row + rowDiff, col + colDiff)) {		
+			maze.setCoordinateString(row, col, currentlyOn);
 			row += rowDiff;
 			col += colDiff;
+			currentlyOn = maze.getCoordinateString(row, col);
 			maze.setCoordinateString(row, col, playerSymbol);
 		}
+		
 	}
 
 }

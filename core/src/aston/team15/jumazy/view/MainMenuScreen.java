@@ -1,10 +1,15 @@
 package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.Jumazy;
+
+import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.model.PlayerModel;
 
 public class MainMenuScreen extends MenuScreen {
 
@@ -21,7 +26,7 @@ public class MainMenuScreen extends MenuScreen {
 			}
 		});
 				
-		table.add(playButton).pad(10);
+		table.add(playButton).pad(10); 
 		table.row();
 		table.add(settingsButton).pad(10);
 		table.row();
@@ -30,6 +35,33 @@ public class MainMenuScreen extends MenuScreen {
 		table.padTop(150);
 
 		stage.addActor(table);
+		
+		final Maze maze = new Maze(4, 2, 4);
+		maze.setCoordinateString(2, 1, "T");
+		System.out.println(maze.toString());
+		
+		stage.addListener(new InputListener() {
+			public boolean keyDown(InputEvent event, int keycode) {
+				switch (keycode) { 
+				case Input.Keys.RIGHT:
+					maze.getPlayer(1).move(PlayerModel.MoveDirection.RIGHT);
+					break;
+				case Input.Keys.LEFT:
+					maze.getPlayer(1).move(PlayerModel.MoveDirection.LEFT);
+					break;
+				case Input.Keys.UP:
+					maze.getPlayer(1).move(PlayerModel.MoveDirection.UP);
+					break;
+				case Input.Keys.DOWN:
+					maze.getPlayer(1).move(PlayerModel.MoveDirection.DOWN);
+					break;
+				}				
+				System.out.println(maze.toString());
+				return true;
+			}
+		});
+		
+		
 	}
 
 	@Override

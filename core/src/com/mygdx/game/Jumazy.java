@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import aston.team15.jumazy.model.Maze;
 import aston.team15.jumazy.view.MainMenuScreen;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
@@ -26,9 +25,6 @@ public class Jumazy extends Game {
 		gameSkin = new Skin(Gdx.files.internal("jumazy-skin.json"));
 
 		setScreen(new MainMenuScreen(this));
-		
-		Maze maze = new Maze(4, 2, 4);
-		System.out.println(maze.toString());
 				
 	}
 

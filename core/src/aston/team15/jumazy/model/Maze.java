@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Maze {
+
+	
 	//row is y and maze[0].length
 	//col is x and maze.length
 	//array goes (y,x)/(row,col)
-
+	
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
 
@@ -160,5 +162,9 @@ public class Maze {
 
 	public String getCoordinateString(int row, int col) {
 		return maze[row][col];
+	}
+	
+	public PlayerModel getPlayer(int player) {
+		return players.get(player-1);
 	}
 }
