@@ -22,7 +22,7 @@ public class Player extends Actor {
 		addListener(new InputListener() {
 			@Override
 			public boolean keyDown(InputEvent event, int keycode) {
-				MoveByAction move = new MoveByAction();
+				MoveByAction move = new MoveByAction(); 
 				
 				switch (keycode) { 
 				case Input.Keys.RIGHT:

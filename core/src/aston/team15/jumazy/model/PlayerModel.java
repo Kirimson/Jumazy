@@ -10,7 +10,7 @@ public class PlayerModel {
 	private int row;
 	private int col;
 	private String playerSymbol; 
-	private String currentlyOn;
+	private String currentPositionSymbol;
 
 	PlayerModel(int row, int col, String playerSymbol, Maze maze) {
 		this.row = row;
@@ -18,7 +18,7 @@ public class PlayerModel {
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
 		
-		currentlyOn = "O";
+		currentPositionSymbol = "O";
 		
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
@@ -46,10 +46,10 @@ public class PlayerModel {
 		}
 
 		if (checkValidMove(row + rowDiff, col + colDiff)) {		
-			maze.setCoordinateString(row, col, currentlyOn);
+			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
 			col += colDiff;
-			currentlyOn = maze.getCoordinateString(row, col);
+			currentPositionSymbol = maze.getCoordinateString(row, col);
 			maze.setCoordinateString(row, col, playerSymbol);
 		}
 		

@@ -6,7 +6,7 @@ import java.util.Random;
 public class Maze {
 
 	
-	//row is y and maze[0].length
+	//row is y and maze[0].length 
 	//col is x and maze.length
 	//array goes (y,x)/(row,col)
 	
