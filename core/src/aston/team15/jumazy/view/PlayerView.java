@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
-public class Player extends Actor {
+public class PlayerView extends Actor {
 	private Sprite sprite;
 	
-	public Player (float xPos, float yPos, TextureRegion texture) {
+	public PlayerView (float xPos, float yPos, TextureRegion texture) {
 		this.sprite = new Sprite(texture);
 		sprite.setPosition(xPos, yPos);
 		setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
@@ -40,7 +40,7 @@ public class Player extends Actor {
 				}
 				
 				move.setDuration(0.05f);
-				Player.this.addAction(move);
+				PlayerView.this.addAction(move);
 				return true;
 			}
 		});

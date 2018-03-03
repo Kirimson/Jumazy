@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class MainMenuScreen extends MenuScreen {
 
-	public MainMenuScreen(Jumazy theGame) {
+	public MainMenuScreen(JumazyController theGame) {
 		super(theGame);
 
 		ScreenSwitchButton playButton = new ScreenSwitchButton("PLAY", Screens.START_GAME_SCREEN, game);

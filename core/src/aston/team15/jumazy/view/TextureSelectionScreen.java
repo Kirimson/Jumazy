@@ -1,10 +1,10 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class TextureSelectionScreen extends MenuScreen {
 
-	public TextureSelectionScreen(Jumazy theGame) {
+	public TextureSelectionScreen(JumazyController theGame) {
 		super(theGame);
 
 		ScreenSwitchButton texture1 = new ScreenSwitchButton("TEXTURE 1", null, game);

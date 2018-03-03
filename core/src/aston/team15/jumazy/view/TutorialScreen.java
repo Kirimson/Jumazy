@@ -1,10 +1,10 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class TutorialScreen extends MenuScreen {
 
-	public TutorialScreen(Jumazy theGame) {
+	public TutorialScreen(JumazyController theGame) {
 		super(theGame);
 		
 		ScreenSwitchButton backButton = new ScreenSwitchButton("BACK", Screens.START_GAME_SCREEN, game);

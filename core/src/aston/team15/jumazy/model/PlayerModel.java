@@ -1,24 +1,28 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
+
 public class PlayerModel {
 
 	public enum MoveDirection {
 		RIGHT, LEFT, DOWN, UP
 	}
 
-	private Maze maze;
+	private MazeModel maze;
 	private int row;
 	private int col;
 	private String playerSymbol;
 	private String currentPositionSymbol;
+	private int movesLeft;
 
-	PlayerModel(int row, int col, String playerSymbol, Maze maze) {
+	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
 
 		currentPositionSymbol = "O";
+		movesLeft = 0;
 
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
@@ -45,18 +49,22 @@ public class PlayerModel {
 			break;
 		}
 
-		if (checkValidMove(row + rowDiff, col + colDiff)) {
+		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
 			col += colDiff;
 			currentPositionSymbol = maze.getCoordinateString(row, col);
 			maze.setCoordinateString(row, col, playerSymbol);
-			
+			movesLeft--;
 			return true;
 		} else {
 			return false;
 		}
+	}
 
+	public void rollDie() {
+		movesLeft = new Random().nextInt(6) + 1;
+		System.out.println("Player " + playerSymbol + " rolled a " + movesLeft);
 	}
 
 }

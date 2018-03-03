@@ -1,10 +1,10 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class ErrorScreen extends MenuScreen {
 
-	public ErrorScreen(Jumazy theGame) {
+	public ErrorScreen(JumazyController theGame) {
 		super(theGame);
 		// TODO Auto-generated constructor stub
 	}

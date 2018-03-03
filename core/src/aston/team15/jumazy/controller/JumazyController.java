@@ -1,32 +1,30 @@
 package aston.team15.jumazy.controller;
 
-import aston.team15.jumazy.model.DiceModel;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import aston.team15.jumazy.model.Maze;
+import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.PlayerModel;
-import aston.team15.jumazy.model.PlayerModel.MoveDirection;
+import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
-public class Jumazy extends Game {
+public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
+	private boolean debugOn;
 
-	private Maze maze;
-	private DiceModel dice;
+	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
-	private int currentPlayer = 1;
 	private int playerAmount = 4;
 
-	public Jumazy() {
+	public JumazyController() {
 		super();
-		maze = new Maze(4, 2, playerAmount);
-		dice = new DiceModel();
+		maze = new MazeModel(4, 2, playerAmount);
 		System.out.println(maze.toString());
 	}
 
@@ -41,20 +39,12 @@ public class Jumazy extends Game {
 
 		setScreen(new MainMenuScreen(this));
 
+		debugOn = true;
 	}
 
 	@Override
 	public void render() {
 		super.render();
-
-		/* game logic stuff */
-		//Dice rolling
-		if(!dice.isRollFinished() && dice.getRoll() != -1){
-			dice.roll();
-
-			if(dice.isRollFinished())
-				System.out.println("Roll is: "+dice.getRoll());
-		}
 	}
 
 	@Override
@@ -69,25 +59,31 @@ public class Jumazy extends Game {
 		return gameSkin;
 	}
 
-	public DiceModel getDice() {
-		return dice;
-	}
+	public void handleGameInput(int keycode) {
+		GameScreen gameScreen = (GameScreen) getScreen();
 
-	public void moveCurrentPlayer(MoveDirection direction) {
-		if(dice.isRollFinished() && dice.getRoll() > 0) {
-			if(maze.getPlayer(currentPlayer).move(direction)) {
-				dice.decreaseRoll();
-				System.out.println(maze.toString());
-				System.out.println("Moves left: " + dice.getRoll());
-			}
+		switch (keycode) {
+		case Input.Keys.RIGHT:
+			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.RIGHT));
+			break;
+		case Input.Keys.LEFT:
+			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.LEFT));
+			break;
+		case Input.Keys.UP:
+			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.UP));
+			break;
+		case Input.Keys.DOWN:
+			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.DOWN));
+			break;
+		case Input.Keys.ENTER:
+			gameScreen.setPlayerFocus(maze.passTurnToNextPlayer());
+			break;
+		default:
+			break;
 		}
-	}
 
-	public void passTurnToNextPlayer() {
-		currentPlayer = (currentPlayer + 1) % (playerAmount + 1);
-		if(currentPlayer == 0)
-			currentPlayer =1;
-
-		System.out.println("It is now player "+currentPlayer+"'s turn");
+		if (debugOn) {
+			System.out.println(maze.toString());
+		}
 	}
 }

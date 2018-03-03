@@ -1,10 +1,10 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class PlayerNumberSelectScreen extends MenuScreen {
 
-	public PlayerNumberSelectScreen(Jumazy theGame) {
+	public PlayerNumberSelectScreen(JumazyController theGame) {
 		super(theGame);
 		
 		ScreenSwitchButton twoPlayerButton = new ScreenSwitchButton("2 PLAYERS", Screens.GAME_SCREEN, game);

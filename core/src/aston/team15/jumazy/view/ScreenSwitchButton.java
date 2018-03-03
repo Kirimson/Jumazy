@@ -4,11 +4,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class ScreenSwitchButton extends TextButton {
 
-	public ScreenSwitchButton(String string, final Screens startGameScreen, final Jumazy game) {
+	public ScreenSwitchButton(String string, final Screens startGameScreen, final JumazyController game) {
 		super(string, game.getSkin()); 
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {

@@ -1,10 +1,10 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 public class StartGameMenuScreen extends MenuScreen {
 
-	public StartGameMenuScreen(Jumazy theGame) {
+	public StartGameMenuScreen(JumazyController theGame) {
 		super(theGame);
 
 		ScreenSwitchButton startGameButton = new ScreenSwitchButton("START GAME", Screens.PLAYER_NUMBER_SELECTION_SCREEN, game);

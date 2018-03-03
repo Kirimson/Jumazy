@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import aston.team15.jumazy.controller.Jumazy;
+import aston.team15.jumazy.controller.JumazyController;
 
 /** 
  * An abstract class for every Menu Screen. Initialises variables for the stage
@@ -23,13 +23,13 @@ import aston.team15.jumazy.controller.Jumazy;
  */
 public abstract class MenuScreen implements Screen {
  
-	protected Jumazy game;
+	protected JumazyController game;
 	protected Stage stage; 
 	protected Table table; 
 
-	public MenuScreen(Jumazy theGame) {
+	public MenuScreen(JumazyController theGame) {
 		game = theGame;
-		stage = new Stage(new FitViewport(Jumazy.WORLD_WIDTH, Jumazy.WORLD_HEIGHT));
+		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
 
 		// create a Table object, used to organise the layout of our actors
 		table = new Table();
@@ -39,7 +39,7 @@ public abstract class MenuScreen implements Screen {
 		// initialises background Image object and adds it as the first actor on the
 		// stage
 		Image background = new Image(new Texture("background.jpg"));
-		background.setSize(Jumazy.WORLD_WIDTH, Jumazy.WORLD_HEIGHT);
+		background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage.addActor(background);
 	
 	}
