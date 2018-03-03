@@ -70,6 +70,7 @@ public class GameScreen implements Screen {
 					return true;
 				case Input.Keys.ENTER:
 					//switch turn
+					game.passTurnToNextPlayer();
 					game.getDice().setCanRoll();
 					return true;
 				case Input.Keys.SPACE:

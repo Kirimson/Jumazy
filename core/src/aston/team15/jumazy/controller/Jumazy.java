@@ -20,10 +20,12 @@ public class Jumazy extends Game {
 	private DiceModel dice;
 	private Skin gameSkin;
 	private TextureAtlas textures;
+	private int currentPlayer = 1;
+	private int playerAmount = 4;
 
 	public Jumazy() {
 		super();
-		maze = new Maze(4, 2, 4);
+		maze = new Maze(4, 2, playerAmount);
 		dice = new DiceModel();
 		System.out.println(maze.toString());
 	}
@@ -73,14 +75,19 @@ public class Jumazy extends Game {
 
 	public void moveCurrentPlayer(MoveDirection direction) {
 		if(dice.isRollFinished() && dice.getRoll() > 0) {
-			maze.getPlayer(1).move(direction);
-			dice.decreaseRoll();
-			System.out.println(maze.toString());
-			System.out.println("Moves left: "+dice.getRoll());
+			if(maze.getPlayer(currentPlayer).move(direction)) {
+				dice.decreaseRoll();
+				System.out.println(maze.toString());
+				System.out.println("Moves left: " + dice.getRoll());
+			}
 		}
 	}
 
 	public void passTurnToNextPlayer() {
+		currentPlayer = (currentPlayer + 1) % (playerAmount + 1);
+		if(currentPlayer == 0)
+			currentPlayer =1;
 
+		System.out.println("It is now player "+currentPlayer+"'s turn");
 	}
 }
