@@ -16,13 +16,12 @@ public class DiceModel {
 
     private long lastTime = System.nanoTime();
 
-    private int finalDie;
+    private int finalDie = -1;
 
     public static void main(String args[]) {
         DiceModel dice = new DiceModel();
-        dice.setFinalDie(6);
         while (!dice.isRollFinished()) {
-            System.out.println(dice.roll());
+            System.out.println(dice.roll(6));
         }
         System.out.println("DONE");
         System.out.println(dice.getRoll());
@@ -74,6 +73,7 @@ public class DiceModel {
         nextTime = shortTime;
         count = 1;
         currentRollNumber = 0;
+        finalDie = -1;
     }
 
     public void decreaseRoll() {
@@ -86,8 +86,12 @@ public class DiceModel {
         return rollFinished;
     }
 
-    public int roll() {
-        int rollNumber;
+    public int roll(int maxRoll) {
+        int rollNumber = finalDie;
+        if(finalDie == -1){
+            finalDie = new Random().nextInt(maxRoll)+1;
+        }
+
         if (currentElapsedTime > nextTime && !rollFinished) {
             rollNumber = getNewIndex();
             currentElapsedTime = 0.0f;
