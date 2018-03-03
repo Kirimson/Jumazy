@@ -5,11 +5,10 @@ import java.util.Random;
 
 public class Maze {
 
-	
-	//row is y and maze[0].length 
-	//col is x and maze.length
-	//array goes (y,x)/(row,col)
-	
+	// row is y and maze[0].length
+	// col is x and maze.length
+	// array goes (y,x)/(row,col)
+
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
 
@@ -70,8 +69,8 @@ public class Maze {
 
 	private void createDoors(int roomsAcross, int roomsDown, String[][] maze) {
 
-		for (int x = 9; x < (roomsAcross * 10)-1; x += 10) {
-			for (int y = 2; y < (roomsDown * 10)-1; y += 10) {
+		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
+			for (int y = 2; y < (roomsDown * 10) - 1; y += 10) {
 				if (y % 9 != 0) {
 					float randomFloat = new Random().nextFloat();
 					if (randomFloat < 0.65)
@@ -83,7 +82,8 @@ public class Maze {
 						maze[y + 4][x + 1] = "O";
 						maze[y + 5][x + 1] = "O";
 					}
-				} else y -= 2;
+				} else
+					y -= 2;
 			}
 		}
 
@@ -100,7 +100,8 @@ public class Maze {
 						maze[y][x + 5] = "O";
 						maze[y + 1][x + 5] = "O";
 					}
-				} else x -= 2;
+				} else
+					x -= 2;
 			}
 		}
 	}
@@ -163,8 +164,8 @@ public class Maze {
 	public String getCoordinateString(int row, int col) {
 		return maze[row][col];
 	}
-	
+
 	public PlayerModel getPlayer(int player) {
-		return players.get(player-1);
+		return players.get(player - 1);
 	}
 }

@@ -3,7 +3,8 @@ package aston.team15.jumazy.view;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.game.Jumazy;
+
+import aston.team15.jumazy.controller.Jumazy;
 
 public class ScreenSwitchButton extends TextButton {
 

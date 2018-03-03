@@ -8,7 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.Jumazy;
+
+import aston.team15.jumazy.controller.Jumazy;
 
 /** 
  * An abstract class for every Menu Screen. Initialises variables for the stage

@@ -1,6 +1,6 @@
 package aston.team15.jumazy.view;
 
-import com.mygdx.game.Jumazy;
+import aston.team15.jumazy.controller.Jumazy;
 
 public class StartGameMenuScreen extends MenuScreen {
 

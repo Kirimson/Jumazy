@@ -3,7 +3,8 @@ package com.mygdx.game.desktop;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.mygdx.game.Jumazy;
+
+import aston.team15.jumazy.controller.Jumazy;
 
 public class DesktopLauncher {
 	
@@ -13,9 +14,10 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Jumazy.WORLD_WIDTH;
 		config.height = Jumazy.WORLD_HEIGHT; 
-		config.title = "Jumazy";
+		config.title = "Jumazy"; 
 		config.addIcon("chest-gold.png", FileType.Internal);
 		
 		new LwjglApplication(game, config);
 	}
+	
 }
