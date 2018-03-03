@@ -18,13 +18,13 @@ public class GameScreen implements Screen {
 	private JumazyController game;
 	private Stage stage;
 
-	private ArrayList<Actor> players;
+	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 
 	public GameScreen(JumazyController aGame) {
 		game = aGame;
 		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
-		players = new ArrayList<Actor>();
+		players = new ArrayList<>();
 
 		PlayerView player1 = new PlayerView(300, 100, game.getAtlas().findRegion("chest-silver"));
 		PlayerView player2 = new PlayerView(400, 100, game.getAtlas().findRegion("char2"));
@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 		stage.addActor(player4);
 		
 		currentPlayerIndex = 0;
-		stage.setKeyboardFocus(players.get(currentPlayerIndex));
+//		stage.setKeyboardFocus(players.get(currentPlayerIndex));
 
 		/* --- TEST MAZE IMPLEMENTATION --- */
 		stage.addListener(new InputListener() {
@@ -59,16 +59,13 @@ public class GameScreen implements Screen {
 	}
   
 	public void setPlayerFocus(int newPlayerIndex) {
-		stage.setKeyboardFocus(players.get(newPlayerIndex));
+//		stage.setKeyboardFocus(players.get(newPlayerIndex));
 		currentPlayerIndex = newPlayerIndex;
 	}
 
-	public void moveCurrentPlayerView(boolean canMove) {
-		if (canMove) {			
-			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime());
-		} else {
-			return;
-		}
+	public void moveCurrentPlayerView(boolean canMove, int keycode) {
+		if (canMove)
+			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode);
 	}
 
 	@Override

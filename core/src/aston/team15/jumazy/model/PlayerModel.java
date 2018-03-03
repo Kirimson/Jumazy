@@ -1,12 +1,10 @@
 package aston.team15.jumazy.model;
 
+import com.badlogic.gdx.Input;
+
 import java.util.Random;
 
 public class PlayerModel {
-
-	public enum MoveDirection {
-		RIGHT, LEFT, DOWN, UP
-	}
 
 	private MazeModel maze;
 	private int row;
@@ -31,20 +29,20 @@ public class PlayerModel {
 		return !maze.getCoordinateString(newRow, newCol).equals("*");
 	}
 
-	public boolean move(MoveDirection direction) {
+	public boolean move(int direction) {
 		int rowDiff = 0, colDiff = 0;
 
 		switch (direction) {
-		case RIGHT:
+		case Input.Keys.RIGHT:
 			colDiff = 1;
 			break;
-		case LEFT:
+		case Input.Keys.LEFT:
 			colDiff = -1;
 			break;
-		case DOWN:
+		case Input.Keys.DOWN:
 			rowDiff = -1;
 			break;
-		case UP:
+		case Input.Keys.UP:
 			rowDiff = 1;
 			break;
 		}
@@ -65,6 +63,10 @@ public class PlayerModel {
 	public void rollDie() {
 		movesLeft = new Random().nextInt(6) + 1;
 		System.out.println("Player " + playerSymbol + " rolled a " + movesLeft);
+	}
+
+	public int getMovesLeft(){
+		return movesLeft;
 	}
 
 }

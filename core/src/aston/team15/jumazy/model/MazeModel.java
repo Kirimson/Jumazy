@@ -174,7 +174,7 @@ public class MazeModel {
 		return players.get(currentPlayerIndex);
 	}
 	
-	public boolean moveCurrentPlayerModel(PlayerModel.MoveDirection direction) {
+	public boolean moveCurrentPlayerModel(int direction) {
 		return getCurrentPlayer().move(direction);
 	}
 

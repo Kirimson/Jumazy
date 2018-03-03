@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import aston.team15.jumazy.model.MazeModel;
-import aston.team15.jumazy.model.PlayerModel;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
 
@@ -64,16 +63,10 @@ public class JumazyController extends Game {
 
 		switch (keycode) {
 		case Input.Keys.RIGHT:
-			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.RIGHT));
-			break;
 		case Input.Keys.LEFT:
-			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.LEFT));
-			break;
 		case Input.Keys.UP:
-			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.UP));
-			break;
 		case Input.Keys.DOWN:
-			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(PlayerModel.MoveDirection.DOWN));
+			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 			break;
 		case Input.Keys.ENTER:
 			gameScreen.setPlayerFocus(maze.passTurnToNextPlayer());

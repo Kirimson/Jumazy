@@ -19,31 +19,31 @@ public class PlayerView extends Actor {
 		setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
 		setTouchable(Touchable.enabled);
 		
-		addListener(new InputListener() {
-			@Override
-			public boolean keyDown(InputEvent event, int keycode) {
-				MoveByAction move = new MoveByAction(); 
-				
-				switch (keycode) { 
-				case Input.Keys.RIGHT:
-					move.setAmount(100f, 0);
-					break;
-				case Input.Keys.LEFT:
-					move.setAmount(-100f, 0);
-					break;
-				case Input.Keys.UP:
-					move.setAmount(0, 100f);
-					break;
-				case Input.Keys.DOWN:
-					move.setAmount(0, -100f);
-					break;
-				}
-				
-				move.setDuration(0.05f);
-				PlayerView.this.addAction(move);
-				return true;
-			}
-		});
+//		addListener(new InputListener() {
+//			@Override
+//			public boolean keyDown(InputEvent event, int keycode) {
+//				MoveByAction move = new MoveByAction();
+//
+//				switch (keycode) {
+//				case Input.Keys.RIGHT:
+//					move.setAmount(100f, 0);
+//					break;
+//				case Input.Keys.LEFT:
+//					move.setAmount(-100f, 0);
+//					break;
+//				case Input.Keys.UP:
+//					move.setAmount(0, 100f);
+//					break;
+//				case Input.Keys.DOWN:
+//					move.setAmount(0, -100f);
+//					break;
+//				}
+//
+//				move.setDuration(0.05f);
+//				PlayerView.this.addAction(move);
+//				return true;
+//			}
+//		});
 	}
 	
 	@Override
@@ -56,10 +56,28 @@ public class PlayerView extends Actor {
     	sprite.setPosition(getX(), getY());
     	super.positionChanged();
     }
-    
-	@Override
-    public void act(float delta) {
+
+    public void act(float delta, int keycode) {
     	super.act(delta);
+		MoveByAction move = new MoveByAction();
+
+		switch (keycode) {
+			case Input.Keys.RIGHT:
+				move.setAmount(100f, 0);
+				break;
+			case Input.Keys.LEFT:
+				move.setAmount(-100f, 0);
+				break;
+			case Input.Keys.UP:
+				move.setAmount(0, 100f);
+				break;
+			case Input.Keys.DOWN:
+				move.setAmount(0, -100f);
+				break;
+		}
+
+		move.setDuration(0.05f);
+		PlayerView.this.addAction(move);
     }
 	
 }
