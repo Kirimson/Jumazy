@@ -28,6 +28,10 @@ public class PlayerModel {
 	private boolean checkValidMove(int newRow, int newCol) {
 		return !maze.getCoordinateString(newRow, newCol).equals("*");
 	}
+	
+	private boolean checkTrap(int newRow, int newCol) {
+		return maze.getCoordinateString(newRow, newCol).equals("T");
+	}
 
 	public boolean move(int direction) {
 		int rowDiff = 0, colDiff = 0;
@@ -46,7 +50,11 @@ public class PlayerModel {
 			rowDiff = 1;
 			break;
 		}
-
+		
+		if (checkTrap(row + rowDiff, col + colDiff)) {
+			System.out.println("this is a trap cuz");
+		}
+		
 		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
@@ -58,7 +66,12 @@ public class PlayerModel {
 		} else {
 			return false;
 		}
+		
+		
+		
 	}
+		
+	
 
 	public void rollDie() {
 		movesLeft = new Random().nextInt(6) + 1;
