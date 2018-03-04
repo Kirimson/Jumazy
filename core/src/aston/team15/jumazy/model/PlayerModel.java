@@ -52,7 +52,7 @@ public class PlayerModel {
 		}
 		
 		if (checkTrap(row + rowDiff, col + colDiff)) {
-			System.out.println("this is a trap cuz");
+			
 		}
 		
 		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
