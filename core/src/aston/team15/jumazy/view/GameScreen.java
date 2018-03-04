@@ -36,8 +36,7 @@ public class GameScreen implements Screen {
 					case "2":
 					case "3":
 					case "4":
-						newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-squares"));
-						players.add(new PlayerView(mazeY * 32, mazeX * 32, game.getSprite("char"+maze[mazeX][mazeY])));break;
+						players.add(new PlayerView(mazeY * 32, mazeX * 32, game.getSprite("char"+maze[mazeX][mazeY])));
 					default:newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-squares"));break;
 				}
 
