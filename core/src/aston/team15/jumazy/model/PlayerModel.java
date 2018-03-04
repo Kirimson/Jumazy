@@ -64,7 +64,6 @@ public class PlayerModel {
 			maze.setCoordinateString(row, col, playerSymbol);
 			movesLeft--;
 			QuestionUI qUI = new QuestionUI();
-			qUI.create();
 			isTrap = checkTrap();
 			return true;
 		} else {
