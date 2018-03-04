@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
@@ -18,32 +16,6 @@ public class PlayerView extends Actor {
 		sprite.setPosition(xPos, yPos);
 		setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
 		setTouchable(Touchable.enabled);
-		
-//		addListener(new InputListener() {
-//			@Override
-//			public boolean keyDown(InputEvent event, int keycode) {
-//				MoveByAction move = new MoveByAction();
-//
-//				switch (keycode) {
-//				case Input.Keys.RIGHT:
-//					move.setAmount(100f, 0);
-//					break;
-//				case Input.Keys.LEFT:
-//					move.setAmount(-100f, 0);
-//					break;
-//				case Input.Keys.UP:
-//					move.setAmount(0, 100f);
-//					break;
-//				case Input.Keys.DOWN:
-//					move.setAmount(0, -100f);
-//					break;
-//				}
-//
-//				move.setDuration(0.05f);
-//				PlayerView.this.addAction(move);
-//				return true;
-//			}
-//		});
 	}
 	
 	@Override

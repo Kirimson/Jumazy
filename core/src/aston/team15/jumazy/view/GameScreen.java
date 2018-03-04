@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,30 +20,29 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 
-	public GameScreen(JumazyController aGame) {
+	public GameScreen(JumazyController aGame, int playerAmount) {
 		game = aGame;
 		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
-		players = new ArrayList<>();
+		players = new ArrayList<PlayerView>();
 
 		PlayerView player1 = new PlayerView(300, 100, game.getAtlas().findRegion("chest-silver"));
 		PlayerView player2 = new PlayerView(400, 100, game.getAtlas().findRegion("char2"));
-		PlayerView player3 = new PlayerView(500, 100, game.getAtlas().findRegion("mummy"));
-		PlayerView player4 = new PlayerView(600, 100, game.getAtlas().findRegion("char3"));
-
 		players.add(player1);
 		players.add(player2);
-		players.add(player3);
-		players.add(player4);
-
-		stage.addActor(player1);
-		stage.addActor(player2);
-		stage.addActor(player3);
-		stage.addActor(player4);
+		
+		if(playerAmount == 4) {
+			PlayerView player3 = new PlayerView(500, 100, game.getAtlas().findRegion("mummy"));
+			PlayerView player4 = new PlayerView(600, 100, game.getAtlas().findRegion("char3"));
+			players.add(player3);
+			players.add(player4);
+		}
+		
+		for (PlayerView player : players) {
+			stage.addActor(player);
+		}
 		
 		currentPlayerIndex = 0;
-//		stage.setKeyboardFocus(players.get(currentPlayerIndex));
 
-		/* --- TEST MAZE IMPLEMENTATION --- */
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 				game.handleGameInput(keycode);

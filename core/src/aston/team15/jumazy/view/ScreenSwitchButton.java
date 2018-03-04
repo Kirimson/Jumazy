@@ -26,14 +26,11 @@ public class ScreenSwitchButton extends TextButton {
 					game.setScreen(new TextureSelectionScreen(game));
 					break;
 				case PLAYER_NUMBER_SELECTION_SCREEN:
-					game.setScreen(new PlayerNumberSelectScreen(game));
+					game.setScreen(new PlayerAmountSelectScreen(game));
 					break;
 				case SETTINGS_SCREEN:
 					game.setScreen(new SettingsScreen(game));
 					break; 
-				case GAME_SCREEN:
-					game.setScreen(new GameScreen(game));
-					break;
 				default:
 					game.setScreen(new ErrorScreen(game));
 					break;
