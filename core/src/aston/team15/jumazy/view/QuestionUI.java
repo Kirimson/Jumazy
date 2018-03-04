@@ -5,6 +5,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,13 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import aston.team15.jumazy.model.QuestionRetriever;
 
-public class QuestionUI extends ApplicationAdapter{
+public class QuestionUI implements Screen{
 
 	private Stage stage;
 	private Skin skin;
 	private boolean isActive;
 	private boolean correct;
 	private QuestionRetriever question = new QuestionRetriever();
+	
 	
 	public void create () {
 		isActive = true;
@@ -85,14 +87,40 @@ public class QuestionUI extends ApplicationAdapter{
 		stage.getViewport().update(width, height, true);
 	}
 
-	public void render () {
+	public void dispose() {
+		stage.dispose();
+	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(float delta) {
+		// TODO Auto-generated method stub
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
 
-	public void dispose() {
-		stage.dispose();
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

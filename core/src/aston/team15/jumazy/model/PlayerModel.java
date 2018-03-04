@@ -2,6 +2,8 @@ package aston.team15.jumazy.model;
 
 import com.badlogic.gdx.Input;
 
+import aston.team15.jumazy.view.QuestionUI;
+
 import java.util.Random;
 
 public class PlayerModel {
@@ -12,6 +14,7 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
+	private boolean isTrap;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
 		this.row = row;
@@ -51,9 +54,7 @@ public class PlayerModel {
 			break;
 		}
 		
-		if (checkTrap(row + rowDiff, col + colDiff)) {
-			
-		}
+
 		
 		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
@@ -62,16 +63,28 @@ public class PlayerModel {
 			currentPositionSymbol = maze.getCoordinateString(row, col);
 			maze.setCoordinateString(row, col, playerSymbol);
 			movesLeft--;
+			QuestionUI qUI = new QuestionUI();
+			qUI.create();
+			isTrap = checkTrap();
 			return true;
 		} else {
 			return false;
 		}
 		
-		
-		
+
 	}
 		
-	
+	public boolean checkTrap() {
+		if (checkTrap(row, col)) {
+			QuestionUI qUI = new QuestionUI();
+			qUI.create();
+			System.out.println("ooooooooooooo");
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 
 	public void rollDie() {
 		movesLeft = new Random().nextInt(6) + 1;
