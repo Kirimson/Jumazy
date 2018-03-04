@@ -6,7 +6,6 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -99,13 +98,22 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		//update camera position
-		float newCameraX = players.get(currentPlayerIndex).getX();
-		float newCameraY = players.get(currentPlayerIndex).getY();
-		viewport.getCamera().position.set(new Vector3(newCameraX, newCameraY, 1f));
+		//update camera position if needed
+		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+	}
+
+	private void panCameraTo(Vector3 target){
+		if(viewport.getCamera().position != target) {
+			Vector3 camPosition = viewport.getCamera().position;
+			final float speed = 0.1f, invertSpeed = 1.0f - speed;
+			camPosition.scl(invertSpeed);
+			target.scl(speed);
+			camPosition.add(target);
+			viewport.getCamera().position.set(camPosition);
+		}
 	}
 
 	@Override
