@@ -41,7 +41,6 @@ public abstract class MenuScreen implements Screen {
 		Image background = new Image(new Texture("background.jpg"));
 		background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage.addActor(background);
-
 	}
 
 	@Override

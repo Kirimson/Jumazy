@@ -23,12 +23,14 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
+	private QuestionUI questionUI;
 
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage = new Stage(viewport);
 		players = new ArrayList<PlayerView>();
+		questionUI = new QuestionUI();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -78,6 +80,11 @@ public class GameScreen implements Screen {
 	private String findWallType(String[][] maze, int xPos, int yPos) {
 
 		return "wall-plain";
+	}
+
+	public void createRiddle(){
+		for(Actor a : questionUI.getActors())
+			stage.addActor(a);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
-	private boolean isTrap;
+	private boolean onTrap;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
 		this.row = row;
@@ -30,10 +30,6 @@ public class PlayerModel {
 
 	private boolean checkValidMove(int newRow, int newCol) {
 		return !maze.getCoordinateString(newRow, newCol).equals("*");
-	}
-	
-	private boolean checkTrap(int newRow, int newCol) {
-		return maze.getCoordinateString(newRow, newCol).equals("T");
 	}
 
 	public boolean move(int direction) {
@@ -54,35 +50,25 @@ public class PlayerModel {
 			break;
 		}
 		
-
-		
-		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
+		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0 && !onTrap) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
 			col += colDiff;
 			currentPositionSymbol = maze.getCoordinateString(row, col);
 			maze.setCoordinateString(row, col, playerSymbol);
 			movesLeft--;
-			QuestionUI qUI = new QuestionUI();
-			isTrap = checkTrap();
+
+			if(currentPositionSymbol.equals("T"))
+				onTrap = true;
+			else
+				onTrap = false;
+
 			return true;
 		} else {
 			return false;
 		}
 		
 
-	}
-		
-	public boolean checkTrap() {
-		if (checkTrap(row, col)) {
-			QuestionUI qUI = new QuestionUI();
-			qUI.create();
-			System.out.println("ooooooooooooo");
-			return true;
-		}else {
-			return false;
-		}
-		
 	}
 
 	public void rollDie() {
@@ -94,4 +80,7 @@ public class PlayerModel {
 		return movesLeft;
 	}
 
+	public boolean isOnTrap() {
+		return onTrap;
+	}
 }
