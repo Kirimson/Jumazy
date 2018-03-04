@@ -1,5 +1,10 @@
 package aston.team15.jumazy.view;
 
+import java.io.File;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,13 +21,11 @@ import aston.team15.jumazy.controller.QuestionsRetriever;
 
 public class Question extends ApplicationAdapter{
 
-	
 	private Stage stage;
 	private Skin skin;
 	private boolean isActive;
 	private boolean correct;
 	private QuestionsRetriever question = new QuestionsRetriever();
-	
 	
 	public void create () {
 		isActive = true;
@@ -48,9 +51,28 @@ public class Question extends ApplicationAdapter{
 			public void clicked(InputEvent event, float x, float y) {
 				correct = question.checkAnswer(tfAnswer.getText());
 				isActive = false;
+				File sound;
+				if (correct == true) {
+					
+					sound = new File("../core/assets/correct.wav");
+				} else {
+					
+					sound = new File("../core/assets/incorrect.wav");
+				}
+				playSound(sound);
 			}
 		});
 		
+	}
+	
+	public void playSound(File sound) {
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(sound));
+			clip.start();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 
