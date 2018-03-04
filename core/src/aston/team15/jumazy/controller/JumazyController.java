@@ -67,7 +67,7 @@ public class JumazyController extends Game {
 			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 			break;
 		case Input.Keys.ENTER:
-			gameScreen.setPlayerFocus(maze.passTurnToNextPlayer());
+			gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 			break;
 		default:
 			break;

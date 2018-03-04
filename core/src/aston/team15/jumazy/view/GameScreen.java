@@ -23,6 +23,7 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
+	private int blockSpriteDimensions = 32;
 
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
@@ -34,16 +35,25 @@ public class GameScreen implements Screen {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
 
-				switch(maze[mazeX][mazeY]){
-					case "*":
-						newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite(findWallType(maze, mazeX, mazeY)));break;
-					case "T":newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-trap-spikes"));break;
-					case "1":
-					case "2":
-					case "3":
-					case "4":
-						players.add(new PlayerView(mazeY * 32, mazeX * 32, game.getSprite("char"+maze[mazeX][mazeY])));
-					default:newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite(randomFloorTexture()));break;
+				switch (maze[mazeX][mazeY]) {
+				case "*":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite(findWallType(maze, mazeX, mazeY)));
+					break;
+				case "T":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-trap-spikes"));
+					break;
+				case "1":
+				case "2":  
+				case "3":
+				case "4":
+					players.add(new PlayerView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("char" + maze[mazeX][mazeY])));
+				default:
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite(randomFloorTexture()));
+					break;
 				}
 
 				stage.addActor(newActor);
@@ -67,9 +77,9 @@ public class GameScreen implements Screen {
 	private String randomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
-		if(floorType < 0.1)
+		if (floorType < 0.1)
 			return "floor-squares-missing";
-		else if(floorType < 0.2)
+		else if (floorType < 0.2)
 			return "floor-squares-cracked";
 		else
 			return "floor-squares";
@@ -84,8 +94,8 @@ public class GameScreen implements Screen {
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
 	}
-  
-	public void setPlayerFocus(int newPlayerIndex) {
+
+	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
 	}
 
@@ -98,15 +108,15 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		//update camera position if needed
+		// update camera position if needed
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
 
-	private void panCameraTo(Vector3 target){
-		if(viewport.getCamera().position != target) {
+	private void panCameraTo(Vector3 target) {
+		if (viewport.getCamera().position != target) {
 			Vector3 camPosition = viewport.getCamera().position;
 			final float speed = 0.1f, invertSpeed = 1.0f - speed;
 			camPosition.scl(invertSpeed);

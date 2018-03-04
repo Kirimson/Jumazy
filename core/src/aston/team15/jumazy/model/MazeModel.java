@@ -18,12 +18,16 @@ public class MazeModel {
 
 		players = new ArrayList<PlayerModel>();
 
-		players.add(new PlayerModel(1, 1, "1", this));
-		players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
+		if (playerAmount == 2) {
+			players.add(new PlayerModel(1, 1, "1", this));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));			
+		}
 
 		if (playerAmount == 4) {
+			players.add(new PlayerModel(1, 1, "1", this));
+			players.add(new PlayerModel(1, maze[0].length - 2, "2", this));
 			players.add(new PlayerModel(maze.length - 2, 1, "3", this));
-			players.add(new PlayerModel(1, maze[0].length - 2, "4", this));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this));	
 		}
 
 		currentPlayerIndex = 0;
@@ -34,7 +38,7 @@ public class MazeModel {
 	 * Creates a maze based on rooms connected to each other
 	 * 
 	 * @param roomsAcross
-	 *            amount of rooms across
+	 *            amount of rooms across  
 	 * @param roomsDown
 	 *            amount of rooms down
 	 * @return the maze
@@ -48,7 +52,7 @@ public class MazeModel {
 		// create roomAmount rooms
 		for (int i = 0; i < roomsAcross * roomsDown; i++) {
 			String[][] room = genRoom(10);
-
+ 
 			// set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
 			// 30*30 maze)
