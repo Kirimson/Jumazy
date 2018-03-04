@@ -9,10 +9,10 @@ import aston.team15.jumazy.controller.JumazyController;
 public class ScreenSwitchButton extends TextButton {
 
 	public ScreenSwitchButton(String string, final Screens startGameScreen, final JumazyController game) {
-		super(string, game.getSkin()); 
+		super(string, game.getSkin());
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				switch (startGameScreen) { 
+				switch (startGameScreen) {
 				case MAIN_MENU_SCREEN:
 					game.setScreen(new MainMenuScreen(game));
 					break;
@@ -30,7 +30,7 @@ public class ScreenSwitchButton extends TextButton {
 					break;
 				case SETTINGS_SCREEN:
 					game.setScreen(new SettingsScreen(game));
-					break; 
+					break;
 				default:
 					game.setScreen(new ErrorScreen(game));
 					break;

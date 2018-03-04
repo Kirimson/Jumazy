@@ -65,7 +65,7 @@ public class PlayerModel {
 		System.out.println("Player " + playerSymbol + " rolled a " + movesLeft);
 	}
 
-	public int getMovesLeft(){
+	public int getMovesLeft() {
 		return movesLeft;
 	}
 

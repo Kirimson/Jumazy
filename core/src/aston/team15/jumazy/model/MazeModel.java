@@ -173,7 +173,7 @@ public class MazeModel {
 	public PlayerModel getCurrentPlayer() {
 		return players.get(currentPlayerIndex);
 	}
-	
+
 	public boolean moveCurrentPlayerModel(int direction) {
 		return getCurrentPlayer().move(direction);
 	}

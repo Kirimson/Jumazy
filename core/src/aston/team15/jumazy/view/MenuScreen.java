@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
 
-/** 
+/**
  * An abstract class for every Menu Screen. Initialises variables for the stage
  * and table that are common to every menu, and adds actors that are common to
  * every menu screen as well, for example the background.
@@ -22,10 +22,10 @@ import aston.team15.jumazy.controller.JumazyController;
  *
  */
 public abstract class MenuScreen implements Screen {
- 
+
 	protected JumazyController game;
-	protected Stage stage; 
-	protected Table table; 
+	protected Stage stage;
+	protected Table table;
 
 	public MenuScreen(JumazyController theGame) {
 		game = theGame;
@@ -41,7 +41,7 @@ public abstract class MenuScreen implements Screen {
 		Image background = new Image(new Texture("background.jpg"));
 		background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage.addActor(background);
-	
+
 	}
 
 	@Override
