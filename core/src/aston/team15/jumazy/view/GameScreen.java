@@ -1,10 +1,13 @@
 package aston.team15.jumazy.view;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -20,10 +23,12 @@ public class GameScreen implements Screen {
 
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
+	private FitViewport viewport;
 
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
-		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
+		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
+		stage = new Stage(viewport);
 		players = new ArrayList<PlayerView>();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
@@ -31,19 +36,21 @@ public class GameScreen implements Screen {
 				Actor newActor;
 
 				switch(maze[mazeX][mazeY]){
-					case "*":newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("wall-plain"));break;
+					case "*":
+						newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite(findWallType(maze, mazeX, mazeY)));break;
+					case "T":newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-trap-spikes"));break;
 					case "1":
 					case "2":
 					case "3":
 					case "4":
 						players.add(new PlayerView(mazeY * 32, mazeX * 32, game.getSprite("char"+maze[mazeX][mazeY])));
-					default:newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-squares"));break;
+					default:newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite(randomFloorTexture()));break;
 				}
 
 				stage.addActor(newActor);
 			}
 		}
-		
+
 		for (PlayerView player : players) {
 			stage.addActor(player);
 		}
@@ -58,13 +65,28 @@ public class GameScreen implements Screen {
 		});
 	}
 
+	private String randomFloorTexture() {
+		float floorType = new Random().nextFloat();
+
+		if(floorType < 0.1)
+			return "floor-squares-missing";
+		else if(floorType < 0.2)
+			return "floor-squares-cracked";
+		else
+			return "floor-squares";
+	}
+
+	private String findWallType(String[][] maze, int xPos, int yPos) {
+
+		return "wall-plain";
+	}
+
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
 	}
   
 	public void setPlayerFocus(int newPlayerIndex) {
-//		stage.setKeyboardFocus(players.get(newPlayerIndex));
 		currentPlayerIndex = newPlayerIndex;
 	}
 
@@ -76,6 +98,12 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		//update camera position
+		float newCameraX = players.get(currentPlayerIndex).getX();
+		float newCameraY = players.get(currentPlayerIndex).getY();
+		viewport.getCamera().position.set(new Vector3(newCameraX, newCameraY, 1f));
+
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}

@@ -133,7 +133,10 @@ public class MazeModel {
 				if (i == 0 || i == size - 1 || k == 0 || k == size - 1) {
 					room[i][k] = "*";
 				} else {
-					room[i][k] = "O";
+					if(new Random().nextFloat() < 0.05)
+						room[i][k] = "T";
+					else
+						room[i][k] = "O";
 				}
 			}
 		}

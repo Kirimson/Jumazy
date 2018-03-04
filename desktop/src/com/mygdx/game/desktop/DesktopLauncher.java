@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = JumazyController.WORLD_WIDTH;
 		config.height = JumazyController.WORLD_HEIGHT; 
-		config.title = "JumazyController"; 
+		config.title = "Jumazy";
 		config.addIcon("chest-gold.png", FileType.Internal);
 		
 		new LwjglApplication(game, config);
