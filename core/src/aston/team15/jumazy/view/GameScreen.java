@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,27 +21,34 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 
-	public GameScreen(JumazyController aGame, int playerAmount) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
 		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
 		players = new ArrayList<PlayerView>();
 
-		PlayerView player1 = new PlayerView(300, 100, game.getAtlas().findRegion("chest-silver"));
-		PlayerView player2 = new PlayerView(400, 100, game.getAtlas().findRegion("char2"));
-		players.add(player1);
-		players.add(player2);
-		
-		if(playerAmount == 4) {
-			PlayerView player3 = new PlayerView(500, 100, game.getAtlas().findRegion("mummy"));
-			PlayerView player4 = new PlayerView(600, 100, game.getAtlas().findRegion("char3"));
-			players.add(player3);
-			players.add(player4);
+		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
+			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
+				Actor newActor;
+
+				switch(maze[mazeX][mazeY]){
+					case "*":newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("wall-plain"));break;
+					case "1":
+					case "2":
+					case "3":
+					case "4":
+						newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-squares"));
+						players.add(new PlayerView(mazeY * 32, mazeX * 32, game.getSprite("char"+maze[mazeX][mazeY])));break;
+					default:newActor = new BlockView(mazeY * 32, mazeX * 32, game.getSprite("floor-squares"));break;
+				}
+
+				stage.addActor(newActor);
+			}
 		}
 		
 		for (PlayerView player : players) {
 			stage.addActor(player);
 		}
-		
+
 		currentPlayerIndex = 0;
 
 		stage.addListener(new InputListener() {

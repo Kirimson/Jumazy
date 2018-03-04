@@ -36,7 +36,7 @@ public class JumazyController extends Game {
 	
 	public void setPlayerAmountAndStartGame(int playerAmount) {
 		maze = new MazeModel(4, 2, playerAmount);
-		setScreen(new GameScreen(this, playerAmount));
+		setScreen(new GameScreen(this, playerAmount, maze.getMaze()));
 	}
 
 	@Override
@@ -48,8 +48,8 @@ public class JumazyController extends Game {
 	public void dispose() {
 	}
 	
-	public TextureAtlas getAtlas() {
-		return textures;
+	public TextureAtlas.AtlasRegion getSprite(String name) {
+		return textures.findRegion(name);
 	}
 
 	public Skin getSkin() {

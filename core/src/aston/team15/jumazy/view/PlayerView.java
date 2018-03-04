@@ -35,16 +35,16 @@ public class PlayerView extends Actor {
 
 		switch (keycode) {
 		case Input.Keys.RIGHT:
-			move.setAmount(100f, 0);
+			move.setAmount(32f, 0);
 			break;
 		case Input.Keys.LEFT:
-			move.setAmount(-100f, 0);
+			move.setAmount(-32f, 0);
 			break;
 		case Input.Keys.UP:
-			move.setAmount(0, 100f);
+			move.setAmount(0, 32f);
 			break;
 		case Input.Keys.DOWN:
-			move.setAmount(0, -100f);
+			move.setAmount(0, -32f);
 			break;
 		}
 
