@@ -34,10 +34,7 @@ public class QuestionUI {
 		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
-		Label lQuestion = new Label("", skin);
-
-		lQuestion.setPosition(350, 450);
-		lQuestion.setSize(500, 100);
+		lQuestion = new Label("", skin);
 
 		tfAnswer.setPosition(350, 400);
 		tfAnswer.setSize(500, 100);
@@ -47,17 +44,18 @@ public class QuestionUI {
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);
-		questionActors.add(lQuestion);
+		
 
 		btnSubmit.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				correct = 
+			//	correct =
 				isActive = false;
-
+				questionActors.remove(questionActors.size()-1);
 				//remove actors
 				lQuestion.remove();
 				tfAnswer.remove();
 				btnSubmit.remove();
+				lQuestion.remove();
 
 				File sound;
 				if (correct) {
@@ -68,6 +66,8 @@ public class QuestionUI {
 					System.out.println("Incorrect");
 				}
 				playSound(sound);
+				
+				
 			}
 		});
 		
@@ -75,6 +75,9 @@ public class QuestionUI {
 	
 	public void displayQuestion(String question) {
 		lQuestion = new Label(question, skin);
+		lQuestion.setPosition(350, 450);
+		lQuestion.setSize(500, 100);
+
 		questionActors.add(lQuestion);
 	}
 	
