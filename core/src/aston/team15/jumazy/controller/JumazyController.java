@@ -32,7 +32,7 @@ public class JumazyController extends Game {
 
 		setScreen(new MainMenuScreen(this));
 
-		debugOn = true;
+		debugOn = false;
 		if (debugOn)
 			System.out.println("Ready.");
 	}
