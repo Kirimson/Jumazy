@@ -64,14 +64,16 @@ public class JumazyController extends Game {
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
+			if(!gameScreen.isRiddleOpen()) {
+				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
-			if(maze.getCurrentPlayer().isOnTrap())
-				gameScreen.createRiddle();
-
+				if (maze.getCurrentPlayer().isOnTrap())
+					gameScreen.createRiddle();
+			}
 			break;
 		case Input.Keys.ENTER:
-			gameScreen.setPlayerFocus(maze.passTurnToNextPlayer());
+			if(!gameScreen.isRiddleOpen())
+				gameScreen.setPlayerFocus(maze.passTurnToNextPlayer());
 			break;
 		default:
 			break;

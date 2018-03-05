@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
 
 	private JumazyController game;
 	private Stage stage;
+	private Stage uiStage;
 
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
@@ -29,6 +31,7 @@ public class GameScreen implements Screen {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage = new Stage(viewport);
+		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI();
 
@@ -84,7 +87,18 @@ public class GameScreen implements Screen {
 
 	public void createRiddle(){
 		for(Actor a : questionUI.getActors())
-			stage.addActor(a);
+			uiStage.addActor(a);
+
+		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
+		Gdx.input.setInputProcessor(multiplexer);
+	}
+
+	/**
+	 * Check if question UI Actor is on a stage, if the actor returns null, riddle isn't open, otherwise, it is open
+	 * @return boolean if riddle is open
+	 */
+	public boolean isRiddleOpen(){
+		return questionUI.getActors().get(0).getStage() != null;
 	}
 
 	@Override
@@ -108,8 +122,13 @@ public class GameScreen implements Screen {
 		//update camera position if needed
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
+		//draw stage
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+
+		//draw all UI
+		uiStage.act(Gdx.graphics.getDeltaTime());
+		uiStage.draw();
 	}
 
 	private void panCameraTo(Vector3 target){

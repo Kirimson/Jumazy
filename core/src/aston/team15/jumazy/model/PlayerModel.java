@@ -50,7 +50,7 @@ public class PlayerModel {
 			break;
 		}
 		
-		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0 && !onTrap) {
+		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
 			col += colDiff;
