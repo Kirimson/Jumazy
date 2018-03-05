@@ -2,22 +2,18 @@ package aston.team15.jumazy.view;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import aston.team15.jumazy.model.QuestionRetriever;
 
 public class QuestionUI {
 
@@ -61,10 +57,10 @@ public class QuestionUI {
 
 				File sound;
 				if (correct) {
-					sound = new File("../core/assets/snd/correct.wav");
+					sound = new File("../assets/snd/correct.wav");
 					System.out.println("Correct");
 				} else {
-					sound = new File("../core/assets/snd/incorrect.wav");
+					sound = new File("../assets/snd/incorrect.wav");
 					System.out.println("Incorrect");
 				}
 				playSound(sound);

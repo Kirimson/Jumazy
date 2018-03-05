@@ -1,12 +1,10 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Input;
 
-import aston.team15.jumazy.view.QuestionUI;
-
 import aston.team15.jumazy.model.MazeModel.Weather;
-
-import java.util.Random;
 
 public class PlayerModel {
 

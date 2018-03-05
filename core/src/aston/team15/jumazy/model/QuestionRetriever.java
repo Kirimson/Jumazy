@@ -21,9 +21,9 @@ public class QuestionRetriever {
 		String fileName = "";
 
 		if (geo == true && n == 1) {
-			fileName = "../core/assets/questions/geography" + geoLevel + ".csv";
+			fileName = "../assets/questions/geography" + geoLevel + ".csv";
 		} else if (maths == true && n == 2) {
-			fileName = "../core/assets/questions/maths" + mathsLevel + ".csv";
+			fileName = "../assets/questions/maths" + mathsLevel + ".csv";
 		}
 
 		return fileName;
