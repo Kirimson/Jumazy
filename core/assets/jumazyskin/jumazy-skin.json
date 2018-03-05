@@ -12,25 +12,12 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 }
-com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
-	default: {
-		up: button
-		down: button-down
-	}
-}
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
 		font: tiki
 		fontColor: RGBA_0_0_0_255
-		downFontColor: RGBA_0_0_0_255
 		up: button
 		down: button-down
-	}
-}
-com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
-	default: {
-		background: pause-dialog
-		titleFont: tiki
 	}
 }
 }

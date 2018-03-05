@@ -1,8 +1,16 @@
-package aston.team15.jumazy.model;
+package aston.team15.jumazy.view;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 import java.util.Random;
 
-public class DiceModel {
+
+public class DiceView extends Actor{
 
 	private int imageConstantAppearances = 24; // how often to display the dice at a constant rate before slowing down
 	// comes to a stop
@@ -12,15 +20,28 @@ public class DiceModel {
 	private int currentRollNumber = 1; // which picture to display
 	private float currentElapsedTime = 0.0f; //
 	private Random gen = new Random(); // random number generator
-	private boolean rollFinished = false; // true if animation is finished
+	private boolean rollFinished = true; // true if animation is finished
 	private boolean canRoll = true;
-
 	private long lastTime = System.nanoTime();
+	private int finalDie = -1;
 
-	private int finalDie = -1;  
+	private Sprite sprite;
 
-	public DiceModel() {
+	public DiceView(float xPos, float yPos, TextureRegion textureRegion) {
+		sprite = new Sprite(textureRegion);
+		sprite.setPosition(xPos, yPos);
+	}
 
+	public void setPosition(float xPos, float yPos){
+		sprite.setPosition(xPos+32f, yPos+32f);
+	}
+
+	public void updateSprite(TextureRegion textureRegion){
+		float oldX = sprite.getX();
+		float oldY = sprite.getY();
+		sprite = new Sprite(textureRegion);
+
+		sprite.setPosition(oldX, oldY);
 	}
 
 	/**
@@ -50,10 +71,11 @@ public class DiceModel {
 		}
 	}
 
-	public void setDie(int maxRoll) {
+	public void setDie(int finalDie) {
 		reset();
-		this.finalDie = new Random().nextInt(maxRoll) + 1;
+		this.finalDie = finalDie;
 		getNewIndex();
+		rollFinished = false;
 	}
 
 	private void reset() {
@@ -105,6 +127,11 @@ public class DiceModel {
 			lastTime = time;
 		}
 		return rollNumber;
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		sprite.draw(batch, parentAlpha);
 	}
 
 	public int getRoll() {

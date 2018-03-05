@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import aston.team15.jumazy.model.MazeModel;
+import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
 
@@ -22,12 +23,12 @@ public class JumazyController extends Game {
 
 	@Override
 	public void create() {
-		textures = new TextureAtlas("jumazy-skin.atlas");
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		textures = new TextureAtlas("jumazyskin/jumazy-skin.atlas");
+		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
 		// using a skin, with json, png, and atlas, reduces a lot of the workload
 		// needlessly put on the GPU when having to load in many individual png's
-		gameSkin = new Skin(Gdx.files.internal("jumazy-skin.json"));
+		gameSkin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 
 		setScreen(new MainMenuScreen(this));
 
@@ -60,16 +61,31 @@ public class JumazyController extends Game {
 
 	public void handleGameInput(int keycode) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-
+		QuestionRetriever questionRetriever = new QuestionRetriever();
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
+			if(!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
+				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
+
+				if (maze.getCurrentPlayer().isOnTrap()) {
+					questionRetriever.selectFile();
+					String[] questionAndAns = questionRetriever.retrieveRiddle();
+					//gameScreen.giveNewQuestion(question);
+					gameScreen.createQuestion(questionAndAns);
+				}
+			}
 			break;
 		case Input.Keys.ENTER:
-			gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
+			if(maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen())
+				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
+			break;
+		case Input.Keys.SPACE:
+			if(maze.getCurrentPlayer().canRoll()) {
+				gameScreen.rollDice(maze.rollForPlayer());
+			}
 			break;
 		default:
 			break;
