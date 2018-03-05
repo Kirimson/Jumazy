@@ -7,16 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class BlockView extends Actor {
 
-    private Sprite sprite;
+	private Sprite sprite;
 
-    public BlockView(float xPos, float yPos, TextureRegion texture){
-        sprite = new Sprite(texture);
-        sprite.setPosition(xPos, yPos);
-        setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
-    }
+	public BlockView(float xPos, float yPos, TextureRegion texture) {
+		sprite = new Sprite(texture);
+		sprite.setPosition(xPos, yPos);
+		setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
+	}
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        sprite.draw(batch, parentAlpha);
-    }
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		sprite.draw(batch, parentAlpha);
+	}
 }

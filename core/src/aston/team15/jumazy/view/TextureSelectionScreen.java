@@ -12,7 +12,6 @@ public class TextureSelectionScreen extends MenuScreen {
 		MenuScreenButton texture3 = new MenuScreenButton("TEXTURE 3", null, game);
 		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.START_GAME_SCREEN, game);
 
-
 		table.add(texture1).pad(10);
 		table.row();
 		table.add(texture2).pad(10);
@@ -20,7 +19,7 @@ public class TextureSelectionScreen extends MenuScreen {
 		table.add(texture3).pad(10);
 		table.row();
 		table.add(backButton).bottom().right().expand().pad(70);
-		
+
 		stage.addActor(table);
 	}
 

@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
 							game.getSprite("floor-trap-spikes"));
 					break;
 				case "1":
-				case "2":  
+				case "2":
 				case "3":
 				case "4":
 					players.add(new PlayerView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
-		dice = new DiceView(players.get(0).getX()+32f, players.get(0).getY()+32f, game.getSprite("number1"));
+		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
@@ -99,9 +99,9 @@ public class GameScreen implements Screen {
 		return "wall-plain";
 	}
 
-	public void createQuestion(String[] questionAndAns){
+	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
-		for(Actor a : questionUI.getActors())
+		for (Actor a : questionUI.getActors())
 			uiStage.addActor(a);
 
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
@@ -109,10 +109,12 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Check if question UI Actor is on a stage, if the actor returns null, riddle isn't open, otherwise, it is open
+	 * Check if question UI Actor is on a stage, if the actor returns null, riddle
+	 * isn't open, otherwise, it is open
+	 * 
 	 * @return boolean if riddle is open
 	 */
-	public boolean isRiddleOpen(){
+	public boolean isRiddleOpen() {
 		return questionUI.getActors().get(0).getStage() != null;
 	}
 
@@ -132,11 +134,10 @@ public class GameScreen implements Screen {
 			dice.decreaseRoll();
 
 			int rollsLeft = dice.getRoll();
-			if(rollsLeft > 0) {
+			if (rollsLeft > 0) {
 				dice.updateSprite(game.getSprite("number" + rollsLeft));
 				dice.act(keycode);
-			}
-			else
+			} else
 				dice.remove();
 		}
 	}
@@ -148,20 +149,18 @@ public class GameScreen implements Screen {
 		// update camera position if needed
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
-        //draw stage
-		if(!dice.isRollFinished()){
+		// draw stage
+		if (!dice.isRollFinished()) {
 			int number = dice.roll();
-			dice.updateSprite(game.getSprite("number"+number));
-		}
-		else
-		{
+			dice.updateSprite(game.getSprite("number" + number));
+		} else {
 			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 		}
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 
-		//draw all UI
+		// draw all UI
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 	}
