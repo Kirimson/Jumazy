@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import aston.team15.jumazy.model.MazeModel;
+import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
 
@@ -58,7 +59,7 @@ public class JumazyController extends Game {
 
 	public void handleGameInput(int keycode) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-
+		QuestionRetriever qr = new QuestionRetriever();
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
@@ -67,8 +68,12 @@ public class JumazyController extends Game {
 			if(!gameScreen.isRiddleOpen()) {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
-				if (maze.getCurrentPlayer().isOnTrap())
+				if (maze.getCurrentPlayer().isOnTrap()) {
+					qr.selectFile();
+					String question = qr.retrieveRiddle();
+					gameScreen.giveNewQuestion(question);
 					gameScreen.createRiddle();
+				}
 			}
 			break;
 		case Input.Keys.ENTER:

@@ -92,6 +92,10 @@ public class GameScreen implements Screen {
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
 		Gdx.input.setInputProcessor(multiplexer);
 	}
+	
+	public void giveNewQuestion(String question) {
+		questionUI.displayQuestion(question);
+	}
 
 	/**
 	 * Check if question UI Actor is on a stage, if the actor returns null, riddle isn't open, otherwise, it is open

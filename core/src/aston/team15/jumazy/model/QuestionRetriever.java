@@ -21,15 +21,15 @@ public class QuestionRetriever {
 		String fileName = "";
 
 		if (geo == true && n == 1) {
-			fileName = "questions/geography" + geoLevel + ".csv";
+			fileName = "../core/assets/questions/geography" + geoLevel + ".csv";
 		} else if (maths == true && n == 2) {
-			fileName = "questions/maths" + mathsLevel + ".csv";
+			fileName = "../core/assets/questions/maths" + mathsLevel + ".csv";
 		}
 
 		return fileName;
 	}
 
-	public String[] retrieveRiddle() {
+	public String retrieveRiddle() {
 		String fileName = selectFile();
 		File file = new File(fileName);
 
@@ -50,7 +50,7 @@ public class QuestionRetriever {
 			System.out.println(e);
 		}
 
-		return cells;
+		return cells[0];
 	}
 
 	public boolean checkAnswer(String answer) {

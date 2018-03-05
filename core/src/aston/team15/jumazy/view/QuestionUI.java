@@ -24,17 +24,17 @@ public class QuestionUI {
 	private Skin skin;
 	private boolean isActive;
 	private boolean correct;
-	private QuestionRetriever question = new QuestionRetriever();
 	private ArrayList<Actor> questionActors;
+	private Label lQuestion;
 
+	
 	public QuestionUI() {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
-		String[] riddleText = question.retrieveRiddle();
-		final Label lQuestion = new Label(riddleText[0], skin);
+		Label lQuestion = new Label("", skin);
 
 		lQuestion.setPosition(350, 450);
 		lQuestion.setSize(500, 100);
@@ -51,7 +51,7 @@ public class QuestionUI {
 
 		btnSubmit.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				correct = question.checkAnswer(tfAnswer.getText());
+				correct = 
 				isActive = false;
 
 				//remove actors
@@ -61,16 +61,21 @@ public class QuestionUI {
 
 				File sound;
 				if (correct) {
-					sound = new File("snd/correct.wav");
+					sound = new File("../core/assets/snd/correct.wav");
 					System.out.println("Correct");
 				} else {
-					sound = new File("snd/incorrect.wav");
+					sound = new File("../core/assets/snd/incorrect.wav");
 					System.out.println("Incorrect");
 				}
 				playSound(sound);
 			}
 		});
 		
+	}
+	
+	public void displayQuestion(String question) {
+		lQuestion = new Label(question, skin);
+		questionActors.add(lQuestion);
 	}
 	
 	public void playSound(File sound) {
