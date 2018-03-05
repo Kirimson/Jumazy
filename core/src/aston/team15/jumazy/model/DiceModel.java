@@ -17,7 +17,7 @@ public class DiceModel {
 
 	private long lastTime = System.nanoTime();
 
-	private int finalDie = -1;
+	private int finalDie = -1;  
 
 	public DiceModel() {
 

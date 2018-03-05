@@ -9,25 +9,57 @@ public class MazeModel {
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
 
+	private boolean debugOn;
+
+	protected enum Weather {
+		RAIN, SUN
+	}
+
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
 	private int currentPlayerIndex;
+	private Weather weather;
 
-	public MazeModel(int roomsAcross, int roomsDown, int playerAmount) {
+	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, boolean debugOn) {
+		this.debugOn = debugOn;
+		float weatherDiscriminant = new Random().nextFloat();
+		if (weatherDiscriminant <= 0.5) {
+			weather = Weather.SUN;
+		} else {
+			weather = Weather.RAIN;
+		}
+
 		maze = genMaze(roomsAcross, roomsDown, playerAmount);
 
 		players = new ArrayList<PlayerModel>();
 
-		players.add(new PlayerModel(1, 1, "1", this));
-		players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
+		if (playerAmount == 2) {
+			players.add(new PlayerModel(1, 1, "1", this));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
+		}
 
 		if (playerAmount == 4) {
+			players.add(new PlayerModel(1, 1, "1", this));
+			players.add(new PlayerModel(1, maze[0].length - 2, "2", this));
 			players.add(new PlayerModel(maze.length - 2, 1, "3", this));
-			players.add(new PlayerModel(1, maze[0].length - 2, "4", this));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this));
 		}
 
 		currentPlayerIndex = 0;
-		getCurrentPlayer().rollDie();
+
+		if (debugOn) {
+			String initialState = "Maze initialized to a " + playerAmount + " player game.\n";
+			if (weather == Weather.SUN) {
+				initialState += "It is sunny.";
+			} else if (weather == Weather.RAIN) {
+				initialState += "It is raining.";
+			}
+			initialState += "\nPlayer 1 will start.";
+			System.out.println(initialState);
+			System.out.println(toString());
+		}
+
+		getCurrentPlayer().rollDie(weather);
 	}
 
 	/**
@@ -133,7 +165,7 @@ public class MazeModel {
 				if (i == 0 || i == size - 1 || k == 0 || k == size - 1) {
 					room[i][k] = "*";
 				} else {
-					if(new Random().nextFloat() < 0.05)
+					if (new Random().nextFloat() < 0.05)
 						room[i][k] = "T";
 					else
 						room[i][k] = "O";
@@ -166,9 +198,9 @@ public class MazeModel {
 
 	public int passTurnToNextPlayer() {
 		currentPlayerIndex = (currentPlayerIndex + 1) % (players.size());
-
-		System.out.println("It is now player " + (currentPlayerIndex + 1) + "'s turn");
-		getCurrentPlayer().rollDie();
+		if (debugOn)
+			System.out.println("It is now Player " + (currentPlayerIndex + 1) + "'s turn.");
+		getCurrentPlayer().rollDie(weather);
 
 		return currentPlayerIndex;
 	}
@@ -191,5 +223,9 @@ public class MazeModel {
 
 	public PlayerModel getPlayer(int player) {
 		return players.get(player - 1);
+	}
+	
+	public boolean getDebugOn() {
+		return debugOn;
 	}
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input;
 
 import aston.team15.jumazy.view.QuestionUI;
 
+import aston.team15.jumazy.model.MazeModel.Weather;
+
 import java.util.Random;
 
 public class PlayerModel {
@@ -63,17 +65,36 @@ public class PlayerModel {
 			else
 				onTrap = false;
 
+
+			if (maze.getDebugOn())
+				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
+						+ " moves left.\n" + maze.toString());
+
 			return true;
 		} else {
+			if (maze.getDebugOn())
+				System.out.println("Player " + playerSymbol + " tried to move, but failed. They have " + movesLeft
+						+ " moves left.\n" + maze.toString());
 			return false;
 		}
 		
 
 	}
 
-	public void rollDie() {
-		movesLeft = new Random().nextInt(6) + 1;
-		System.out.println("Player " + playerSymbol + " rolled a " + movesLeft);
+	public void rollDie(Weather weather) {
+		int rollResult = new Random().nextInt(6) + 1;
+
+		switch (weather) {
+		case SUN:
+			movesLeft = rollResult;
+			break;
+		case RAIN:
+			movesLeft = rollResult + 1;
+			break;
+		}
+
+		if (maze.getDebugOn())
+			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
 	}
 
 	public int getMovesLeft() {

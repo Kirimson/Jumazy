@@ -15,11 +15,11 @@ import aston.team15.jumazy.view.MainMenuScreen;
 public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
-	private boolean debugOn;
 
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
+	private boolean debugOn;
 
 	@Override
 	public void create() {
@@ -32,11 +32,13 @@ public class JumazyController extends Game {
 
 		setScreen(new MainMenuScreen(this));
 
-		debugOn = true;
+		debugOn = false;
+		if (debugOn)
+			System.out.println("Ready.");
 	}
-	
+
 	public void setPlayerAmountAndStartGame(int playerAmount) {
-		maze = new MazeModel(4, 2, playerAmount);
+		maze = new MazeModel(4, 2, playerAmount, debugOn);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze()));
 	}
 
@@ -48,7 +50,7 @@ public class JumazyController extends Game {
 	@Override
 	public void dispose() {
 	}
-	
+
 	public TextureAtlas.AtlasRegion getSprite(String name) {
 		return textures.findRegion(name);
 	}
@@ -78,14 +80,11 @@ public class JumazyController extends Game {
 			break;
 		case Input.Keys.ENTER:
 			if(!gameScreen.isRiddleOpen())
-				gameScreen.setPlayerFocus(maze.passTurnToNextPlayer());
+				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 			break;
 		default:
 			break;
 		}
 
-		if (debugOn) {
-			System.out.println(maze.toString());
-		}
 	}
 }
