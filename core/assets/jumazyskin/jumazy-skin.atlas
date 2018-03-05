@@ -27,105 +27,105 @@ button-down
   index: -1
 char1
   rotate: false
-  xy: 1, 158
+  xy: 407, 466
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 char2
   rotate: false
-  xy: 912, 674
+  xy: 1, 158
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 char3
   rotate: false
-  xy: 103, 328
+  xy: 912, 674
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 char4
   rotate: false
-  xy: 137, 362
+  xy: 103, 328
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 chest-gold
   rotate: false
-  xy: 407, 432
+  xy: 137, 362
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 chest-silver
   rotate: false
-  xy: 441, 466
+  xy: 407, 432
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-left-water
   rotate: false
-  xy: 1, 124
+  xy: 441, 466
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-middle-water
   rotate: false
-  xy: 35, 158
+  xy: 1, 124
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-right-water
   rotate: false
-  xy: 912, 640
+  xy: 35, 158
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-single-water
   rotate: false
-  xy: 946, 674
+  xy: 912, 640
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares
   rotate: false
-  xy: 103, 294
+  xy: 946, 674
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares-cracked
   rotate: false
-  xy: 137, 328
+  xy: 103, 294
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares-missing
   rotate: false
-  xy: 407, 398
+  xy: 137, 328
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-trap-spikes
   rotate: false
-  xy: 441, 432
+  xy: 407, 398
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 mummy
   rotate: false
-  xy: 475, 466
+  xy: 441, 432
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -195,49 +195,91 @@ potion-blue
   index: -1
 potion-green
   rotate: false
-  xy: 912, 622
+  xy: 475, 448
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 potion-red
   rotate: false
-  xy: 946, 656
+  xy: 1, 72
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 skeleton
   rotate: false
-  xy: 1, 90
+  xy: 475, 466
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 victory-statue
   rotate: false
+  xy: 1, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-1-edge
+  rotate: false
   xy: 35, 124
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-wall-brick-missing
+wall-2-edge-corner
   rotate: false
   xy: 69, 158
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+wall-2-edge-parallel
+  rotate: false
+  xy: 912, 606
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-3-edge
+  rotate: false
+  xy: 946, 640
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-4-edge
+  rotate: false
+  xy: 980, 674
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-brick-missing
+  rotate: false
+  xy: 103, 260
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 wall-leaves
   rotate: false
-  xy: 103, 362
+  xy: 137, 294
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-no-edge
+  rotate: false
+  xy: 441, 398
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 wall-plain
   rotate: false
-  xy: 407, 466
+  xy: 103, 362
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
