@@ -73,8 +73,8 @@ public class JumazyController extends Game {
 				if (maze.getCurrentPlayer().isOnTrap()) {
 					qr.selectFile();
 					String question = qr.retrieveRiddle();
-					gameScreen.giveNewQuestion(question);
-					gameScreen.createRiddle();
+//					gameScreen.giveNewQuestion(question);
+					gameScreen.createQuestion(question);
 				}
 			}
 			break;

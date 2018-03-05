@@ -95,16 +95,13 @@ public class GameScreen implements Screen {
 		return "wall-plain";
 	}
 
-	public void createRiddle(){
+	public void createQuestion(String question){
+		questionUI.displayQuestion(question);
 		for(Actor a : questionUI.getActors())
 			uiStage.addActor(a);
 
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
 		Gdx.input.setInputProcessor(multiplexer);
-	}
-	
-	public void giveNewQuestion(String question) {
-		questionUI.displayQuestion(question);
 	}
 
 	/**
