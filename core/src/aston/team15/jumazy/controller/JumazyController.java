@@ -61,7 +61,7 @@ public class JumazyController extends Game {
 
 	public void handleGameInput(int keycode) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-		QuestionRetriever qr = new QuestionRetriever();
+		QuestionRetriever questionRetriever = new QuestionRetriever();
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
@@ -71,10 +71,10 @@ public class JumazyController extends Game {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
-					qr.selectFile();
-					String question = qr.retrieveRiddle();
-//					gameScreen.giveNewQuestion(question);
-					gameScreen.createQuestion(question);
+					questionRetriever.selectFile();
+					String[] questionAndAns = questionRetriever.retrieveRiddle();
+					//gameScreen.giveNewQuestion(question);
+					gameScreen.createQuestion(questionAndAns);
 				}
 			}
 			break;

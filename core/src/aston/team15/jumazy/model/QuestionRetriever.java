@@ -29,7 +29,7 @@ public class QuestionRetriever {
 		return fileName;
 	}
 
-	public String retrieveRiddle() {
+	public String[] retrieveRiddle() {
 		String fileName = selectFile();
 		File file = new File(fileName);
 
@@ -50,18 +50,8 @@ public class QuestionRetriever {
 			System.out.println(e);
 		}
 
-		return cells[0];
+		return cells;
 	}
 
-	public boolean checkAnswer(String answer) {
-		int i = 1;
-		while (i < cells.length) {
-			if (answer.toLowerCase().equals(cells[i].toLowerCase())) {
-				System.out.println("correct");
-				return true;
-			}
-			i++;
-		}
-		return false;
-	}
+
 }

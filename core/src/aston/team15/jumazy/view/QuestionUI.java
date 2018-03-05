@@ -26,6 +26,7 @@ public class QuestionUI {
 	private boolean correct;
 	private ArrayList<Actor> questionActors;
 	private Label lQuestion;
+	private String[] questionAndAnswer;
 
 	
 	public QuestionUI() {
@@ -48,11 +49,12 @@ public class QuestionUI {
 
 		btnSubmit.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-			//	correct =
+				correct = checkAnswer(tfAnswer.getText());
 				isActive = false;
 				questionActors.remove(questionActors.size()-1);
 				//remove actors
 				lQuestion.remove();
+				tfAnswer.setText("");
 				tfAnswer.remove();
 				btnSubmit.remove();
 				lQuestion.remove();
@@ -73,12 +75,25 @@ public class QuestionUI {
 		
 	}
 	
-	public void displayQuestion(String question) {
-		lQuestion = new Label(question, skin);
+	public void displayQuestion(String[] questionAndAns) {
+		questionAndAnswer = questionAndAns;
+		lQuestion = new Label(questionAndAnswer[0], skin);
 		lQuestion.setPosition(350, 450);
 		lQuestion.setSize(500, 100);
-
+		
 		questionActors.add(lQuestion);
+	}
+	
+	public boolean checkAnswer(String answer) {
+		int i = 1;
+		while (i < questionAndAnswer.length) {
+			if (answer.toLowerCase().equals(questionAndAnswer[i].toLowerCase())) {
+				System.out.println("correct");
+				return true;
+			}
+			i++;
+		}
+		return false;
 	}
 	
 	public void playSound(File sound) {

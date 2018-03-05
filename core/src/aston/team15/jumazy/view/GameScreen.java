@@ -95,8 +95,8 @@ public class GameScreen implements Screen {
 		return "wall-plain";
 	}
 
-	public void createQuestion(String question){
-		questionUI.displayQuestion(question);
+	public void createQuestion(String[] questionAndAns){
+		questionUI.displayQuestion(questionAndAns);
 		for(Actor a : questionUI.getActors())
 			uiStage.addActor(a);
 
