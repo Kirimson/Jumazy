@@ -12,8 +12,8 @@ public class MainMenuScreen extends MenuScreen {
 	public MainMenuScreen(JumazyController theGame) {
 		super(theGame);
 
-		ScreenSwitchButton playButton = new ScreenSwitchButton("PLAY", Screens.START_GAME_SCREEN, game);
-		ScreenSwitchButton settingsButton = new ScreenSwitchButton("SETTINGS", Screens.SETTINGS_SCREEN, game);
+		MenuScreenButton playButton = new MenuScreenButton("PLAY", MenuScreens.START_GAME_SCREEN, game);
+		MenuScreenButton settingsButton = new MenuScreenButton("SETTINGS", MenuScreens.SETTINGS_SCREEN, game);
 
 		TextButton quitButton = new TextButton("QUIT", game.getSkin());
 		quitButton.addListener(new ClickListener() {

@@ -25,7 +25,7 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 			}
 		});
 
-		ScreenSwitchButton backButton = new ScreenSwitchButton("BACK", Screens.START_GAME_SCREEN, game);
+		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.START_GAME_SCREEN, game);
 
 		table.add(twoPlayerButton).pad(10);
 		table.row();
