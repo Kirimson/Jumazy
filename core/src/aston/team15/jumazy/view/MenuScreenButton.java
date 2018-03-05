@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.JumazyController;
 
-public class ScreenSwitchButton extends TextButton {
+public class MenuScreenButton extends TextButton {
 
-	public ScreenSwitchButton(String string, final Screens startGameScreen, final JumazyController game) {
+	public MenuScreenButton(String string, final MenuScreens startGameScreen, final JumazyController game) {
 		super(string, game.getSkin());
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
@@ -30,9 +30,6 @@ public class ScreenSwitchButton extends TextButton {
 					break;
 				case SETTINGS_SCREEN:
 					game.setScreen(new SettingsScreen(game));
-					break;
-				default:
-					game.setScreen(new ErrorScreen(game));
 					break;
 				}
 			}
