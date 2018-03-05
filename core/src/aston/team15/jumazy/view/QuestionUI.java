@@ -30,11 +30,11 @@ public class QuestionUI {
 	public QuestionUI() {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
-		skin = new Skin(Gdx.files.internal("neon/skin/neon-ui.json"));
-		TextButton btnSubmit = new TextButton("submit", skin);
-		TextField tfAnswer = new TextField("", skin);
+		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
+		final TextButton btnSubmit = new TextButton("submit", skin);
+		final TextField tfAnswer = new TextField("", skin);
 		String[] riddleText = question.retrieveRiddle();
-		Label lQuestion = new Label(riddleText[0], skin);
+		final Label lQuestion = new Label(riddleText[0], skin);
 
 		lQuestion.setPosition(350, 450);
 		lQuestion.setSize(500, 100);
