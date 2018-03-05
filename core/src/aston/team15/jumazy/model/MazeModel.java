@@ -59,7 +59,6 @@ public class MazeModel {
 			System.out.println(toString());
 		}
 
-		getCurrentPlayer().rollDie(weather);
 	}
 
 	/**
@@ -197,12 +196,16 @@ public class MazeModel {
 	}
 
 	public int passTurnToNextPlayer() {
+		getCurrentPlayer().setCanRoll(true);
 		currentPlayerIndex = (currentPlayerIndex + 1) % (players.size());
 		if (debugOn)
 			System.out.println("It is now Player " + (currentPlayerIndex + 1) + "'s turn.");
-		getCurrentPlayer().rollDie(weather);
 
 		return currentPlayerIndex;
+	}
+
+	public int rollForPlayer(){
+		return getCurrentPlayer().rollDie(weather);
 	}
 
 	public PlayerModel getCurrentPlayer() {

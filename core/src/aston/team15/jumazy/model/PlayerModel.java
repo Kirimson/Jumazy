@@ -14,6 +14,7 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
+	private boolean canRoll = true;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
 		this.row = row;
@@ -70,7 +71,8 @@ public class PlayerModel {
 		}
 	}
 
-	public void rollDie(Weather weather) {
+	public int rollDie(Weather weather) {
+		canRoll = false;
 		int rollResult = new Random().nextInt(6) + 1;
 
 		switch (weather) {
@@ -84,10 +86,19 @@ public class PlayerModel {
 
 		if (maze.getDebugOn())
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
+
+		return movesLeft;
 	}
 
 	public int getMovesLeft() {
 		return movesLeft;
 	}
 
+	public void setCanRoll(boolean canRoll) {
+		this.canRoll = canRoll;
+	}
+
+	public boolean canRoll() {
+		return canRoll;
+	}
 }
