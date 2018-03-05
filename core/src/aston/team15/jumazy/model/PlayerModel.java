@@ -71,7 +71,7 @@ public class PlayerModel {
 		}
 	}
 
-	public void rollDie(Weather weather) {
+	public int rollDie(Weather weather) {
 		canRoll = false;
 		int rollResult = new Random().nextInt(6) + 1;
 
@@ -86,6 +86,8 @@ public class PlayerModel {
 
 		if (maze.getDebugOn())
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
+
+		return movesLeft;
 	}
 
 	public int getMovesLeft() {

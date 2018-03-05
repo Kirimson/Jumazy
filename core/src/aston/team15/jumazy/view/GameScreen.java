@@ -25,6 +25,8 @@ public class GameScreen implements Screen {
 	private FitViewport viewport;
 	private int blockSpriteDimensions = 32;
 
+	private DiceView dice;
+
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
@@ -66,6 +68,8 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
+		dice = new DiceView(players.get(0).getX()+32f, players.get(0).getY()+32f, game.getSprite("number1"));
+
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 				game.handleGameInput(keycode);
@@ -97,11 +101,22 @@ public class GameScreen implements Screen {
 
 	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
+		dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 	}
 
 	public void moveCurrentPlayerView(boolean canMove, int keycode) {
-		if (canMove)
+		if (canMove) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode);
+			dice.decreaseRoll();
+
+			int rollsLeft = dice.getRoll();
+			if(rollsLeft > 0) {
+				dice.updateSprite(game.getSprite("number" + rollsLeft));
+				dice.act(keycode);
+			}
+			else
+				dice.remove();
+		}
 	}
 
 	@Override
@@ -110,6 +125,15 @@ public class GameScreen implements Screen {
 
 		// update camera position if needed
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
+
+		if(!dice.isRollFinished()){
+			int number = dice.roll();
+			dice.updateSprite(game.getSprite("number"+number));
+		}
+		else
+		{
+			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
+		}
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
@@ -124,6 +148,11 @@ public class GameScreen implements Screen {
 			camPosition.add(target);
 			viewport.getCamera().position.set(camPosition);
 		}
+	}
+
+	public void rollDice(int finalDie) {
+		stage.addActor(dice);
+		dice.setDie(finalDie);
 	}
 
 	@Override
@@ -154,5 +183,4 @@ public class GameScreen implements Screen {
 		// TODO Auto-generated method stub
 
 	}
-
 }

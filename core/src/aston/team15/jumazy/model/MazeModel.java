@@ -59,7 +59,6 @@ public class MazeModel {
 			System.out.println(toString());
 		}
 
-		getCurrentPlayer().rollDie(weather);
 	}
 
 	/**
@@ -205,8 +204,8 @@ public class MazeModel {
 		return currentPlayerIndex;
 	}
 
-	public void rollForPlayer(){
-		getCurrentPlayer().rollDie(weather);
+	public int rollForPlayer(){
+		return getCurrentPlayer().rollDie(weather);
 	}
 
 	public PlayerModel getCurrentPlayer() {
