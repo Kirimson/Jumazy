@@ -1,10 +1,10 @@
 package aston.team15.jumazy.model;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Input;
 
 import aston.team15.jumazy.model.MazeModel.Weather;
-
-import java.util.Random;
 
 public class PlayerModel {
 
@@ -14,6 +14,7 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
+	private boolean onTrap;
 	private boolean canRoll = true;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
@@ -49,7 +50,7 @@ public class PlayerModel {
 			rowDiff = 1;
 			break;
 		}
-
+		
 		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
@@ -57,6 +58,12 @@ public class PlayerModel {
 			currentPositionSymbol = maze.getCoordinateString(row, col);
 			maze.setCoordinateString(row, col, playerSymbol);
 			movesLeft--;
+
+			if(currentPositionSymbol.equals("T"))
+				onTrap = true;
+			else
+				onTrap = false;
+
 
 			if (maze.getDebugOn())
 				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
@@ -69,6 +76,8 @@ public class PlayerModel {
 						+ " moves left.\n" + maze.toString());
 			return false;
 		}
+		
+
 	}
 
 	public int rollDie(Weather weather) {
@@ -94,6 +103,9 @@ public class PlayerModel {
 		return movesLeft;
 	}
 
+	public boolean isOnTrap() {
+		return onTrap;
+	}
 	public void setCanRoll(boolean canRoll) {
 		this.canRoll = canRoll;
 	}
