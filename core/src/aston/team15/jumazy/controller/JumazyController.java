@@ -32,7 +32,7 @@ public class JumazyController extends Game {
 
 		setScreen(new MainMenuScreen(this));
 
-		debugOn = false;
+		debugOn = true;
 		if (debugOn)
 			System.out.println("Ready.");
 	}
@@ -67,7 +67,7 @@ public class JumazyController extends Game {
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if(!gameScreen.isRiddleOpen()) {
+			if(!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
