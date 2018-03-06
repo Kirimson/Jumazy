@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,6 +28,7 @@ public class GameScreen implements Screen {
 	private FitViewport viewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
+	private PauseView pause;
 
 	private DiceView dice;
 
@@ -37,6 +39,7 @@ public class GameScreen implements Screen {
 		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI();
+		pause = new PauseView(game);
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -77,7 +80,11 @@ public class GameScreen implements Screen {
 
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
-				game.handleGameInput(keycode);
+
+				switch (keycode){
+					case Input.Keys.P : pause();break;
+					default: game.handleGameInput(keycode);
+				}
 				return true;
 			}
 		});
@@ -189,13 +196,16 @@ public class GameScreen implements Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-
+		uiStage.addActor(pause.addPauseScreen());
+		Gdx.input.setInputProcessor(uiStage);
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
 
+		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
