@@ -191,12 +191,13 @@ public class GameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+		uiStage.getViewport().update(width, height, true);
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		uiStage.addActor(pause.addPauseScreen());
+		pause.addPauseScreen(uiStage);
 		Gdx.input.setInputProcessor(uiStage);
 	}
 

@@ -2,6 +2,7 @@ package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -10,32 +11,38 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class PauseView {
 
     private Table table;
+    private Table background;
 
-    public PauseView (final JumazyController theGame){
+    public PauseView (final JumazyController game){
         table = new Table();
         table.setFillParent(true);
-        table.center().padTop(330);
+        table.center().padTop(75f);
 
-        Image pauseBackground = new Image(theGame.getSprite("pause-dialog"));
+        background = new Table();
+        background.setFillParent(true);
+        background.center().padTop(-125f);
 
-        TextButton resumeButton = new TextButton("Resume", theGame.getSkin());
+        background.add(new Image(game.getSprite("pause-dialog")));
+
+        TextButton resumeButton = new TextButton("RESUME", game.getSkin());
 
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {
                  table.remove();
-                 pauseBackground.remove();
-                 theGame.resume();
+                 background.remove();
+                 game.resume();
              }
          });
 
-        MenuScreenButton quitButton = new MenuScreenButton("QUIT", MenuScreens.MAIN_MENU_SCREEN, theGame);
+        MenuScreenButton quitButton = new MenuScreenButton("QUIT", MenuScreens.MAIN_MENU_SCREEN, game);
 
         table.add(resumeButton).pad(10);
         table.row();
         table.add(quitButton).pad(10);
     }
 
-    public Table addPauseScreen(){
-        return table;
+    public void addPauseScreen(Stage stage){
+        stage.addActor(background);
+        stage.addActor(table);
     }
 }
