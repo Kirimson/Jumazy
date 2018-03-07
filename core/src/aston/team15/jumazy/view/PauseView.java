@@ -16,11 +16,11 @@ public class PauseView {
     public PauseView (final JumazyController game){
         table = new Table();
         table.setFillParent(true);
-        table.center().padTop(75f);
+        table.top().padTop(300f);
 
         background = new Table();
         background.setFillParent(true);
-        background.center().padTop(-125f);
+        background.top().padTop(0f);
 
         background.add(new Image(game.getSprite("pause-dialog")));
 
