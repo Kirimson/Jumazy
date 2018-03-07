@@ -34,16 +34,6 @@ public class PlayerModel {
 	private boolean onTrap;
 	private boolean canRoll = true;
 
-	public enum CalledStat {
-		HP(0), stamina(1), strength(2), agility(3), luck(4), intelligence(5);
-
-		protected final int index;
-
-		private CalledStat(int index) {
-			this.index = index;
-		}
-	}
-
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
 		this.col = col;
