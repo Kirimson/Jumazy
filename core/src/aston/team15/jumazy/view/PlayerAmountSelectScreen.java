@@ -14,6 +14,7 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		TextButton twoPlayerButton = new TextButton("2 PLAYERS", game.getSkin());
 		twoPlayerButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				
 				game.setPlayerAmountAndStartGame(2);
 			}
 		});
