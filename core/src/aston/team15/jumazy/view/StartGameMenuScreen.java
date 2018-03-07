@@ -13,6 +13,7 @@ public class StartGameMenuScreen extends MenuScreen {
 		MenuScreenButton tutorialButton = new MenuScreenButton("TUTORIAL", MenuScreens.TUTORIAL_SCREEN, game);
 		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.MAIN_MENU_SCREEN, game);
 
+		table.debug();
 		table.add(startGameButton).pad(10);
 		table.row();
 		table.add(texturesButton).pad(10);
@@ -23,7 +24,7 @@ public class StartGameMenuScreen extends MenuScreen {
 
 		stage.addActor(table);
 	}
-
+	
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
