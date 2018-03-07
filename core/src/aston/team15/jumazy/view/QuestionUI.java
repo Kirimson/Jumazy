@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import aston.team15.jumazy.controller.JumazyController;
+
 public class QuestionUI {
 
 	private Skin skin;
@@ -24,7 +26,6 @@ public class QuestionUI {
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 
-	
 	public QuestionUI() {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
@@ -41,14 +42,13 @@ public class QuestionUI {
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);
-		
 
 		btnSubmit.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				correct = checkAnswer(tfAnswer.getText());
 				isActive = false;
-				questionActors.remove(questionActors.size()-1);
-				//remove actors
+				questionActors.remove(questionActors.size() - 1);
+				// remove actors
 				lQuestion.remove();
 				tfAnswer.setText("");
 				tfAnswer.remove();
@@ -58,40 +58,40 @@ public class QuestionUI {
 				File sound;
 				if (correct) {
 					sound = new File("../assets/snd/correct.wav");
-					System.out.println("Correct");
 				} else {
 					sound = new File("../assets/snd/incorrect.wav");
-					System.out.println("Incorrect");
 				}
 				playSound(sound);
-				
-				
+
 			}
 		});
-		
+
 	}
-	
+
 	public void displayQuestion(String[] questionAndAns) {
 		questionAndAnswer = questionAndAns;
 		lQuestion = new Label(questionAndAnswer[0], skin);
 		lQuestion.setPosition(350, 450);
 		lQuestion.setSize(500, 100);
-		
+
 		questionActors.add(lQuestion);
 	}
-	
+
 	public boolean checkAnswer(String answer) {
 		int i = 1;
 		while (i < questionAndAnswer.length) {
 			if (answer.toLowerCase().equals(questionAndAnswer[i].toLowerCase())) {
-				System.out.println("correct");
+				if (JumazyController.DEBUG_ON)
+					System.out.println("Correct");
 				return true;
 			}
 			i++;
 		}
+		if (JumazyController.DEBUG_ON)
+			System.out.println("Incorrect");
 		return false;
 	}
-	
+
 	public void playSound(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
@@ -102,7 +102,7 @@ public class QuestionUI {
 		}
 	}
 
-	public ArrayList<Actor> getActors(){
+	public ArrayList<Actor> getActors() {
 		return questionActors;
 	}
 
@@ -113,45 +113,45 @@ public class QuestionUI {
 	public boolean isCorrect() {
 		return correct;
 	}
-	
-//	public void resize (int width, int height) {
-//		stage.getViewport().update(width, height, true);
-//	}
 
-//	public void dispose() {
-//		stage.dispose();
-//	}
+	// public void resize (int width, int height) {
+	// stage.getViewport().update(width, height, true);
+	// }
 
-//	@Override
-//	public void show() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void render(float delta) {
-//		// TODO Auto-generated method stub
-//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//		stage.act(Gdx.graphics.getDeltaTime());
-//		stage.draw();
-//	}
-//
-//	@Override
-//	public void pause() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void resume() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void hide() {
-//		// TODO Auto-generated method stub
-//
-//	}
+	// public void dispose() {
+	// stage.dispose();
+	// }
+
+	// @Override
+	// public void show() {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// @Override
+	// public void render(float delta) {
+	// // TODO Auto-generated method stub
+	// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	// stage.act(Gdx.graphics.getDeltaTime());
+	// stage.draw();
+	// }
+	//
+	// @Override
+	// public void pause() {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// @Override
+	// public void resume() {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// @Override
+	// public void hide() {
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 }

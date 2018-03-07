@@ -15,11 +15,11 @@ import aston.team15.jumazy.view.MainMenuScreen;
 public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
+	public static final boolean DEBUG_ON = false;
 
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
-	private boolean debugOn;
 
 	@Override
 	public void create() {
@@ -32,13 +32,12 @@ public class JumazyController extends Game {
 
 		setScreen(new MainMenuScreen(this));
 
-		debugOn = true;
-		if (debugOn)
+		if (DEBUG_ON)
 			System.out.println("Ready.");
 	}
 
 	public void setPlayerAmountAndStartGame(int playerAmount) {
-		maze = new MazeModel(4, 2, playerAmount, debugOn);
+		maze = new MazeModel(4, 2, playerAmount);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze()));
 	}
 
@@ -67,20 +66,25 @@ public class JumazyController extends Game {
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if(!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
+			if (!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
-					//gameScreen.giveNewQuestion(question);
+					// gameScreen.giveNewQuestion(question);
 					gameScreen.createQuestion(questionAndAns);
 				}
 			}
 			break;
 		case Input.Keys.ENTER:
-			if(!gameScreen.isRiddleOpen())
+			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen())
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
+			break;
+		case Input.Keys.SPACE:
+			if (maze.getCurrentPlayer().canRoll()) {
+				gameScreen.rollDice(maze.rollForPlayer());
+			}
 			break;
 		default:
 			break;

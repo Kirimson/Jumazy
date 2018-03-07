@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,6 +28,9 @@ public class GameScreen implements Screen {
 	private FitViewport viewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
+	private PauseView pauseStage;
+
+	private DiceView dice;
 
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
@@ -35,6 +39,7 @@ public class GameScreen implements Screen {
 		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI();
+		pauseStage = new PauseView(game);
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -50,7 +55,7 @@ public class GameScreen implements Screen {
 							game.getSprite("floor-trap-spikes"));
 					break;
 				case "1":
-				case "2":  
+				case "2":
 				case "3":
 				case "4":
 					players.add(new PlayerView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -71,9 +76,15 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
+		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
+
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
-				game.handleGameInput(keycode);
+
+				switch (keycode){
+					case Input.Keys.P : pause();break;
+					default: game.handleGameInput(keycode);
+				}
 				return true;
 			}
 		});
@@ -95,9 +106,9 @@ public class GameScreen implements Screen {
 		return "wall-plain";
 	}
 
-	public void createQuestion(String[] questionAndAns){
+	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
-		for(Actor a : questionUI.getActors())
+		for (Actor a : questionUI.getActors())
 			uiStage.addActor(a);
 
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
@@ -105,10 +116,12 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Check if question UI Actor is on a stage, if the actor returns null, riddle isn't open, otherwise, it is open
+	 * Check if question UI Actor is on a stage, if the actor returns null, riddle
+	 * isn't open, otherwise, it is open
+	 * 
 	 * @return boolean if riddle is open
 	 */
-	public boolean isRiddleOpen(){
+	public boolean isRiddleOpen() {
 		return questionUI.getActors().get(0).getStage() != null;
 	}
 
@@ -119,11 +132,21 @@ public class GameScreen implements Screen {
 
 	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
+		dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 	}
 
 	public void moveCurrentPlayerView(boolean canMove, int keycode) {
-		if (canMove)
+		if (canMove) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode);
+			dice.decreaseRoll();
+
+			int rollsLeft = dice.getRoll();
+			if (rollsLeft > 0) {
+				dice.updateSprite(game.getSprite("number" + rollsLeft));
+				dice.act(keycode);
+			} else
+				dice.remove();
+		}
 	}
 
 	@Override
@@ -133,13 +156,23 @@ public class GameScreen implements Screen {
 		// update camera position if needed
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
-		//draw stage
+		// draw stage
+		if (!dice.isRollFinished()) {
+			int number = dice.roll();
+			dice.updateSprite(game.getSprite("number" + number));
+		} else {
+			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
+		}
+
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 
-		//draw all UI
+		// draw all UI
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
+
+		pauseStage.act(Gdx.graphics.getDeltaTime());
+		pauseStage.draw();
 	}
 
 	private void panCameraTo(Vector3 target) {
@@ -153,21 +186,30 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	public void rollDice(int finalDie) {
+		stage.addActor(dice);
+		dice.setDie(finalDie);
+	}
+
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+		uiStage.getViewport().update(width, height, true);
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-
+		pauseStage.pause();
+		Gdx.input.setInputProcessor(pauseStage);
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
 
+		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
@@ -181,5 +223,4 @@ public class GameScreen implements Screen {
 		// TODO Auto-generated method stub
 
 	}
-
 }

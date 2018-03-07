@@ -3,13 +3,13 @@ package aston.team15.jumazy.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.controller.JumazyController;
+
 public class MazeModel {
 
 	// row is y and maze[0].length
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
-
-	private boolean debugOn;
 
 	protected enum Weather {
 		RAIN, SUN
@@ -20,8 +20,7 @@ public class MazeModel {
 	private int currentPlayerIndex;
 	private Weather weather;
 
-	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, boolean debugOn) {
-		this.debugOn = debugOn;
+	public MazeModel(int roomsAcross, int roomsDown, int playerAmount) {
 		float weatherDiscriminant = new Random().nextFloat();
 		if (weatherDiscriminant <= 0.5) {
 			weather = Weather.SUN;
@@ -47,7 +46,7 @@ public class MazeModel {
 
 		currentPlayerIndex = 0;
 
-		if (debugOn) {
+		if (JumazyController.DEBUG_ON) {
 			String initialState = "Maze initialized to a " + playerAmount + " player game.\n";
 			if (weather == Weather.SUN) {
 				initialState += "It is sunny.";
@@ -59,7 +58,6 @@ public class MazeModel {
 			System.out.println(toString());
 		}
 
-		getCurrentPlayer().rollDie(weather);
 	}
 
 	/**
@@ -197,12 +195,16 @@ public class MazeModel {
 	}
 
 	public int passTurnToNextPlayer() {
+		getCurrentPlayer().setCanRoll(true);
 		currentPlayerIndex = (currentPlayerIndex + 1) % (players.size());
-		if (debugOn)
+		if (JumazyController.DEBUG_ON)
 			System.out.println("It is now Player " + (currentPlayerIndex + 1) + "'s turn.");
-		getCurrentPlayer().rollDie(weather);
 
 		return currentPlayerIndex;
+	}
+
+	public int rollForPlayer() {
+		return getCurrentPlayer().rollDie(weather);
 	}
 
 	public PlayerModel getCurrentPlayer() {
@@ -223,9 +225,5 @@ public class MazeModel {
 
 	public PlayerModel getPlayer(int player) {
 		return players.get(player - 1);
-	}
-	
-	public boolean getDebugOn() {
-		return debugOn;
 	}
 }

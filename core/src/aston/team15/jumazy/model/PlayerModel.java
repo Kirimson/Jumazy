@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Input;
 
+import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class PlayerModel {
@@ -15,6 +16,7 @@ public class PlayerModel {
 	private String currentPositionSymbol;
 	private int movesLeft;
 	private boolean onTrap;
+	private boolean canRoll = true;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
 		this.row = row;
@@ -49,7 +51,7 @@ public class PlayerModel {
 			rowDiff = 1;
 			break;
 		}
-		
+
 		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
 			maze.setCoordinateString(row, col, currentPositionSymbol);
 			row += rowDiff;
@@ -58,28 +60,27 @@ public class PlayerModel {
 			maze.setCoordinateString(row, col, playerSymbol);
 			movesLeft--;
 
-			if(currentPositionSymbol.equals("T"))
+			if (currentPositionSymbol.equals("T"))
 				onTrap = true;
 			else
 				onTrap = false;
 
-
-			if (maze.getDebugOn())
+			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
 						+ " moves left.\n" + maze.toString());
 
 			return true;
 		} else {
-			if (maze.getDebugOn())
+			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " tried to move, but failed. They have " + movesLeft
 						+ " moves left.\n" + maze.toString());
 			return false;
 		}
-		
 
 	}
 
-	public void rollDie(Weather weather) {
+	public int rollDie(Weather weather) {
+		canRoll = false;
 		int rollResult = new Random().nextInt(6) + 1;
 
 		switch (weather) {
@@ -91,8 +92,10 @@ public class PlayerModel {
 			break;
 		}
 
-		if (maze.getDebugOn())
+		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
+
+		return movesLeft;
 	}
 
 	public int getMovesLeft() {
@@ -101,5 +104,13 @@ public class PlayerModel {
 
 	public boolean isOnTrap() {
 		return onTrap;
+	}
+
+	public void setCanRoll(boolean canRoll) {
+		this.canRoll = canRoll;
+	}
+
+	public boolean canRoll() {
+		return canRoll;
 	}
 }
