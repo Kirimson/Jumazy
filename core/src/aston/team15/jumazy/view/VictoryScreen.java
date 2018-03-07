@@ -19,7 +19,7 @@ public class VictoryScreen extends MenuScreen {
 
         Label victoryString = new Label("Congratulations, Player"+winningPlayer+"!", skin);
 
-        table.top().padTop(250f);
+        table.top().padTop(225f);
 
         table.add(victoryString);
 
