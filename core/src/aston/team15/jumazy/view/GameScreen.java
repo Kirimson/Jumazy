@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
 		stage = new Stage(viewport);
 		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
-		questionUI = new QuestionUI();
+		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
@@ -108,11 +108,9 @@ public class GameScreen implements Screen {
 
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
-		for (Actor a : questionUI.getActors())
-			uiStage.addActor(a);
+		uiStage.addActor(questionUI.getTable());
 
-		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
-		Gdx.input.setInputProcessor(multiplexer);
+		Gdx.input.setInputProcessor(uiStage);
 	}
 
 	/**
@@ -122,7 +120,7 @@ public class GameScreen implements Screen {
 	 * @return boolean if riddle is open
 	 */
 	public boolean isRiddleOpen() {
-		return questionUI.getActors().get(0).getStage() != null;
+		return questionUI.getTable().getStage() != null;
 	}
 
 	@Override
