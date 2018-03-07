@@ -33,15 +33,15 @@ public class MazeModel {
 		players = new ArrayList<PlayerModel>();
 
 		if (playerAmount == 2) {
-			players.add(new PlayerModel(1, 1, "1", this));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
+			players.add(new PlayerModel(1, 1, "1", this,"Dr Smolder Bravestone" ));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this,"Ruby roundhouse"));
 		}
 
 		if (playerAmount == 4) {
-			players.add(new PlayerModel(1, 1, "1", this));
-			players.add(new PlayerModel(1, maze[0].length - 2, "2", this));
-			players.add(new PlayerModel(maze.length - 2, 1, "3", this));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this));
+			players.add(new PlayerModel(1, 1, "1", this,"Dr Smolder Bravestone"));
+			players.add(new PlayerModel(1, maze[0].length - 2, "2", this,"Ruby roundhouse"));
+			players.add(new PlayerModel(maze.length - 2, 1, "3", this,"franklin finbar"));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this,"professor shelly oberon"));
 		}
 
 		currentPlayerIndex = 0;

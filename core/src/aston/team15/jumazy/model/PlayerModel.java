@@ -15,18 +15,64 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
+	private int stamina;
+	private int strength;
+	private int HP;
+	private int agility;
+	private int luck;
+	private int intelligence;
+	private int[] playerstats;
 	private boolean onTrap;
 	private boolean canRoll = true;
+	
+	public enum CalledStat{
+		HP(0),
+		stamina(1),
+		strength(2),
+		agility(3),
+		luck(4),
+		intelligence(5);	
+		
+		protected final int index;
+		private CalledStat(int index){
+			this.index = index;
+		}
+	}
+	
+	
 
-	PlayerModel(int row, int col, String playerSymbol, MazeModel maze) {
+	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, String charname) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
-
+		
+		HP = 10;
+		stamina = 3;
+		strength =2 ;
+		agility = 2;
+		luck = 2;
+		intelligence = 2;
+		
 		currentPositionSymbol = "O";
 		movesLeft = 0;
-
+		
+		switch (charname){
+		case "Dr Smolder Bravestone":
+			strength = strength + 2;
+		break;
+		case "Ruby roundhouse":
+			agility = agility + 2;
+		break;
+		case "franklin finbar":
+			luck = luck + 2;
+			intelligence = intelligence + 1;
+		break;
+		case "professor shelly oberon":
+			intelligence = intelligence + 2;
+		break;
+		}
+	int[] playerstats = {HP,stamina,strength,agility,luck,intelligence};
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
 
@@ -91,10 +137,10 @@ public class PlayerModel {
 			movesLeft = rollResult + 1;
 			break;
 		}
-
+		movesLeft = movesLeft + stamina;
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
-
+		
 		return movesLeft;
 	}
 
@@ -112,5 +158,11 @@ public class PlayerModel {
 
 	public boolean canRoll() {
 		return canRoll;
+	}
+	public int getStat(CalledStat stat){
+		return playerstats[stat.index];
+	}
+	public void setStat(CalledStat stat,int modifier){
+		playerstats[stat.index] = playerstats[stat.index] + modifier;
 	}
 }

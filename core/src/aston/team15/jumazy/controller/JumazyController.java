@@ -15,7 +15,7 @@ import aston.team15.jumazy.view.MainMenuScreen;
 public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
-	public static final boolean DEBUG_ON = false;
+	public static final boolean DEBUG_ON = true;
 
 	private MazeModel maze;
 	private Skin gameSkin;
