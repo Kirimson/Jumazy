@@ -30,8 +30,7 @@ public class PauseView extends Stage {
 
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {
-                 table.remove();
-                 background.remove();
+                 remove();
                  game.resume();
              }
          });
@@ -40,8 +39,7 @@ public class PauseView extends Stage {
             public boolean keyDown(InputEvent event, int keycode) {
 
                 if(keycode == Input.Keys.P){
-                    table.remove();
-                    background.remove();
+                    remove();
                     game.resume();
                 }
                 return true;
@@ -58,5 +56,10 @@ public class PauseView extends Stage {
     public void pause(){
         this.addActor(background);
         this.addActor(table);
+    }
+
+    public void remove() {
+        background.remove();
+        table.remove();
     }
 }
