@@ -109,6 +109,13 @@ checkbox-on
   orig: 28, 28
   offset: 0, 0
   index: -1
+cursor
+  rotate: false
+  xy: 35, 31
+  size: 2, 32
+  orig: 2, 32
+  offset: 0, 0
+  index: -1
 button
   rotate: false
   xy: 1, 459

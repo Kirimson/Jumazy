@@ -73,6 +73,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: tea
 		fontColor: RGBA_0_0_0_255
+		background: box-outline
+		cursor: cursor
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {

@@ -213,7 +213,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-
+		pauseStage.remove();
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
 		Gdx.input.setInputProcessor(multiplexer);
 	}
