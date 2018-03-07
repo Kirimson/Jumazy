@@ -86,11 +86,6 @@ public class PlayerModel {
 
 		int[] playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence };
 		maze.setCoordinateString(row, col, playerSymbol);
-
-		for (int i : playerStats) {
-			System.out.println(i);
-
-		}
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {

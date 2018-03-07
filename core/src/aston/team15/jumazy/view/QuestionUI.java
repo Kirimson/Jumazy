@@ -118,45 +118,4 @@ public class QuestionUI {
 	public boolean isCorrect() {
 		return correct;
 	}
-
-	// public void resize (int width, int height) {
-	// stage.getViewport().update(width, height, true);
-	// }
-
-	// public void dispose() {
-	// stage.dispose();
-	// }
-
-	// @Override
-	// public void show() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void render(float delta) {
-	// // TODO Auto-generated method stub
-	// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	// stage.act(Gdx.graphics.getDeltaTime());
-	// stage.draw();
-	// }
-	//
-	// @Override
-	// public void pause() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void resume() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void hide() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-
 }
