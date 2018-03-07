@@ -1,5 +1,8 @@
 package aston.team15.jumazy.model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,7 +30,7 @@ public class MazeModel {
 		} else {
 			weather = Weather.RAIN;
 		}
-
+		
 		maze = genMaze(roomsAcross, roomsDown, playerAmount);
 
 		players = new ArrayList<PlayerModel>();
