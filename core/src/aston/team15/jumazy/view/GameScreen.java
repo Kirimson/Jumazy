@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
 	private FitViewport viewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
-	private PauseView pause;
+	private PauseView pauseStage;
 
 	private DiceView dice;
 
@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
 		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI();
-		pause = new PauseView(game);
+		pauseStage = new PauseView(game);
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -170,6 +170,9 @@ public class GameScreen implements Screen {
 		// draw all UI
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
+
+		pauseStage.act(Gdx.graphics.getDeltaTime());
+		pauseStage.draw();
 	}
 
 	private void panCameraTo(Vector3 target) {
@@ -197,8 +200,8 @@ public class GameScreen implements Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		pause.addPauseScreen(uiStage);
-		Gdx.input.setInputProcessor(uiStage);
+		pauseStage.pause();
+		Gdx.input.setInputProcessor(pauseStage);
 	}
 
 	@Override

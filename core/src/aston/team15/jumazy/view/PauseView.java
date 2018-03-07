@@ -1,14 +1,16 @@
 package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class PauseView {
+public class PauseView extends Stage {
 
     private Table table;
     private Table background;
@@ -34,6 +36,18 @@ public class PauseView {
              }
          });
 
+        this.addListener(new InputListener() {
+            public boolean keyDown(InputEvent event, int keycode) {
+
+                if(keycode == Input.Keys.P){
+                    table.remove();
+                    background.remove();
+                    game.resume();
+                }
+                return true;
+            }
+        });
+
         MenuScreenButton quitButton = new MenuScreenButton("QUIT", MenuScreens.MAIN_MENU_SCREEN, game);
 
         table.add(resumeButton).pad(10);
@@ -41,8 +55,8 @@ public class PauseView {
         table.add(quitButton).pad(10);
     }
 
-    public void addPauseScreen(Stage stage){
-        stage.addActor(background);
-        stage.addActor(table);
+    public void pause(){
+        this.addActor(background);
+        this.addActor(table);
     }
 }
