@@ -108,8 +108,7 @@ public class GameScreen implements Screen {
 
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
-		for (Actor a : questionUI.getActors())
-			uiStage.addActor(a);
+		uiStage.addActor(questionUI.getTable());
 
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
 		Gdx.input.setInputProcessor(multiplexer);
@@ -122,7 +121,7 @@ public class GameScreen implements Screen {
 	 * @return boolean if riddle is open
 	 */
 	public boolean isRiddleOpen() {
-		return questionUI.getActors().get(0).getStage() != null;
+		return questionUI.getTable().getStage() != null;
 	}
 
 	@Override
