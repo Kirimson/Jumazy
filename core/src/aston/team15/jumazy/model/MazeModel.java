@@ -98,6 +98,8 @@ public class MazeModel {
 
 		createDoors(roomsAcross, roomsDown, mazeString);
 
+		mazeString[2][2] = "V";
+
 		return mazeString;
 	}
 

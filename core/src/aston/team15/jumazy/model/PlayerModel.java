@@ -159,6 +159,10 @@ public class PlayerModel {
 	public boolean canRoll() {
 		return canRoll;
 	}
+
+    public boolean isOnVictorySquare() {
+        return currentPositionSymbol.equals("V");
+    }
 	public int getStat(CalledStat stat){
 		return playerstats[stat.index];
 	}

@@ -9,36 +9,53 @@ import javax.sound.sampled.Clip;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
 
 public class QuestionUI {
 
 	private Skin skin;
+	private Stage stage;
+	private Table table;
 	private boolean isActive;
 	private boolean correct;
 	private ArrayList<Actor> questionActors;
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 
-	public QuestionUI() {
+	public QuestionUI(JumazyController game) {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
+		table = new Table();
+		table.setFillParent(true);
+		table.center();
+		
+		
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
+		
 
-		tfAnswer.setPosition(350, 400);
-		tfAnswer.setSize(500, 100);
+		lQuestion.setFontScale(1.8f);
+		table.add(lQuestion);
+		table.row();
+		
+		table.add(tfAnswer).width(500).height(100);;
+		table.row();
 
-		btnSubmit.setPosition(350, 250);
-		btnSubmit.setSize(500, 100);
+		table.add(btnSubmit).width(500).height(100);;
+		
+		
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);
@@ -47,13 +64,8 @@ public class QuestionUI {
 			public void clicked(InputEvent event, float x, float y) {
 				correct = checkAnswer(tfAnswer.getText());
 				isActive = false;
-				questionActors.remove(questionActors.size() - 1);
-				// remove actors
-				lQuestion.remove();
+				table.remove();
 				tfAnswer.setText("");
-				tfAnswer.remove();
-				btnSubmit.remove();
-				lQuestion.remove();
 
 				File sound;
 				if (correct) {
@@ -62,7 +74,7 @@ public class QuestionUI {
 					sound = new File("../assets/snd/incorrect.wav");
 				}
 				playSound(sound);
-
+				game.resume();
 			}
 		});
 
@@ -70,10 +82,7 @@ public class QuestionUI {
 
 	public void displayQuestion(String[] questionAndAns) {
 		questionAndAnswer = questionAndAns;
-		lQuestion = new Label(questionAndAnswer[0], skin);
-		lQuestion.setPosition(350, 450);
-		lQuestion.setSize(500, 100);
-
+		lQuestion.setText(questionAndAnswer[0]);
 		questionActors.add(lQuestion);
 	}
 
@@ -102,8 +111,8 @@ public class QuestionUI {
 		}
 	}
 
-	public ArrayList<Actor> getActors() {
-		return questionActors;
+	public Table getTable() {
+		return table;
 	}
 
 	public boolean isAlive() {
