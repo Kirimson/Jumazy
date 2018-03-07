@@ -7,11 +7,11 @@ public class StartGameMenuScreen extends MenuScreen {
 	public StartGameMenuScreen(JumazyController theGame) {
 		super(theGame);
 
-		MenuScreenButton startGameButton = new MenuScreenButton("START GAME",
+		MenuScreenButton startGameButton = new MenuScreenButton("Start Game",
 				MenuScreens.PLAYER_NUMBER_SELECTION_SCREEN, game);
-		MenuScreenButton texturesButton = new MenuScreenButton("TEXTURES", MenuScreens.TEXTURE_SELECTION_SCREEN, game);
-		MenuScreenButton tutorialButton = new MenuScreenButton("TUTORIAL", MenuScreens.TUTORIAL_SCREEN, game);
-		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.MAIN_MENU_SCREEN, game);
+		MenuScreenButton texturesButton = new MenuScreenButton("Textures", MenuScreens.TEXTURE_SELECTION_SCREEN, game);
+		MenuScreenButton tutorialButton = new MenuScreenButton("Tutorial", MenuScreens.TUTORIAL_SCREEN, game);
+		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.MAIN_MENU_SCREEN, game);
 
 		table.add(startGameButton).pad(10);
 		table.row();

@@ -7,7 +7,7 @@ public class TutorialScreen extends MenuScreen {
 	public TutorialScreen(JumazyController theGame) {
 		super(theGame);
 
-		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.START_GAME_SCREEN, game);
+		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
 
 		table.row();
 		table.add(backButton).bottom().right().expand().pad(70);
