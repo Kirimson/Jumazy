@@ -12,7 +12,7 @@ public class MazeModel {
 	// array goes (y,x)/(row,col)
 
 	protected enum Weather {
-		RAIN, SUN
+		RAIN, SUN;
 	}
 
 	private String[][] maze;
@@ -33,15 +33,17 @@ public class MazeModel {
 		players = new ArrayList<PlayerModel>();
 
 		if (playerAmount == 2) {
-			players.add(new PlayerModel(1, 1, "1", this,"Dr Smolder Bravestone" ));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this,"Ruby roundhouse"));
+			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this,
+					PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
 		}
 
 		if (playerAmount == 4) {
-			players.add(new PlayerModel(1, 1, "1", this,"Dr Smolder Bravestone"));
-			players.add(new PlayerModel(1, maze[0].length - 2, "2", this,"Ruby roundhouse"));
-			players.add(new PlayerModel(maze.length - 2, 1, "3", this,"franklin finbar"));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this,"professor shelly oberon"));
+			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
+			players.add(new PlayerModel(1, maze[0].length - 2, "2", this, PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
+			players.add(new PlayerModel(maze.length - 2, 1, "3", this, PlayerModel.CharacterName.FRANKLIN_FINBAR));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this,
+					PlayerModel.CharacterName.SHELLY_OBERON));
 		}
 
 		currentPlayerIndex = 0;
