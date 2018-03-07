@@ -24,55 +24,50 @@ public class PlayerModel {
 	private int[] playerstats;
 	private boolean onTrap;
 	private boolean canRoll = true;
-	
-	public enum CalledStat{
-		HP(0),
-		stamina(1),
-		strength(2),
-		agility(3),
-		luck(4),
-		intelligence(5);	
-		
+
+	public enum CalledStat {
+		HP(0), stamina(1), strength(2), agility(3), luck(4), intelligence(5);
+
 		protected final int index;
-		private CalledStat(int index){
+
+		private CalledStat(int index) {
 			this.index = index;
 		}
 	}
-	
-	
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, String charname) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
-		
+
 		HP = 10;
 		stamina = 3;
-		strength =2 ;
+		strength = 2;
 		agility = 2;
 		luck = 2;
 		intelligence = 2;
-		
+
 		currentPositionSymbol = "O";
 		movesLeft = 0;
-		
-		switch (charname){
+
+		switch (charname) {
 		case "Dr Smolder Bravestone":
 			strength = strength + 2;
-		break;
+			break;
 		case "Ruby roundhouse":
 			agility = agility + 2;
-		break;
+			break;
 		case "franklin finbar":
 			luck = luck + 2;
 			intelligence = intelligence + 1;
-		break;
+			break;
 		case "professor shelly oberon":
 			intelligence = intelligence + 2;
-		break;
+			break;
 		}
-	int[] playerstats = {HP,stamina,strength,agility,luck,intelligence};
+
+		int[] playerstats = { HP, stamina, strength, agility, luck, intelligence };
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
 
@@ -140,7 +135,7 @@ public class PlayerModel {
 		movesLeft = movesLeft + stamina;
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
-		
+
 		return movesLeft;
 	}
 
@@ -160,13 +155,15 @@ public class PlayerModel {
 		return canRoll;
 	}
 
-    public boolean isOnVictorySquare() {
-        return currentPositionSymbol.equals("V");
-    }
-	public int getStat(CalledStat stat){
+	public boolean isOnVictorySquare() {
+		return currentPositionSymbol.equals("V");
+	}
+
+	public int getStat(CalledStat stat) {
 		return playerstats[stat.index];
 	}
-	public void setStat(CalledStat stat,int modifier){
+
+	public void setStat(CalledStat stat, int modifier) {
 		playerstats[stat.index] = playerstats[stat.index] + modifier;
 	}
 }
