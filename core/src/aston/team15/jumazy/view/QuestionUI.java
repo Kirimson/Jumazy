@@ -32,7 +32,7 @@ public class QuestionUI {
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 
-	public QuestionUI() {
+	public QuestionUI(JumazyController game) {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
@@ -66,8 +66,6 @@ public class QuestionUI {
 				isActive = false;
 				table.remove();
 				tfAnswer.setText("");
-				
-				
 
 				File sound;
 				if (correct) {
@@ -76,7 +74,7 @@ public class QuestionUI {
 					sound = new File("../assets/snd/incorrect.wav");
 				}
 				playSound(sound);
-
+				game.resume();
 			}
 		});
 

@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
 		stage = new Stage(viewport);
 		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
-		questionUI = new QuestionUI();
+		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
@@ -110,8 +110,7 @@ public class GameScreen implements Screen {
 		questionUI.displayQuestion(questionAndAns);
 		uiStage.addActor(questionUI.getTable());
 
-		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
-		Gdx.input.setInputProcessor(multiplexer);
+		Gdx.input.setInputProcessor(uiStage);
 	}
 
 	/**
