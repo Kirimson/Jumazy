@@ -54,6 +54,10 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("floor-trap-spikes"));
 					break;
+				case "V":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("victory-statue"));
+					break;
 				case "1":
 				case "2":
 				case "3":
@@ -187,6 +191,10 @@ public class GameScreen implements Screen {
 	public void rollDice(int finalDie) {
 		stage.addActor(dice);
 		dice.setDie(finalDie);
+	}
+
+	public int getCurrentplayerNumber(){
+		return currentPlayerIndex+1;
 	}
 
 	@Override
