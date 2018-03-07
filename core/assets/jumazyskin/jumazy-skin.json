@@ -1,7 +1,7 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	tiki: {
-		file: tiki.fnt
+	tea: {
+		file: tea.fnt
 	}
 }
 com.badlogic.gdx.graphics.Color: {
@@ -12,12 +12,72 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: button
+		down: button-down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: checkbox-on
+		checkboxOff: checkbox-off
+		font: tea
+		fontColor: RGBA_0_0_0_255
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: tea
+		fontColor: RGBA_0_0_0_255
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+	default: {
+		font: tea
+		fontColorSelected: RGBA_0_0_0_255
+		fontColorUnselected: RGBA_0_0_0_255
+		selection: box-outline
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: box-clear
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+	default: {
+		font: tea
+		fontColor: RGBA_0_0_0_255
+		disabledFontColor: RGBA_0_0_0_255
+		background: box-outline
+		scrollStyle: default
+		listStyle: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	default-horizontal: {
+		background: slider-background
+		knob: slider-knob
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
-		font: tiki
+		font: tea
 		fontColor: RGBA_0_0_0_255
 		up: button
 		down: button-down
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: tea
+		fontColor: RGBA_0_0_0_255
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
 	}
 }
 }

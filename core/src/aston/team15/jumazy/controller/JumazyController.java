@@ -1,5 +1,6 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.view.VictoryScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -72,8 +73,11 @@ public class JumazyController extends Game {
 				if (maze.getCurrentPlayer().isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
-					// gameScreen.giveNewQuestion(question);
 					gameScreen.createQuestion(questionAndAns);
+				}
+
+				if(maze.getCurrentPlayer().isOnVictorySquare()){
+					setScreen(new VictoryScreen(this, gameScreen.getCurrentplayerNumber()));
 				}
 			}
 			break;

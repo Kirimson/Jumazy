@@ -113,4 +113,8 @@ public class PlayerModel {
 	public boolean canRoll() {
 		return canRoll;
 	}
+
+    public boolean isOnVictorySquare() {
+        return currentPositionSymbol.equals("V");
+    }
 }
