@@ -26,7 +26,7 @@ public class PauseView extends Stage {
 
         background.add(new Image(game.getSprite("pause-dialog")));
 
-        TextButton resumeButton = new TextButton("RESUME", game.getSkin());
+        TextButton resumeButton = new TextButton("Resume", game.getSkin());
 
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {
@@ -48,7 +48,7 @@ public class PauseView extends Stage {
             }
         });
 
-        MenuScreenButton quitButton = new MenuScreenButton("QUIT", MenuScreens.MAIN_MENU_SCREEN, game);
+        MenuScreenButton quitButton = new MenuScreenButton("Quit", MenuScreens.MAIN_MENU_SCREEN, game);
 
         table.add(resumeButton).pad(10);
         table.row();

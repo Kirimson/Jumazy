@@ -7,7 +7,7 @@ public class SettingsScreen extends MenuScreen {
 	public SettingsScreen(JumazyController theGame) {
 		super(theGame);
 
-		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.MAIN_MENU_SCREEN, game);
+		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.MAIN_MENU_SCREEN, game);
 
 		table.row();
 		table.add(backButton).bottom().right().expand().pad(70);
