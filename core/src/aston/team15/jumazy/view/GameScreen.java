@@ -46,11 +46,19 @@ public class GameScreen implements Screen {
 				Actor newActor;
 
 				switch (maze[mazeX][mazeY]) {
-				case "*":
+				case "#":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite(findWallType(maze, mazeX, mazeY)));
+					break;
+				case "^":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite(findWallType(maze, mazeX, mazeY)));
 					break;
 				case "T":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-trap-spikes"));
+					break;
+				case "V":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("floor-trap-spikes"));
 					break;
