@@ -3,6 +3,7 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.model.MazeModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -232,6 +233,11 @@ public class GameScreen implements Screen {
 
 	public int getCurrentplayerNumber(){
 		return currentPlayerIndex+1;
+	}
+
+	public void setWeather(MazeModel.Weather weather){
+		WeatherAnimation  weatherAnimation = new WeatherAnimation(weather, game);
+		uiStage.addActor(weatherAnimation.getTable());
 	}
 
 	@Override
