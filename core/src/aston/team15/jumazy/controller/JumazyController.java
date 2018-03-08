@@ -42,7 +42,9 @@ public class JumazyController extends Game {
 		maze = new MazeModel(5, 5, playerAmount);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze()));
 		GameScreen gameScreen = (GameScreen) getScreen();
-		gameScreen.setWeather(maze.getWeather());
+
+		if(maze.getWeather() != MazeModel.Weather.SUN)
+			gameScreen.setWeather(maze.getWeather(), maze.getMaze().length, maze.getMaze()[0].length);
 	}
 
 	@Override

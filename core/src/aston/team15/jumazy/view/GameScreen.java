@@ -9,7 +9,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -235,9 +234,10 @@ public class GameScreen implements Screen {
 		return currentPlayerIndex+1;
 	}
 
-	public void setWeather(MazeModel.Weather weather){
-		WeatherAnimation  weatherAnimation = new WeatherAnimation(weather, game);
-		uiStage.addActor(weatherAnimation.getTable());
+	public void setWeather(MazeModel.Weather weather, int width, int height){
+
+		WeatherAnimation  weatherAnimation = new WeatherAnimation(weather, game, width * blockSpriteDimensions, height * blockSpriteDimensions);
+		stage.addActor(weatherAnimation.getAnimation());
 	}
 
 	@Override
