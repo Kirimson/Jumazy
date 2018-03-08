@@ -31,10 +31,10 @@ OOOOOOOO
 OO#ac#OO
 OOOTTOOO
 OOOTTOOO
-OO^ac^OO
+OOabbcOO
 OOOOOOOO
 OOOOOOOO
-/Room Type 5: X Trap A
+/Room Type 5: Water X
 WOOacOOW
 OWOOOOWO
 OOWOOWOO
@@ -97,7 +97,7 @@ O^O^^O^O
 O^OOOOTO
 O^T#####
 O^OOOOOO
-/Room Type 12: Thicc Walled Chest?
+/Room Type 12: Thicc Walled Victory
 OOOOOOOO
 O##OO##O
 O^^TT^^O
