@@ -188,13 +188,13 @@ public class MazeModel {
 		
 		String[][] room = new String[roomSize][roomSize];
 		Random rng = new Random();
-
+		int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
+		
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
 					room[i][j] = "#";
 				} else {
-					int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
 					room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];;
 				}
 			}

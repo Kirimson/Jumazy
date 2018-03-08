@@ -8,41 +8,41 @@ OOOOOOOO
 OOOOOOOO
 OOOOOOOO
 /Room Type 2: Large Paths
-^OO^^OO^
 OOOOOOOO
 OOOOOOOO
-#OO##OO#
-^OO^^OO^
+OO####OO
+OO^^^^OO
+OO^^^^OO
+OO^^^^OO
 OOOOOOOO
 OOOOOOOO
-#OO##OO#
 /Room Type 3: Up U
-#OO##OO#
 OOOOOOOO
 OOOOOOOO
-#OO##OO#
-^OO^^OO^
+OO####OO
+OO^^^^OO
+OO^^^^OO
+OO^^^^OO
 OOO^^OOO
 OOO^^OOO
-#OO^^OO#
-/Room Type 4: Walled Victory
+/Room Type 4: Walled Water and Trap
 OOOOOOOO
 OOOOOOOO
-OO#OO#OO
-OO^VV^OO
-OO^VV^OO
-OO^##^OO
+OO#ac#OO
+OOOTTOOO
+OOOTTOOO
+OO^ac^OO
 OOOOOOOO
 OOOOOOOO
 /Room Type 5: X Trap A
-#OOOOOO#
-O#OOOO#O
-OO#OO#OO
-OOOTTOOO
-OOOTTOOO
-OO#OO#OO
-O#OOOO#O
-#OOOOOO#
+WOOacOOW
+OWOOOOWO
+OOWOOWOO
+WOOTTOOW
+WOOTTOOW
+OOWOOWOO
+OWOOOOWO
+WOOacOOW
 /Room Type 6: Centre Sqaure
 OOOOOOOO
 OOOOOOOO
@@ -61,7 +61,7 @@ OO^^^^OO
 OO^^^^OO
 OOOOOOOO
 OOOOOOOO
-/Room Type 8: Centre Open
+/Room Type 8: Centre Corner Open
 OOOOOOOO
 O##OO##O
 O^OOOO^O
@@ -70,3 +70,48 @@ OOOOOOOO
 O#OOOO#O
 O^#OO#^O
 OOOOOOOO
+/Room Type 9: Centre Corner Square
+OOOOOOOO
+O##OO##O
+O^OOOO^O
+OOO##OOO
+OOO^^OOO
+O#OOOO#O
+O^#OO#^O
+OOOOOOOO
+/Room Type 10: Two Trap Thin Corridor
+OOOOOO#O
+O####T^O
+O^OOOO^O
+O^O##O^O
+O^O^^O^O
+O^OOOO^O
+O^T###^O
+O^OOOOOO
+/Room Type 11: Four Trap Thin Corridor
+OOOOOO#O
+#####T^O
+OTOOOO^O
+O#O##O^O
+O^O^^O^O
+O^OOOOTO
+O^T#####
+O^OOOOOO
+/Room Type 12: Thicc Walled Chest?
+OOOOOOOO
+O##OO##O
+O^^TT^^O
+O^^TT^^O
+O^^VV^^O
+O^^^^^^O
+O^^^^^^O
+OOOOOOOO
+/Room Type 13: Water Lines
+OOOacOOO
+OOOOOOOO
+OabbbbcO
+OOOOOOOO
+OOOOOOOO
+OabbbbcO
+OOOOOOOO
+OOOacOOO

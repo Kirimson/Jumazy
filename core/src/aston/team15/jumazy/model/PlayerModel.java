@@ -31,7 +31,13 @@ public class PlayerModel {
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
-		return !maze.getCoordinateString(newRow, newCol).equals("*");
+		String[] walls = new String[] {"#","^","W","a","b","c"};
+		boolean valid = true;
+		for(String wall : walls) {
+			if(maze.getCoordinateString(newRow, newCol).equals(wall))
+				valid = false;
+			}
+		return valid;
 	}
 
 	public boolean move(int direction) {
