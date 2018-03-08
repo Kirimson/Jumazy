@@ -1,28 +1,48 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel.Weather;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
-public class WeatherAnimation{
+import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 
-    private WeatherTile weatherAnimation;
+public class WeatherAnimation extends Image{
 
-    public WeatherAnimation(Weather weather, JumazyController game, float width, float height) {
+    private float animationTime;
+    private Animation<TextureRegion> animation;
+    private float width, height;
 
-        TextureAtlas animation = new TextureAtlas("JumazyAnimations/pack.atlas");
+    public WeatherAnimation(Weather weather, float mazeWidth, float mazeHeight) {
+        this.width = mazeWidth;
+        this.height = mazeHeight;
+
+        TextureAtlas animationAtlas = new TextureAtlas("JumazyAnimations/pack.atlas");
 
         switch(weather){
             case RAIN:
-                weatherAnimation = new WeatherTile( new Animation<TextureRegion>(0.05f, animation.findRegions("Rain"), Animation.PlayMode.LOOP), width, height);
+                animation = new Animation<TextureRegion>(0.05f, animationAtlas.findRegions("Rain"), LOOP);
+                break;
+            default:
                 break;
         }
     }
 
-    public WeatherTile getAnimation() {
-        return weatherAnimation;
+    @Override
+    public void draw(Batch batch, float parentAlpha){
+        animationTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = animation.getKeyFrame(animationTime);
+        TiledDrawable tile = new TiledDrawable(currentFrame);
+
+        tile.draw(batch, 0,0, width,height);
+    }
+
+    public WeatherAnimation getAnimation() {
+        return this;
     }
 
 }
