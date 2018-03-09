@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class GameScreen implements Screen {
@@ -43,6 +44,9 @@ public class GameScreen implements Screen {
 		pauseStage = new PauseView(game);
 		Random rng = new Random();
 
+		GameSound.playGameStartMusic();
+		GameSound.stopMenuMusic();
+		
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
