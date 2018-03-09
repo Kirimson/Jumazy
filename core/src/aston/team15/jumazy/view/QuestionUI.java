@@ -9,22 +9,18 @@ import javax.sound.sampled.Clip;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
 
 public class QuestionUI {
 
 	private Skin skin;
-	private Stage stage;
 	private Table table;
 	private boolean isActive;
 	private boolean correct;
@@ -32,7 +28,7 @@ public class QuestionUI {
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 
-	public QuestionUI(JumazyController game) {
+	public QuestionUI(final JumazyController game) {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
@@ -122,45 +118,4 @@ public class QuestionUI {
 	public boolean isCorrect() {
 		return correct;
 	}
-
-	// public void resize (int width, int height) {
-	// stage.getViewport().update(width, height, true);
-	// }
-
-	// public void dispose() {
-	// stage.dispose();
-	// }
-
-	// @Override
-	// public void show() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void render(float delta) {
-	// // TODO Auto-generated method stub
-	// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	// stage.act(Gdx.graphics.getDeltaTime());
-	// stage.draw();
-	// }
-	//
-	// @Override
-	// public void pause() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void resume() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void hide() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-
 }
