@@ -44,7 +44,7 @@ public class QuestionUI {
 		final TextField tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
-		lQuestion.setFontScale(1.1f);
+		lQuestion.setFontScale(1.2f);
 		table.add(lQuestion);
 		table.row();
 		table.add(tfAnswer).width(500).padTop(25).height(100);
