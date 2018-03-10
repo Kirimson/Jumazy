@@ -32,7 +32,7 @@ public class QuestionUI {
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 
-	public QuestionUI() {
+	public QuestionUI(JumazyController game) {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
@@ -40,35 +40,33 @@ public class QuestionUI {
 		table.setFillParent(true);
 		table.center();
 		
-		
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
-
 		lQuestion.setFontScale(1.8f);
 		table.add(lQuestion);
 		table.row();
-		
 		table.add(tfAnswer).width(500).height(100);;
 		table.row();
-
 		table.add(btnSubmit).width(500).height(100);;
-		
-		
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);
 
 		btnSubmit.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				
 				correct = checkAnswer(tfAnswer.getText());
 				isActive = false;
+				
 				table.remove();
 				tfAnswer.setText("");
+<<<<<<< HEAD
 				
-				
+=======
 
+>>>>>>> 7a108bcbc00c8bed3b3b89b1c7da594933d01cf4
 				File sound;
 				if (correct) {
 					sound = new File("../assets/snd/correct.wav");
@@ -76,7 +74,7 @@ public class QuestionUI {
 					sound = new File("../assets/snd/incorrect.wav");
 				}
 				playSound(sound);
-
+				game.resume();
 			}
 		});
 
@@ -125,44 +123,5 @@ public class QuestionUI {
 		return correct;
 	}
 
-	// public void resize (int width, int height) {
-	// stage.getViewport().update(width, height, true);
-	// }
-
-	// public void dispose() {
-	// stage.dispose();
-	// }
-
-	// @Override
-	// public void show() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void render(float delta) {
-	// // TODO Auto-generated method stub
-	// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	// stage.act(Gdx.graphics.getDeltaTime());
-	// stage.draw();
-	// }
-	//
-	// @Override
-	// public void pause() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void resume() {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void hide() {
-	// // TODO Auto-generated method stub
-	//
-	// }
 
 }

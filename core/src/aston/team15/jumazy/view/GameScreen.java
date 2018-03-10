@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
 		stage = new Stage(viewport);
 		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
-		questionUI = new QuestionUI();
+		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
@@ -53,6 +53,10 @@ public class GameScreen implements Screen {
 				case "T":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("floor-trap-spikes"));
+					break;
+				case "V":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("victory-statue"));
 					break;
 				case "1":
 				case "2":
@@ -110,8 +114,7 @@ public class GameScreen implements Screen {
 		questionUI.displayQuestion(questionAndAns);
 		uiStage.addActor(questionUI.getTable());
 
-		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
-		Gdx.input.setInputProcessor(multiplexer);
+		Gdx.input.setInputProcessor(uiStage);
 	}
 
 	/**
@@ -190,6 +193,10 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
+	public int getCurrentplayerNumber(){
+		return currentPlayerIndex+1;
+	}
+
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
@@ -206,7 +213,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-
+		pauseStage.remove();
 		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
 		Gdx.input.setInputProcessor(multiplexer);
 	}
