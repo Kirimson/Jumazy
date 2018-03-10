@@ -25,7 +25,7 @@ public class QuestionPopUpCreator {
 	SelectBox<String> histoSB;
 	String[] selections;
 	public QuestionPopUpCreator() {
-		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
+		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		questionTable = new Table();
 		questionBG = new Table();
 		questionBG.setFillParent(true);
@@ -60,16 +60,12 @@ public class QuestionPopUpCreator {
 		mathSB = new SelectBox<String>(skin);
 		histoSB = new SelectBox<String>(skin);
 		geoSB.setItems(geoObjects);
-		
 		mathSB.setItems(mathObjects);
-		
 		histoSB.setItems(histoObjects);
 		
-		geography.getLabel().setFontScale(1.5f,1.5f);
+		
 		questionTable.add(geography).left().row();;
-		maths.getLabel().setFontScale(1.5f,1.5f);
 		questionTable.add(maths).left().row();;
-		history.getLabel().setFontScale(1.5f,1.5f);
 		questionTable.add(history).left().row();
 		
 		questionTable.add(geoSB).width(320).height(50).row();

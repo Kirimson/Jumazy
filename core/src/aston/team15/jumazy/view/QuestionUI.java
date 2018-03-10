@@ -35,7 +35,7 @@ public class QuestionUI {
 	public QuestionUI(JumazyController game) {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
-		skin = new Skin(Gdx.files.internal("neonskin/neon-ui.json"));
+		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		table = new Table();
 		table.setFillParent(true);
 		table.center();
@@ -44,12 +44,12 @@ public class QuestionUI {
 		final TextField tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
-		lQuestion.setFontScale(1.8f);
+		lQuestion.setFontScale(1.2f);
 		table.add(lQuestion);
 		table.row();
-		table.add(tfAnswer).width(500).height(100);;
+		table.add(tfAnswer).width(500).padTop(25).height(100);
 		table.row();
-		table.add(btnSubmit).width(500).height(100);;
+		table.add(btnSubmit).width(500).padTop(25).height(100);;
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);
