@@ -11,22 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import aston.team15.jumazy.controller.JumazyController;
-import aston.team15.jumazy.model.QuestionRetriever;
+
 
 public class PlayerAmountSelectScreen extends MenuScreen {
 
 
 	public PlayerAmountSelectScreen(JumazyController theGame) {
 		super(theGame);
-<<<<<<< HEAD
-		
-		TextButton twoPlayerButton = new TextButton("2 PLAYERS", game.getSkin());
-=======
+
 
 		TextButton twoPlayerButton = new TextButton("2 Players", game.getSkin());
->>>>>>> 7a108bcbc00c8bed3b3b89b1c7da594933d01cf4
 		twoPlayerButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				showPopUp(2);
@@ -40,12 +35,8 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 			}
 		});
 
-<<<<<<< HEAD
-		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.START_GAME_SCREEN, game);
-=======
-		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
 
->>>>>>> 7a108bcbc00c8bed3b3b89b1c7da594933d01cf4
+		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
 		table.add(twoPlayerButton).pad(10);
 		table.row();
 		table.add(fourPlayerButton).pad(10);

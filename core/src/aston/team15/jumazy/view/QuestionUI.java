@@ -62,11 +62,7 @@ public class QuestionUI {
 				
 				table.remove();
 				tfAnswer.setText("");
-<<<<<<< HEAD
-				
-=======
 
->>>>>>> 7a108bcbc00c8bed3b3b89b1c7da594933d01cf4
 				File sound;
 				if (correct) {
 					sound = new File("../assets/snd/correct.wav");
