@@ -51,12 +51,12 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		Skin skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		Table questionBG = new Table();
 		questionBG.setFillParent(true);
-		questionBG.top().padTop(0f);
+		questionBG.top().padTop(-30);
 		questionBG.add(new Image(game.getSprite("pause-dialog")));
 		QuestionPopUpCreator popUp = new QuestionPopUpCreator();
 		Table questionTable = popUp.getTable();
 	    TextButton btnPlay = new TextButton("Play", skin);
-		questionTable.add(btnPlay).padTop(25);
+		questionTable.add(btnPlay).padTop(30);
 		
 		stage.addActor(questionBG);
 		stage.addActor(questionTable);

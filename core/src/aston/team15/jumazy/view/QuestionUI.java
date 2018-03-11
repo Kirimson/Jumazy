@@ -49,7 +49,7 @@ public class QuestionUI {
 		table.row();
 		table.add(tfAnswer).width(500).padTop(25).height(100);
 		table.row();
-		table.add(btnSubmit).width(500).padTop(25).height(100);;
+		table.add(btnSubmit).width(500).padTop(25).height(100);
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);

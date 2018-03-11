@@ -64,13 +64,13 @@ public class QuestionPopUpCreator {
 		histoSB.setItems(histoObjects);
 		
 		
-		questionTable.add(geography).left().row();;
+		questionTable.add(geography).padTop(-20).left().row();;
 		questionTable.add(maths).left().row();;
 		questionTable.add(history).left().row();
 		
-		questionTable.add(geoSB).padTop(5).width(320).height(50).row();
-		questionTable.add(mathSB).width(320).height(50).row();
-		questionTable.add(histoSB).width(320).height(50).row();
+		questionTable.add(geoSB).padTop(10).width(320).height(40).row();
+		questionTable.add(mathSB).width(320).height(40).row();
+		questionTable.add(histoSB).width(320).height(40).row();
 		
 	}
 	
