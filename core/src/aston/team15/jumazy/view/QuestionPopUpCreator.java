@@ -38,19 +38,19 @@ public class QuestionPopUpCreator {
 	    history = new CheckBox("History", skin);
 	    
 	    geoObjects = new String[4]; 
-	    geoObjects[0] = new String("Please Select a Geography level"); 
+	    geoObjects[0] = new String("Geography difficulty"); 
 	    geoObjects[1] = new String("Easy"); 
 	    geoObjects[2] = new String("Medium"); 
 	    geoObjects[3] = new String("Hard"); 
 	    
 	    mathObjects = new String[4]; 
-	    mathObjects[0] = new String("Please Select a Maths level"); 
+	    mathObjects[0] = new String("Maths Difficulty"); 
 	    mathObjects[1] = new String("Easy"); 
 	    mathObjects[2] = new String("Medium"); 
 	    mathObjects[3] = new String("Hard"); 
 	    
 	    histoObjects = new String[4]; 
-	    histoObjects[0] = new String("Please Select a History level"); 
+	    histoObjects[0] = new String("History difficulty"); 
 	    histoObjects[1] = new String("Easy"); 
 	    histoObjects[2] = new String("Medium"); 
 	    histoObjects[3] = new String("Hard"); 
@@ -68,7 +68,7 @@ public class QuestionPopUpCreator {
 		questionTable.add(maths).left().row();;
 		questionTable.add(history).left().row();
 		
-		questionTable.add(geoSB).width(320).height(50).row();
+		questionTable.add(geoSB).padTop(5).width(320).height(50).row();
 		questionTable.add(mathSB).width(320).height(50).row();
 		questionTable.add(histoSB).width(320).height(50).row();
 		

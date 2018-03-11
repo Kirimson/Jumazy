@@ -55,8 +55,8 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		questionBG.add(new Image(game.getSprite("pause-dialog")));
 		QuestionPopUpCreator popUp = new QuestionPopUpCreator();
 		Table questionTable = popUp.getTable();
-	    TextButton btnPlay = new TextButton("play", skin);
-		questionTable.add(btnPlay);
+	    TextButton btnPlay = new TextButton("Play", skin);
+		questionTable.add(btnPlay).padTop(25);
 		
 		stage.addActor(questionBG);
 		stage.addActor(questionTable);
