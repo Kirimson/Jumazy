@@ -14,6 +14,8 @@ import aston.team15.jumazy.view.MainMenuScreen;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
 public class JumazyController extends Game {
+	
+	private QuestionRetriever questionRetriever = new QuestionRetriever();
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 	public static final boolean DEBUG_ON = true;
@@ -41,6 +43,21 @@ public class JumazyController extends Game {
 		maze = new MazeModel(4, 2, playerAmount);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray()));
 	}
+	
+	public void setQuestionType(String[] levels) {
+		String level = "";
+		String subject = "";
+		for(int i = 0; i <= 1; i++) {
+			if(i == 0) {
+				subject = "geography";
+			}
+			else if(i == 1) {
+				subject = "maths";
+			}
+			level = levels[i];
+			questionRetriever.chosenFiles(subject, level);
+		}
+	}
 
 	@Override
 	public void render() {
@@ -61,7 +78,7 @@ public class JumazyController extends Game {
 
 	public void handleGameInput(int keycode) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-		QuestionRetriever questionRetriever = new QuestionRetriever();
+		
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
@@ -71,6 +88,7 @@ public class JumazyController extends Game {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
+					
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
