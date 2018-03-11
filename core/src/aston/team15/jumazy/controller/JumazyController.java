@@ -39,7 +39,7 @@ public class JumazyController extends Game {
 
 	public void setPlayerAmountAndStartGame(int playerAmount) {
 		maze = new MazeModel(4, 2, playerAmount);
-		setScreen(new GameScreen(this, playerAmount, maze.getMaze()));
+		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray()));
 	}
 
 	@Override
@@ -76,14 +76,16 @@ public class JumazyController extends Game {
 					gameScreen.createQuestion(questionAndAns);
 				}
 
-				if(maze.getCurrentPlayer().isOnVictorySquare()){
-					setScreen(new VictoryScreen(this, gameScreen.getCurrentplayerNumber()));
+				if (maze.getCurrentPlayer().isOnVictorySquare()) {
+					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 				}
 			}
 			break;
 		case Input.Keys.ENTER:
-			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen())
+			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
+				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
+			}
 			break;
 		case Input.Keys.SPACE:
 			if (maze.getCurrentPlayer().canRoll()) {

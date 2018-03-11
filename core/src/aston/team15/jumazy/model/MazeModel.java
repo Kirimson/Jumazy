@@ -56,6 +56,7 @@ public class MazeModel {
 				initialState += "It is raining.";
 			}
 			initialState += "\nPlayer 1 will start.";
+			initialState += "\nPlayer 1 RPG stats: " + players.get(currentPlayerIndex).getStatsArray();
 			System.out.println(initialState);
 			System.out.println(toString());
 		}

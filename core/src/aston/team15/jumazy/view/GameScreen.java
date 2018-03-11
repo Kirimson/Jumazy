@@ -26,20 +26,25 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
+	private FitViewport uiViewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
+	private HeadsUpDisplay hud;
+	private int[] currentPlayerStats;
 
 	private DiceView dice;
 
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage = new Stage(viewport);
-		uiStage = new Stage();
+		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
+		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
+		currentPlayerStats = firstPlayerStats;
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -82,18 +87,30 @@ public class GameScreen implements Screen {
 
 		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
+		hud = new HeadsUpDisplay(game.getSkin(), currentPlayerIndex, currentPlayerStats);
+		uiStage.addActor(hud);
+
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 
-				switch (keycode){
-					case Input.Keys.P : pause();break;
-					default: game.handleGameInput(keycode);
+				switch (keycode) {
+				case Input.Keys.P:
+					pause();
+					break;
+				default:
+					game.handleGameInput(keycode);
 				}
+
 				return true;
 			}
 		});
+
 	}
 
+	public void setCurrentPlayerStats(int[] playerStats) {
+		currentPlayerStats = playerStats;
+	}
+	
 	private String randomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
@@ -170,6 +187,7 @@ public class GameScreen implements Screen {
 		stage.draw();
 
 		// draw all UI
+		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -193,8 +211,8 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
-	public int getCurrentplayerNumber(){
-		return currentPlayerIndex+1;
+	public int getCurrentPlayerNumber() {
+		return currentPlayerIndex + 1;
 	}
 
 	@Override
