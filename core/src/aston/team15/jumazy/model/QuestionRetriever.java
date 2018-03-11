@@ -10,11 +10,28 @@ import java.util.Scanner;
 
 public class QuestionRetriever {
 	private String[] cells = null;
-	private boolean geo = true;
-	private String geoLevel = "Medium";
-	private boolean maths = true;
-	private String mathsLevel = "Easy";
-
+	private boolean geo;
+	private String geoLevel;
+	private boolean maths;
+	private String mathsLevel;
+	private boolean history;
+	private String histoLevel;
+	
+	public void chosenFiles(String questionType, String level) {
+		if(questionType.equals("geography") && level != null) {
+			geo = true;
+			geoLevel = level;
+		}
+		else if(questionType.equals("maths") && level != null) {
+			maths = true;
+			mathsLevel = level;
+		}
+		else if(questionType.equals("history") && level != null) {
+			history = true;
+			histoLevel = level;
+		}
+	}
+	
 	public String selectFile() {
 		Random rand = new Random();
 		int n = rand.nextInt(2) + 1;
@@ -25,6 +42,9 @@ public class QuestionRetriever {
 		} else if (maths == true && n == 2) {
 			fileName = "../assets/questions/maths" + mathsLevel + ".csv";
 		}
+		/* } else if(history == true && n == 3) {
+			fileName = "../assets/questions/history" + histoLevel + ".csv";
+		} */
 
 		return fileName;
 	}
