@@ -67,6 +67,8 @@ public class QuestionPopUpCreator {
 		mathSB.setItems(mathObjects);
 		histoSB.setItems(histoObjects);
 		mathSB.setTouchable(Touchable.disabled);
+		geoSB.setTouchable(Touchable.disabled);
+		histoSB.setTouchable(Touchable.disabled);
 		
 		questionTable.add(geography).padTop(-20).left().row();;
 		questionTable.add(maths).left().row();;
