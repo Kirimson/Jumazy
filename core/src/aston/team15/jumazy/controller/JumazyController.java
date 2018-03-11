@@ -11,7 +11,6 @@ import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
-import com.badlogic.gdx.utils.Array;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
 public class JumazyController extends Game {
@@ -39,12 +38,8 @@ public class JumazyController extends Game {
 	}
 
 	public void setPlayerAmountAndStartGame(int playerAmount) {
-		maze = new MazeModel(5, 5, playerAmount);
-		GameScreen gameScreen = new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray());
-		if(maze.getWeather() != MazeModel.Weather.SUN)
-			gameScreen.setWeather(maze.getWeather(), maze.getMaze().length, maze.getMaze()[0].length);
-
-		setScreen(gameScreen);
+		maze = new MazeModel(4, 2, playerAmount);
+		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray()));
 	}
 
 	@Override
@@ -59,11 +54,6 @@ public class JumazyController extends Game {
 	public TextureAtlas.AtlasRegion getSprite(String name) {
 		return textures.findRegion(name);
 	}
-
-	public Array<TextureAtlas.AtlasRegion> getAnimation(String name) {
-		return textures.findRegions(name);
-	}
-
 
 	public Skin getSkin() {
 		return gameSkin;

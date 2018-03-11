@@ -68,10 +68,6 @@ public class MazeModel {
 
 	}
 
-	public Weather getWeather() {
-		return weather;
-	}
-
 	/**
 	 * Creates a maze based on rooms connected to each other
 	 * 

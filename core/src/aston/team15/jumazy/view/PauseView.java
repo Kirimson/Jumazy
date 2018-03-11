@@ -23,6 +23,7 @@ public class PauseView extends Stage {
         background = new Table();
         background.setFillParent(true);
         background.top().padTop(0f);
+
         background.add(new Image(game.getSprite("pause-dialog")));
 
         TextButton resumeButton = new TextButton("Resume", game.getSkin());
