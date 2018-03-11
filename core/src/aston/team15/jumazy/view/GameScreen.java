@@ -3,12 +3,12 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.model.MazeModel.Weather;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class GameScreen implements Screen {
@@ -27,27 +28,25 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
-	private FitViewport uiViewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
-	private HeadsUpDisplay hud;
-	private int[] currentPlayerStats;
 
 	private DiceView dice;
 
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage = new Stage(viewport);
-		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
-		uiStage = new Stage(uiViewport);
+		uiStage = new Stage();
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
-		currentPlayerStats = firstPlayerStats;
 		Random rng = new Random();
 
+		GameSound.playGameStartMusic();
+		GameSound.stopMenuMusic();
+		
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
@@ -113,30 +112,18 @@ public class GameScreen implements Screen {
 
 		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
-		hud = new HeadsUpDisplay(game.getSkin(), currentPlayerIndex, currentPlayerStats);
-		uiStage.addActor(hud);
-
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 
-				switch (keycode) {
-				case Input.Keys.P:
-					pause();
-					break;
-				default:
-					game.handleGameInput(keycode);
+				switch (keycode){
+					case Input.Keys.P : pause();break;
+					default: game.handleGameInput(keycode);
 				}
-
 				return true;
 			}
 		});
-
 	}
 
-	public void setCurrentPlayerStats(int[] playerStats) {
-		currentPlayerStats = playerStats;
-	}
-	
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
 		
@@ -224,7 +211,6 @@ public class GameScreen implements Screen {
 		stage.draw();
 
 		// draw all UI
-		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -248,8 +234,14 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
-	public int getCurrentPlayerNumber() {
-		return currentPlayerIndex + 1;
+	public int getCurrentplayerNumber(){
+		return currentPlayerIndex+1;
+	}
+
+	public void setWeather(Weather weather, int width, int height){
+
+		WeatherAnimation  weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+		stage.addActor(weatherAnimation.getAnimation());
 	}
 
 	@Override
