@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -45,15 +46,24 @@ public class GameScreen implements Screen {
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
 		currentPlayerStats = firstPlayerStats;
+		Random rng = new Random();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
 
 				switch (maze[mazeX][mazeY]) {
-				case "*":
+				case "O":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(findWallType(maze, mazeX, mazeY)));
+							game.getSprite(randomFloorTexture()));
+					break;
+				case "#":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite(randomWallTexture()));
+					break;
+				case "^":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("wall-no-edge")); //(findWallType(maze, mazeX, mazeY)));
 					break;
 				case "T":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -62,6 +72,22 @@ public class GameScreen implements Screen {
 				case "V":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("victory-statue"));
+					break;
+				case "W":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-single-water"));
+					break;
+				case "a":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-left-water"));
+					break;
+				case "b":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-middle-water"));
+					break;
+				case "c":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-right-water"));
 					break;
 				case "1":
 				case "2":
@@ -111,13 +137,24 @@ public class GameScreen implements Screen {
 		currentPlayerStats = playerStats;
 	}
 	
+	private String randomWallTexture() {
+		float wallType = new Random().nextFloat();
+		
+		if (wallType < 0.6)
+			return "wall-plain";
+		else if (wallType < 0.95)
+			return "wall-brick-missing";
+		else
+			return "wall-leaves";
+	}
+
 	private String randomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
-		if (floorType < 0.1)
-			return "floor-squares-missing";
-		else if (floorType < 0.2)
+		if (floorType < 0.05)
 			return "floor-squares-cracked";
+		else if (floorType < 0.1)
+			return "floor-squares-missing";
 		else
 			return "floor-squares";
 	}
