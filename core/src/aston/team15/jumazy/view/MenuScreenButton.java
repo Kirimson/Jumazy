@@ -1,5 +1,6 @@
 package aston.team15.jumazy.view;
 
+import aston.team15.jumazy.controller.GameSound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -12,6 +13,7 @@ public class MenuScreenButton extends TextButton {
 		super(string, game.getSkin());
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				GameSound.playButtonSound();
 				switch (startGameScreen) {
 				case MAIN_MENU_SCREEN:
 					game.setScreen(new MainMenuScreen(game));
