@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import aston.team15.jumazy.controller.JumazyController;
 
+
 public class DesktopLauncher {
 	
 	private static final JumazyController game = new JumazyController();
