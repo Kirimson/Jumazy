@@ -78,8 +78,10 @@ public class QuestionUI {
 
 	public void displayQuestion(String[] questionAndAns) {
 		questionAndAnswer = questionAndAns;
-		lQuestion.setText(questionAndAnswer[0]);
-		questionActors.add(lQuestion);
+		if(questionAndAnswer != null) {
+			lQuestion.setText(questionAndAnswer[0]);
+			questionActors.add(lQuestion);
+		}
 	}
 
 	public boolean checkAnswer(String answer) {

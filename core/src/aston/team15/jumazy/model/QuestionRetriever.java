@@ -16,25 +16,30 @@ public class QuestionRetriever {
 	private String mathsLevel;
 	private boolean history;
 	private String histoLevel;
+	private int amountOfTypes;
 	
 	public void chosenFiles(String questionType, String level) {
 		if(questionType.equals("geography") && level != null) {
 			geo = true;
 			geoLevel = level;
+			amountOfTypes = amountOfTypes + 1;
 		}
 		else if(questionType.equals("maths") && level != null) {
 			maths = true;
 			mathsLevel = level;
+			amountOfTypes = amountOfTypes + 1;
 		}
 		else if(questionType.equals("history") && level != null) {
 			history = true;
 			histoLevel = level;
+			amountOfTypes = amountOfTypes + 1;
 		}
 	}
 	
 	public String selectFile() {
 		Random rand = new Random();
-		int n = rand.nextInt(2) + 1;
+		
+		int n = rand.nextInt(amountOfTypes) + 1;
 		String fileName = "";
 
 		if (geo == true && n == 1) {
@@ -52,7 +57,7 @@ public class QuestionRetriever {
 	public String[] retrieveRiddle() {
 		String fileName = selectFile();
 		File file = new File(fileName);
-
+		
 		try {
 			Scanner inputStream = new Scanner(file);
 			String line;
@@ -60,11 +65,10 @@ public class QuestionRetriever {
 			while (inputStream.hasNext()) {
 				line = inputStream.nextLine();
 				lines.add(line);
-
+				
 			}
 
 			Collections.shuffle(lines);
-
 			cells = lines.get(0).split(",");
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
