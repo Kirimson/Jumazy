@@ -10,44 +10,37 @@ import java.util.Scanner;
 
 public class QuestionRetriever {
 	private String[] cells = null;
-	private boolean geo;
 	private String geoLevel;
-	private boolean maths;
 	private String mathsLevel;
-	private boolean history;
 	private String histoLevel;
-	private int amountOfTypes;
+	private ArrayList<String> questionRandomiser = new ArrayList<>();
 	
 	public void chosenFiles(String questionType, String level) {
 		if(questionType.equals("geography") && level != null) {
-			geo = true;
 			geoLevel = level;
-			amountOfTypes = amountOfTypes + 1;
+			questionRandomiser.add("geography");
 		}
 		else if(questionType.equals("maths") && level != null) {
-			maths = true;
 			mathsLevel = level;
-			amountOfTypes = amountOfTypes + 1;
+			questionRandomiser.add("maths");
 		}
 		else if(questionType.equals("history") && level != null) {
-			history = true;
 			histoLevel = level;
-			amountOfTypes = amountOfTypes + 1;
+			questionRandomiser.add("history");
 		}
 	}
 	
 	public String selectFile() {
-		Random rand = new Random();
-		
-		int n = rand.nextInt(amountOfTypes) + 1;
+		Collections.shuffle(questionRandomiser);
+		String selectedType = questionRandomiser.get(0);
 		String fileName = "";
 
-		if (geo == true && n == 1) {
+		if (selectedType.equals("geography")) {
 			fileName = "../assets/questions/geography" + geoLevel + ".csv";
-		} else if (maths == true && n == 2) {
+		} else if (selectedType.equals("maths")) {
 			fileName = "../assets/questions/maths" + mathsLevel + ".csv";
 		}
-		/* } else if(history == true && n == 3) {
+		/* } else if(selectedType.equals("history")) {
 			fileName = "../assets/questions/history" + histoLevel + ".csv";
 		} */
 
