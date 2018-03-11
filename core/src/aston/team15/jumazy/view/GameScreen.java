@@ -3,12 +3,12 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.model.MazeModel.Weather;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class GameScreen implements Screen {
@@ -43,6 +44,9 @@ public class GameScreen implements Screen {
 		pauseStage = new PauseView(game);
 		Random rng = new Random();
 
+		GameSound.playGameStartMusic();
+		GameSound.stopMenuMusic();
+		
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
@@ -232,6 +236,12 @@ public class GameScreen implements Screen {
 
 	public int getCurrentplayerNumber(){
 		return currentPlayerIndex+1;
+	}
+
+	public void setWeather(Weather weather, int width, int height){
+
+		WeatherAnimation  weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+		stage.addActor(weatherAnimation.getAnimation());
 	}
 
 	@Override

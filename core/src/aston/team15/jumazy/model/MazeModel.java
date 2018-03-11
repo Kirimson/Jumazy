@@ -15,7 +15,7 @@ public class MazeModel {
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
 
-	protected enum Weather {
+	public enum Weather {
 		RAIN, SUN
 	}
 
@@ -63,6 +63,10 @@ public class MazeModel {
 			System.out.println(toString());
 		}
 
+	}
+
+	public Weather getWeather() {
+		return weather;
 	}
 
 	/**
