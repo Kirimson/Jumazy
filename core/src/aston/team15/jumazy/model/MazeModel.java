@@ -16,7 +16,7 @@ public class MazeModel {
 	// array goes (y,x)/(row,col)
 
 	public enum Weather {
-		RAIN, SUN
+		RAIN, SUN;
 	}
 
 	private String[][] maze;
