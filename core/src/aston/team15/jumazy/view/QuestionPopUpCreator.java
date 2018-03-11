@@ -2,11 +2,15 @@ package aston.team15.jumazy.view;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 public class QuestionPopUpCreator {
@@ -38,19 +42,19 @@ public class QuestionPopUpCreator {
 	    history = new CheckBox("History", skin);
 	    
 	    geoObjects = new String[4]; 
-	    geoObjects[0] = new String("Geography difficulty"); 
+	    geoObjects[0] = new String("Tick Geography for level selection"); 
 	    geoObjects[1] = new String("Easy"); 
 	    geoObjects[2] = new String("Medium"); 
 	    geoObjects[3] = new String("Hard"); 
 	    
 	    mathObjects = new String[4]; 
-	    mathObjects[0] = new String("Maths Difficulty"); 
+	    mathObjects[0] = new String("Tick Maths for level selection"); 
 	    mathObjects[1] = new String("Easy"); 
 	    mathObjects[2] = new String("Medium"); 
 	    mathObjects[3] = new String("Hard"); 
 	    
 	    histoObjects = new String[4]; 
-	    histoObjects[0] = new String("History difficulty"); 
+	    histoObjects[0] = new String("Tick History for level selection"); 
 	    histoObjects[1] = new String("Easy"); 
 	    histoObjects[2] = new String("Medium"); 
 	    histoObjects[3] = new String("Hard"); 
@@ -62,7 +66,7 @@ public class QuestionPopUpCreator {
 		geoSB.setItems(geoObjects);
 		mathSB.setItems(mathObjects);
 		histoSB.setItems(histoObjects);
-		
+		mathSB.setTouchable(Touchable.disabled);
 		
 		questionTable.add(geography).padTop(-20).left().row();;
 		questionTable.add(maths).left().row();;
@@ -72,6 +76,45 @@ public class QuestionPopUpCreator {
 		questionTable.add(mathSB).width(320).height(40).row();
 		questionTable.add(histoSB).width(320).height(40).row();
 		
+		maths.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				mathSB.setTouchable(Touchable.enabled);
+				mathObjects[0] = new String("Maths Difficulty"); 
+				mathSB.setItems(mathObjects);
+				if(!maths.isChecked()) {
+					mathSB.setTouchable(Touchable.disabled);
+					mathObjects[0] = new String("Tick Maths for level selection"); 
+					mathSB.setItems(mathObjects);
+				}
+			}
+		});
+		
+		geography.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				geoSB.setTouchable(Touchable.enabled);
+				geoObjects[0] = new String("Geography Difficulty"); 
+				geoSB.setItems(geoObjects);
+				if(!geography.isChecked()) {
+					geoSB.setTouchable(Touchable.disabled);
+					geoObjects[0] = new String("Tick Geography for level selection"); 
+					geoSB.setItems(geoObjects);
+				}
+			}
+		});
+		
+		history.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				histoSB.setTouchable(Touchable.enabled);
+				histoObjects[0] = new String("Hitory Difficulty"); 
+				histoSB.setItems(histoObjects);
+				if(!history.isChecked()) {
+					histoSB.setTouchable(Touchable.disabled);
+					histoObjects[0] = new String("Tick History for level selection"); 
+					histoSB.setItems(histoObjects);
+				}
+			}
+		});
+
 	}
 	
 	public void populateSelections() {
