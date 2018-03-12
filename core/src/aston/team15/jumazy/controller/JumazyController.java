@@ -26,7 +26,7 @@ public class JumazyController extends Game {
 
 	@Override
 	public void create() {
-		textures = new TextureAtlas("jumazyskin/jumazy-skin.atlas");
+		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
 		// using a skin, with json, png, and atlas, reduces a lot of the workload
