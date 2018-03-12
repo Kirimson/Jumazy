@@ -127,7 +127,7 @@ public class GameScreen implements Screen {
 			public boolean keyDown(InputEvent event, int keycode) {
 
 				switch (keycode) {
-				case Input.Keys.P:
+				case Input.Keys.ESCAPE:
 					pause();
 					break;
 				default:
@@ -139,7 +139,6 @@ public class GameScreen implements Screen {
 		});
 		
 		multiplexer.addProcessor(gameStage);
-		multiplexer.addProcessor(pauseStage);
 		multiplexer.addProcessor(uiStage);
 	}
 
@@ -182,7 +181,11 @@ public class GameScreen implements Screen {
 	 * @return boolean if riddle is open
 	 */
 	public boolean isRiddleOpen() {
-		return questionUI.getTable().getStage() != null;
+		if(questionUI.getTable().getStage() == null){
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -269,11 +272,13 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
+		Gdx.input.setInputProcessor(pauseStage);
 		pauseStage.pause();
 	}
 
 	@Override
 	public void resume() {
+		Gdx.input.setInputProcessor(multiplexer);
 		pauseStage.remove();
 	}
 
