@@ -37,23 +37,25 @@ public class QuestionUI {
 		
 		table = new Table();
 		table.setFillParent(true);
+		table.padTop(-100);
 		table.center();
 		
 		questionUIBG = new Table();
 		questionUIBG.setFillParent(true);
-		questionUIBG.top();
+		questionUIBG.padTop(-100);
 		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
-		lQuestion.setFontScale(1.1f);
+		lQuestion.setFontScale(0.6f);
+		
 		table.add(lQuestion);
 		table.row();
-		table.add(tfAnswer).width(500).padTop(25).height(100);
+		table.add(tfAnswer).width(400).padTop(50).height(50);
 		table.row();
-		table.add(btnSubmit).width(500).padTop(25).height(100);
+		table.add(btnSubmit).width(250).padTop(25).height(50);
 
 		questionActors.add(btnSubmit);
 		questionActors.add(tfAnswer);
