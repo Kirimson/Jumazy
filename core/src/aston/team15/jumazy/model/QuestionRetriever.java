@@ -4,45 +4,51 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class QuestionRetriever {
 	private String[] cells = null;
-	private boolean geo;
 	private String geoLevel;
-	private boolean maths;
 	private String mathsLevel;
-	private boolean history;
 	private String histoLevel;
+	private ArrayList<String> questionRandomiser = new ArrayList<>();
+	private ArrayList<String> keyHolder = new ArrayList<>();
 	
-	public void chosenFiles(String questionType, String level) {
-		if(questionType.equals("geography") && level != null) {
-			geo = true;
-			geoLevel = level;
+	public void chosenTypes(HashMap<String, String> levels) {
+		for (String key : levels.keySet()) {
+		    keyHolder.add(key);
 		}
-		else if(questionType.equals("maths") && level != null) {
-			maths = true;
-			mathsLevel = level;
-		}
-		else if(questionType.equals("history") && level != null) {
-			history = true;
-			histoLevel = level;
+		
+		for(int i = 0; i < keyHolder.size()-1; i++) {
+			String level = levels.get(keyHolder.get(i));
+			if(keyHolder.get(i).equals("geography") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
+				geoLevel = level;
+				questionRandomiser.add("geography");
+			}
+			else if(keyHolder.get(i).equals("maths") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
+				mathsLevel = level;
+				questionRandomiser.add("maths");
+			}
+			else if(keyHolder.get(i).equals("history") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
+				histoLevel = level;
+				questionRandomiser.add("history");
+			}
 		}
 	}
 	
 	public String selectFile() {
-		Random rand = new Random();
-		int n = rand.nextInt(2) + 1;
+		Collections.shuffle(questionRandomiser);
+		String selectedType = questionRandomiser.get(0);
 		String fileName = "";
 
-		if (geo == true && n == 1) {
+		if (selectedType.equals("geography")) {
 			fileName = "../assets/questions/geography" + geoLevel + ".csv";
-		} else if (maths == true && n == 2) {
+		} else if (selectedType.equals("maths")) {
 			fileName = "../assets/questions/maths" + mathsLevel + ".csv";
 		}
-		/* } else if(history == true && n == 3) {
+		/* } else if(selectedType.equals("history")) {
 			fileName = "../assets/questions/history" + histoLevel + ".csv";
 		} */
 
@@ -52,7 +58,7 @@ public class QuestionRetriever {
 	public String[] retrieveRiddle() {
 		String fileName = selectFile();
 		File file = new File(fileName);
-
+		
 		try {
 			Scanner inputStream = new Scanner(file);
 			String line;
@@ -60,11 +66,10 @@ public class QuestionRetriever {
 			while (inputStream.hasNext()) {
 				line = inputStream.nextLine();
 				lines.add(line);
-
+				
 			}
 
 			Collections.shuffle(lines);
-
 			cells = lines.get(0).split(",");
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
