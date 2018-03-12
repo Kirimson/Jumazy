@@ -8,7 +8,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -33,6 +32,7 @@ public class GameScreen implements Screen {
 	private PauseView pauseStage;
 	private HeadsUpDisplay hud;
 	private int[] currentPlayerStats;
+	private InputMultiplexer multiplexer;
 
 	private DiceView dice;
 
@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
 		currentPlayerStats = firstPlayerStats;
-		Random rng = new Random();
+		multiplexer = new InputMultiplexer();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
 
 		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
-		hud = new HeadsUpDisplay(game.getSkin(), currentPlayerIndex, currentPlayerStats);
+		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		uiStage.addActor(hud);
 
 		stage.addListener(new InputListener() {
@@ -130,7 +130,10 @@ public class GameScreen implements Screen {
 				return true;
 			}
 		});
-
+		
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(pauseStage);
+		multiplexer.addProcessor(uiStage);
 	}
 
 	public void setCurrentPlayerStats(int[] playerStats) {
@@ -159,16 +162,9 @@ public class GameScreen implements Screen {
 			return "floor-squares";
 	}
 
-	private String findWallType(String[][] maze, int xPos, int yPos) {
-
-		return "wall-plain";
-	}
-
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
 		uiStage.addActor(questionUI.getTable());
-
-		Gdx.input.setInputProcessor(uiStage);
 	}
 
 	/**
@@ -183,7 +179,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	public void setCurrentPlayer(int newPlayerIndex) {
@@ -260,17 +256,12 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		pauseStage.pause();
-		Gdx.input.setInputProcessor(pauseStage);
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		pauseStage.remove();
-		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
-		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
