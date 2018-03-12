@@ -33,70 +33,62 @@ public class QuestionPopUpCreator {
 	private HashMap<String, String> selections;
 	
 	public QuestionPopUpCreator() {
-		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		 skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		
-
-		createCheckBoxes();
-
-	    createSelectBoxes();
+		 createCheckBoxes();
+		 createSelectBoxes();
+		 createTables();
 		
-	    createTables();
-		
-
+		 maths.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					
+					mathSB.setTouchable(Touchable.enabled);
+					mathObjects[0] = new String("Maths Difficulty"); 
+					mathSB.setItems(mathObjects);
+					
+					if(!maths.isChecked()) {
+						mathSB.setTouchable(Touchable.disabled);
+						mathObjects[0] = new String("Tick Maths for levels"); 
+						mathSB.setItems(mathObjects);
+					}
+					
+				}
+			});
+			
+			geography.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					
+					geoSB.setTouchable(Touchable.enabled);
+					geoObjects[0] = new String("Geography Difficulty"); 
+					geoSB.setItems(geoObjects);
+					
+					if(!geography.isChecked()) {
+						geoSB.setTouchable(Touchable.disabled);
+						geoObjects[0] = new String("Tick Geography for levels"); 
+						geoSB.setItems(geoObjects);
+					}
+					
+				}
+			});
+			
+			history.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					
+					histoSB.setTouchable(Touchable.enabled);
+					histoObjects[0] = new String("Hitory Difficulty"); 
+					histoSB.setItems(histoObjects);
+					
+					if(!history.isChecked()) {
+						histoSB.setTouchable(Touchable.disabled);
+						histoObjects[0] = new String("Tick History for levels"); 
+						histoSB.setItems(histoObjects);
+					}
+					
+				}
+			});
 
 	}
 	
-	public void listeners() {
-
-		
-		maths.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				
-				mathSB.setTouchable(Touchable.enabled);
-				mathObjects[0] = new String("Maths Difficulty"); 
-				mathSB.setItems(mathObjects);
-				
-				if(!maths.isChecked()) {
-					mathSB.setTouchable(Touchable.disabled);
-					mathObjects[0] = new String("Tick Maths for levels"); 
-					mathSB.setItems(mathObjects);
-				}
-				
-			}
-		});
-		
-		geography.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				
-				geoSB.setTouchable(Touchable.enabled);
-				geoObjects[0] = new String("Geography Difficulty"); 
-				geoSB.setItems(geoObjects);
-				
-				if(!geography.isChecked()) {
-					geoSB.setTouchable(Touchable.disabled);
-					geoObjects[0] = new String("Tick Geography for levels"); 
-					geoSB.setItems(geoObjects);
-				}
-				
-			}
-		});
-		
-		history.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				
-				histoSB.setTouchable(Touchable.enabled);
-				histoObjects[0] = new String("Hitory Difficulty"); 
-				histoSB.setItems(histoObjects);
-				
-				if(!history.isChecked()) {
-					histoSB.setTouchable(Touchable.disabled);
-					histoObjects[0] = new String("Tick History for levels"); 
-					histoSB.setItems(histoObjects);
-				}
-				
-			}
-		});
-	}
 	
 	public void createTables() {
 		questionTable = new Table();
