@@ -1,8 +1,13 @@
 package aston.team15.jumazy.view;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import aston.team15.jumazy.controller.JumazyController;
@@ -26,45 +31,45 @@ public class HeadsUpDisplay extends Table {
 	
 	private Label inventoryLabel;
 
-	public HeadsUpDisplay(Skin skin, int currentPlayerIndex, int[] currentPlayerStats) {
-		super(skin);
-		this.setBackground("box-clear");
+	public HeadsUpDisplay(final JumazyController game, int currentPlayerIndex, int[] currentPlayerStats) {
+		super(game.getSkin());
+		this.setBackground("rpgbg");
 		this.setHeight(170);
 		this.setWidth(JumazyController.WORLD_WIDTH);
-		this.defaults().pad(10);
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = game.getSkin().getFont("game-font");
+		labelStyle.fontColor = Color.WHITE;
+		float fontScale = 0.4f;
 
 		// Create player statistics table
 		statsTable = new Table();
-		playerStatsLabel = new Label("Player Stats:", skin);
-		playerStatsLabel.setFontScale(0.8f);
+		hpLabel = new Label("HP: ", labelStyle);
+		hpLabel.setFontScale(fontScale);
 
-		hpLabel = new Label("HP: ", skin);
-		hpLabel.setFontScale(0.8f);
+		staminaLabel = new Label("Stamina: ", labelStyle);
+		staminaLabel.setFontScale(fontScale);
 
-		staminaLabel = new Label("Stamina: ", skin);
-		staminaLabel.setFontScale(0.8f);
+		strengthLabel = new Label("Strength: ", labelStyle);
+		strengthLabel.setFontScale(fontScale);
 
-		strengthLabel = new Label("Strength: ", skin);
-		strengthLabel.setFontScale(0.8f);
+		agilityLabel = new Label("Agility: ", labelStyle);
+		agilityLabel.setFontScale(fontScale);
 
-		agilityLabel = new Label("Agility: ", skin);
-		agilityLabel.setFontScale(0.8f);
+		luckLabel = new Label("Luck: ", labelStyle);
+		luckLabel.setFontScale(fontScale);
 
-		luckLabel = new Label("Luck: ", skin);
-		luckLabel.setFontScale(0.8f);
-
-		intelligenceLabel = new Label("Intelligence: ", skin);
-		intelligenceLabel.setFontScale(0.8f);
+		intelligenceLabel = new Label("Intelligence: ", labelStyle);
+		intelligenceLabel.setFontScale(fontScale);
 
 		statsTable.add(playerStatsLabel).left();
 		statsTable.row();
-		statsTable.add(hpLabel).expand().left();
-		statsTable.add(staminaLabel).expand().left();
-		statsTable.add(strengthLabel).expand().left();
+		statsTable.add(hpLabel).grow().left();
+		statsTable.add(staminaLabel).grow().left();
+		statsTable.add(strengthLabel).grow().left();
 		statsTable.row();
-		statsTable.add(agilityLabel).expand().left();
-		statsTable.add(luckLabel).expand().left();
-		statsTable.add(intelligenceLabel).expand().left();
+		statsTable.add(agilityLabel).grow().left();
+		statsTable.add(luckLabel).grow().left();
+		statsTable.add(intelligenceLabel).grow().left();
 		
 		statsLabels = new Label[] {hpLabel, staminaLabel, strengthLabel, agilityLabel, luckLabel, intelligenceLabel};
 
@@ -74,25 +79,37 @@ public class HeadsUpDisplay extends Table {
 			labelStrings[i] = "" + statsLabels[i].getText();
 		}
 		
-		
 		// Create player inventory table
 		inventoryTable = new Table();
-		inventoryLabel = new Label("Inventory:", skin);
-		inventoryLabel.setFontScale(0.8f);
+		inventoryLabel = new Label("Inventory:", labelStyle);
+		inventoryLabel.setFontScale(fontScale);
 		inventoryTable.add(inventoryLabel).expandX().align(Align.left | Align.top);
 		inventoryTable.row();
-		inventoryTable.add(new Label("placeholder for inventory", skin)).expand();
 
-		playerLabel = new Label("Player " + (currentPlayerIndex + 1) + "'s turn!", skin);
-		playerLabel.setFontScale(0.8f);
+		playerLabel = new Label("Player " + (currentPlayerIndex + 1) + "'s turn!", labelStyle);
+		playerLabel.setFontScale(fontScale);
+		
+		TextButtonStyle pauseBtnStyle = new TextButtonStyle();
+		pauseBtnStyle.font = game.getSkin().getFont("game-font");
+		pauseBtnStyle.downFontColor = Color.BLACK;
+		pauseBtnStyle.fontColor = Color.WHITE;
+		TextButton pauseBtn = new TextButton("PAUSE", pauseBtnStyle);
+		pauseBtn.getLabel().setFontScale(fontScale+0.1f);
+		
+		pauseBtn.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.pause();
+				System.out.println("hi");
+			}
+		});
+			
 
-		this.add(playerLabel).colspan(3).expandX().padBottom(0).left();
+		this.add(playerLabel).colspan(2).expandX().left().padTop(15).padLeft(15).padBottom(0);
+		this.add(pauseBtn).expandY().fill().padRight(2).padTop(10);
 		this.row();
-		this.add(statsTable).grow().padRight(0);
-		this.add(inventoryTable).grow().pad(10, 5, 10, 5);
-		this.add(new Label("6", skin)).width(150).padLeft(0);
-
-//		this.debugAll();
+		this.add(statsTable).width(590).growY().padLeft(15).padBottom(15).padTop(15);
+		this.add(inventoryTable).grow().padBottom(15).padTop(15);
+		this.add(new Label("6", labelStyle)).width(150).height(105).growY().padBottom(15).padRight(2);
 
 		update(currentPlayerIndex, currentPlayerStats);
 	}

@@ -1,16 +1,16 @@
 package aston.team15.jumazy.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import aston.team15.jumazy.controller.JumazyController;
 
 
@@ -49,22 +49,26 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 	
 	public void showPopUp(int numOfPlayers) {
 		Skin skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		
 		Table questionBG = new Table();
 		questionBG.setFillParent(true);
-		questionBG.top().padTop(0f);
+		questionBG.top().padTop(-30);
 		questionBG.add(new Image(game.getSprite("pause-dialog")));
+		
 		QuestionPopUpCreator popUp = new QuestionPopUpCreator();
+		
 		Table questionTable = popUp.getTable();
 	    TextButton btnPlay = new TextButton("Play", skin);
-		questionTable.add(btnPlay).padTop(25);
+		questionTable.add(btnPlay).padTop(30);
 		
 		stage.addActor(questionBG);
 		stage.addActor(questionTable);
 		
 		btnPlay.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				
 				popUp.populateSelections();
-				String[] levels = popUp.getSelections();
+				HashMap<String, String> levels = popUp.getSelections();				
 				game.setQuestionType(levels);
 				game.setPlayerAmountAndStartGame(numOfPlayers);
 			}

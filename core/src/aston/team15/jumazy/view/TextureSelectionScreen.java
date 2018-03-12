@@ -7,9 +7,9 @@ public class TextureSelectionScreen extends MenuScreen {
 	public TextureSelectionScreen(JumazyController theGame) {
 		super(theGame);
 
-		MenuScreenButton texture1 = new MenuScreenButton("Texture 1", null, game);
-		MenuScreenButton texture2 = new MenuScreenButton("Texture 2", null, game);
-		MenuScreenButton texture3 = new MenuScreenButton("Texture 3", null, game);
+		MenuScreenButton texture1 = new MenuScreenButton("Classic", null, game);
+		MenuScreenButton texture2 = new MenuScreenButton("Current", null, game);
+		MenuScreenButton texture3 = new MenuScreenButton("Old English", null, game);
 		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
 
 		table.add(texture1).pad(10);

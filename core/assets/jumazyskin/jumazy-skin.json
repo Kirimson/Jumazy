@@ -1,5 +1,8 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	game-font: {
+		file: game.fnt
+	}
 	tea: {
 		file: tea.fnt
 	}
@@ -82,4 +85,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 		label: default
 	}
 }
+
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: box-clear
+		titleFont: tea
+	}
+}
+branch 'Jumazy-2' of https://github.com/Kirimson/Jumazy.git
 }
