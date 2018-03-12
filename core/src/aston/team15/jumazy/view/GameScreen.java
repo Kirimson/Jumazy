@@ -3,11 +3,14 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.controller.GameSound;
+import aston.team15.jumazy.model.MazeModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -26,29 +29,46 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
+	private FitViewport uiViewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
+	private HeadsUpDisplay hud;
+	private int[] currentPlayerStats;
 
 	private DiceView dice;
 
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage = new Stage(viewport);
-		uiStage = new Stage();
+		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
+		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
+		currentPlayerStats = firstPlayerStats;
+		Random rng = new Random();
+
+		GameSound.playGameStartMusic();
+		GameSound.stopMenuMusic();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
 
 				switch (maze[mazeX][mazeY]) {
-				case "*":
+				case "O":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(findWallType(maze, mazeX, mazeY)));
+							game.getSprite(randomFloorTexture()));
+					break;
+				case "#":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite(randomWallTexture()));
+					break;
+				case "^":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("wall-no-edge")); //(findWallType(maze, mazeX, mazeY)));
 					break;
 				case "T":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -57,6 +77,22 @@ public class GameScreen implements Screen {
 				case "V":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("victory-statue"));
+					break;
+				case "W":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-single-water"));
+					break;
+				case "a":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-left-water"));
+					break;
+				case "b":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-middle-water"));
+					break;
+				case "c":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("floor-right-water"));
 					break;
 				case "1":
 				case "2":
@@ -82,25 +118,48 @@ public class GameScreen implements Screen {
 
 		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
+		hud = new HeadsUpDisplay(game.getSkin(), currentPlayerIndex, currentPlayerStats);
+		uiStage.addActor(hud);
+
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 
-				switch (keycode){
-					case Input.Keys.P : pause();break;
-					default: game.handleGameInput(keycode);
+				switch (keycode) {
+				case Input.Keys.P:
+					pause();
+					break;
+				default:
+					game.handleGameInput(keycode);
 				}
+
 				return true;
 			}
 		});
+
+	}
+
+	public void setCurrentPlayerStats(int[] playerStats) {
+		currentPlayerStats = playerStats;
+	}
+	
+	private String randomWallTexture() {
+		float wallType = new Random().nextFloat();
+		
+		if (wallType < 0.6)
+			return "wall-plain";
+		else if (wallType < 0.95)
+			return "wall-brick-missing";
+		else
+			return "wall-leaves";
 	}
 
 	private String randomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
-		if (floorType < 0.1)
-			return "floor-squares-missing";
-		else if (floorType < 0.2)
+		if (floorType < 0.05)
 			return "floor-squares-cracked";
+		else if (floorType < 0.1)
+			return "floor-squares-missing";
 		else
 			return "floor-squares";
 	}
@@ -151,6 +210,11 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	public void setWeather(MazeModel.Weather weather, int width, int height){
+		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+		stage.addActor(weatherAnimation.getAnimation());
+	}
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -170,6 +234,7 @@ public class GameScreen implements Screen {
 		stage.draw();
 
 		// draw all UI
+		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -193,8 +258,8 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
-	public int getCurrentplayerNumber(){
-		return currentPlayerIndex+1;
+	public int getCurrentPlayerNumber() {
+		return currentPlayerIndex + 1;
 	}
 
 	@Override

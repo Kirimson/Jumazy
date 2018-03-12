@@ -1,5 +1,9 @@
 package aston.team15.jumazy.model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,14 +15,15 @@ public class MazeModel {
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
 
-	protected enum Weather {
-		RAIN, SUN
+	public enum Weather {
+		RAIN, SUN;
 	}
 
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
 	private int currentPlayerIndex;
 	private Weather weather;
+	private ArrayList<String[][]> allRoomLayouts;
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount) {
 		float weatherDiscriminant = new Random().nextFloat();
@@ -27,21 +32,23 @@ public class MazeModel {
 		} else {
 			weather = Weather.RAIN;
 		}
-
+		
 		maze = genMaze(roomsAcross, roomsDown, playerAmount);
 
 		players = new ArrayList<PlayerModel>();
 
 		if (playerAmount == 2) {
-			players.add(new PlayerModel(1, 1, "1", this));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
+			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this,
+					PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
 		}
 
 		if (playerAmount == 4) {
-			players.add(new PlayerModel(1, 1, "1", this));
-			players.add(new PlayerModel(1, maze[0].length - 2, "2", this));
-			players.add(new PlayerModel(maze.length - 2, 1, "3", this));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this));
+			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
+			players.add(new PlayerModel(1, maze[0].length - 2, "2", this, PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
+			players.add(new PlayerModel(maze.length - 2, 1, "3", this, PlayerModel.CharacterName.FRANKLIN_FINBAR));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this,
+					PlayerModel.CharacterName.SHELLY_OBERON));
 		}
 
 		currentPlayerIndex = 0;
@@ -54,10 +61,15 @@ public class MazeModel {
 				initialState += "It is raining.";
 			}
 			initialState += "\nPlayer 1 will start.";
+			initialState += "\nPlayer 1 RPG stats: " + players.get(currentPlayerIndex).getStatsArray();
 			System.out.println(initialState);
 			System.out.println(toString());
 		}
 
+	}
+
+	public Weather getWeather() {
+		return weather;
 	}
 
 	/**
@@ -70,14 +82,39 @@ public class MazeModel {
 	 * @return the maze
 	 */
 	private String[][] genMaze(int roomsAcross, int roomsDown, int players) {
-
+		String currentLine;
+		String currentChar;
+		int roomSize=8;
+		BufferedReader reader;
+		
+		String filename = "roomlayouts/RoomLayoutsSize"+roomSize+".txt";
+		allRoomLayouts = new ArrayList<String[][]>();
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			while(reader.ready()) {
+				currentLine = reader.readLine();
+				if(!currentLine.startsWith("/")) {
+					String[][] newLayout = new String[roomSize][roomSize];
+					for(int j=0;j<roomSize;j++) {
+						for(int i=0;i<roomSize;i++) {
+							currentChar = currentLine.substring(i, i+1);
+								newLayout[i][j]=currentChar;
+						}
+						currentLine = reader.readLine();
+					}
+					allRoomLayouts.add(newLayout);
+				}
+			}
+		} catch (IOException e1) {
+			System.out.println("Failed to parse room layout file.");
+		}
 		// create maze with enough space to store all cells of all rooms in a square
 		// shape
 		String[][] mazeString = new String[10 * roomsDown][10 * roomsAcross];
 
 		// create roomAmount rooms
 		for (int i = 0; i < roomsAcross * roomsDown; i++) {
-			String[][] room = genRoom(10);
+			String[][] room = genRoom(roomSize+2);
 
 			// set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
@@ -97,8 +134,6 @@ public class MazeModel {
 		}
 
 		createDoors(roomsAcross, roomsDown, mazeString);
-
-		mazeString[2][2] = "V";
 
 		return mazeString;
 	}
@@ -156,23 +191,21 @@ public class MazeModel {
 	 *            width/height of room
 	 * @return 2D array of String, with wall and path representations
 	 */
-	private String[][] genRoom(int size) {
-
-		String[][] room = new String[size][size];
-
-		for (int i = 0; i < size; i++) {
-			for (int k = 0; k < size; k++) {
-				if (i == 0 || i == size - 1 || k == 0 || k == size - 1) {
-					room[i][k] = "*";
+	private String[][] genRoom(int roomSize) {
+		
+		String[][] room = new String[roomSize][roomSize];
+		Random rng = new Random();
+		int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
+		
+		for (int j = 0; j < roomSize; j++) {
+			for (int i = 0; i < roomSize; i++) {
+				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
+					room[i][j] = "#";
 				} else {
-					if (new Random().nextFloat() < 0.05)
-						room[i][k] = "T";
-					else
-						room[i][k] = "O";
+					room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];;
 				}
 			}
 		}
-
 		return room;
 	}
 
@@ -227,5 +260,9 @@ public class MazeModel {
 
 	public PlayerModel getPlayer(int player) {
 		return players.get(player - 1);
+	}
+
+	public ArrayList<String[][]> getAllRoomLayouts() {
+		return allRoomLayouts;
 	}
 }
