@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
@@ -168,7 +170,13 @@ public class GameScreen implements Screen {
 	}
 
 	public void createQuestion(String[] questionAndAns) {
+		Table questionUIBG = new Table();
+		questionUIBG.setFillParent(true);
+		questionUIBG.top();
+		questionUIBG.add(new Image(game.getSprite("scroll")));
+		
 		questionUI.displayQuestion(questionAndAns);
+		uiStage.addActor(questionUIBG);
 		uiStage.addActor(questionUI.getTable());
 	}
 
