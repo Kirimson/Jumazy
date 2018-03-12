@@ -1,5 +1,8 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	game-font: {
+		file: game.fnt
+	}
 	tea: {
 		file: tea.fnt
 	}
@@ -80,6 +83,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 	default: {
 		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: box-clear
+		titleFont: tea
 	}
 }
 }

@@ -9,22 +9,18 @@ import javax.sound.sampled.Clip;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
 
 public class QuestionUI {
 
 	private Skin skin;
-	private Stage stage;
 	private Table table;
 	private boolean isActive;
 	private boolean correct;
@@ -32,7 +28,7 @@ public class QuestionUI {
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 
-	public QuestionUI(JumazyController game) {
+	public QuestionUI(final JumazyController game) {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
@@ -120,6 +116,4 @@ public class QuestionUI {
 	public boolean isCorrect() {
 		return correct;
 	}
-
-
 }
