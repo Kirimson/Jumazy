@@ -38,15 +38,17 @@ public class MazeModel {
 		players = new ArrayList<PlayerModel>();
 
 		if (playerAmount == 2) {
-			players.add(new PlayerModel(1, 1, "1", this));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this));
+			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this,
+					PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
 		}
 
 		if (playerAmount == 4) {
-			players.add(new PlayerModel(1, 1, "1", this));
-			players.add(new PlayerModel(1, maze[0].length - 2, "2", this));
-			players.add(new PlayerModel(maze.length - 2, 1, "3", this));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this));
+			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
+			players.add(new PlayerModel(1, maze[0].length - 2, "2", this, PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
+			players.add(new PlayerModel(maze.length - 2, 1, "3", this, PlayerModel.CharacterName.FRANKLIN_FINBAR));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this,
+					PlayerModel.CharacterName.SHELLY_OBERON));
 		}
 
 		currentPlayerIndex = 0;
@@ -59,6 +61,7 @@ public class MazeModel {
 				initialState += "It is raining.";
 			}
 			initialState += "\nPlayer 1 will start.";
+			initialState += "\nPlayer 1 RPG stats: " + players.get(currentPlayerIndex).getStatsArray();
 			System.out.println(initialState);
 			System.out.println(toString());
 		}

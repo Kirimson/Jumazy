@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class GameScreen implements Screen {
@@ -29,20 +29,25 @@ public class GameScreen implements Screen {
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
+	private FitViewport uiViewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
+	private HeadsUpDisplay hud;
+	private int[] currentPlayerStats;
 
 	private DiceView dice;
 
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage = new Stage(viewport);
-		uiStage = new Stage();
+		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
+		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
+		currentPlayerStats = firstPlayerStats;
 		Random rng = new Random();
 
 		GameSound.playGameStartMusic();
@@ -113,18 +118,30 @@ public class GameScreen implements Screen {
 
 		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
+		hud = new HeadsUpDisplay(game.getSkin(), currentPlayerIndex, currentPlayerStats);
+		uiStage.addActor(hud);
+
 		stage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 
-				switch (keycode){
-					case Input.Keys.P : pause();break;
-					default: game.handleGameInput(keycode);
+				switch (keycode) {
+				case Input.Keys.P:
+					pause();
+					break;
+				default:
+					game.handleGameInput(keycode);
 				}
+
 				return true;
 			}
 		});
+
 	}
 
+	public void setCurrentPlayerStats(int[] playerStats) {
+		currentPlayerStats = playerStats;
+	}
+	
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
 		
@@ -217,6 +234,7 @@ public class GameScreen implements Screen {
 		stage.draw();
 
 		// draw all UI
+		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -240,14 +258,8 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
-	public int getCurrentplayerNumber(){
-		return currentPlayerIndex+1;
-	}
-
-	public void setWeather(Weather weather, int width, int height){
-
-		WeatherAnimation  weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
-		stage.addActor(weatherAnimation.getAnimation());
+	public int getCurrentPlayerNumber() {
+		return currentPlayerIndex + 1;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class SettingsScreen extends MenuScreen {
 		table.add(percentage);
 		table.row();
 		table.add(backButton).bottom().right().expand().pad(70);
-		
+
 		stage.addActor(table);
 	}
 
@@ -34,7 +34,7 @@ public class SettingsScreen extends MenuScreen {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
