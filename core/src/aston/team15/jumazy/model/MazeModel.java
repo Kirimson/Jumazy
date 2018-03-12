@@ -60,7 +60,7 @@ public class MazeModel {
 			} else if (weather == Weather.RAIN) {
 				initialState += "It is raining.";
 			}
-			initialState += "\nPlayer 1 will start.";
+			initialState += "\nPlayer " + (currentPlayerIndex+1) + " will start.";
 			System.out.println(initialState);
 			System.out.println(toString());
 		}
@@ -195,9 +195,9 @@ public class MazeModel {
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
-					room[i][j] = "#";
+					room[j][i] = "#";
 				} else {
-					room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];;
+					room[j][i] = allRoomLayouts.get(randLayoutIndex)[j-1][i-1];;
 				}
 			}
 		}
@@ -241,8 +241,8 @@ public class MazeModel {
 		return players.get(currentPlayerIndex);
 	}
 
-	public boolean moveCurrentPlayerModel(int direction) {
-		return getCurrentPlayer().move(direction);
+	public int moveCurrentPlayerModel(int inputDirection) {
+		return getCurrentPlayer().move(inputDirection);
 	}
 
 	public void setCoordinateString(int row, int col, String symbol) {

@@ -84,6 +84,14 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("floor-right-water"));
 					break;
+				case "E":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("skeleton"));
+					break;
+				case "X":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("mummy"));
+					break;
 				case "1":
 				case "2":
 				case "3":
@@ -174,18 +182,21 @@ public class GameScreen implements Screen {
 		dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 	}
 
-	public void moveCurrentPlayerView(boolean canMove, int keycode) {
-		if (canMove) {
-			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode);
+	public void moveCurrentPlayerView(int moveStyle, int keycode) {
+		if (moveStyle==1) {
+			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			dice.decreaseRoll();
-
-			int rollsLeft = dice.getRoll();
-			if (rollsLeft > 0) {
-				dice.updateSprite(game.getSprite("number" + rollsLeft));
-				dice.act(keycode);
-			} else
-				dice.remove();
+		} else if (moveStyle==2) {
+			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 		}
+
+		int rollsLeft = dice.getRoll();
+		if (rollsLeft > 0) {
+			dice.updateSprite(game.getSprite("number" + rollsLeft));
+			dice.act(keycode);
+		} else
+			dice.remove();
+		
 	}
 
 	@Override

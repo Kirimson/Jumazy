@@ -38,7 +38,7 @@ public class JumazyController extends Game {
 	}
 
 	public void setPlayerAmountAndStartGame(int playerAmount) {
-		maze = new MazeModel(5, 5, playerAmount);
+		maze = new MazeModel(2, 2, playerAmount);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze()));
 	}
 

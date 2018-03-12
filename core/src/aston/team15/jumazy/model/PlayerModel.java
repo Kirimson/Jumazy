@@ -33,6 +33,8 @@ public class PlayerModel {
 	private int[] playerstats;
 	private boolean onTrap;
 	private boolean canRoll = true;
+	String[] walls = new String[] {"#","^","W","a","b","c"};
+	String[] enemies = new String[] {"E","X"};
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -89,19 +91,28 @@ public class PlayerModel {
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
-		String[] walls = new String[] {"#","^","W","a","b","c"};
-		boolean valid = true;
-		for(String wall : walls) {
-			if(maze.getCoordinateString(newRow, newCol).equals(wall))
-				valid = false;
-			}
-		return valid;
+//		for(String wall : walls) {
+//			if(maze.getCoordinateString(newRow, newCol).equals(wall))
+//				return false;
+//			}
+		if(maze.getCoordinateString(newRow, newCol).equals("O"))
+			return true;
+		
+		return false;
 	}
 
-	public boolean move(int direction) {
+	private boolean checkForEnemy(int newRow, int newCol) {
+		for(String enemy : enemies) {
+			if(maze.getCoordinateString(newRow, newCol).equals(enemy))
+				return true;
+			}
+		return false;
+	}
+
+	public int move(int inputDirection) {
 		int rowDiff = 0, colDiff = 0;
 
-		switch (direction) {
+		switch (inputDirection) {
 		case Input.Keys.RIGHT:
 			colDiff = 1;
 			break;
@@ -115,30 +126,42 @@ public class PlayerModel {
 			rowDiff = 1;
 			break;
 		}
-
-		if (checkValidMove(row + rowDiff, col + colDiff) && movesLeft > 0) {
-			maze.setCoordinateString(row, col, currentPositionSymbol);
-			row += rowDiff;
-			col += colDiff;
-			currentPositionSymbol = maze.getCoordinateString(row, col);
-			maze.setCoordinateString(row, col, playerSymbol);
+		
+		int newRow = row + rowDiff;
+		int newCol = col + colDiff;
+		
+		if (checkValidMove(newRow, newCol) && movesLeft > 0) {
+			maze.setCoordinateString(row, col, "O");
+			currentPositionSymbol = maze.getCoordinateString(newRow, newCol);
 			movesLeft--;
 
 			if (currentPositionSymbol.equals("T"))
 				onTrap = true;
 			else
 				onTrap = false;
+			
+			maze.setCoordinateString(newRow, newCol, playerSymbol);
 
 			if (JumazyController.DEBUG_ON)
-				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
-						+ " moves left.\n" + maze.toString());
+				System.out.println("Player " + playerSymbol + " just moved successfully onto a " + maze.getCoordinateString(newRow, newCol) + " block.\nThey have " + movesLeft
+						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
 
-			return true;
+			return 1;
+		} else if (checkForEnemy(newRow, newCol) && movesLeft > 0) {
+			maze.setCoordinateString(row, col, "O");
+			
+			movesLeft = 0;
+			
+			if (JumazyController.DEBUG_ON)
+				System.out.println("Player " + playerSymbol + " just moved into a " + maze.getCoordinateString(newRow, newCol) + " enemy.\nThey have " + movesLeft
+						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
+			
+			return 2;
 		} else {
 			if (JumazyController.DEBUG_ON)
-				System.out.println("Player " + playerSymbol + " tried to move, but failed. They have " + movesLeft
-						+ " moves left.\n" + maze.toString());
-			return false;
+				System.out.println("Player " + playerSymbol + " tried to move onto a " + maze.getCoordinateString(newRow, newCol) + " block, but failed.\nThey have " + movesLeft
+						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
+			return 2;
 		}
 
 	}
