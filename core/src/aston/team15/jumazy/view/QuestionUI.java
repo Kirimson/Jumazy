@@ -45,7 +45,7 @@ public class QuestionUI {
 		questionUIBG.padTop(-100);
 		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
-		final TextButton btnSubmit = new TextButton("submit", skin);
+		final TextButton btnSubmit = new TextButton("Submit", skin);
 		tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
@@ -92,8 +92,8 @@ public class QuestionUI {
 	/**
 	 * checks if the given answer by player matches a corrent answer from the list of answers given by the csv when a
 	 * new question is created
-	 * @param answer
-	 * @return
+	 * @param answer answer user gabe in textfield
+	 * @return true if answer is correct
 	 */
 	public boolean checkAnswer(String answer) {
 		int i = 1;

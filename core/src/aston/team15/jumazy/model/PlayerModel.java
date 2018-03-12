@@ -181,7 +181,6 @@ public class PlayerModel {
 		currentPositionSymbol = maze.getCoordinateString(row, col);
 
 		maze.setCoordinateString(row, col, playerSymbol);
-		System.out.println(currentPositionSymbol);
 		return startOfturnPosition;
 	}
 

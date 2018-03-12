@@ -4,6 +4,7 @@ package aston.team15.jumazy.view;
 
 import java.util.HashMap;
 
+import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,9 +31,10 @@ public class QuestionPopUpCreator {
 	private SelectBox<String> geoSB;
 	private SelectBox<String> mathSB;
 	private SelectBox<String> histoSB;
+	private TextButton playButton;
 	private HashMap<String, String> selections;
 	
-	public QuestionPopUpCreator() {
+	public QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
 		 skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		
 		 createCheckBoxes();
@@ -42,13 +44,14 @@ public class QuestionPopUpCreator {
 		 maths.addListener(new ClickListener() {
 				public void clicked(InputEvent event, float x, float y) {
 					
-					mathSB.setTouchable(Touchable.enabled);
-					mathObjects[0] = new String("Maths Difficulty"); 
+					mathObjects[0] = "Maths Difficulty: Easy";
 					mathSB.setItems(mathObjects);
-					
+					mathSB.setDisabled(false);
+					mathSB.setTouchable(Touchable.enabled);
+
 					if(!maths.isChecked()) {
-						mathSB.setTouchable(Touchable.disabled);
-						mathObjects[0] = new String("Tick Maths for levels"); 
+						mathSB.setDisabled(true);
+						mathObjects[0] = "Maths: Off";
 						mathSB.setItems(mathObjects);
 					}
 					
@@ -58,13 +61,14 @@ public class QuestionPopUpCreator {
 			geography.addListener(new ClickListener() {
 				public void clicked(InputEvent event, float x, float y) {
 					
-					geoSB.setTouchable(Touchable.enabled);
-					geoObjects[0] = new String("Geography Difficulty"); 
+					geoObjects[0] = "Geography Difficulty: Easy";
 					geoSB.setItems(geoObjects);
+					geoSB.setDisabled(false);
+					geoSB.setTouchable(Touchable.enabled);
 					
 					if(!geography.isChecked()) {
-						geoSB.setTouchable(Touchable.disabled);
-						geoObjects[0] = new String("Tick Geography for levels"); 
+						geoSB.setDisabled(true);
+						geoObjects[0] = "Geography: Off";
 						geoSB.setItems(geoObjects);
 					}
 					
@@ -74,18 +78,31 @@ public class QuestionPopUpCreator {
 			history.addListener(new ClickListener() {
 				public void clicked(InputEvent event, float x, float y) {
 					
-					histoSB.setTouchable(Touchable.enabled);
-					histoObjects[0] = new String("Hitory Difficulty"); 
+					histoObjects[0] = "Hitory Difficulty: Easy";
 					histoSB.setItems(histoObjects);
-					
+					histoSB.setDisabled(false);
+					histoSB.setTouchable(Touchable.enabled);
+
 					if(!history.isChecked()) {
-						histoSB.setTouchable(Touchable.disabled);
-						histoObjects[0] = new String("Tick History for levels"); 
+						histoSB.setDisabled(true);
+						histoObjects[0] = "History: Off";
 						histoSB.setItems(histoObjects);
 					}
 					
 				}
 			});
+
+		playButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+
+				if(!histoSB.isDisabled() || !mathSB.isDisabled() || !geoSB.isDisabled()) {
+					populateSelections();
+					HashMap<String, String> levels = getSelections();
+					game.setQuestionType(levels);
+					game.setPlayerAmountAndStartGame(numOfPlayers);
+				}
+			}
+		});
 
 	}
 	
@@ -106,6 +123,14 @@ public class QuestionPopUpCreator {
 		questionTable.add(geoSB).padTop(10).width(320).height(40).row();
 		questionTable.add(mathSB).width(320).height(40).row();
 		questionTable.add(histoSB).width(320).height(40).row();
+
+		geoSB.setDisabled(true);
+		mathSB.setDisabled(true);
+		histoSB.setDisabled(true);
+
+		playButton = new TextButton("Play", skin);
+
+		questionTable.add(playButton);
 	}
 	
 	public void createCheckBoxes() {
@@ -115,23 +140,20 @@ public class QuestionPopUpCreator {
 	}
 	
 	public void createSelectBoxes() {
-	    geoObjects = new String[4]; 
-	    geoObjects[0] = new String("Tick Geography for levels"); 
-	    geoObjects[1] = new String("Easy"); 
-	    geoObjects[2] = new String("Medium"); 
-	    geoObjects[3] = new String("Hard"); 
+	    geoObjects = new String[3];
+	    geoObjects[0] = "Geography: Off";
+	    geoObjects[1] = "Geography Difficulty: Medium";
+	    geoObjects[2] = "GeographyDifficulty: Hard";
 	    
-	    mathObjects = new String[4]; 
-	    mathObjects[0] = new String("Tick Maths for levels"); 
-	    mathObjects[1] = new String("Easy"); 
-	    mathObjects[2] = new String("Medium"); 
-	    mathObjects[3] = new String("Hard"); 
+	    mathObjects = new String[3];
+	    mathObjects[0] = "Maths: Off";
+	    mathObjects[1] = "Maths Difficulty: Medium";
+	    mathObjects[2] = "Maths Difficulty: Hard";
 	    
-	    histoObjects = new String[4]; 
-	    histoObjects[0] = new String("Tick History for levels"); 
-	    histoObjects[1] = new String("Easy"); 
-	    histoObjects[2] = new String("Medium"); 
-	    histoObjects[3] = new String("Hard"); 
+	    histoObjects = new String[3];
+	    histoObjects[0] = "History: Off";
+	    histoObjects[1] = "History Difficulty: Medium";
+	    histoObjects[2] = "History Difficulty: Hard";
 	   
 	    geoSB = new SelectBox<String>(skin);
 		mathSB = new SelectBox<String>(skin);
@@ -148,9 +170,15 @@ public class QuestionPopUpCreator {
 	
 	public void populateSelections() {
 		selections = new HashMap<>();
-		selections.put("geography", geoSB.getSelected());
-		selections.put("maths", mathSB.getSelected());
-		selections.put("history", histoSB.getSelected());
+		//gives the last word of the selected checkbox, being the difficulty
+		if(!geoSB.isDisabled())
+			selections.put("geography", geoSB.getSelected().substring(geoSB.getSelected().lastIndexOf(" ")+1));
+
+		if(!mathSB.isDisabled())
+			selections.put("maths", mathSB.getSelected().substring(mathSB.getSelected().lastIndexOf(" ")+1));
+
+		if(!histoSB.isDisabled())
+			selections.put("history", histoSB.getSelected().substring(histoSB.getSelected().lastIndexOf(" ")+1));
 	}
 	
 	public HashMap<String, String> getSelections(){
