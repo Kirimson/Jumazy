@@ -49,11 +49,14 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 	
 	public void showPopUp(int numOfPlayers) {
 		Skin skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		
 		Table questionBG = new Table();
 		questionBG.setFillParent(true);
 		questionBG.top().padTop(-30);
 		questionBG.add(new Image(game.getSprite("pause-dialog")));
+		
 		QuestionPopUpCreator popUp = new QuestionPopUpCreator();
+		
 		Table questionTable = popUp.getTable();
 	    TextButton btnPlay = new TextButton("Play", skin);
 		questionTable.add(btnPlay).padTop(30);
@@ -63,8 +66,9 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		
 		btnPlay.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				
 				popUp.populateSelections();
-				String[] levels = popUp.getSelections();
+				String[] levels = popUp.getSelections();				
 				game.setQuestionType(levels);
 				game.setPlayerAmountAndStartGame(numOfPlayers);
 			}
