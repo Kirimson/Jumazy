@@ -21,28 +21,30 @@ public class TextureSelectionScreen extends MenuScreen {
 			game.setScreen(new TextureSelectionScreen(game));
 			}			
 		});
+		table.add(texture1).pad(10);
+		table.row();
+
 		TextButton texture2 = new TextButton("Old English", game.getSkin());
-		texture1.addListener(new ClickListener() {
+		texture2.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/oldenglish");
 				game.setScreen(new TextureSelectionScreen(game));
 				}
 		});
+		table.add(texture2).pad(10);
+		table.row();
+
 		TextButton texture3 = new TextButton("Snow", game.getSkin());
-		texture1.addListener(new ClickListener() {
+		texture3.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/snow");
 				game.setScreen(new TextureSelectionScreen(game));
 				}
 		});
-		table.add(texture1).pad(10);
-		table.row();
-		table.add(texture2).pad(10);
-		table.row();
 		table.add(texture3).pad(10);
 		table.row();
-		table.add(backButton).bottom().right().expand().pad(70);
 
+		table.add(backButton).bottom().right().expand().pad(70);
 		stage.addActor(table);
 	}
 

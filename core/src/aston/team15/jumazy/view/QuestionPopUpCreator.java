@@ -32,8 +32,8 @@ public class QuestionPopUpCreator {
 	private SelectBox<String> histoSB;
 	private HashMap<String, String> selections;
 	
-	public QuestionPopUpCreator() {
-		 skin = new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json"));
+	public QuestionPopUpCreator(Skin skin) {
+		 this.skin = skin;
 		
 		 createCheckBoxes();
 		 createSelectBoxes();

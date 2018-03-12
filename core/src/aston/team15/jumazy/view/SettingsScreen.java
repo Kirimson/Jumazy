@@ -13,12 +13,11 @@ public class SettingsScreen extends MenuScreen {
 	public SettingsScreen(JumazyController theGame) {
 		super(theGame);
 
-		Skin skin = new Skin(Gdx.files.internal(JumazyController.Texturejson));
-		Slider volumeSlider = new Slider(0, 10, 1, false, skin);
+		Slider volumeSlider = new Slider(0, 10, 1, false, game.getSkin());
 		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.MAIN_MENU_SCREEN, game);
 		//float percentF = volumeSlider
 		//String percentS = percentF + "%";
-		Label percentage = new Label("percentS", skin);
+		Label percentage = new Label("percentS", game.getSkin());
 
 		table.debug();
 		table.add(volumeSlider).pad(10).width(500);
