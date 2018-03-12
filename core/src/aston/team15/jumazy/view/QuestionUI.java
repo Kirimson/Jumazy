@@ -9,6 +9,7 @@ import javax.sound.sampled.Clip;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -22,6 +23,7 @@ public class QuestionUI {
 
 	private Skin skin;
 	private Table table;
+	Table questionUIBG;
 	private boolean isActive;
 	private boolean correct;
 	private ArrayList<Actor> questionActors;
@@ -32,9 +34,15 @@ public class QuestionUI {
 		isActive = false;
 		questionActors = new ArrayList<Actor>();
 		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		
 		table = new Table();
 		table.setFillParent(true);
 		table.center();
+		
+		questionUIBG = new Table();
+		questionUIBG.setFillParent(true);
+		questionUIBG.top();
+		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
@@ -57,6 +65,7 @@ public class QuestionUI {
 				isActive = false;
 				
 				table.remove();
+				questionUIBG.remove();
 				tfAnswer.setText("");
 
 				File sound;
@@ -107,6 +116,10 @@ public class QuestionUI {
 
 	public Table getTable() {
 		return table;
+	}
+	
+	public Table getBackground() {
+		return questionUIBG;
 	}
 
 	public boolean isAlive() {

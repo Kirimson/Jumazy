@@ -1,6 +1,10 @@
 package aston.team15.jumazy.controller;
 
 import aston.team15.jumazy.view.VictoryScreen;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -49,19 +53,8 @@ public class JumazyController extends Game {
 			gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length, maze.getMaze().length);
 	}
 	
-	public void setQuestionType(String[] levels) {
-		String level = "";
-		String subject = "";
-		for(int i = 0; i <= 1; i++) {
-			if(i == 0) {
-				subject = "geography";
-			}
-			else if(i == 1) {
-				subject = "maths";
-			}
-			level = levels[i];
-			questionRetriever.chosenFiles(subject, level);
-		}
+	public void setQuestionType(HashMap<String, String> levels) {
+			questionRetriever.chosenFiles(levels);
 	}
 
 	@Override
