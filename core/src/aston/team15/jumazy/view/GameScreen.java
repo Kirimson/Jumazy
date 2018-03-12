@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
@@ -125,7 +127,7 @@ public class GameScreen implements Screen {
 			public boolean keyDown(InputEvent event, int keycode) {
 
 				switch (keycode) {
-				case Input.Keys.P:
+				case Input.Keys.ESCAPE:
 					pause();
 					break;
 				default:
@@ -137,7 +139,6 @@ public class GameScreen implements Screen {
 		});
 		
 		multiplexer.addProcessor(gameStage);
-		multiplexer.addProcessor(pauseStage);
 		multiplexer.addProcessor(uiStage);
 	}
 
@@ -169,6 +170,7 @@ public class GameScreen implements Screen {
 
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
+		uiStage.addActor(questionUI.getBackground());
 		uiStage.addActor(questionUI.getTable());
 	}
 
@@ -179,7 +181,11 @@ public class GameScreen implements Screen {
 	 * @return boolean if riddle is open
 	 */
 	public boolean isRiddleOpen() {
-		return questionUI.getTable().getStage() != null;
+		if(questionUI.getTable().getStage() == null){
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -266,11 +272,13 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
+		Gdx.input.setInputProcessor(pauseStage);
 		pauseStage.pause();
 	}
 
 	@Override
 	public void resume() {
+		Gdx.input.setInputProcessor(multiplexer);
 		pauseStage.remove();
 	}
 

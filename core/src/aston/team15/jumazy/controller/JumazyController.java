@@ -1,6 +1,10 @@
 package aston.team15.jumazy.controller;
 
 import aston.team15.jumazy.view.VictoryScreen;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,27 +23,34 @@ public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 	public static final boolean DEBUG_ON = true;
-
+	public String Texturepath;
+	public String Texturejson;
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
-
+	
+	
 	@Override
 	public void create() {
-		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
+		setTexturePack("jumazyskin/current/jumazy-skin.atlas","jumazyskin/current/jumazy-skin.json");
+		textures = new TextureAtlas(Texturepath);
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
 		// using a skin, with json, png, and atlas, reduces a lot of the workload
 		// needlessly put on the GPU when having to load in many individual png's
-		gameSkin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		gameSkin = new Skin(Gdx.files.internal(Texturejson));
 
 		setScreen(new MainMenuScreen(this));
 
 		if (DEBUG_ON)
 			System.out.println("Ready.");
 	}
-
+	public void update(String Path) {
+		textures = new TextureAtlas(Path+"/jumazy-skin.atlas");
+		gameSkin = new Skin(Gdx.files.internal(Path+"/jumazy-skin.json"));
+	}
 	public void setPlayerAmountAndStartGame(int playerAmount) {
+		
 		maze = new MazeModel(4, 2, playerAmount);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray()));
 
@@ -49,19 +60,8 @@ public class JumazyController extends Game {
 			gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length, maze.getMaze().length);
 	}
 	
-	public void setQuestionType(String[] levels) {
-		String level = "";
-		String subject = "";
-		for(int i = 0; i <= 1; i++) {
-			if(i == 0) {
-				subject = "geography";
-			}
-			else if(i == 1) {
-				subject = "maths";
-			}
-			level = levels[i];
-			questionRetriever.chosenFiles(subject, level);
-		}
+	public void setQuestionType(HashMap<String, String> levels) {
+			questionRetriever.chosenTypes(levels);
 	}
 
 	@Override
@@ -79,6 +79,15 @@ public class JumazyController extends Game {
 
 	public Skin getSkin() {
 		return gameSkin;
+	}
+	public void setTexturePack(String txt,String json) {
+		Texturepath = txt;
+		Texturejson = json;
+		
+		
+	}
+	public String getTexturePath() {
+		return Texturepath;
 	}
 
 	public void handleGameInput(int keycode) {

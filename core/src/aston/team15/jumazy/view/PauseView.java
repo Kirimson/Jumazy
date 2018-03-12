@@ -38,7 +38,7 @@ public class PauseView extends Stage {
         this.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
 
-                if(keycode == Input.Keys.P){
+                if(keycode == Input.Keys.ESCAPE){
                     remove();
                     game.resume();
                 }
