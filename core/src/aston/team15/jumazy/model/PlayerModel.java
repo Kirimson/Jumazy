@@ -34,7 +34,7 @@ public class PlayerModel {
 	private boolean onTrap;
 	private boolean canRoll = true;
 	String[] walls = new String[] {"#","^","W","a","b","c"};
-	String[] enemies = new String[] {"E","X"};
+	String[] enemies = new String[] {"E","X","1","2","3","4"};
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
