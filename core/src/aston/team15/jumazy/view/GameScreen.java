@@ -3,6 +3,8 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.controller.GameSound;
+import aston.team15.jumazy.model.MazeModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -47,6 +49,9 @@ public class GameScreen implements Screen {
 		pauseStage = new PauseView(game);
 		currentPlayerStats = firstPlayerStats;
 		multiplexer = new InputMultiplexer();
+
+		GameSound.playGameStartMusic();
+		GameSound.stopMenuMusic();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -199,6 +204,11 @@ public class GameScreen implements Screen {
 			} else
 				dice.remove();
 		}
+	}
+
+	public void setWeather(MazeModel.Weather weather, int width, int height){
+		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+		stage.addActor(weatherAnimation.getAnimation());
 	}
 
 	@Override
