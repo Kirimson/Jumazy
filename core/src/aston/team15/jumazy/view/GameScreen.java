@@ -3,17 +3,20 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aston.team15.jumazy.controller.GameSound;
+import aston.team15.jumazy.model.MazeModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
@@ -21,27 +24,36 @@ import aston.team15.jumazy.controller.JumazyController;
 public class GameScreen implements Screen {
 
 	private JumazyController game;
-	private Stage stage;
+	private Stage gameStage;
 	private Stage uiStage;
 
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
+	private FitViewport uiViewport;
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
+	private HeadsUpDisplay hud;
+	private int[] currentPlayerStats;
+	private InputMultiplexer multiplexer;
 
 	private DiceView dice;
 
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
-		stage = new Stage(viewport);
-		uiStage = new Stage();
+		gameStage = new Stage(viewport);
+		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
+		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
-		Random rng = new Random();
+		currentPlayerStats = firstPlayerStats;
+		multiplexer = new InputMultiplexer();
+
+		GameSound.playGameStartMusic();
+		GameSound.stopMenuMusic();
 
 		for (int mazeX = 0; mazeX < maze.length; mazeX++) {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
@@ -104,30 +116,44 @@ public class GameScreen implements Screen {
 					break;
 				}
 
-				stage.addActor(newActor);
+				gameStage.addActor(newActor);
 			}
 		}
 
 		for (PlayerView player : players) {
-			stage.addActor(player);
+			gameStage.addActor(player);
 		}
 
 		currentPlayerIndex = 0;
 
 		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
 
-		stage.addListener(new InputListener() {
+		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
+		uiStage.addActor(hud);
+
+		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 
-				switch (keycode){
-					case Input.Keys.P : pause();break;
-					default: game.handleGameInput(keycode);
+				switch (keycode) {
+				case Input.Keys.ESCAPE:
+					pause();
+					break;
+				default:
+					game.handleGameInput(keycode);
 				}
+
 				return true;
 			}
 		});
+		
+		multiplexer.addProcessor(gameStage);
+		multiplexer.addProcessor(uiStage);
 	}
 
+	public void setCurrentPlayerStats(int[] playerStats) {
+		currentPlayerStats = playerStats;
+	}
+	
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
 		
@@ -150,16 +176,10 @@ public class GameScreen implements Screen {
 			return "floor-squares";
 	}
 
-	private String findWallType(String[][] maze, int xPos, int yPos) {
-
-		return "wall-plain";
-	}
-
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
+		uiStage.addActor(questionUI.getBackground());
 		uiStage.addActor(questionUI.getTable());
-
-		Gdx.input.setInputProcessor(uiStage);
 	}
 
 	/**
@@ -169,12 +189,16 @@ public class GameScreen implements Screen {
 	 * @return boolean if riddle is open
 	 */
 	public boolean isRiddleOpen() {
-		return questionUI.getTable().getStage() != null;
+		if(questionUI.getTable().getStage() == null){
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	public void setCurrentPlayer(int newPlayerIndex) {
@@ -199,6 +223,11 @@ public class GameScreen implements Screen {
 		
 	}
 
+	public void setWeather(MazeModel.Weather weather, int width, int height){
+		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+		gameStage.addActor(weatherAnimation.getAnimation());
+	}
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -214,10 +243,11 @@ public class GameScreen implements Screen {
 			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 		}
 
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
+		gameStage.act(Gdx.graphics.getDeltaTime());
+		gameStage.draw();
 
 		// draw all UI
+		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -237,33 +267,30 @@ public class GameScreen implements Screen {
 	}
 
 	public void rollDice(int finalDie) {
-		stage.addActor(dice);
+		gameStage.addActor(dice);
 		dice.setDie(finalDie);
 	}
 
-	public int getCurrentplayerNumber(){
-		return currentPlayerIndex+1;
+	public int getCurrentPlayerNumber() {
+		return currentPlayerIndex + 1;
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
+		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		pauseStage.pause();
 		Gdx.input.setInputProcessor(pauseStage);
+		pauseStage.pause();
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		pauseStage.remove();
-		InputMultiplexer multiplexer = new InputMultiplexer(stage, uiStage);
 		Gdx.input.setInputProcessor(multiplexer);
+		pauseStage.remove();
 	}
 
 	@Override

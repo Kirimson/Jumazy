@@ -30,7 +30,7 @@ public class PlayerModel {
 	private String currentPositionSymbol;
 	private int movesLeft;
 	private int stamina, strength, hp, agility, luck, intelligence;
-	private int[] playerstats;
+	private int[] playerStats;
 	private boolean onTrap;
 	private boolean canRoll = true;
 	String[] walls = new String[] {"#","^","W","a","b","c"};
@@ -49,7 +49,7 @@ public class PlayerModel {
 		
 		// stamina:
 		// added to movement dice roll result
-		// stamina = 3;
+		stamina = 3;
 		
 		// strength:
 		// added to combat dice roll result
@@ -85,8 +85,8 @@ public class PlayerModel {
 			intelligence += 2;
 			break;
 		}
-
-		int[] playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence };
+		
+		playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence };
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
 
@@ -182,14 +182,14 @@ public class PlayerModel {
 			movesLeft = rollResult + 1;
 			break;
 		}
-		movesLeft = movesLeft + stamina;
+		movesLeft += stamina;
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
 
 		return movesLeft;
 	}
 
-	public int getMovesLeft() {
+	public int getMovesLeft() {  
 		return movesLeft;
 	}
 
@@ -210,10 +210,14 @@ public class PlayerModel {
 	}
 
 	public int getStat(CalledStat stat) {
-		return playerstats[stat.index];
+		return playerStats[stat.index];
+	}
+	
+	public int[] getStatsArray() {
+		return playerStats;
 	}
 
-	public void setStat(CalledStat stat, int modifier) {
-		playerstats[stat.index] = playerstats[stat.index] + modifier;
+	public void setStat(CalledStat stat, int newValue) {
+		playerStats[stat.index] = playerStats[stat.index] + newValue;
 	}
 }

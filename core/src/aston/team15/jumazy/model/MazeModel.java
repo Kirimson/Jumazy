@@ -15,7 +15,7 @@ public class MazeModel {
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
 
-	protected enum Weather {
+	public enum Weather {
 		RAIN, SUN;
 	}
 
@@ -61,10 +61,15 @@ public class MazeModel {
 				initialState += "It is raining.";
 			}
 			initialState += "\nPlayer " + (currentPlayerIndex+1) + " will start.";
+			initialState += "\nPlayer 1 RPG stats: " + players.get(currentPlayerIndex).getStatsArray();
 			System.out.println(initialState);
 			System.out.println(toString());
 		}
 
+	}
+
+	public Weather getWeather() {
+		return weather;
 	}
 
 	/**
