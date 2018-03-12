@@ -91,14 +91,14 @@ public class PlayerModel {
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
-//		for(String wall : walls) {
-//			if(maze.getCoordinateString(newRow, newCol).equals(wall))
-//				return false;
-//			}
-		if(maze.getCoordinateString(newRow, newCol).equals("O"))
-			return true;
+		for(String wall : walls) {
+			if(maze.getCoordinateString(newRow, newCol).equals(wall))
+				return false;
+			}
+		if(checkForEnemy(newRow, newCol))
+			return false;
 		
-		return false;
+		return true;
 	}
 
 	private boolean checkForEnemy(int newRow, int newCol) {
@@ -131,7 +131,12 @@ public class PlayerModel {
 		int newCol = col + colDiff;
 		
 		if (checkValidMove(newRow, newCol) && movesLeft > 0) {
-			maze.setCoordinateString(row, col, "O");
+
+			if (JumazyController.DEBUG_ON)
+				System.out.println("Player " + playerSymbol + " just moved successfully onto a " + maze.getCoordinateString(newRow, newCol) + " block.\nThey have " + movesLeft
+						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
+			
+			maze.setCoordinateString(row, col, currentPositionSymbol);
 			currentPositionSymbol = maze.getCoordinateString(newRow, newCol);
 			movesLeft--;
 
@@ -141,27 +146,26 @@ public class PlayerModel {
 				onTrap = false;
 			
 			maze.setCoordinateString(newRow, newCol, playerSymbol);
-
-			if (JumazyController.DEBUG_ON)
-				System.out.println("Player " + playerSymbol + " just moved successfully onto a " + maze.getCoordinateString(newRow, newCol) + " block.\nThey have " + movesLeft
-						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
+			row = newRow;
+			col = newCol;
 
 			return 1;
-		} else if (checkForEnemy(newRow, newCol) && movesLeft > 0) {
-			maze.setCoordinateString(row, col, "O");
 			
-			movesLeft = 0;
+		} else if (checkForEnemy(newRow, newCol) && movesLeft > 0) {
 			
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " just moved into a " + maze.getCoordinateString(newRow, newCol) + " enemy.\nThey have " + movesLeft
 						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
 			
+			maze.setCoordinateString(row, col, "O");
+			
 			return 2;
+			
 		} else {
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " tried to move onto a " + maze.getCoordinateString(newRow, newCol) + " block, but failed.\nThey have " + movesLeft
 						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
-			return 2;
+			return 0;
 		}
 
 	}
