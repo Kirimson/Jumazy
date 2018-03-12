@@ -22,7 +22,7 @@ import aston.team15.jumazy.controller.JumazyController;
 public class GameScreen implements Screen {
 
 	private JumazyController game;
-	private Stage stage;
+	private Stage gameStage;
 	private Stage uiStage;
 
 	private ArrayList<PlayerView> players;
@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
-		stage = new Stage(viewport);
+		gameStage = new Stage(viewport);
 		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
@@ -106,12 +106,12 @@ public class GameScreen implements Screen {
 					break;
 				}
 
-				stage.addActor(newActor);
+				gameStage.addActor(newActor);
 			}
 		}
 
 		for (PlayerView player : players) {
-			stage.addActor(player);
+			gameStage.addActor(player);
 		}
 
 		currentPlayerIndex = 0;
@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		uiStage.addActor(hud);
 
-		stage.addListener(new InputListener() {
+		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
 
 				switch (keycode) {
@@ -136,7 +136,7 @@ public class GameScreen implements Screen {
 			}
 		});
 		
-		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(pauseStage);
 		multiplexer.addProcessor(uiStage);
 	}
@@ -208,7 +208,7 @@ public class GameScreen implements Screen {
 
 	public void setWeather(MazeModel.Weather weather, int width, int height){
 		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
-		stage.addActor(weatherAnimation.getAnimation());
+		gameStage.addActor(weatherAnimation.getAnimation());
 	}
 
 	@Override
@@ -226,8 +226,8 @@ public class GameScreen implements Screen {
 			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 		}
 
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
+		gameStage.act(Gdx.graphics.getDeltaTime());
+		gameStage.draw();
 
 		// draw all UI
 		hud.update(currentPlayerIndex, currentPlayerStats);
@@ -250,7 +250,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void rollDice(int finalDie) {
-		stage.addActor(dice);
+		gameStage.addActor(dice);
 		dice.setDie(finalDie);
 	}
 
@@ -260,7 +260,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
+		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
 	}
 
