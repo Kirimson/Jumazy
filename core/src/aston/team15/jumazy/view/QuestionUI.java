@@ -23,6 +23,7 @@ public class QuestionUI {
 
 	private Skin skin;
 	private Table table;
+	Table questionUIBG;
 	private boolean isActive;
 	private boolean correct;
 	private ArrayList<Actor> questionActors;
@@ -37,6 +38,11 @@ public class QuestionUI {
 		table = new Table();
 		table.setFillParent(true);
 		table.center();
+		
+		questionUIBG = new Table();
+		questionUIBG.setFillParent(true);
+		questionUIBG.top();
+		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
 		final TextButton btnSubmit = new TextButton("submit", skin);
 		final TextField tfAnswer = new TextField("", skin);
@@ -59,6 +65,7 @@ public class QuestionUI {
 				isActive = false;
 				
 				table.remove();
+				questionUIBG.remove();
 				tfAnswer.setText("");
 
 				File sound;
@@ -109,6 +116,10 @@ public class QuestionUI {
 
 	public Table getTable() {
 		return table;
+	}
+	
+	public Table getBackground() {
+		return questionUIBG;
 	}
 
 	public boolean isAlive() {

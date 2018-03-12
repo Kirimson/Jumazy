@@ -170,13 +170,8 @@ public class GameScreen implements Screen {
 	}
 
 	public void createQuestion(String[] questionAndAns) {
-		Table questionUIBG = new Table();
-		questionUIBG.setFillParent(true);
-		questionUIBG.top();
-		questionUIBG.add(new Image(game.getSprite("scroll")));
-		
 		questionUI.displayQuestion(questionAndAns);
-		uiStage.addActor(questionUIBG);
+		uiStage.addActor(questionUI.getBackground());
 		uiStage.addActor(questionUI.getTable());
 	}
 

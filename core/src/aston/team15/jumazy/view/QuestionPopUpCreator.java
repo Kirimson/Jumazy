@@ -1,6 +1,9 @@
 package aston.team15.jumazy.view;
 
 
+
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -27,7 +30,7 @@ public class QuestionPopUpCreator {
 	SelectBox<String> geoSB;
 	SelectBox<String> mathSB;
 	SelectBox<String> histoSB;
-	String[] selections;
+	HashMap<String, String> selections;
 	
 	public QuestionPopUpCreator() {
 		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
@@ -134,14 +137,13 @@ public class QuestionPopUpCreator {
 	}
 	
 	public void populateSelections() {
-		selections = new String[3];
-		selections[0] = geoSB.getSelected();
-		selections[1] = mathSB.getSelected();
-		selections[2] = histoSB.getSelected();
-		
+		selections = new HashMap<>();
+		selections.put("geography", geoSB.getSelected());
+		selections.put("maths", mathSB.getSelected());
+		selections.put("history", histoSB.getSelected());
 	}
 	
-	public String[] getSelections(){
+	public HashMap<String, String> getSelections(){
 		return selections;
 	}
 	

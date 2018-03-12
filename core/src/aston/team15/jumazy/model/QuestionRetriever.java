@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,19 +14,27 @@ public class QuestionRetriever {
 	private String mathsLevel;
 	private String histoLevel;
 	private ArrayList<String> questionRandomiser = new ArrayList<>();
+	private ArrayList<String> keyHolder = new ArrayList<>();
 	
-	public void chosenFiles(String questionType, String level) {
-		if(questionType.equals("geography") && level != null) {
-			geoLevel = level;
-			questionRandomiser.add("geography");
+	public void chosenFiles(HashMap<String, String> levels) {
+		for (String key : levels.keySet()) {
+		    keyHolder.add(key);
 		}
-		else if(questionType.equals("maths") && level != null) {
-			mathsLevel = level;
-			questionRandomiser.add("maths");
-		}
-		else if(questionType.equals("history") && level != null) {
-			histoLevel = level;
-			questionRandomiser.add("history");
+		
+		for(int i = 0; i < keyHolder.size()-1; i++) {
+			String level = levels.get(keyHolder.get(i));
+			if(keyHolder.get(i).equals("geography") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
+				geoLevel = level;
+				questionRandomiser.add("geography");
+			}
+			else if(keyHolder.get(i).equals("maths") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
+				mathsLevel = level;
+				questionRandomiser.add("maths");
+			}
+			else if(keyHolder.get(i).equals("history") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
+				histoLevel = level;
+				questionRandomiser.add("history");
+			}
 		}
 	}
 	
