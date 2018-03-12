@@ -16,7 +16,7 @@ public class QuestionRetriever {
 	private ArrayList<String> questionRandomiser = new ArrayList<>();
 	private ArrayList<String> keyHolder = new ArrayList<>();
 	
-	public void chosenFiles(HashMap<String, String> levels) {
+	public void chosenTypes(HashMap<String, String> levels) {
 		for (String key : levels.keySet()) {
 		    keyHolder.add(key);
 		}

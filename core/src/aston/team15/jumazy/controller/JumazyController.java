@@ -54,7 +54,7 @@ public class JumazyController extends Game {
 	}
 	
 	public void setQuestionType(HashMap<String, String> levels) {
-			questionRetriever.chosenFiles(levels);
+			questionRetriever.chosenTypes(levels);
 	}
 
 	@Override
