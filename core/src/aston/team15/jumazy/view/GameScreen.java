@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
@@ -40,6 +38,14 @@ public class GameScreen implements Screen {
 
 	private DiceView dice;
 
+	/**
+	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui and pause layers.
+	 * Creates the maze in a graphical form, using the text format as a key for graphics
+	 * @param aGame {@link JumazyController} object
+	 * @param playerAmount amount of players
+	 * @param maze strin array representation of the maze
+	 * @param firstPlayerStats current players stats
+	 */
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
@@ -142,10 +148,18 @@ public class GameScreen implements Screen {
 		multiplexer.addProcessor(uiStage);
 	}
 
+	/**
+	 * Sets the vies stat field to reflect the current players stats
+	 * @param playerStats array of stats
+	 */
 	public void setCurrentPlayerStats(int[] playerStats) {
 		currentPlayerStats = playerStats;
 	}
-	
+
+	/**
+	 * generates random types of walls, 60% of normal wall, 35% of mising bring and 5% of leaf wall
+	 * @return
+	 */
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
 		
@@ -157,6 +171,10 @@ public class GameScreen implements Screen {
 			return "wall-leaves";
 	}
 
+	/**
+	 * generates a random floor texture, 5% chance of cracked floor/square missing 90% chance of normal tile,
+	 * @return
+	 */
 	private String randomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
@@ -168,24 +186,22 @@ public class GameScreen implements Screen {
 			return "floor-squares";
 	}
 
+	/**
+	 * Creates a new question and adds QuestionUI to the uiStage
+	 * @param questionAndAns
+	 */
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
-		uiStage.addActor(questionUI.getBackground());
-		uiStage.addActor(questionUI.getTable());
+		questionUI.addToStage(uiStage);
 	}
 
 	/**
-	 * Check if question UI Actor is on a stage, if the actor returns null, riddle
-	 * isn't open, otherwise, it is open
+	 * Check if question UI Actor isnt on the stage
 	 * 
-	 * @return boolean if riddle is open
+	 * @return boolean if riddle isnt open
 	 */
-	public boolean isRiddleOpen() {
-		if(questionUI.getTable().getStage() == null){
-			return false;
-		}
-
-		return true;
+	public boolean riddleIsntOpen() {
+		return questionUI.notActive();
 	}
 
 	@Override
@@ -193,11 +209,21 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 
+	/**
+	 * sets the current player to a new player, adjusts the dice's position for when it's next going to be drawn
+	 * @param newPlayerIndex new player number
+	 */
 	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
 		dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 	}
 
+	/**
+	 * Moves the current player in the view, calls the current players act method, passing the keycode to move the player on screen
+	 * Then decreases/removes dice actors sprite accordingly
+	 * @param canMove
+	 * @param keycode
+	 */
 	public void moveCurrentPlayerView(boolean canMove, int keycode) {
 		if (canMove) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode);
@@ -212,6 +238,21 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	/**
+	 * handles moving the player view back to the start position of their turn, also removes the dice from the stage
+	 * @param position
+	 */
+	public void movePlayerToStartOfMove(int[] position) {
+		players.get(currentPlayerIndex).moveToStartOfTurn(position[0], position[1]);
+		dice.remove();
+	}
+
+	/**
+	 * Applies the current weather affect to the maze, overlays the entire maze, rather than the entire screen.
+	 * @param weather enum type of weather in the maze
+	 * @param width width of the maze, got from the maze model
+	 * @param height height of the maze, got from the maze model
+	 */
 	public void setWeather(MazeModel.Weather weather, int width, int height){
 		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
 		gameStage.addActor(weatherAnimation.getAnimation());

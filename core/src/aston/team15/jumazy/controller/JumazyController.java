@@ -2,7 +2,6 @@ package aston.team15.jumazy.controller;
 
 import aston.team15.jumazy.view.VictoryScreen;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -82,11 +81,10 @@ public class JumazyController extends Game {
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if (!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
+			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
-					
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
@@ -98,7 +96,7 @@ public class JumazyController extends Game {
 			}
 			break;
 		case Input.Keys.ENTER:
-			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen()) {
+			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 			}
@@ -112,5 +110,10 @@ public class JumazyController extends Game {
 			break;
 		}
 
+	}
+
+	public void incorrectRiddle() {
+		GameScreen gameScreen = (GameScreen) getScreen();
+		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
 	}
 }

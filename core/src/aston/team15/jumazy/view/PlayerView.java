@@ -52,4 +52,11 @@ public class PlayerView extends Actor {
 		PlayerView.this.addAction(move);
 	}
 
+	public void moveToStartOfTurn(int row, int col) {
+		setX(col*32);
+		setY(row*32);
+	}
+
+//	public void moveTo
+
 }

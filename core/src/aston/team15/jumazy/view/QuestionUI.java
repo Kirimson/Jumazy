@@ -9,6 +9,7 @@ import javax.sound.sampled.Clip;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,17 +24,16 @@ public class QuestionUI {
 
 	private Skin skin;
 	private Table table;
-	Table questionUIBG;
+	private Table questionUIBG;
 	private boolean isActive;
 	private boolean correct;
-	private ArrayList<Actor> questionActors;
 	private Label lQuestion;
 	private String[] questionAndAnswer;
+	private final TextField tfAnswer;
 
 	public QuestionUI(final JumazyController game) {
 		isActive = false;
-		questionActors = new ArrayList<Actor>();
-		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		skin = game.getSkin();
 		
 		table = new Table();
 		table.setFillParent(true);
@@ -46,7 +46,7 @@ public class QuestionUI {
 		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
 		final TextButton btnSubmit = new TextButton("submit", skin);
-		final TextField tfAnswer = new TextField("", skin);
+		tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
 		lQuestion.setFontScale(0.6f);
@@ -54,11 +54,9 @@ public class QuestionUI {
 		table.add(lQuestion);
 		table.row();
 		table.add(tfAnswer).width(400).padTop(50).height(50);
+
 		table.row();
 		table.add(btnSubmit).width(250).padTop(25).height(50);
-
-		questionActors.add(btnSubmit);
-		questionActors.add(tfAnswer);
 
 		btnSubmit.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
@@ -75,6 +73,7 @@ public class QuestionUI {
 					sound = new File("../assets/snd/correct.wav");
 				} else {
 					sound = new File("../assets/snd/incorrect.wav");
+					game.incorrectRiddle();
 				}
 				playSound(sound);
 				game.resume();
@@ -87,10 +86,15 @@ public class QuestionUI {
 		questionAndAnswer = questionAndAns;
 		if(questionAndAnswer != null) {
 			lQuestion.setText(questionAndAnswer[0]);
-			questionActors.add(lQuestion);
 		}
 	}
 
+	/**
+	 * checks if the given answer by player matches a corrent answer from the list of answers given by the csv when a
+	 * new question is created
+	 * @param answer
+	 * @return
+	 */
 	public boolean checkAnswer(String answer) {
 		int i = 1;
 		while (i < questionAndAnswer.length) {
@@ -106,6 +110,10 @@ public class QuestionUI {
 		return false;
 	}
 
+	/**
+	 * plays a given sound, catches any file Exceptions
+	 * @param sound
+	 */
 	public void playSound(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
@@ -116,19 +124,21 @@ public class QuestionUI {
 		}
 	}
 
-	public Table getTable() {
-		return table;
-	}
-	
-	public Table getBackground() {
-		return questionUIBG;
-	}
-
-	public boolean isAlive() {
-		return isActive;
+	/**
+	 * checks if questionUI is not active, returns true if table has no stage
+	 * @return
+	 */
+	public boolean notActive() {
+		return table.getStage() == null;
 	}
 
-	public boolean isCorrect() {
-		return correct;
+	/**
+	 * adds the questionUI actors to a set stage, and gives the answer TextField keyboard focus through the stage
+	 * @param stage
+	 */
+	public void addToStage(Stage stage) {
+		stage.addActor(questionUIBG);
+		stage.addActor(table);
+		stage.setKeyboardFocus(tfAnswer);
 	}
 }
