@@ -27,9 +27,12 @@ public class HeadsUpDisplay extends Table {
 	private Label luckLabel;
 	private Label intelligenceLabel;
 	private Label[] statsLabels;
+	private Label diceLabel;
 	private String[] labelStrings;
-	
+
 	private Label inventoryLabel;
+	private String diceLabelString;
+	private String playerLabelString;
 
 	public HeadsUpDisplay(final JumazyController game, int currentPlayerIndex, int[] currentPlayerStats) {
 		super(game.getSkin());
@@ -40,6 +43,7 @@ public class HeadsUpDisplay extends Table {
 		labelStyle.font = game.getSkin().getFont("game-font");
 		labelStyle.fontColor = Color.WHITE;
 		float fontScale = 0.4f;
+		playerLabelString = "Press SPACE to roll!";
 
 		// Create player statistics table
 		statsTable = new Table();
@@ -99,26 +103,44 @@ public class HeadsUpDisplay extends Table {
 		pauseBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.pause();
-				System.out.println("hi");
 			}
 		});
-			
+		
+		diceLabel = new Label("Hit\nSpace!", labelStyle);
+		diceLabel.setFontScale(fontScale-0.05f);
 
-		this.add(playerLabel).colspan(2).expandX().left().padTop(15).padLeft(15).padBottom(0);
-		this.add(pauseBtn).expandY().fill().padRight(2).padTop(10);
+		this.add(playerLabel).colspan(2).expandX().left().padLeft(15).height(40).padTop(4);
+		this.add(pauseBtn).padRight(2).width(150).padTop(4).fill();
 		this.row();
 		this.add(statsTable).width(590).growY().padLeft(15).padBottom(15).padTop(15);
 		this.add(inventoryTable).grow().padBottom(15).padTop(15);
-		this.add(new Label("6", labelStyle)).width(150).height(105).growY().padBottom(15).padRight(2);
+		this.add(diceLabel).center().padRight(3).padBottom(8);
 
 		update(currentPlayerIndex, currentPlayerStats);
+//		this.debugAll();
 	}
 
 	public void update(int currentPlayerIndex, int[] currentPlayerStats) {
-		playerLabel.setText("Player " + (currentPlayerIndex + 1) + "'s turn!");
+		playerLabel.setText("Player " + (currentPlayerIndex + 1) + "'s turn! " + playerLabelString);
+		diceLabel.setText(diceLabelString);
 
 		for (int i = 0; i < statsLabels.length; i++) {
 			statsLabels[i].setText(labelStrings[i] + currentPlayerStats[i]);
 		}
+	}
+	
+	public void updateForNewPlayer(Boolean bool) {
+		if (bool) {
+			setDiceLabel("Hit\nSpace!");
+			playerLabelString = "Press SPACE to roll!";
+		}
+	}
+	
+	public void setDiceLabel(String string) {
+		diceLabelString = string;
+	}
+	
+	public void setPlayerLabel(String string) {
+		playerLabelString = string;
 	}
 }

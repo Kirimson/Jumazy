@@ -1,8 +1,5 @@
 package aston.team15.jumazy.controller;
 
-import aston.team15.jumazy.view.VictoryScreen;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -15,24 +12,24 @@ import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
+import aston.team15.jumazy.view.VictoryScreen;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
 public class JumazyController extends Game {
-	
+
 	private QuestionRetriever questionRetriever = new QuestionRetriever();
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 	public static final boolean DEBUG_ON = true;
+	public static String Texturejson;
 	public String Texturepath;
-	public String Texturejson;
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
-	
-	
+
 	@Override
 	public void create() {
-		setTexturePack("jumazyskin/current/jumazy-skin.atlas","jumazyskin/current/jumazy-skin.json");
+		setTexturePack("jumazyskin/current/jumazy-skin.atlas", "jumazyskin/current/jumazy-skin.json");
 		textures = new TextureAtlas(Texturepath);
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
@@ -45,23 +42,25 @@ public class JumazyController extends Game {
 		if (DEBUG_ON)
 			System.out.println("Ready.");
 	}
+
 	public void update(String Path) {
-		textures = new TextureAtlas(Path+"/jumazy-skin.atlas");
-		gameSkin = new Skin(Gdx.files.internal(Path+"/jumazy-skin.json"));
+		textures = new TextureAtlas(Path + "/jumazy-skin.atlas");
+		gameSkin = new Skin(Gdx.files.internal(Path + "/jumazy-skin.json"));
 	}
+
 	public void setPlayerAmountAndStartGame(int playerAmount) {
-		
+
 		maze = new MazeModel(4, 2, playerAmount);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray()));
 
 		GameScreen gameScreen = (GameScreen) getScreen();
 
-		if(maze.getWeather() != MazeModel.Weather.SUN)
+		if (maze.getWeather() != MazeModel.Weather.SUN)
 			gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length, maze.getMaze().length);
 	}
-	
+
 	public void setQuestionType(HashMap<String, String> levels) {
-			questionRetriever.chosenTypes(levels);
+		questionRetriever.chosenTypes(levels);
 	}
 
 	@Override
@@ -80,19 +79,19 @@ public class JumazyController extends Game {
 	public Skin getSkin() {
 		return gameSkin;
 	}
-	public void setTexturePack(String txt,String json) {
+
+	public void setTexturePack(String txt, String json) {
 		Texturepath = txt;
 		Texturejson = json;
-		
-		
 	}
+
 	public String getTexturePath() {
 		return Texturepath;
 	}
 
-	public void handleGameInput(int keycode) {
+	public boolean handleGameInput(int keycode) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-		
+
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
@@ -102,7 +101,7 @@ public class JumazyController extends Game {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
-					
+
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
@@ -111,21 +110,23 @@ public class JumazyController extends Game {
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 				}
+				return true;
+			} else {
+				return false;
 			}
-			break;
 		case Input.Keys.ENTER:
 			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 			}
-			break;
+			return true;
 		case Input.Keys.SPACE:
 			if (maze.getCurrentPlayer().canRoll()) {
 				gameScreen.rollDice(maze.rollForPlayer());
 			}
-			break;
+			return true;
 		default:
-			break;
+			return true;
 		}
 
 	}

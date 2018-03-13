@@ -3,8 +3,6 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
-import aston.team15.jumazy.controller.GameSound;
-import aston.team15.jumazy.model.MazeModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -15,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.model.MazeModel;
 
 public class GameScreen implements Screen {
 
@@ -70,7 +68,7 @@ public class GameScreen implements Screen {
 					break;
 				case "^":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("wall-no-edge")); //(findWallType(maze, mazeX, mazeY)));
+							game.getSprite("wall-no-edge")); // (findWallType(maze, mazeX, mazeY)));
 					break;
 				case "T":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -118,10 +116,12 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
-		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
-
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
+		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
+
+		dice = new DiceView(JumazyController.WORLD_WIDTH - game.getSprite("number1").originalWidth - 29, 23,
+				game.getSprite("number1"));
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
@@ -130,6 +130,9 @@ public class GameScreen implements Screen {
 				case Input.Keys.ESCAPE:
 					pause();
 					break;
+				case Input.Keys.ENTER:
+					hud.updateForNewPlayer(game.handleGameInput(keycode));
+					break;
 				default:
 					game.handleGameInput(keycode);
 				}
@@ -137,7 +140,7 @@ public class GameScreen implements Screen {
 				return true;
 			}
 		});
-		
+
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
 	}
@@ -145,10 +148,10 @@ public class GameScreen implements Screen {
 	public void setCurrentPlayerStats(int[] playerStats) {
 		currentPlayerStats = playerStats;
 	}
-	
+
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
-		
+
 		if (wallType < 0.6)
 			return "wall-plain";
 		else if (wallType < 0.95)
@@ -181,10 +184,9 @@ public class GameScreen implements Screen {
 	 * @return boolean if riddle is open
 	 */
 	public boolean isRiddleOpen() {
-		if(questionUI.getTable().getStage() == null){
+		if (questionUI.getTable().getStage() == null) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -195,7 +197,8 @@ public class GameScreen implements Screen {
 
 	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
-		dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
+		// dice.setPosition(players.get(currentPlayerIndex).getX(),
+		// players.get(currentPlayerIndex).getY());
 	}
 
 	public void moveCurrentPlayerView(boolean canMove, int keycode) {
@@ -207,13 +210,18 @@ public class GameScreen implements Screen {
 			if (rollsLeft > 0) {
 				dice.updateSprite(game.getSprite("number" + rollsLeft));
 				dice.act(keycode);
-			} else
+				hud.setPlayerLabel("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
+			} else {
 				dice.remove();
+				hud.setDiceLabel("No\nMoves\nLeft!");
+				hud.setPlayerLabel("No moves left, press ENTER to pass your turn to the next player.");
+			}
 		}
 	}
 
-	public void setWeather(MazeModel.Weather weather, int width, int height){
-		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+	public void setWeather(MazeModel.Weather weather, int width, int height) {
+		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions,
+				height * blockSpriteDimensions);
 		gameStage.addActor(weatherAnimation.getAnimation());
 	}
 
@@ -228,8 +236,8 @@ public class GameScreen implements Screen {
 		if (!dice.isRollFinished()) {
 			int number = dice.roll();
 			dice.updateSprite(game.getSprite("number" + number));
-		} else {
-			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
+		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())){
+			hud.setPlayerLabel("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
 		}
 
 		gameStage.act(Gdx.graphics.getDeltaTime());
@@ -256,7 +264,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void rollDice(int finalDie) {
-		gameStage.addActor(dice);
+		uiStage.addActor(dice);
 		dice.setDie(finalDie);
 	}
 
