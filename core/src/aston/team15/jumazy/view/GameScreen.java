@@ -236,7 +236,9 @@ public class GameScreen implements Screen {
 		if (!dice.isRollFinished()) {
 			int number = dice.roll();
 			dice.updateSprite(game.getSprite("number" + number));
+			Gdx.input.setInputProcessor(pauseStage);
 		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())){
+			Gdx.input.setInputProcessor(multiplexer);
 			if (dice.getRoll() == 8)
 				hud.setPlayerLabel("You rolled an 8, use the ARROW KEYS to move.");
 			else 				
