@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class HeadsUpDisplay extends Table {
@@ -102,6 +103,7 @@ public class HeadsUpDisplay extends Table {
 		
 		pauseBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				GameSound.playButtonSound();
 				game.pause();
 			}
 		});

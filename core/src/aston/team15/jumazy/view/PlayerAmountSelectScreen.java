@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 
@@ -21,6 +22,7 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		TextButton twoPlayerButton = new TextButton("2 Players", game.getSkin());
 		twoPlayerButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				GameSound.playButtonSound();
 				showPopUp(2);
 			}
 		});
@@ -28,6 +30,7 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		TextButton fourPlayerButton = new TextButton("4 Players", game.getSkin());
 		fourPlayerButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				GameSound.playButtonSound();
 				showPopUp(4);
 			}
 		});

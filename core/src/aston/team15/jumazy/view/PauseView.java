@@ -1,5 +1,6 @@
 package aston.team15.jumazy.view;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,6 +31,7 @@ public class PauseView extends Stage {
 
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {
+            	 GameSound.playButtonSound();
                  remove();
                  game.resume();
              }
