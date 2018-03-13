@@ -98,10 +98,11 @@ public class MazeModel {
 				currentLine = reader.readLine();
 				if(!currentLine.startsWith("/")) {
 					String[][] newLayout = new String[roomSize][roomSize];
-					for(int j=0;j<roomSize;j++) {
-						for(int i=0;i<roomSize;i++) {
+					for(int j = 0; j < roomSize; j++) {
+						for(int i = 0; i < roomSize; i++) {
 							currentChar = currentLine.substring(i, i+1);
-								newLayout[i][j]=currentChar;
+							//do this so stuff isn't flipped in the file
+								newLayout[i][(roomSize-1)-j]=currentChar;
 						}
 						currentLine = reader.readLine();
 					}

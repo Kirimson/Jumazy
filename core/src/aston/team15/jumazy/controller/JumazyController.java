@@ -74,7 +74,14 @@ public class JumazyController extends Game {
 	}
 
 	public void handleGameInput(int keycode) {
-		GameScreen gameScreen = (GameScreen) getScreen();
+
+		//protects from some dumb error I found but cant replicate. Crashed when trying to cast VictoryScreen to
+		//GameScreen, checking instance now as a safeguard
+		GameScreen gameScreen;
+		if(getScreen() instanceof GameScreen)
+			gameScreen = (GameScreen) getScreen();
+		else
+			return;
 		
 		switch (keycode) {
 		case Input.Keys.RIGHT:

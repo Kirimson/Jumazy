@@ -72,11 +72,7 @@ public class GameScreen implements Screen {
 					break;
 				case "#":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(randomWallTexture()));
-					break;
-				case "^":
-					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("wall-no-edge")); //(findWallType(maze, mazeX, mazeY)));
+							game.getSprite(generateWallTexture(maze, mazeX, mazeY)));
 					break;
 				case "T":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -158,22 +154,59 @@ public class GameScreen implements Screen {
 
 	/**
 	 * generates random types of walls, 60% of normal wall, 35% of mising bring and 5% of leaf wall
-	 * @return
+	 * @return string for wall texture
+	 * @param maze the maze string
+	 * @param mazeX x posiiton in maze
+	 * @param mazeY y position in maze
 	 */
+	private String generateWallTexture(String[][] maze, int mazeY, int mazeX) {
+
+		//very bottom corners
+		if((mazeX == 0 && mazeY == 0) || (mazeX == maze[0].length-1 && mazeY == 0))
+			return "wall-no-edge";
+
+
+		//bottom of pillar wall
+		if(mazeX > 0 && mazeX < maze[0].length-1 && mazeY > 0) {
+			if(maze[mazeY][mazeX-1].equals("O") && maze[mazeY][mazeX+1].equals("O") && maze[mazeY-1][mazeX].equals("O")){
+				return randomWallTexture();
+			}
+		}
+
+		//wall going across
+		if(mazeX > 0 && mazeX < maze[0].length-1) {
+			if (maze[mazeY][mazeX-1].equals("#") || maze[mazeY][mazeX+1].equals("#")){
+				if(mazeY > 0) {
+					if (!maze[mazeY - 1][mazeX].equals("#"))
+						return randomWallTexture();
+				}
+				return "wall-no-edge";
+			}
+		}
+
+		//wall going up
+		if(mazeY > 0 && mazeY < maze.length-1) {
+			if (maze[mazeY-1][mazeX].equals("#") || maze[mazeY+1][mazeX].equals("#"))
+				return "wall-no-edge";
+		}
+
+		//very corner
+		return "wall-plain";
+	}
+
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
-		
 		if (wallType < 0.6)
 			return "wall-plain";
 		else if (wallType < 0.95)
-			return "wall-brick-missing";
-		else
 			return "wall-leaves";
+		else
+			return "wall-brick-missing";
 	}
 
 	/**
 	 * generates a random floor texture, 5% chance of cracked floor/square missing 90% chance of normal tile,
-	 * @return
+	 * @return string for floor texture
 	 */
 	private String randomFloorTexture() {
 		float floorType = new Random().nextFloat();
@@ -263,7 +296,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// update camera position if needed
-		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
+//		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
 		// draw stage
 		if (!dice.isRollFinished()) {
@@ -279,7 +312,7 @@ public class GameScreen implements Screen {
 		// draw all UI
 		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
-		uiStage.draw();
+//		uiStage.draw();
 
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
