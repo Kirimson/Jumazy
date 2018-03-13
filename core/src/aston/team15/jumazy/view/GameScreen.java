@@ -35,6 +35,7 @@ public class GameScreen implements Screen {
 	private HeadsUpDisplay hud;
 	private int[] currentPlayerStats;
 	private InputMultiplexer multiplexer;
+	private boolean isPaused;
 
 	private DiceView dice;
 
@@ -234,11 +235,13 @@ public class GameScreen implements Screen {
 
 		// draw stage
 		if (!dice.isRollFinished()) {
+			Gdx.input.setInputProcessor(pauseStage);
 			int number = dice.roll();
 			dice.updateSprite(game.getSprite("number" + number));
-			Gdx.input.setInputProcessor(pauseStage);
 		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())){
-			Gdx.input.setInputProcessor(multiplexer);
+			if (!isPaused)
+				Gdx.input.setInputProcessor(multiplexer);
+			
 			if (dice.getRoll() == 8)
 				hud.setPlayerLabel("You rolled an 8, use the ARROW KEYS to move.");
 			else 				
@@ -287,12 +290,14 @@ public class GameScreen implements Screen {
 	public void pause() {
 		Gdx.input.setInputProcessor(pauseStage);
 		pauseStage.pause();
+		isPaused = true;
 	}
 
 	@Override
 	public void resume() {
 		Gdx.input.setInputProcessor(multiplexer);
 		pauseStage.remove();
+		isPaused = false;
 	}
 
 	@Override
