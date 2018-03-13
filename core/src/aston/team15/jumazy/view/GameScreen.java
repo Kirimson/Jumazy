@@ -3,8 +3,6 @@ package aston.team15.jumazy.view;
 import java.util.ArrayList;
 import java.util.Random;
 
-import aston.team15.jumazy.controller.GameSound;
-import aston.team15.jumazy.model.MazeModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -15,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.model.MazeModel;
 
 public class GameScreen implements Screen {
 
@@ -34,6 +32,7 @@ public class GameScreen implements Screen {
 	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
+	private FightingView fightingStage;
 	private HeadsUpDisplay hud;
 	private int[] currentPlayerStats;
 	private InputMultiplexer multiplexer;
@@ -49,6 +48,7 @@ public class GameScreen implements Screen {
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
+		fightingStage = new FightingView(game);
 		currentPlayerStats = firstPlayerStats;
 		multiplexer = new InputMultiplexer();
 
@@ -253,6 +253,9 @@ public class GameScreen implements Screen {
 
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
+
+		fightingStage.act(Gdx.graphics.getDeltaTime());
+		fightingStage.draw();
 	}
 
 	private void panCameraTo(Vector3 target) {
@@ -279,6 +282,11 @@ public class GameScreen implements Screen {
 	public void resize(int width, int height) {
 		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
+	}
+
+	public void startFight() {  
+		Gdx.input.setInputProcessor(fightingStage);
+		fightingStage.start();
 	}
 
 	@Override
