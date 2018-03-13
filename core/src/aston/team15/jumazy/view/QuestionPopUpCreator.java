@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -21,7 +20,6 @@ public class QuestionPopUpCreator {
 	
 	private Skin skin;
 	private Table questionTable;
-	private Table questionBG;
 	private CheckBox maths;
 	private CheckBox geography;
 	private CheckBox history;
@@ -96,7 +94,6 @@ public class QuestionPopUpCreator {
 			public void clicked(InputEvent event, float x, float y) {
 
 				if(!histoSB.isDisabled() || !mathSB.isDisabled() || !geoSB.isDisabled()) {
-					populateSelections();
 					HashMap<String, String> levels = getSelections();
 					game.setQuestionType(levels);
 					game.setPlayerAmountAndStartGame(numOfPlayers);
@@ -111,13 +108,13 @@ public class QuestionPopUpCreator {
 		questionTable = new Table();
 		questionTable.center();
 		questionTable.setFillParent(true);
-		
-		questionBG = new Table();
+
+		Table questionBG = new Table();
 		questionBG.setFillParent(true);
 		questionBG.top().padTop(0f);
 		
-		questionTable.add(geography).padTop(-20).left().row();;
-		questionTable.add(maths).left().row();;
+		questionTable.add(geography).padTop(-20).left().row();
+		questionTable.add(maths).left().row();
 		questionTable.add(history).left().row();
 		
 		questionTable.add(geoSB).padTop(10).width(320).height(40).row();
@@ -168,20 +165,30 @@ public class QuestionPopUpCreator {
 		histoSB.setTouchable(Touchable.disabled);
 	}
 	
-	public void populateSelections() {
+	public HashMap<String, String> getSelections() {
 		selections = new HashMap<>();
 		//gives the last word of the selected checkbox, being the difficulty
-		if(!geoSB.isDisabled())
-			selections.put("geography", geoSB.getSelected().substring(geoSB.getSelected().lastIndexOf(" ")+1));
+		if(!geoSB.isDisabled()) {
+			System.out.println("geo checked");
+			selections.put("geography", geoSB.getSelected().substring(geoSB.getSelected().lastIndexOf(" ") + 1));
+			System.out.println(selections.get("geography"));
+		}
 
-		if(!mathSB.isDisabled())
+		if(!mathSB.isDisabled()){
+			System.out.println("math checked");
 			selections.put("maths", mathSB.getSelected().substring(mathSB.getSelected().lastIndexOf(" ")+1));
+			System.out.println(selections.get("maths"));
 
-		if(!histoSB.isDisabled())
+		}
+
+		if(!histoSB.isDisabled()){
+			System.out.println("his checked");
+
 			selections.put("history", histoSB.getSelected().substring(histoSB.getSelected().lastIndexOf(" ")+1));
-	}
-	
-	public HashMap<String, String> getSelections(){
+			System.out.println(selections.get("history"));
+
+		}
+
 		return selections;
 	}
 	

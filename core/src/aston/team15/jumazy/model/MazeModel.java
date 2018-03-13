@@ -16,7 +16,7 @@ public class MazeModel {
 	// array goes (y,x)/(row,col)
 
 	public enum Weather {
-		RAIN, SUN;
+		RAIN, SUN
 	}
 
 	private String[][] maze;
@@ -24,6 +24,7 @@ public class MazeModel {
 	private int currentPlayerIndex;
 	private Weather weather;
 	private ArrayList<String[][]> allRoomLayouts;
+	private boolean makeVictory = true;
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount) {
 		float weatherDiscriminant = new Random().nextFloat();
@@ -85,8 +86,10 @@ public class MazeModel {
 		String currentLine;
 		String currentChar;
 		int roomSize=8;
+		int roomBorder = 2;
 		BufferedReader reader;
-		
+
+		//creates a list of room layouts from provided file. ArrayList of String[][]
 		String filename = "roomlayouts/RoomLayoutsSize"+roomSize+".txt";
 		allRoomLayouts = new ArrayList<String[][]>();
 		try {
@@ -114,7 +117,7 @@ public class MazeModel {
 
 		// create roomAmount rooms
 		for (int i = 0; i < roomsAcross * roomsDown; i++) {
-			String[][] room = genRoom(roomSize+2);
+			String[][] room = genRoom(roomSize+roomBorder);
 
 			// set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
@@ -187,27 +190,49 @@ public class MazeModel {
 	/**
 	 * Creates a new room, surrounded will walls, and filled with floors
 	 * 
-	 * @param size
+	 * @param roomSize
 	 *            width/height of room
 	 * @return 2D array of String, with wall and path representations
 	 */
 	private String[][] genRoom(int roomSize) {
 		
 		String[][] room = new String[roomSize][roomSize];
-		Random rng = new Random();
-		int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
-		
+		String[][] layout;
+
+		do{
+            Random rng = new Random();
+            int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
+            layout = allRoomLayouts.get(randLayoutIndex);
+        }while (!validRoom(layout));
+
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
 					room[i][j] = "#";
 				} else {
-					room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];;
+					room[i][j] = layout[i-1][j-1];
+					if(layout[i-1][j-1].equals("V"))
+                        makeVictory = false;
 				}
 			}
 		}
 		return room;
 	}
+
+    /**
+     * Checks if this room should be created, EG there is already one victory room, return false
+     * @return true if room should be made
+     */
+	private boolean validRoom(String[][] layout){
+	    for(String[] row : layout){
+	        for(String cell : row){
+	            if(!makeVictory && cell.equals("V")){
+                    return false;
+                }
+            }
+        }
+	    return true;
+    }
 
 	public String[][] getMaze() {
 		return maze;

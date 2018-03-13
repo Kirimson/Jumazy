@@ -1,39 +1,26 @@
 package aston.team15.jumazy.view;
 
-import java.io.File;
-import java.util.ArrayList;
+import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import aston.team15.jumazy.controller.JumazyController;
+import java.io.File;
 
 public class QuestionUI {
 
-	private Skin skin;
 	private Table table;
 	private Table questionUIBG;
-	private boolean isActive;
 	private boolean correct;
 	private Label lQuestion;
 	private String[] questionAndAnswer;
 	private final TextField tfAnswer;
 
 	public QuestionUI(final JumazyController game) {
-		isActive = false;
-		skin = game.getSkin();
+		Skin skin = game.getSkin();
 		
 		table = new Table();
 		table.setFillParent(true);
@@ -62,8 +49,7 @@ public class QuestionUI {
 			public void clicked(InputEvent event, float x, float y) {
 				
 				correct = checkAnswer(tfAnswer.getText());
-				isActive = false;
-				
+
 				table.remove();
 				questionUIBG.remove();
 				tfAnswer.setText("");
@@ -95,7 +81,7 @@ public class QuestionUI {
 	 * @param answer answer user gabe in textfield
 	 * @return true if answer is correct
 	 */
-	public boolean checkAnswer(String answer) {
+	private boolean checkAnswer(String answer) {
 		int i = 1;
 		while (i < questionAndAnswer.length) {
 			if (answer.toLowerCase().equals(questionAndAnswer[i].toLowerCase())) {
@@ -112,9 +98,9 @@ public class QuestionUI {
 
 	/**
 	 * plays a given sound, catches any file Exceptions
-	 * @param sound
+	 * @param sound sound to play
 	 */
-	public void playSound(File sound) {
+	private void playSound(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(sound));
@@ -126,7 +112,7 @@ public class QuestionUI {
 
 	/**
 	 * checks if questionUI is not active, returns true if table has no stage
-	 * @return
+	 * @return true if table is not on a stage
 	 */
 	public boolean notActive() {
 		return table.getStage() == null;
@@ -134,7 +120,7 @@ public class QuestionUI {
 
 	/**
 	 * adds the questionUI actors to a set stage, and gives the answer TextField keyboard focus through the stage
-	 * @param stage
+	 * @param stage stage to add Actors to
 	 */
 	public void addToStage(Stage stage) {
 		stage.addActor(questionUIBG);
