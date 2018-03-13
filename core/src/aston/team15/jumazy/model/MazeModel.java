@@ -17,6 +17,10 @@ public class MazeModel {
 	public enum Weather {
 		RAIN, SUN;
 	}
+	
+	public enum Item {
+		RED_POTION, BLUE_POTION, GREEN_POTION, SWORD;
+	}
 
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
@@ -239,6 +243,7 @@ public class MazeModel {
 		currentPlayerIndex = (currentPlayerIndex + 1) % (players.size());
 		if (JumazyController.DEBUG_ON)
 			System.out.println("It is now Player " + (currentPlayerIndex + 1) + "'s turn.");
+			System.out.println("Player " + (currentPlayerIndex + 1) + " inventory: " + getCurrentPlayer().getInventory());
 
 		return currentPlayerIndex;
 	}

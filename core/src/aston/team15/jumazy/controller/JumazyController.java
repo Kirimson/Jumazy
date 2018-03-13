@@ -26,7 +26,7 @@ public class JumazyController extends Game {
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
-
+	
 	@Override
 	public void create() {
 		setTexturePack("jumazyskin/current/jumazy-skin.atlas", "jumazyskin/current/jumazy-skin.json");
@@ -66,6 +66,7 @@ public class JumazyController extends Game {
 	@Override
 	public void render() {
 		super.render();
+		
 	}
 
 	@Override
@@ -105,6 +106,10 @@ public class JumazyController extends Game {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
+				}
+				
+				if (maze.getCurrentPlayer().isOnChest()) {
+					maze.getCurrentPlayer().obtainRandomItem();
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {

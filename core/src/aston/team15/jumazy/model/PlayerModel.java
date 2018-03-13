@@ -1,10 +1,12 @@
 package aston.team15.jumazy.model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Input;
 
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.model.MazeModel.Item;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class PlayerModel {
@@ -32,13 +34,17 @@ public class PlayerModel {
 	private int stamina, strength, hp, agility, luck, intelligence;
 	private int[] playerStats;
 	private boolean onTrap;
+	private boolean onChest;
 	private boolean canRoll = true;
+	private ArrayList<Item> inventory;
+	
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
+		inventory = new ArrayList<Item>();
 
 		// health points:
 		// combat is based on dice rolls. If the opponents roll result is larger than
@@ -128,6 +134,11 @@ public class PlayerModel {
 				onTrap = true;
 			else
 				onTrap = false;
+			
+			if (currentPositionSymbol.equals("*"))
+				onChest = true;
+			else 
+				onChest = false;
 
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
@@ -143,6 +154,19 @@ public class PlayerModel {
 
 	}
 
+	public void obtainRandomItem() {
+		Random randGen = new Random();
+		Item item = Item.values()[randGen.nextInt(Item.values().length)];		
+		inventory.add(item);
+		
+		if (JumazyController.DEBUG_ON)
+			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
+	}
+	
+	public ArrayList<Item> getInventory() {
+		return inventory;
+	}
+	
 	public int rollDie(Weather weather) {
 		canRoll = false;
 		int rollResult = new Random().nextInt(6) + 1;
@@ -168,6 +192,10 @@ public class PlayerModel {
 
 	public boolean isOnTrap() {
 		return onTrap;
+	}
+	
+	public boolean isOnChest() {
+		return onChest;
 	}
 
 	public void setCanRoll(boolean canRoll) {
