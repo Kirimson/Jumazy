@@ -22,9 +22,7 @@ public class QuestionRetriever {
 				case "Easy":
 				case "Medium":
 				case "Hard":
-					categoryLevels.put(category, levels.get(category));
-					System.out.println(category + " "+ levels.get(category));
-					break;
+					categoryLevels.put(category, levels.get(category));break;
 			}
 		}
 

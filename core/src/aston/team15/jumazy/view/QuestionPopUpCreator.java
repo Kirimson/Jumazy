@@ -167,26 +167,14 @@ public class QuestionPopUpCreator {
 	private HashMap<String, String> getSelections() {
 		HashMap<String, String> selections = new HashMap<>();
 		//gives the last word of the selected checkbox, being the difficulty
-		if(!geoSB.isDisabled()) {
-			System.out.println("geo checked");
+		if(!geoSB.isDisabled())
 			selections.put("geography", geoSB.getSelected().substring(geoSB.getSelected().lastIndexOf(" ") + 1));
-			System.out.println(selections.get("geography"));
-		}
 
-		if(!mathSB.isDisabled()){
-			System.out.println("math checked");
+		if(!mathSB.isDisabled())
 			selections.put("maths", mathSB.getSelected().substring(mathSB.getSelected().lastIndexOf(" ")+1));
-			System.out.println(selections.get("maths"));
 
-		}
-
-		if(!histoSB.isDisabled()){
-			System.out.println("his checked");
-
+		if(!histoSB.isDisabled())
 			selections.put("history", histoSB.getSelected().substring(histoSB.getSelected().lastIndexOf(" ")+1));
-			System.out.println(selections.get("history"));
-
-		}
 
 		return selections;
 	}
