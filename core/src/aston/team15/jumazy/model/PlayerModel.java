@@ -1,7 +1,6 @@
 package aston.team15.jumazy.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Input;
@@ -13,10 +12,6 @@ public class PlayerModel {
 	
 	public enum CharacterName {
 		SMOLDER_BRAVESTONE, RUBY_ROUNDHOUSE, FRANKLIN_FINBAR, SHELLY_OBERON;
-	}
-
-	public enum CalledStat {
-		HP, STAMINA, STRENGTH, AGILITY, LUCK, INTELLIGENCE;
 	}
 
 	private MazeModel maze;
@@ -31,7 +26,6 @@ public class PlayerModel {
 	private boolean onChest;
 	private boolean canRoll = true;
 	private ArrayList<Item> inventory;
-	
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
