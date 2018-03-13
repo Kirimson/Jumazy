@@ -12,6 +12,7 @@ public class QuestionRetriever {
 	private String[] cells = null;
 	private ArrayList<String> questionRandomiser = new ArrayList<String>();
 	private HashMap<String, String> categoryLevels;
+	private String lastQuestion;
 
 	public void chosenTypes(HashMap<String, String> levels) {
 
@@ -46,21 +47,25 @@ public class QuestionRetriever {
 	public String[] retrieveRiddle() {
 		String fileName = selectFile();
 		File file = new File(fileName);
-		
-		try {
-			Scanner inputStream = new Scanner(file);
-			String line;
-			List<String> lines = new ArrayList<>();
-			while (inputStream.hasNext()) {
-				line = inputStream.nextLine();
-				lines.add(line);
-			}
 
-			Collections.shuffle(lines);
-			cells = lines.get(0).split(",");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		do {
+			try {
+				Scanner inputStream = new Scanner(file);
+				String line;
+				List<String> lines = new ArrayList<>();
+				while (inputStream.hasNext()) {
+					line = inputStream.nextLine();
+					lines.add(line);
+				}
+
+				Collections.shuffle(lines);
+				cells = lines.get(0).split(",");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}while (cells[0].equals(lastQuestion));
+
+		lastQuestion = cells[0];
 
 		return cells;
 	}

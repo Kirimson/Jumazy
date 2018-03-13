@@ -302,7 +302,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// update camera position if needed
-//		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
+		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
 		// draw stage
 		if (!dice.isRollFinished()) {
@@ -318,7 +318,7 @@ public class GameScreen implements Screen {
 		// draw all UI
 		hud.update(currentPlayerIndex, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
-//		uiStage.draw();
+		uiStage.draw();
 
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
