@@ -84,19 +84,7 @@ public class GameScreen implements Screen {
 					break;
 				case "W":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("floor-single-water"));
-					break;
-				case "a":
-					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("floor-left-water"));
-					break;
-				case "b":
-					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("floor-middle-water"));
-					break;
-				case "c":
-					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("floor-right-water"));
+							game.getSprite(generateWaterTexture(maze, mazeX, mazeY)));
 					break;
 				case "1":
 				case "2":
@@ -152,32 +140,46 @@ public class GameScreen implements Screen {
 		currentPlayerStats = playerStats;
 	}
 
+	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY){
+
+		if(mazeY > 0 && mazeY < maze[0].length-1) {
+			if (maze[mazeX][mazeY-1].equals("W") && maze[mazeX][mazeY+1].equals("W"))
+				return "floor-middle-water";
+			else if (maze[mazeX][mazeY-1].equals("W") && !maze[mazeX][mazeY+1].equals("W"))
+				return "floor-right-water";
+			else if (!maze[mazeX][mazeY-1].equals("W") && maze[mazeX][mazeY+1].equals("W"))
+				return "floor-left-water";
+		}
+
+		return "floor-single-water";
+	}
+
 	/**
-	 * generates random types of walls, 60% of normal wall, 35% of mising bring and 5% of leaf wall
+	 * generates rcorrect type of wall depending on walls relative to this wall
 	 * @return string for wall texture
 	 * @param maze the maze string
-	 * @param mazeX x posiiton in maze
 	 * @param mazeY y position in maze
+	 * @param mazeX x position in maze
 	 */
-	private String generateWallTexture(String[][] maze, int mazeY, int mazeX) {
+	private String generateWallTexture(String[][] maze, int mazeX, int mazeY) {
 
 		//very bottom corners
-		if((mazeX == 0 && mazeY == 0) || (mazeX == maze[0].length-1 && mazeY == 0))
+		if((mazeY == 0 && mazeX == 0) || (mazeY == maze[0].length-1 && mazeX == 0))
 			return "wall-no-edge";
 
 
 		//bottom of pillar wall
-		if(mazeX > 0 && mazeX < maze[0].length-1 && mazeY > 0) {
-			if(maze[mazeY][mazeX-1].equals("O") && maze[mazeY][mazeX+1].equals("O") && maze[mazeY-1][mazeX].equals("O")){
+		if(mazeY > 0 && mazeY < maze[0].length-1 && mazeX > 0) {
+			if(maze[mazeX][mazeY-1].equals("O") && maze[mazeX][mazeY+1].equals("O") && maze[mazeX-1][mazeY].equals("O")){
 				return randomWallTexture();
 			}
 		}
 
 		//wall going across
-		if(mazeX > 0 && mazeX < maze[0].length-1) {
-			if (maze[mazeY][mazeX-1].equals("#") || maze[mazeY][mazeX+1].equals("#")){
-				if(mazeY > 0) {
-					if (!maze[mazeY - 1][mazeX].equals("#"))
+		if(mazeY > 0 && mazeY < maze[0].length-1) {
+			if (maze[mazeX][mazeY-1].equals("#") || maze[mazeX][mazeY+1].equals("#")){
+				if(mazeX > 0) {
+					if (!maze[mazeX - 1][mazeY].equals("#"))
 						return randomWallTexture();
 				}
 				return "wall-no-edge";
@@ -185,8 +187,8 @@ public class GameScreen implements Screen {
 		}
 
 		//wall going up
-		if(mazeY > 0 && mazeY < maze.length-1) {
-			if (maze[mazeY-1][mazeX].equals("#") || maze[mazeY+1][mazeX].equals("#"))
+		if(mazeX > 0 && mazeX < maze.length-1) {
+			if (maze[mazeX-1][mazeY].equals("#") || maze[mazeX+1][mazeY].equals("#"))
 				return "wall-no-edge";
 		}
 
@@ -194,6 +196,10 @@ public class GameScreen implements Screen {
 		return "wall-plain";
 	}
 
+	/**
+	 * generates random types of walls, 60% of normal wall, 35% of leaf walland 5% of missing brick
+	 * @return type of wall
+	 */
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
 		if (wallType < 0.6)
