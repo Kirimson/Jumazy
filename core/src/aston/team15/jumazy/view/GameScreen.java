@@ -95,6 +95,10 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("floor-right-water"));
 					break;
+				case "*":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("chest-gold"), game.getSprite(randomFloorTexture()));
+					break;
 				case "1":
 				case "2":
 				case "3":

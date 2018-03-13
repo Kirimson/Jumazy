@@ -60,7 +60,6 @@ public class MazeModel {
 				initialState += "It is raining.";
 			}
 			initialState += "\nPlayer 1 will start.";
-			initialState += "\nPlayer 1 RPG stats: " + players.get(currentPlayerIndex).getStatsArray();
 			System.out.println(initialState);
 			System.out.println(toString());
 		}
@@ -107,6 +106,7 @@ public class MazeModel {
 		} catch (IOException e1) {
 			System.out.println("Failed to parse room layout file.");
 		}
+		
 		// create maze with enough space to store all cells of all rooms in a square
 		// shape
 		String[][] mazeString = new String[10 * roomsDown][10 * roomsAcross];
@@ -198,13 +198,19 @@ public class MazeModel {
 		
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
+				double randChestChance = rng.nextDouble();
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
 					room[i][j] = "#";
 				} else {
-					room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];;
+					if (allRoomLayouts.get(randLayoutIndex)[i-1][j-1].equals("O") && (randChestChance < 0.02)){
+						room[i][j] = "*";
+					} else {						
+						room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];
+					}
 				}
 			}
 		}
+		
 		return room;
 	}
 
