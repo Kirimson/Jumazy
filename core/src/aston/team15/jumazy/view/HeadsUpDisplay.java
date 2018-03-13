@@ -122,8 +122,8 @@ public class HeadsUpDisplay extends Table {
 //		this.debugAll();
 	}
 
-	public void update(int currentPlayerIndex, int[] currentPlayerStats) {
-		playerLabel.setText("Player " + (currentPlayerIndex + 1) + "'s turn! " + playerLabelString);
+	public void update(int currentPlayerNumber, int[] currentPlayerStats) {
+		playerLabel.setText("Player " + currentPlayerNumber + "'s turn! " + playerLabelString);
 		diceLabel.setText(diceLabelString);
 
 		for (int i = 0; i < statsLabels.length; i++) {

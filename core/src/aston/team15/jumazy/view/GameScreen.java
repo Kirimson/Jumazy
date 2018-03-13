@@ -256,7 +256,7 @@ public class GameScreen implements Screen {
 		gameStage.draw();
 
 		// draw all UI
-		hud.update(currentPlayerIndex, currentPlayerStats);
+		hud.update(currentPlayerIndex+1, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -282,6 +282,10 @@ public class GameScreen implements Screen {
 
 	public int getCurrentPlayerNumber() {
 		return currentPlayerIndex + 1;
+	}
+	
+	public HeadsUpDisplay getHUD() {
+		return hud;
 	}
 
 	@Override

@@ -1,12 +1,12 @@
 package aston.team15.jumazy.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Input;
 
 import aston.team15.jumazy.controller.JumazyController;
-import aston.team15.jumazy.model.MazeModel.Item;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class PlayerModel {
@@ -16,13 +16,7 @@ public class PlayerModel {
 	}
 
 	public enum CalledStat {
-		HP(0), STAMINA(1), STRENGTH(2), AGILITY(3), LUCK(4), INTELLIGENCE(5);
-
-		protected final int index;
-
-		private CalledStat(int index) {
-			this.index = index;
-		}
+		HP, STAMINA, STRENGTH, AGILITY, LUCK, INTELLIGENCE;
 	}
 
 	private MazeModel maze;
@@ -45,7 +39,7 @@ public class PlayerModel {
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
 		inventory = new ArrayList<Item>();
-
+		
 		// health points:
 		// combat is based on dice rolls. If the opponents roll result is larger than
 		// this players roll result, subtract the difference from hp
@@ -161,6 +155,35 @@ public class PlayerModel {
 		
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
+		
+		switch (item) {
+		case RED_POTION:
+			if (hp + item.getValue() > 10)
+				hp = 10;
+			else 
+				hp += item.getValue();
+			break;
+		case BLUE_POTION:
+			if (stamina + item.getValue() > 10)
+				stamina = 10;
+			else 
+				stamina += item.getValue();
+			break;
+		case GREEN_POTION:
+			if (luck + item.getValue() > 10)
+				luck = 10;
+			else 
+				luck += item.getValue();
+			break;
+		case SWORD:
+			if (strength + item.getValue() > 10)
+				strength = 10;
+			else 
+				strength += item.getValue();
+			break;
+		}
+		
+		playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence };
 	}
 	
 	public ArrayList<Item> getInventory() {
@@ -209,16 +232,8 @@ public class PlayerModel {
 	public boolean isOnVictorySquare() {
 		return currentPositionSymbol.equals("V");
 	}
-
-	public int getStat(CalledStat stat) {
-		return playerStats[stat.index];
-	}
 	
 	public int[] getStatsArray() {
 		return playerStats;
-	}
-
-	public void setStat(CalledStat stat, int newValue) {
-		playerStats[stat.index] = playerStats[stat.index] + newValue;
 	}
 }

@@ -17,10 +17,6 @@ public class MazeModel {
 	public enum Weather {
 		RAIN, SUN;
 	}
-	
-	public enum Item {
-		RED_POTION, BLUE_POTION, GREEN_POTION, SWORD;
-	}
 
 	private String[][] maze;
 	private ArrayList<PlayerModel> players;
@@ -35,7 +31,7 @@ public class MazeModel {
 		} else {
 			weather = Weather.RAIN;
 		}
-		
+
 		maze = genMaze(roomsAcross, roomsDown, playerAmount);
 
 		players = new ArrayList<PlayerModel>();
@@ -86,21 +82,21 @@ public class MazeModel {
 	private String[][] genMaze(int roomsAcross, int roomsDown, int players) {
 		String currentLine;
 		String currentChar;
-		int roomSize=8;
+		int roomSize = 8;
 		BufferedReader reader;
-		
-		String filename = "roomlayouts/RoomLayoutsSize"+roomSize+".txt";
+
+		String filename = "roomlayouts/RoomLayoutsSize" + roomSize + ".txt";
 		allRoomLayouts = new ArrayList<String[][]>();
 		try {
 			reader = new BufferedReader(new FileReader(filename));
-			while(reader.ready()) {
+			while (reader.ready()) {
 				currentLine = reader.readLine();
-				if(!currentLine.startsWith("/")) {
+				if (!currentLine.startsWith("/")) {
 					String[][] newLayout = new String[roomSize][roomSize];
-					for(int j=0;j<roomSize;j++) {
-						for(int i=0;i<roomSize;i++) {
-							currentChar = currentLine.substring(i, i+1);
-								newLayout[i][j]=currentChar;
+					for (int j = 0; j < roomSize; j++) {
+						for (int i = 0; i < roomSize; i++) {
+							currentChar = currentLine.substring(i, i + 1);
+							newLayout[i][j] = currentChar;
 						}
 						currentLine = reader.readLine();
 					}
@@ -110,14 +106,14 @@ public class MazeModel {
 		} catch (IOException e1) {
 			System.out.println("Failed to parse room layout file.");
 		}
-		
+
 		// create maze with enough space to store all cells of all rooms in a square
 		// shape
 		String[][] mazeString = new String[10 * roomsDown][10 * roomsAcross];
 
 		// create roomAmount rooms
 		for (int i = 0; i < roomsAcross * roomsDown; i++) {
-			String[][] room = genRoom(roomSize+2);
+			String[][] room = genRoom(roomSize + 2);
 
 			// set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
@@ -195,26 +191,26 @@ public class MazeModel {
 	 * @return 2D array of String, with wall and path representations
 	 */
 	private String[][] genRoom(int roomSize) {
-		
+
 		String[][] room = new String[roomSize][roomSize];
 		Random rng = new Random();
 		int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
-		
+
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
 				double randChestChance = rng.nextDouble();
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
 					room[i][j] = "#";
 				} else {
-					if (allRoomLayouts.get(randLayoutIndex)[i-1][j-1].equals("O") && (randChestChance < 0.02)){
+					if (allRoomLayouts.get(randLayoutIndex)[i - 1][j - 1].equals("O") && (randChestChance < 0.02)) {
 						room[i][j] = "*";
-					} else {						
-						room[i][j] = allRoomLayouts.get(randLayoutIndex)[i-1][j-1];
+					} else {
+						room[i][j] = allRoomLayouts.get(randLayoutIndex)[i - 1][j - 1];
 					}
 				}
 			}
 		}
-		
+
 		return room;
 	}
 
@@ -241,9 +237,17 @@ public class MazeModel {
 	public int passTurnToNextPlayer() {
 		getCurrentPlayer().setCanRoll(true);
 		currentPlayerIndex = (currentPlayerIndex + 1) % (players.size());
-		if (JumazyController.DEBUG_ON)
+		if (JumazyController.DEBUG_ON) {
 			System.out.println("It is now Player " + (currentPlayerIndex + 1) + "'s turn.");
-			System.out.println("Player " + (currentPlayerIndex + 1) + " inventory: " + getCurrentPlayer().getInventory());
+			System.out
+					.println("Player " + (currentPlayerIndex + 1) + " inventory: " + getCurrentPlayer().getInventory());
+
+			String statsString = "";
+			for (int i : getCurrentPlayer().getStatsArray()) {
+				statsString += i + ", ";
+			}
+			System.out.println("Player " + (currentPlayerIndex + 1) + " stats: " + statsString);
+		}
 
 		return currentPlayerIndex;
 	}

@@ -102,7 +102,6 @@ public class JumazyController extends Game {
 				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
 
 				if (maze.getCurrentPlayer().isOnTrap()) {
-
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
@@ -110,6 +109,7 @@ public class JumazyController extends Game {
 				
 				if (maze.getCurrentPlayer().isOnChest()) {
 					maze.getCurrentPlayer().obtainRandomItem();
+					gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {
