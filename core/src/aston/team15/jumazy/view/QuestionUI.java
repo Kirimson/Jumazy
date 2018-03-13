@@ -1,7 +1,9 @@
 package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -45,7 +47,20 @@ public class QuestionUI {
 		table.row();
 		table.add(btnSubmit).width(250).padTop(25).height(50);
 
+		//if enter is pressed, simulate a click on the submit button. Need to send both a touchDown/Up for clicked
+		tfAnswer.setTextFieldListener((textField, key) -> {
+            if ((key == '\r' || key == '\n')){
+				InputEvent clickDown = new InputEvent();
+				clickDown.setType(InputEvent.Type.touchDown);
+				btnSubmit.fire(clickDown);
+				InputEvent clickUp = new InputEvent();
+				clickUp.setType(InputEvent.Type.touchUp);
+				btnSubmit.fire(clickUp);
+            }
+        });
+
 		btnSubmit.addListener(new ClickListener() {
+
 			public void clicked(InputEvent event, float x, float y) {
 				
 				correct = checkAnswer(tfAnswer.getText());
