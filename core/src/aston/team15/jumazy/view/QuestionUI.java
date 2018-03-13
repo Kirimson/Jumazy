@@ -1,9 +1,7 @@
 package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.JumazyController;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,7 +19,7 @@ public class QuestionUI {
 	private String[] questionAndAnswer;
 	private final TextField tfAnswer;
 
-	public QuestionUI(final JumazyController game) {
+	QuestionUI(final JumazyController game) {
 		Skin skin = game.getSkin();
 		
 		table = new Table();
@@ -121,7 +119,7 @@ public class QuestionUI {
 			clip.open(AudioSystem.getAudioInputStream(sound));
 			clip.start();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

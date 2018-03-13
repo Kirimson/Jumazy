@@ -30,9 +30,8 @@ public class QuestionPopUpCreator {
 	private SelectBox<String> mathSB;
 	private SelectBox<String> histoSB;
 	private TextButton playButton;
-	private HashMap<String, String> selections;
-	
-	public QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
+
+	QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
 		 skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		
 		 createCheckBoxes();
@@ -104,7 +103,7 @@ public class QuestionPopUpCreator {
 	}
 	
 	
-	public void createTables() {
+	private void createTables() {
 		questionTable = new Table();
 		questionTable.center();
 		questionTable.setFillParent(true);
@@ -130,13 +129,13 @@ public class QuestionPopUpCreator {
 		questionTable.add(playButton);
 	}
 	
-	public void createCheckBoxes() {
+	private void createCheckBoxes() {
 		geography = new CheckBox("Geography", skin);
 	    maths = new CheckBox("Maths", skin);
 	    history = new CheckBox("History", skin);
 	}
 	
-	public void createSelectBoxes() {
+	private void createSelectBoxes() {
 	    geoObjects = new String[3];
 	    geoObjects[0] = "Geography: Off";
 	    geoObjects[1] = "Geography Difficulty: Medium";
@@ -165,8 +164,8 @@ public class QuestionPopUpCreator {
 		histoSB.setTouchable(Touchable.disabled);
 	}
 	
-	public HashMap<String, String> getSelections() {
-		selections = new HashMap<>();
+	private HashMap<String, String> getSelections() {
+		HashMap<String, String> selections = new HashMap<>();
 		//gives the last word of the selected checkbox, being the difficulty
 		if(!geoSB.isDisabled()) {
 			System.out.println("geo checked");

@@ -1,13 +1,12 @@
 package aston.team15.jumazy.model;
 
+import aston.team15.jumazy.controller.JumazyController;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
-import aston.team15.jumazy.controller.JumazyController;
 
 public class MazeModel {
 
@@ -34,7 +33,7 @@ public class MazeModel {
 			weather = Weather.RAIN;
 		}
 		
-		maze = genMaze(roomsAcross, roomsDown, playerAmount);
+		maze = genMaze(roomsAcross, roomsDown);
 
 		players = new ArrayList<PlayerModel>();
 
@@ -82,7 +81,7 @@ public class MazeModel {
 	 *            amount of rooms down
 	 * @return the maze
 	 */
-	private String[][] genMaze(int roomsAcross, int roomsDown, int players) {
+	private String[][] genMaze(int roomsAcross, int roomsDown) {
 		String currentLine;
 		String currentChar;
 		int roomSize=8;
@@ -239,19 +238,19 @@ public class MazeModel {
 	}
 
 	public String toString() {
-		String str = "";
+		StringBuilder str = new StringBuilder();
 
 		for (int mazerow = maze.length - 1; mazerow >= 0; mazerow--) {
 			for (int mazecol = 0; mazecol < maze[0].length; mazecol++) {
 				String current = maze[mazerow][mazecol];
 				if (current != null) {
-					str += current;
+					str.append(current);
 				}
 			}
-			str += "\n";
+			str.append("\n");
 		}
 
-		return str;
+		return str.toString();
 	}
 
 	public int passTurnToNextPlayer() {

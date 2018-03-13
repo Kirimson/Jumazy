@@ -61,7 +61,7 @@ public class QuestionRetriever {
 			Collections.shuffle(lines);
 			cells = lines.get(0).split(",");
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 		return cells;
