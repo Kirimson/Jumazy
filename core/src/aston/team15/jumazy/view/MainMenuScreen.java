@@ -1,12 +1,11 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.GameSound;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class MainMenuScreen extends MenuScreen {

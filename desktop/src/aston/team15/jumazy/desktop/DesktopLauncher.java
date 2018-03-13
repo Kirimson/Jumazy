@@ -1,4 +1,4 @@
-package com.mygdx.game.desktop;
+package aston.team15.jumazy.desktop;
 
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

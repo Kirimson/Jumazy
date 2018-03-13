@@ -21,16 +21,17 @@ public class DiceView extends Actor {
 	private boolean canRoll = true;
 	private long lastTime = System.nanoTime();
 	private int finalDie = -1;
+	private int rollResult;
 
 	private Sprite sprite;
-
+ 
 	public DiceView(float xPos, float yPos, TextureRegion textureRegion) {
 		sprite = new Sprite(textureRegion);
 		sprite.setPosition(xPos, yPos);
 	}
 
 	public void setPosition(float xPos, float yPos) {
-		sprite.setPosition(xPos + 32f, yPos + 32f);
+//		sprite.setPosition(xPos + 32f, yPos + 32f);
 	}
 
 	public void updateSprite(TextureRegion textureRegion) {
@@ -123,6 +124,8 @@ public class DiceView extends Actor {
 			currentElapsedTime += (float) ((time - lastTime) / 1000000);
 			lastTime = time;
 		}
+		
+		rollResult = rollNumber;
 		return rollNumber;
 	}
 
@@ -131,6 +134,10 @@ public class DiceView extends Actor {
 		sprite.draw(batch, parentAlpha);
 	}
 
+	public int getRollResult() {
+		return rollResult;
+	}
+	
 	public int getRoll() {
 		return finalDie;
 	}
