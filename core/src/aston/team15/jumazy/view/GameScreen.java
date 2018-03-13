@@ -237,7 +237,10 @@ public class GameScreen implements Screen {
 			int number = dice.roll();
 			dice.updateSprite(game.getSprite("number" + number));
 		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())){
-			hud.setPlayerLabel("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
+			if (dice.getRoll() == 8)
+				hud.setPlayerLabel("You rolled an 8, use the ARROW KEYS to move.");
+			else 				
+				hud.setPlayerLabel("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
 		}
 
 		gameStage.act(Gdx.graphics.getDeltaTime());

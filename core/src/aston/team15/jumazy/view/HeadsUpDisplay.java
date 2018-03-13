@@ -133,6 +133,8 @@ public class HeadsUpDisplay extends Table {
 		if (bool) {
 			setDiceLabel("Hit\nSpace!");
 			playerLabelString = "Press SPACE to roll!";
+		} else {
+			return;
 		}
 	}
 	
