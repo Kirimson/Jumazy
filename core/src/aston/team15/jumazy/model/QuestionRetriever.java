@@ -44,6 +44,10 @@ public class QuestionRetriever {
 		return "../assets/questions/"+selectedType.toLowerCase()+categoryLevels.get(selectedType)+".csv";
 	}
 
+	/**
+	 * Get a question from a selected question file. Checks current question against lastQuestion so no duplicates occur
+	 * @return String array for contents of question
+	 */
 	public String[] retrieveRiddle() {
 		String fileName = selectFile();
 		File file = new File(fileName);
@@ -59,7 +63,7 @@ public class QuestionRetriever {
 				}
 
 				Collections.shuffle(lines);
-				cells = lines.get(0).split(",");
+				cells = lines.get(0).split("_");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
