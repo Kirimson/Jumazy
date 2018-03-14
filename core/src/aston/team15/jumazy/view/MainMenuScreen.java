@@ -34,7 +34,9 @@ public class MainMenuScreen extends MenuScreen {
 
 		stage.addActor(table);
 
-		GameSound.playMenuMusic();
+		if(GameSound.getMusicPlaying() == false) {
+			GameSound.playMenuMusic();
+		}
 		GameSound.stopGameStartMusic();
 
 	}
