@@ -27,6 +27,7 @@ public class PlayerModel {
 	private boolean onChest;
 	private boolean canRoll = true;
 	private ArrayList<Item> inventory;
+	private boolean onDoor;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -87,12 +88,23 @@ public class PlayerModel {
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
-		String[] walls = new String[] {"#","^","W","a","b","c"};
+		String[] walls = new String[] {"#","W","D"};
+
 		boolean valid = true;
 		for(String wall : walls) {
 			if(maze.getCoordinateString(newRow, newCol).equals(wall))
 				valid = false;
+		}
+
+		//if Door
+		if(maze.getCoordinateString(newRow, newCol).equals("D")){
+			System.out.println("HERE");
+			if(inventory.contains(Item.KEY)){
+				inventory.remove(Item.KEY);
+				valid = true;
 			}
+		}
+
 		return valid;
 	}
 
@@ -122,6 +134,12 @@ public class PlayerModel {
 			maze.setCoordinateString(row, col, playerSymbol);
 			movesLeft--;
 
+			if(currentPositionSymbol.equals("D")) {
+				onDoor = true;
+				currentPositionSymbol = "d";
+				maze.unlockDoor(row, col);
+			} else onDoor = false;
+
 			if (currentPositionSymbol.equals("T"))
 				onTrap = true;
 			else
@@ -148,37 +166,38 @@ public class PlayerModel {
 
 	public void obtainRandomItem() {
 		Random randGen = new Random();
-		Item item = Item.values()[randGen.nextInt(Item.values().length)];		
+		Item item = Item.values()[randGen.nextInt(Item.values().length)];
 		inventory.add(item);
 		
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
 		
 		switch (item) {
-		case RED_POTION:
-			if (hp + item.getValue() > 10)
-				hp = 10;
-			else 
-				hp += item.getValue();
-			break;
-		case BLUE_POTION:
-			if (stamina + item.getValue() > 10)
-				stamina = 10;
-			else 
-				stamina += item.getValue();
-			break;
-		case GREEN_POTION:
-			if (luck + item.getValue() > 10)
-				luck = 10;
-			else 
-				luck += item.getValue();
-			break;
-		case SWORD:
-			if (strength + item.getValue() > 10)
-				strength = 10;
-			else 
-				strength += item.getValue();
-			break;
+			case RED_POTION:
+				if (hp + item.getValue() > 10)
+					hp = 10;
+				else
+					hp += item.getValue();
+				break;
+			case BLUE_POTION:
+				if (stamina + item.getValue() > 10)
+					stamina = 10;
+				else
+					stamina += item.getValue();
+				break;
+			case GREEN_POTION:
+				if (luck + item.getValue() > 10)
+					luck = 10;
+				else
+					luck += item.getValue();
+				break;
+			case SWORD:
+				if (strength + item.getValue() > 10)
+					strength = 10;
+				else
+					strength += item.getValue();
+				break;
+
 		}
 		
 		playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence };
@@ -224,6 +243,14 @@ public class PlayerModel {
 
 		maze.setCoordinateString(row, col, playerSymbol);
 		return startOfTurnPosition;
+	}
+
+	public boolean isOnDoor() {
+		return onDoor;
+	}
+
+	public int[] getPosition() {
+		return new int[]{row, col};
 	}
 
 	public int getMovesLeft() {  

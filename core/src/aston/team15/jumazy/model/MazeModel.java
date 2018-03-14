@@ -157,60 +157,74 @@ public class MazeModel {
 
 	private void createDoors(int roomsAcross, int roomsDown, String[][] maze) {
 
+		float lockedDoorProbability = 0.2f;
+		ArrayList<Boolean> lockedDoors = new ArrayList<Boolean>();
+
 		//make doors down the maze columns
 		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
+			boolean locked = false;
 			for (int y = 2; y < (roomsDown * 10) - 1; y += 10) {
 				if (y % 9 != 0) {
+
+					String symbol = (new Random().nextFloat() > lockedDoorProbability ? "O" : "D");
+
+					locked = symbol.equals("D");
+
 					float randomFloat = new Random().nextFloat();
-					if (randomFloat < 0.65)
-						makeCommonDoors(y, x, maze);
+					if (randomFloat < 0.65) {
+						maze[y][x] = symbol;
+						maze[y + 1][x] = symbol;
+						maze[y][x + 1] = "O";
+						maze[y + 1][x + 1] = "O";
+					}
 
 					//make doors at offset area, with more added to column
 					if (randomFloat > 0.35) {
-						maze[y + 4][x] = "O";
-						maze[y + 5][x] = "O";
+						maze[y + 4][x] = symbol;
+						maze[y + 5][x] = symbol;
 						maze[y + 4][x + 1] = "O";
 						maze[y + 5][x + 1] = "O";
 					}
+
 				} else
 					y -= 2;
 			}
+			lockedDoors.add(locked);
 		}
+		lockedDoors.add(true);
 
+		int currentRoom = 0;
 		//make doors across the maze rows
 		for (int x = 2; x < (roomsAcross * 10) - 1; x += 10) {
 			for (int y = 9; y < (roomsDown * 10) - 1; y += 10) {
 				if (x % 9 != 0) {
+
+					String symbol = "O";
+
+					if(!lockedDoors.get(currentRoom))
+						symbol = (new Random().nextFloat() < lockedDoorProbability ? "D" : "O");
+
 					float randomFloat = new Random().nextFloat();
-					if (randomFloat < 0.65)
-						makeCommonDoors(y, x, maze);
+					if (randomFloat < 0.65) {
+						maze[y][x] = symbol;
+						maze[y + 1][x] = "O";
+						maze[y][x + 1] = symbol;
+						maze[y + 1][x + 1] = "O";
+					}
 
 					//make doors at offset area, with more added to row
 					if (randomFloat > 0.35) {
-						maze[y][x + 4] = "O";
+						maze[y][x + 4] = symbol;
+						maze[y][x + 5] = symbol;
 						maze[y + 1][x + 4] = "O";
-						maze[y][x + 5] = "O";
 						maze[y + 1][x + 5] = "O";
 					}
+
+					currentRoom++;
 				} else
 					x -= 2;
 			}
 		}
-	}
-
-	/**
-	 * Create doors between rooms where row and column dont need to be changed for going vertically and horizontally
-	 * Purely made to reduce code repetition. As making the second door, if going vertically, more needs to be added
-	 * to col, whereas horizontally, more to row, which can't be done here
-	 * @param y inital y value of the maze
-	 * @param x inital x value of the maze
-	 * @param maze the maze string
-	 */
-	private void makeCommonDoors(int y, int x, String[][] maze) {
-		maze[y][x] = "O";
-		maze[y + 1][x] = "O";
-		maze[y][x + 1] = "O";
-		maze[y + 1][x + 1] = "O";
 	}
 
 	/**
@@ -314,6 +328,45 @@ public class MazeModel {
 
 	public void setCoordinateString(int row, int col, String symbol) {
 		maze[row][col] = symbol;
+	}
+
+	public void unlockDoor(int row, int col) {
+
+		if(maze[row-1][col].equals("D"))
+			maze[row-1][col] = "d";
+		if(maze[row+1][col].equals("D"))
+			maze[row+1][col] = "d";
+
+		if(maze[row][col-1].equals("D"))
+			maze[row][col-1] = "d";
+		if(maze[row][col+1].equals("D"))
+			maze[row][col+1] = "d";
+	}
+
+	public int[] getDoorPositions(PlayerModel player){
+		int row = player.getPosition()[0];
+		int col = player.getPosition()[1];
+
+		int positions[] = {row, col, 0, 0};
+
+		if(maze[row-1][col].equals("d")){
+			positions[2]=row-1;
+			positions[3]=col;
+		}
+		if(maze[row+1][col].equals("d")){
+			positions[2]=row+1;
+			positions[3]=col;
+		}
+
+		if(maze[row][col-1].equals("d")){
+			positions[2]=row;
+			positions[3]=col-1;
+		}
+		if(maze[row][col+1].equals("d")){
+			positions[2]=row;
+			positions[3]=col+1;
+		}
+		return positions;
 	}
 
 	public String getCoordinateString(int row, int col) {

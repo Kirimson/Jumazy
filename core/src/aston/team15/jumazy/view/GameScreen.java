@@ -91,6 +91,10 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("chest-gold"), game.getSprite(randomFloorTexture()));
 					break;
+					case "D":
+						newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+								game.getSprite("apple"), game.getSprite(randomFloorTexture()));
+						break;
 				case "1":
 				case "2":
 				case "3":
@@ -399,6 +403,21 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void unlockDoor(int[] pos) {
+		hud.setPlayerConsoleText("You just unlocked a Door!");
+
+		for(Actor a : gameStage.getActors()){
+			if(a instanceof  BlockView) {
+				if (a.getName().equals("" + pos[1] + "," + pos[0]))
+					((BlockView) a).unlockDoor(game.getSprite("arrow"));
+
+				if (a.getName().equals("" + pos[3] + "," + pos[2]))
+					((BlockView) a).unlockDoor(game.getSprite("arrow"));
+			}
+		}
 
 	}
 }
