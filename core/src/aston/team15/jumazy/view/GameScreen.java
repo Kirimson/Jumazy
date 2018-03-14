@@ -170,7 +170,7 @@ public class GameScreen implements Screen {
 
 		//bottom of pillar wall
 		if(mazeY > 0 && mazeY < maze[0].length-1 && mazeX > 0) {
-			if(maze[mazeX][mazeY-1].equals("O") && maze[mazeX][mazeY+1].equals("O") && maze[mazeX-1][mazeY].equals("O")){
+			if(maze[mazeX][mazeY-1].equals("O") && maze[mazeX][mazeY+1].equals("O") && !maze[mazeX-1][mazeY].equals("#")){
 				return randomWallTexture();
 			}
 		}
