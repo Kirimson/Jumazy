@@ -166,15 +166,12 @@ public class GameScreen implements Screen {
 		//right door
 		if(maze[mazeX-1][mazeY].equals("D"))
 			return "arrow";
-
 		//left door
 		if(maze[mazeX+1][mazeY].equals("D"))
 			return "apple";
-
 		//top door
 		if(maze[mazeX][mazeY-1].equals("D"))
 			return "arrow";
-
 		//bottom door
 		if(maze[mazeX][mazeY+1].equals("D"))
 			return "apple";
@@ -434,6 +431,10 @@ public class GameScreen implements Screen {
 
 	}
 
+	/**
+	 * Finds the door actor that the player stepped on, then updates its sprite, casting the Actor to a BlockView
+	 * @param pos door's position for both blocks
+	 */
 	public void unlockDoor(int[] pos) {
 		hud.setPlayerConsoleText("You just unlocked a Door!");
 
@@ -448,28 +449,29 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	private String generateUnlockedDoorSprite(int rowOne, int colOne, int rowTwo, int colTwo){
+	/**
+	 * generates the correct texture for an unlocked door. Works differently to other texture generators as it edits existing actors
+	 * and needs to compare itself against another position within the maze that has been pre-defined
+	 * @param thisRow this door part's row
+	 * @param thisCol this door part's column
+	 * @param otherRow the other door part's row
+	 * @param otherCol the other door part's column
+	 * @return string for the door's texture
+	 */
+	private String generateUnlockedDoorSprite(int thisRow, int thisCol, int otherRow, int otherCol){
 
 		//right door
-		if(rowOne - 1 == rowTwo){
+		if(thisRow - 1 == otherRow)
 			return "checkbox-on";
-		}
-
 		//left door
-		if(rowOne + 1 == rowTwo){
+		if(thisRow + 1 == otherRow)
 			return "checkbox-off";
-		}
-
 		//top door
-		if(colOne - 1 == colTwo){
+		if(thisCol - 1 == otherCol)
 			return "checkbox-on";
-		}
-
 		//bottom door
-		if(colOne + 1 == colTwo){
+		if(thisCol + 1 == otherCol)
 			return "checkbox-off";
-		}
-
 		return "arrow";
 	}
 }

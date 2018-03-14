@@ -17,7 +17,6 @@ public class BlockView extends Actor {
 		sprite.setPosition(xPos, yPos);
 		setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
 		setName(""+(int)xPos/32+","+(int)yPos/32);
-		System.out.println(getName());
 	}
 	
 	public BlockView(float xPos, float yPos, TextureRegion texture, TextureRegion backgroundTexture) {

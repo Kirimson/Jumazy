@@ -330,6 +330,12 @@ public class MazeModel {
 		maze[row][col] = symbol;
 	}
 
+	/**
+	 * updates a doors pair to be set to unlocked door "d". The door the player on does not need to be updated, as the
+	 * players "currentPositionSymbol" field will replace the players position to "d" when moved off of.
+	 * @param row row of original door half
+	 * @param col column of original door half
+	 */
 	public void unlockDoor(int row, int col) {
 
 		if(maze[row-1][col].equals("D"))
@@ -343,6 +349,11 @@ public class MazeModel {
 			maze[row][col+1] = "d";
 	}
 
+	/**
+	 * Finds a doors position as well as it's other halfs position, given a player that has stepped on a door
+	 * @param player PlayerModel that has stepped on a door
+	 * @return
+	 */
 	public int[] getDoorPositions(PlayerModel player){
 		int row = player.getPosition()[0];
 		int col = player.getPosition()[1];
