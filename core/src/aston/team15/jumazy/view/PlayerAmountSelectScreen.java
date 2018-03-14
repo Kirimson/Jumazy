@@ -48,7 +48,6 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 	}
 	
 	public void showPopUp(int numOfPlayers) {
-		Skin skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		
 		Table questionBG = new Table();
 		questionBG.setFillParent(true);
