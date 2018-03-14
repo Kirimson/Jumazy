@@ -112,11 +112,11 @@ public class QuestionPopUpCreator {
 		questionBG.setFillParent(true);
 		questionBG.top().padTop(0f);
 		
-		questionTable.add(geography).padTop(-20).left().row();
+		questionTable.add(geography).padTop(-30).left().row();
 		questionTable.add(maths).left().row();
 		questionTable.add(history).left().row();
 		
-		questionTable.add(geoSB).padTop(10).width(320).height(40).row();
+		questionTable.add(geoSB).padTop(20).padTop(10).width(320).height(40).row();
 		questionTable.add(mathSB).width(320).height(40).row();
 		questionTable.add(histoSB).width(320).height(40).row();
 
@@ -126,7 +126,7 @@ public class QuestionPopUpCreator {
 
 		playButton = new TextButton("Play", skin);
 
-		questionTable.add(playButton);
+		questionTable.add(playButton).padTop(20);
 	}
 	
 	private void createCheckBoxes() {
