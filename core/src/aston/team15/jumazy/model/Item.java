@@ -1,7 +1,7 @@
 package aston.team15.jumazy.model;
 
 public enum Item {
-	RED_POTION("Red Potion", 4), BLUE_POTION("Blue Potion", 2), GREEN_POTION("Green Potion", 2), SWORD("Sword", 2);
+	RED_POTION("Red Potion", 4), BLUE_POTION("Blue Potion", 2), GREEN_POTION("Green Potion", 2), SWORD("Sword", 2), KEY("Key", 0);
 
 	private final String name;
 	private final int value;

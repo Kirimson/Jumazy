@@ -118,6 +118,10 @@ public class JumazyController extends Game {
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 				}
+
+				if(maze.getCurrentPlayer().isOnDoor()){
+					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
+				}
 				
 				return true;
 			} else {

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel;
+import jdk.nashorn.internal.ir.Block;
 
 public class GameScreen implements Screen {
 
@@ -91,6 +92,10 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("chest-gold"), game.getSprite(randomFloorTexture()));
 					break;
+					case "D":
+						newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+								game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)), game.getSprite(randomFloorTexture()));
+						break;
 				case "1":
 				case "2":
 				case "3":
@@ -148,6 +153,30 @@ public class GameScreen implements Screen {
 	 */
 	public void setCurrentPlayerStats(int[] playerStats) {
 		currentPlayerStats = playerStats;
+	}
+
+	/**
+	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
+	 * @param maze the maze string
+	 * @param mazeX x position
+	 * @param mazeY y position
+	 * @return texture string
+	 */
+	private String generateLockedDoorTexture(String[][] maze, int mazeX, int mazeY) {
+		//right door
+		if(maze[mazeX-1][mazeY].equals("D"))
+			return "arrow";
+		//left door
+		if(maze[mazeX+1][mazeY].equals("D"))
+			return "apple";
+		//top door
+		if(maze[mazeX][mazeY-1].equals("D"))
+			return "arrow";
+		//bottom door
+		if(maze[mazeX][mazeY+1].equals("D"))
+			return "apple";
+
+		return "arrow";
 	}
 
 	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY){
@@ -400,5 +429,49 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * Finds the door actor that the player stepped on, then updates its sprite, casting the Actor to a BlockView
+	 * @param pos door's position for both blocks
+	 */
+	public void unlockDoor(int[] pos) {
+		hud.setPlayerConsoleText("You just unlocked a Door!");
+
+		for(Actor a : gameStage.getActors()){
+			if(a instanceof  BlockView) {
+				if (a.getName().equals("" + pos[1] + "," + pos[0]))
+					((BlockView) a).unlockDoor(game.getSprite(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2])));
+
+				if (a.getName().equals("" + pos[3] + "," + pos[2]))
+					((BlockView) a).unlockDoor(game.getSprite(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0])));
+			}
+		}
+	}
+
+	/**
+	 * generates the correct texture for an unlocked door. Works differently to other texture generators as it edits existing actors
+	 * and needs to compare itself against another position within the maze that has been pre-defined
+	 * @param thisRow this door part's row
+	 * @param thisCol this door part's column
+	 * @param otherRow the other door part's row
+	 * @param otherCol the other door part's column
+	 * @return string for the door's texture
+	 */
+	private String generateUnlockedDoorSprite(int thisRow, int thisCol, int otherRow, int otherCol){
+
+		//right door
+		if(thisRow - 1 == otherRow)
+			return "checkbox-on";
+		//left door
+		if(thisRow + 1 == otherRow)
+			return "checkbox-off";
+		//top door
+		if(thisCol - 1 == otherCol)
+			return "checkbox-on";
+		//bottom door
+		if(thisCol + 1 == otherCol)
+			return "checkbox-off";
+		return "arrow";
 	}
 }
