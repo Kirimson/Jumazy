@@ -8,17 +8,25 @@ public class GameSound {
     private static Sound menuMusic = Gdx.audio.newSound(Gdx.files.internal("snd/Menu-Music.mp3"));
     private static Sound gameStartMusic = Gdx.audio.newSound(Gdx.files.internal("snd/Creepy Music.mp3"));
     private static Sound buttonSound = Gdx.audio.newSound(Gdx.files.internal("snd/Button.wav"));
-
+    private static boolean musicPlaying = false;
+    
     public static void playMenuMusic() {
         menuMusic.play();
+        musicPlaying = true;
     }
 
     public static void stopMenuMusic() {
         menuMusic.stop();
+        musicPlaying = false;
     }
 
     public static void loopMenuMusic() {
         menuMusic.loop();
+        musicPlaying = true;
+    }
+    
+    public static boolean getMusicPlaying() {
+    	return musicPlaying;
     }
 
     public static void playGameStartMusic() {
