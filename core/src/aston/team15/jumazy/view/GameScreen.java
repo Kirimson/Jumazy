@@ -197,17 +197,17 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * generates random types of walls, 60% of normal wall, 35% of leaf walland 5% of missing brick
+	 * generates random types of walls, 90% of normal wall, 5% of leaf wall and 5% of missing brick
 	 * @return type of wall
 	 */
 	private String randomWallTexture() {
 		float wallType = new Random().nextFloat();
-		if (wallType < 0.6)
+		if (wallType < 0.8)
 			return "wall-plain";
 		else if (wallType < 0.95)
-			return "wall-leaves";
-		else
 			return "wall-brick-missing";
+		else
+			return "wall-leaves";
 	}
 
 	/**
