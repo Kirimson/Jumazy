@@ -2,7 +2,6 @@ package aston.team15.jumazy.controller;
 
 import aston.team15.jumazy.view.VictoryScreen;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -75,18 +74,25 @@ public class JumazyController extends Game {
 	}
 
 	public void handleGameInput(int keycode) {
-		GameScreen gameScreen = (GameScreen) getScreen();
+
+		//protects from some dumb error I found but cant replicate. Crashed when trying to cast VictoryScreen to
+		//GameScreen, checking instance now as a safeguard
+		GameScreen gameScreen;
+		if(getScreen() instanceof GameScreen)
+			gameScreen = (GameScreen) getScreen();
+		else
+			return;
 		
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if (!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
-				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
+			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
+				boolean canMove = maze.moveCurrentPlayerModel(keycode);
+				gameScreen.moveCurrentPlayerView(canMove, keycode);
 
-				if (maze.getCurrentPlayer().isOnTrap()) {
-					
+				if (canMove && maze.getCurrentPlayer().isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
@@ -98,7 +104,7 @@ public class JumazyController extends Game {
 			}
 			break;
 		case Input.Keys.ENTER:
-			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen()) {
+			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 			}
@@ -112,5 +118,10 @@ public class JumazyController extends Game {
 			break;
 		}
 
+	}
+
+	public void incorrectRiddle() {
+		GameScreen gameScreen = (GameScreen) getScreen();
+		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
 	}
 }

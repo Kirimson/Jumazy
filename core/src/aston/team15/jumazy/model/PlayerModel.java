@@ -8,7 +8,7 @@ import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class PlayerModel {
-	
+
 	public enum CharacterName {
 		SMOLDER_BRAVESTONE, RUBY_ROUNDHOUSE, FRANKLIN_FINBAR, SHELLY_OBERON;
 	}
@@ -23,6 +23,7 @@ public class PlayerModel {
 		}
 	}
 
+	private int[] startOfturnPosition;
 	private MazeModel maze;
 	private int row;
 	private int col;
@@ -39,6 +40,8 @@ public class PlayerModel {
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
+
+		startOfturnPosition = new int[2];
 
 		// health points:
 		// combat is based on dice rolls. If the opponents roll result is larger than
@@ -147,6 +150,9 @@ public class PlayerModel {
 		canRoll = false;
 		int rollResult = new Random().nextInt(6) + 1;
 
+		startOfturnPosition[0] = row;
+		startOfturnPosition[1] = col;
+
 		switch (weather) {
 		case SUN:
 			movesLeft = rollResult;
@@ -162,12 +168,28 @@ public class PlayerModel {
 		return movesLeft;
 	}
 
+	/**
+	 * moves the player to the start of their turn
+	 * @return the coordinates in an integer array they moved to
+	 */
+	public int[] moveToStartOfTurn(){
+		movesLeft = 0;
+		maze.setCoordinateString(row, col, currentPositionSymbol);
+		row = startOfturnPosition[0];
+		col = startOfturnPosition[1];
+
+		currentPositionSymbol = maze.getCoordinateString(row, col);
+
+		maze.setCoordinateString(row, col, playerSymbol);
+		return startOfturnPosition;
+	}
+
 	public int getMovesLeft() {  
 		return movesLeft;
 	}
 
 	public boolean isOnTrap() {
-		return onTrap;
+		return currentPositionSymbol.equals("T");
 	}
 
 	public void setCanRoll(boolean canRoll) {
