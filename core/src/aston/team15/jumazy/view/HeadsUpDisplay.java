@@ -88,7 +88,7 @@ public class HeadsUpDisplay extends Table {
 		inventoryTable = new Table();
 		inventoryLabel = new Label("Inventory:", labelStyle);
 		inventoryLabel.setFontScale(fontScale);
-		inventoryTable.add(inventoryLabel).expandX().align(Align.left | Align.top);
+		inventoryTable.add(inventoryLabel).expand().left().top();
 		inventoryTable.row();
 
 		playerLabel = new Label("Player " + (currentPlayerIndex + 1) + "'s turn!", labelStyle);
@@ -119,7 +119,7 @@ public class HeadsUpDisplay extends Table {
 		this.add(diceLabel).center().padRight(3).padBottom(8);
 
 		update(currentPlayerIndex, currentPlayerStats);
-//		this.debugAll();
+		//this.debugAll();
 	}
 
 	public void update(int currentPlayerNumber, int[] currentPlayerStats) {
@@ -144,7 +144,7 @@ public class HeadsUpDisplay extends Table {
 		diceLabelString = string;
 	}
 	
-	public void setPlayerLabel(String string) {
+	public void setPlayerConsoleText(String string) {
 		playerLabelString = string;
 	}
 }

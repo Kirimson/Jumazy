@@ -215,11 +215,11 @@ public class GameScreen implements Screen {
 			if (rollsLeft > 0) {
 				dice.updateSprite(game.getSprite("number" + rollsLeft));
 				dice.act(keycode);
-				hud.setPlayerLabel("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
+				hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
 			} else {
 				dice.remove();
 				hud.setDiceLabel("No\nMoves\nLeft!");
-				hud.setPlayerLabel("No moves left, press ENTER to pass your turn to the next player.");
+				hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
 			}
 		}
 	}
@@ -247,9 +247,9 @@ public class GameScreen implements Screen {
 				Gdx.input.setInputProcessor(multiplexer);
 			
 			if (dice.getRoll() == 8)
-				hud.setPlayerLabel("You rolled an 8, use the ARROW KEYS to move.");
+				hud.setPlayerConsoleText("You rolled an 8, use the ARROW KEYS to move.");
 			else 				
-				hud.setPlayerLabel("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
+				hud.setPlayerConsoleText("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
 		}
 
 		gameStage.act(Gdx.graphics.getDeltaTime());

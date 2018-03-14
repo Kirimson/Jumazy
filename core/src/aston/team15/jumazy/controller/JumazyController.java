@@ -108,8 +108,15 @@ public class JumazyController extends Game {
 				}
 				
 				if (maze.getCurrentPlayer().isOnChest()) {
+					int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
 					maze.getCurrentPlayer().obtainRandomItem();
 					gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
+					int newInventorySize = maze.getCurrentPlayer().getInventory().size();
+					if (newInventorySize > originalInventorySize) {
+						String newItemString = maze.getCurrentPlayer().getInventory().get(newInventorySize-1).toString();
+						gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItemString + "!");
+						
+					}
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {
