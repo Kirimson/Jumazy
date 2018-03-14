@@ -1,5 +1,7 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.view.VictoryScreen;
+
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -21,31 +23,23 @@ public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 	public static final boolean DEBUG_ON = true;
-	public static String Texturejson;
-	public String Texturepath;
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
 	
 	@Override
 	public void create() {
-		setTexturePack("jumazyskin/current/jumazy-skin.atlas", "jumazyskin/current/jumazy-skin.json");
-		textures = new TextureAtlas(Texturepath);
+		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
 		// using a skin, with json, png, and atlas, reduces a lot of the workload
 		// needlessly put on the GPU when having to load in many individual png's
-		gameSkin = new Skin(Gdx.files.internal(Texturejson));
+		gameSkin = new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json"));
 
 		setScreen(new MainMenuScreen(this));
 
 		if (DEBUG_ON)
 			System.out.println("Ready.");
-	}
-
-	public void update(String Path) {
-		textures = new TextureAtlas(Path + "/jumazy-skin.atlas");
-		gameSkin = new Skin(Gdx.files.internal(Path + "/jumazy-skin.json"));
 	}
 
 	public void setPlayerAmountAndStartGame(int playerAmount) {
@@ -80,28 +74,30 @@ public class JumazyController extends Game {
 	public Skin getSkin() {
 		return gameSkin;
 	}
-
-	public void setTexturePack(String txt, String json) {
-		Texturepath = txt;
-		Texturejson = json;
-	}
-
-	public String getTexturePath() {
-		return Texturepath;
-	}
-
+  public void update(String path) {
+    textures = new TextureAtlas(path + "/jumazy-skin.atlas");
+		gameSkin = new Skin(Gdx.files.internal(path + "/jumazy-skin.json"));
+  }
 	public boolean handleGameInput(int keycode) {
-		GameScreen gameScreen = (GameScreen) getScreen();
 
+		//protects from some dumb error I found but cant replicate. Crashed when trying to cast VictoryScreen to
+		//GameScreen, checking instance now as a safeguard
+		GameScreen gameScreen;
+		if(getScreen() instanceof GameScreen)
+			gameScreen = (GameScreen) getScreen();
+		else
+			return false;
+		
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if (!gameScreen.isRiddleOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
-				gameScreen.moveCurrentPlayerView(maze.moveCurrentPlayerModel(keycode), keycode);
+			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
+				boolean canMove = maze.moveCurrentPlayerModel(keycode);
+				gameScreen.moveCurrentPlayerView(canMove, keycode);
 
-				if (maze.getCurrentPlayer().isOnTrap()) {
+				if (canMove && maze.getCurrentPlayer().isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
@@ -128,7 +124,7 @@ public class JumazyController extends Game {
 				return false;
 			}
 		case Input.Keys.ENTER:
-			if (maze.getCurrentPlayer().getMovesLeft() < 1 && !gameScreen.isRiddleOpen()) {
+			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 				
@@ -145,5 +141,10 @@ public class JumazyController extends Game {
 			return true;
 		}
 
+	}
+
+	public void incorrectRiddle() {
+		GameScreen gameScreen = (GameScreen) getScreen();
+		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
 	}
 }

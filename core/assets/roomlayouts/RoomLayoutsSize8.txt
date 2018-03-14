@@ -2,116 +2,116 @@
 OOOOOOOO
 OOOOOOOO
 OOOOOOOO
+OOO#OOOO
+OOO#OOOO
+OOO#OOOO
 OOOOOOOO
 OOOOOOOO
+/Room Type 2: LWrge PWths
 OOOOOOOO
-OOOOOOOO
-OOOOOOOO
-/Room Type 2: Large Paths
-OOOOOOOO
-OOOOOOOO
+OOOO*OOO
+OOW##WOO
 OO####OO
-OO^^^^OO
-OO^^^^OO
-OO^^^^OO
+OO####OO
+OOW##WOO
 OOOOOOOO
 OOOOOOOO
 /Room Type 3: Up U
-OOOOOOOO
-OOOOOOOO
-OO####OO
-OO^^^^OO
-OO^^^^OO
-OO^^^^OO
-OOO^^OOO
-OOO^^OOO
-/Room Type 4: Walled Water and Trap
-OOOOOOOO
-OOOOOOOO
-OO#ac#OO
-OOOTTOOO
-OOOTTOOO
-OOabbcOO
-OOOOOOOO
-OOOOOOOO
-/Room Type 5: Water X
-WOOacOOW
-OWOOOOWO
-OOWOOWOO
-WOOTTOOW
-WOOTTOOW
-OOWOOWOO
-OWOOOOWO
-WOOacOOW
-/Room Type 6: Centre Sqaure
-OOOOOOOO
-OOOOOOOO
-OO####OO
-OO^OO^OO
-OO^OO^OO
-OO^##^OO
-OOOOOOOO
-OOOOOOOO
-/Room Type 7: Centre Block
-OOOOOOOO
-OOOOOOOO
-OO####OO
-OO^^^^OO
-OO^^^^OO
-OO^^^^OO
-OOOOOOOO
-OOOOOOOO
-/Room Type 8: Centre Corner Open
-OOOOOOOO
-O##OO##O
-O^OOOO^O
-OOOOOOOO
-OOOOOOOO
-O#OOOO#O
-O^#OO#^O
-OOOOOOOO
-/Room Type 9: Centre Corner Square
-OOOOOOOO
-O##OO##O
-O^OOOO^O
 OOO##OOO
-OOO^^OOO
-O#OOOO#O
-O^#OO#^O
+OOO##OOO
+OO####OO
+OO####OO
+OOWWWWOO
+O*####OO
+OO####OO
 OOOOOOOO
-/Room Type 10: Two Trap Thin Corridor
+/Room Type 4: WWlled WWter Wnd TrWp
+OOOOOOOO
+OOOOOOOO
+OOWWWWOO
+OOOTT*OO
+OOOTTOOO
+OO#WW#OO
+OOOOOOOO
+OOOOOOOO
+/Room Type 5: WWter X
+O#O##O#O
+O#OOOO#O
+OOWOOWOO
+#OOTTOO#
+#OOTTOO#
+OOWOOWOO
+O#OOOO#O
+O#O##O#O
+/Room Type 6: Wentre SqWure
+OOOOOOOO
+OO####OO
+OO####OO
+OO#OO#OO
+OO#OO#OO
+OOWWWWOO
+OOOOOOOO
+OOOOOOOO
+/Room Type 7: Wentre WloWk
+OOOOOOOO
+OOO##OOO
+OO####OO
+OO####OO
+OO####OO
+OO####OO
+OOO##OOO
+OOOOOOOO
+/Room Type 8: Wentre Worner Open
+OOOOOOOO
+O######O
+O######O
+OWWOOOOO
+OOOOOWWO
+O######O
+O######O
+OOOOOOOO
+/Room Type 9: Wentre Worner TrWps
+OOOOOOOO
+O######O
+O######O
+O##O*OOO
+OOOTO##O
+O######O
+O######O
+OOOOOOOO
+/Room Type 10: Two TrWp Thin Worridor
+O#OOOOOO
+O#T####O
+O#O####O
+O#OOOO#O
+O#OOOO#O
+O####O#O
+O####T#O
 OOOOOO#O
-O####T^O
-O^OOOO^O
-O^O##O^O
-O^O^^O^O
-O^OOOO^O
-O^T###^O
-O^OOOOOO
-/Room Type 11: Four Trap Thin Corridor
-OOOOOO#O
-#####T^O
-OTOOOO^O
-O#O##O^O
-O^O^^O^O
-O^OOOOTO
-O^T#####
-O^OOOOOO
-/Room Type 12: Thicc Walled Victory
+/Room Type 11: Four TrWp Thin Worridor
+O#OOOO#O
+O#T####O
+O#O####O
+O#OOOOTO
+OTOOOO#O
+O####O#O
+O####T#O
+O#OOOO#O
+/Room Type 12: ThiWW WWlled ViWtory
 OOOOOOOO
 O##OO##O
-O^^TT^^O
-O^^TT^^O
-O^^VV^^O
-O^^^^^^O
-O^^^^^^O
+O##TT##O
+O##TT##O
+O##VV##O
+O######O
+O######O
 OOOOOOOO
-/Room Type 13: Water Lines
-OOOacOOO
+/Room Type 13: WWter Lines
+OOOWWOOO
 OOOOOOOO
-OabbbbcO
+OWWWWWWO
 OOOOOOOO
 OOOOOOOO
-OabbbbcO
+OWWWWWWO
 OOOOOOOO
-OOOacOOO
+OOOWWOOO

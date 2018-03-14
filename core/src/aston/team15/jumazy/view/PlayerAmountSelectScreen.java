@@ -53,25 +53,10 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		questionBG.top().padTop(-30);
 		questionBG.add(new Image(game.getSprite("pause-dialog")));
 		
-		QuestionPopUpCreator popUp = new QuestionPopUpCreator(game.getSkin());
-		
-		Table questionTable = popUp.getTable();
-	    TextButton btnPlay = new TextButton("Play", game.getSkin());
-		questionTable.add(btnPlay).padTop(30);
-		
-		stage.addActor(questionBG);
-		stage.addActor(questionTable);
-		
-		btnPlay.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				
-				popUp.populateSelections();
-				HashMap<String, String> levels = popUp.getSelections();				
-				game.setQuestionType(levels);
-				game.setPlayerAmountAndStartGame(numOfPlayers);
-			}
-		});
+		QuestionPopUpCreator popUp = new QuestionPopUpCreator(game, numOfPlayers);
 
+		stage.addActor(questionBG);
+		stage.addActor(popUp.getTable());
 	}
 
 	@Override

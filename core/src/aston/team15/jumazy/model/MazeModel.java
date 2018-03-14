@@ -1,12 +1,13 @@
 package aston.team15.jumazy.model;
 
+import aston.team15.jumazy.controller.JumazyController;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
-
-import aston.team15.jumazy.controller.JumazyController;
 
 public class MazeModel {
 
@@ -15,7 +16,7 @@ public class MazeModel {
 	// array goes (y,x)/(row,col)
 
 	public enum Weather {
-		RAIN, SUN;
+		RAIN, SUN
 	}
 
 	private String[][] maze;
@@ -23,6 +24,7 @@ public class MazeModel {
 	private int currentPlayerIndex;
 	private Weather weather;
 	private ArrayList<String[][]> allRoomLayouts;
+	private boolean makeVictory = true;
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount) {
 		float weatherDiscriminant = new Random().nextFloat();
@@ -31,8 +33,8 @@ public class MazeModel {
 		} else {
 			weather = Weather.RAIN;
 		}
-
-		maze = genMaze(roomsAcross, roomsDown, playerAmount);
+		
+		maze = genMaze(roomsAcross, roomsDown);
 
 		players = new ArrayList<PlayerModel>();
 
@@ -79,13 +81,15 @@ public class MazeModel {
 	 *            amount of rooms down
 	 * @return the maze
 	 */
-	private String[][] genMaze(int roomsAcross, int roomsDown, int players) {
+	private String[][] genMaze(int roomsAcross, int roomsDown) {
 		String currentLine;
 		String currentChar;
-		int roomSize = 8;
+		int roomSize=8;
+		int roomBorder = 2;
 		BufferedReader reader;
 
-		String filename = "roomlayouts/RoomLayoutsSize" + roomSize + ".txt";
+		//creates a list of room layouts from provided file. ArrayList of String[][]
+		String filename = "roomlayouts/RoomLayoutsSize"+roomSize+".txt";
 		allRoomLayouts = new ArrayList<String[][]>();
 		try {
 			reader = new BufferedReader(new FileReader(filename));
@@ -93,10 +97,11 @@ public class MazeModel {
 				currentLine = reader.readLine();
 				if (!currentLine.startsWith("/")) {
 					String[][] newLayout = new String[roomSize][roomSize];
-					for (int j = 0; j < roomSize; j++) {
-						for (int i = 0; i < roomSize; i++) {
-							currentChar = currentLine.substring(i, i + 1);
-							newLayout[i][j] = currentChar;
+					for(int j = 0; j < roomSize; j++) {
+						for(int i = 0; i < roomSize; i++) {
+							currentChar = currentLine.substring(i, i+1);
+							//do this so stuff isn't flipped in the file
+								newLayout[i][(roomSize-1)-j]=currentChar;
 						}
 						currentLine = reader.readLine();
 					}
@@ -111,10 +116,23 @@ public class MazeModel {
 		// shape
 		String[][] mazeString = new String[10 * roomsDown][10 * roomsAcross];
 
+		ArrayList<String[][]> rooms = new ArrayList<String[][]>();
+		for (int i = 0; i < roomsAcross * roomsDown; i++) {
+			rooms.add(genRoom(roomSize + roomBorder));
+		}
+
+		//ensure that there is definitely a victory room
+		if(makeVictory) {
+			do {
+				rooms.remove(0);
+				rooms.add(genRoom(roomSize + roomBorder));
+			} while (makeVictory);
+		}
+
+		Collections.shuffle(rooms);
+
 		// create roomAmount rooms
 		for (int i = 0; i < roomsAcross * roomsDown; i++) {
-			String[][] room = genRoom(roomSize + 2);
-
 			// set the xoffset to start putting cells into the maze
 			// room 0 will have offset 0, room 3 will also have offset 0 in this example (a
 			// 30*30 maze)
@@ -125,9 +143,9 @@ public class MazeModel {
 			int xoffset = (i * 10 / (10 * roomsDown) * 10); // xoffset
 
 			// add cells into maze using offsets
-			for (int mazeX = 0; mazeX < room.length; mazeX++) {
-				for (int mazeY = 0; mazeY < room[0].length; mazeY++) {
-					mazeString[yoffset + mazeY][xoffset + mazeX] = room[mazeX][mazeY];
+			for (int mazeX = 0; mazeX < rooms.get(i).length; mazeX++) {
+				for (int mazeY = 0; mazeY < rooms.get(i)[0].length; mazeY++) {
+					mazeString[yoffset + mazeY][xoffset + mazeX] = rooms.get(i)[mazeX][mazeY];
 				}
 			}
 		}
@@ -139,6 +157,7 @@ public class MazeModel {
 
 	private void createDoors(int roomsAcross, int roomsDown, String[][] maze) {
 
+		//make doors down the maze columns
 		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
 			for (int y = 2; y < (roomsDown * 10) - 1; y += 10) {
 				if (y % 9 != 0) {
@@ -146,6 +165,7 @@ public class MazeModel {
 					if (randomFloat < 0.65)
 						makeCommonDoors(y, x, maze);
 
+					//make doors at offset area, with more added to column
 					if (randomFloat > 0.35) {
 						maze[y + 4][x] = "O";
 						maze[y + 5][x] = "O";
@@ -157,6 +177,7 @@ public class MazeModel {
 			}
 		}
 
+		//make doors across the maze rows
 		for (int x = 2; x < (roomsAcross * 10) - 1; x += 10) {
 			for (int y = 9; y < (roomsDown * 10) - 1; y += 10) {
 				if (x % 9 != 0) {
@@ -164,6 +185,7 @@ public class MazeModel {
 					if (randomFloat < 0.65)
 						makeCommonDoors(y, x, maze);
 
+					//make doors at offset area, with more added to row
 					if (randomFloat > 0.35) {
 						maze[y][x + 4] = "O";
 						maze[y + 1][x + 4] = "O";
@@ -176,6 +198,14 @@ public class MazeModel {
 		}
 	}
 
+	/**
+	 * Create doors between rooms where row and column dont need to be changed for going vertically and horizontally
+	 * Purely made to reduce code repetition. As making the second door, if going vertically, more needs to be added
+	 * to col, whereas horizontally, more to row, which can't be done here
+	 * @param y inital y value of the maze
+	 * @param x inital x value of the maze
+	 * @param maze the maze string
+	 */
 	private void makeCommonDoors(int y, int x, String[][] maze) {
 		maze[y][x] = "O";
 		maze[y + 1][x] = "O";
@@ -186,27 +216,30 @@ public class MazeModel {
 	/**
 	 * Creates a new room, surrounded will walls, and filled with floors
 	 * 
-	 * @param size
+	 * @param roomSize
 	 *            width/height of room
 	 * @return 2D array of String, with wall and path representations
 	 */
 	private String[][] genRoom(int roomSize) {
 
 		String[][] room = new String[roomSize][roomSize];
-		Random rng = new Random();
-		int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
+		String[][] layout;
+
+		//make sure no more than one victory room is made
+		do{
+            Random rng = new Random();
+            int randLayoutIndex = rng.nextInt(allRoomLayouts.size());
+            layout = allRoomLayouts.get(randLayoutIndex);
+        }while (!validRoom(layout));
 
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
-				double randChestChance = rng.nextDouble();
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
 					room[i][j] = "#";
 				} else {
-					if (allRoomLayouts.get(randLayoutIndex)[i - 1][j - 1].equals("O") && (randChestChance < 0.02)) {
-						room[i][j] = "*";
-					} else {
-						room[i][j] = allRoomLayouts.get(randLayoutIndex)[i - 1][j - 1];
-					}
+					room[i][j] = layout[i-1][j-1];
+					if(layout[i-1][j-1].equals("V"))
+                        makeVictory = false;
 				}
 			}
 		}
@@ -214,24 +247,39 @@ public class MazeModel {
 		return room;
 	}
 
+	/**
+     * Checks if this room should be created, EG there is already one victory room, return false
+     * @return true if room should be made
+     */
+	private boolean validRoom(String[][] layout){
+	    for(String[] row : layout){
+	        for(String cell : row){
+	            if(!makeVictory && cell.equals("V")){
+                    return false;
+                }
+            }
+        }
+	    return true;
+    }
+
 	public String[][] getMaze() {
 		return maze;
 	}
 
 	public String toString() {
-		String str = "";
+		StringBuilder str = new StringBuilder();
 
 		for (int mazerow = maze.length - 1; mazerow >= 0; mazerow--) {
 			for (int mazecol = 0; mazecol < maze[0].length; mazecol++) {
 				String current = maze[mazerow][mazecol];
 				if (current != null) {
-					str += current;
+					str.append(current);
 				}
 			}
-			str += "\n";
+			str.append("\n");
 		}
 
-		return str;
+		return str.toString();
 	}
 
 	public int passTurnToNextPlayer() {

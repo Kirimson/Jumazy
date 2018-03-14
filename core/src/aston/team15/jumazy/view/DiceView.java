@@ -88,6 +88,7 @@ public class DiceView extends Actor {
 
 	public void decreaseRoll() {
 		if (finalDie >= 1) {
+
 			finalDie--;
 		}
 	}

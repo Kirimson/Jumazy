@@ -1,69 +1,68 @@
 package aston.team15.jumazy.view;
 
-import java.io.File;
-import java.util.ArrayList;
+import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import aston.team15.jumazy.controller.JumazyController;
+import java.io.File;
 
 public class QuestionUI {
 
-	private Skin skin;
 	private Table table;
-	Table questionUIBG;
-	private boolean isActive;
+	private Table questionUIBG;
 	private boolean correct;
-	private ArrayList<Actor> questionActors;
 	private Label lQuestion;
 	private String[] questionAndAnswer;
+	private final TextField tfAnswer;
 
-	public QuestionUI(final JumazyController game) {
-		isActive = false;
-		questionActors = new ArrayList<Actor>();
-		skin = new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json"));
+	QuestionUI(final JumazyController game) {
+		Skin skin = game.getSkin();
 		
 		table = new Table();
 		table.setFillParent(true);
+		table.padTop(-100);
 		table.center();
 		
 		questionUIBG = new Table();
 		questionUIBG.setFillParent(true);
-		questionUIBG.top();
+		questionUIBG.padTop(-100);
 		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
-		final TextButton btnSubmit = new TextButton("submit", skin);
-		final TextField tfAnswer = new TextField("", skin);
+		final TextButton btnSubmit = new TextButton("Submit", skin);
+		tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
-		lQuestion.setFontScale(1.1f);
+		lQuestion.setFontScale(0.6f);
+		
 		table.add(lQuestion);
 		table.row();
-		table.add(tfAnswer).width(500).padTop(25).height(100);
-		table.row();
-		table.add(btnSubmit).width(500).padTop(25).height(100);
+		table.add(tfAnswer).width(400).padTop(50).height(50);
 
-		questionActors.add(btnSubmit);
-		questionActors.add(tfAnswer);
+		table.row();
+		table.add(btnSubmit).width(250).padTop(25).height(50);
+
+		//if enter is pressed, simulate a click on the submit button. Need to send both a touchDown/Up for clicked
+		tfAnswer.setTextFieldListener((textField, key) -> {
+            if ((key == '\r' || key == '\n')){
+				InputEvent clickDown = new InputEvent();
+				clickDown.setType(InputEvent.Type.touchDown);
+				btnSubmit.fire(clickDown);
+				InputEvent clickUp = new InputEvent();
+				clickUp.setType(InputEvent.Type.touchUp);
+				btnSubmit.fire(clickUp);
+            }
+        });
 
 		btnSubmit.addListener(new ClickListener() {
+
 			public void clicked(InputEvent event, float x, float y) {
 				
 				correct = checkAnswer(tfAnswer.getText());
-				isActive = false;
-				
+
 				table.remove();
 				questionUIBG.remove();
 				tfAnswer.setText("");
@@ -73,6 +72,7 @@ public class QuestionUI {
 					sound = new File("../assets/snd/correct.wav");
 				} else {
 					sound = new File("../assets/snd/incorrect.wav");
+					game.incorrectRiddle();
 				}
 				playSound(sound);
 				game.resume();
@@ -85,11 +85,16 @@ public class QuestionUI {
 		questionAndAnswer = questionAndAns;
 		if(questionAndAnswer != null) {
 			lQuestion.setText(questionAndAnswer[0]);
-			questionActors.add(lQuestion);
 		}
 	}
 
-	public boolean checkAnswer(String answer) {
+	/**
+	 * checks if the given answer by player matches a corrent answer from the list of answers given by the csv when a
+	 * new question is created
+	 * @param answer answer user gabe in textfield
+	 * @return true if answer is correct
+	 */
+	private boolean checkAnswer(String answer) {
 		int i = 1;
 		while (i < questionAndAnswer.length) {
 			if (answer.toLowerCase().equals(questionAndAnswer[i].toLowerCase())) {
@@ -104,29 +109,35 @@ public class QuestionUI {
 		return false;
 	}
 
-	public void playSound(File sound) {
+	/**
+	 * plays a given sound, catches any file Exceptions
+	 * @param sound sound to play
+	 */
+	private void playSound(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(sound));
 			clip.start();
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
-	public Table getTable() {
-		return table;
-	}
-	
-	public Table getBackground() {
-		return questionUIBG;
-	}
-
-	public boolean isAlive() {
-		return isActive;
+	/**
+	 * checks if questionUI is not active, returns true if table has no stage
+	 * @return true if table is not on a stage
+	 */
+	public boolean notActive() {
+		return table.getStage() == null;
 	}
 
-	public boolean isCorrect() {
-		return correct;
+	/**
+	 * adds the questionUI actors to a set stage, and gives the answer TextField keyboard focus through the stage
+	 * @param stage stage to add Actors to
+	 */
+	public void addToStage(Stage stage) {
+		stage.addActor(questionUIBG);
+		stage.addActor(table);
+		stage.setKeyboardFocus(tfAnswer);
 	}
 }
