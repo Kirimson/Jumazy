@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel;
+import jdk.nashorn.internal.ir.Block;
 
 public class GameScreen implements Screen {
 
@@ -93,7 +94,7 @@ public class GameScreen implements Screen {
 					break;
 					case "D":
 						newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-								game.getSprite("apple"), game.getSprite(randomFloorTexture()));
+								game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)), game.getSprite(randomFloorTexture()));
 						break;
 				case "1":
 				case "2":
@@ -152,6 +153,33 @@ public class GameScreen implements Screen {
 	 */
 	public void setCurrentPlayerStats(int[] playerStats) {
 		currentPlayerStats = playerStats;
+	}
+
+	/**
+	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
+	 * @param maze the maze string
+	 * @param mazeX x position
+	 * @param mazeY y position
+	 * @return texture string
+	 */
+	private String generateLockedDoorTexture(String[][] maze, int mazeX, int mazeY) {
+		//right door
+		if(maze[mazeX-1][mazeY].equals("D"))
+			return "arrow";
+
+		//left door
+		if(maze[mazeX+1][mazeY].equals("D"))
+			return "apple";
+
+		//top door
+		if(maze[mazeX][mazeY-1].equals("D"))
+			return "arrow";
+
+		//bottom door
+		if(maze[mazeX][mazeY+1].equals("D"))
+			return "apple";
+
+		return "arrow";
 	}
 
 	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY){
@@ -412,12 +440,36 @@ public class GameScreen implements Screen {
 		for(Actor a : gameStage.getActors()){
 			if(a instanceof  BlockView) {
 				if (a.getName().equals("" + pos[1] + "," + pos[0]))
-					((BlockView) a).unlockDoor(game.getSprite("arrow"));
+					((BlockView) a).unlockDoor(game.getSprite(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2])));
 
 				if (a.getName().equals("" + pos[3] + "," + pos[2]))
-					((BlockView) a).unlockDoor(game.getSprite("arrow"));
+					((BlockView) a).unlockDoor(game.getSprite(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0])));
 			}
 		}
+	}
 
+	private String generateUnlockedDoorSprite(int rowOne, int colOne, int rowTwo, int colTwo){
+
+		//right door
+		if(rowOne - 1 == rowTwo){
+			return "checkbox-on";
+		}
+
+		//left door
+		if(rowOne + 1 == rowTwo){
+			return "checkbox-off";
+		}
+
+		//top door
+		if(colOne - 1 == colTwo){
+			return "checkbox-on";
+		}
+
+		//bottom door
+		if(colOne + 1 == colTwo){
+			return "checkbox-off";
+		}
+
+		return "arrow";
 	}
 }
