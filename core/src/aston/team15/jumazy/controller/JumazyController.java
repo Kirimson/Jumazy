@@ -1,7 +1,9 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.model.PlayerModel;
 import aston.team15.jumazy.view.VictoryScreen;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
@@ -14,7 +16,6 @@ import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
-import aston.team15.jumazy.view.VictoryScreen;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
 public class JumazyController extends Game {
@@ -42,9 +43,9 @@ public class JumazyController extends Game {
 			System.out.println("Ready.");
 	}
 
-	public void setPlayerAmountAndStartGame(int playerAmount) {
+	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 
-		maze = new MazeModel(4, 2, playerAmount);
+		maze = new MazeModel(4, 2, playerAmount, playerOrder);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray()));
 
 		GameScreen gameScreen = (GameScreen) getScreen();
