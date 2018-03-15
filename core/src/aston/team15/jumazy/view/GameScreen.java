@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel;
-import jdk.nashorn.internal.ir.Block;
 
 public class GameScreen implements Screen {
 
@@ -34,7 +33,7 @@ public class GameScreen implements Screen {
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
 	private HeadsUpDisplay hud;
-	private int[] currentPlayerStats;
+	private Integer[] currentPlayerStats;
 	private InputMultiplexer multiplexer;
 	private boolean isPaused;
 
@@ -46,9 +45,9 @@ public class GameScreen implements Screen {
 	 * @param aGame {@link JumazyController} object
 	 * @param playerAmount amount of players
 	 * @param maze strin array representation of the maze
-	 * @param firstPlayerStats current players stats
+	 * @param integers current players stats
 	 */
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, int[] firstPlayerStats) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] integers) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
@@ -57,7 +56,7 @@ public class GameScreen implements Screen {
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
-		currentPlayerStats = firstPlayerStats;
+		currentPlayerStats = integers;
 		multiplexer = new InputMultiplexer();
 
 		GameSound.playGameStartMusic();
@@ -151,7 +150,7 @@ public class GameScreen implements Screen {
 	 * Sets the vies stat field to reflect the current players stats
 	 * @param playerStats array of stats
 	 */
-	public void setCurrentPlayerStats(int[] playerStats) {
+	public void setCurrentPlayerStats(Integer[] playerStats) {
 		currentPlayerStats = playerStats;
 	}
 

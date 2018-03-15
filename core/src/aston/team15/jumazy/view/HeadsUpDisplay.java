@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
@@ -35,7 +34,7 @@ public class HeadsUpDisplay extends Table {
 	private String diceLabelString;
 	private String playerLabelString;
 
-	public HeadsUpDisplay(final JumazyController game, int currentPlayerIndex, int[] currentPlayerStats) {
+	public HeadsUpDisplay(final JumazyController game, int currentPlayerIndex, Integer[] currentPlayerStats) {
 		super(game.getSkin());
 		this.setBackground("rpgbg");
 		this.setHeight(170);
@@ -122,7 +121,7 @@ public class HeadsUpDisplay extends Table {
 		//this.debugAll();
 	}
 
-	public void update(int currentPlayerNumber, int[] currentPlayerStats) {
+	public void update(int currentPlayerNumber, Integer[] currentPlayerStats) {
 		playerLabel.setText("Player " + currentPlayerNumber + "'s turn! " + playerLabelString);
 		diceLabel.setText(diceLabelString);
 
