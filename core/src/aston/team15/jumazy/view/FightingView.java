@@ -17,22 +17,21 @@ import aston.team15.jumazy.controller.JumazyController;
 
 public class FightingView extends Stage {
 
-    private Table background;
-    private Table foreground;
+    private Table fightBar;
+    private Table contents;
 
     public FightingView (final JumazyController game){
-        background = new Table();
-        background.setFillParent(true);
-        background.top().padTop(100f);
+        fightBar = new Table();
+//        fightBar.setFillParent(true);
+//        fightBar.top().padTop(100f);
+		fightBar.setBackground(new Image(new Texture("fightbar.png")).getDrawable());
+		fightBar.setSize(JumazyController.WORLD_WIDTH, 124); 
 
-        foreground = new Table();
-        foreground.setFillParent(true);
-
-        background.add(new Image(new Texture("fightingbg.png")));
-		background.setSize(JumazyController.WORLD_WIDTH/4*3, JumazyController.WORLD_HEIGHT/4*3);        
-        foreground.top().padTop(120f);
-		foreground.add(new Image(new Texture("player1.png"))).left();
-		foreground.add(new Image(new Texture("skele1.png"))).right();
+        contents = new Table();
+        contents.setFillParent(true);    
+        contents.top().padTop(120f);
+		contents.add(new Image(new Texture("player1.png"))).left();
+		contents.add(new Image(new Texture("skele1.png"))).right();
 
         this.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
@@ -48,13 +47,13 @@ public class FightingView extends Stage {
     }
 
     public void start(){
-        this.addActor(background);
-        this.addActor(foreground);
+        this.addActor(fightBar);
+        this.addActor(contents);
     }
 
     public void remove() {
-        background.remove();
-        foreground.remove();
+        fightBar.remove();
+        contents.remove();
     }
 
 	public void playSound(File sound) {
