@@ -106,24 +106,27 @@ public class JumazyController extends Game {
 					gameScreen.createQuestion(questionAndAns);
 				}
 
-				if (maze.getCurrentPlayer().isOnChest() && new Random().nextDouble() < 0.6) {
-					int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
-					maze.getCurrentPlayer().obtainRandomItem();
-					gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
-					int newInventorySize = maze.getCurrentPlayer().getInventory().size();
-					if (newInventorySize > originalInventorySize) {
-						Item newItem = maze.getCurrentPlayer().getInventory().get(newInventorySize - 1);
-						if (newItem != Item.KEY) {
-							gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItem.toString() + "! "
-									+ newItem.getStatEffected() + " increased by " + newItem.getValue() + "!");
-						} else {
-							gameScreen.getHUD()
-									.setPlayerConsoleText("You just picked up a key! Which door will you open?");
+				if (maze.getCurrentPlayer().isOnChest()) {
+					if (new Random().nextDouble() < 0.6) {
+						int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
+						maze.getCurrentPlayer().obtainRandomItem();
+						gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
+						int newInventorySize = maze.getCurrentPlayer().getInventory().size();
+						if (newInventorySize > originalInventorySize) {
+							Item newItem = maze.getCurrentPlayer().getInventory().get(newInventorySize - 1);
+							if (newItem != Item.KEY) {
+								gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItem.toString() + "! "
+										+ newItem.getStatEffected() + " increased by " + newItem.getValue() + "!");
+							} else {
+								gameScreen.getHUD()
+										.setPlayerConsoleText("You just picked up a key! Which door will you open?");
+							}
+	
 						}
-
 					}
-				} else {
-					gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
+					else {
+						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
+					}
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {

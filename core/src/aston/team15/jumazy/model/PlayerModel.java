@@ -22,7 +22,6 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
-	private boolean onTrap;
 	private boolean onChest;
 	private boolean canRoll = true;
 	private ArrayList<Item> inventory;
@@ -149,11 +148,6 @@ public class PlayerModel {
 				currentPositionSymbol = "d";
 				maze.unlockDoor(row, col);
 			} else onDoor = false;
-
-			if (currentPositionSymbol.equals("T"))
-				onTrap = true;
-			else
-				onTrap = false;
 
 			if (currentPositionSymbol.equals("*"))
 				onChest = true;
