@@ -91,7 +91,8 @@ public class QuestionPopUpCreator {
 				if(!histoSB.isDisabled() || !mathSB.isDisabled() || !geoSB.isDisabled()) {
 					HashMap<String, String> levels = getSelections();
 					game.setQuestionType(levels);
-					game.setPlayerAmountAndStartGame(numOfPlayers);
+					game.setScreen(new CharacterSelectScreen(game, numOfPlayers));
+//					game.setPlayerAmountAndStartGame(numOfPlayers);
 				}
 			}
 		});

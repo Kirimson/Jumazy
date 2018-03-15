@@ -27,7 +27,7 @@ public abstract class MenuScreen implements Screen {
 	protected Stage stage;
 	protected Table table;
 
-	public MenuScreen(JumazyController theGame) {
+	public MenuScreen(JumazyController theGame, String backgroundString){
 		game = theGame;
 		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
 
@@ -38,9 +38,14 @@ public abstract class MenuScreen implements Screen {
 
 		// initialises background Image object and adds it as the first actor on the
 		// stage
-		Image background = new Image(new Texture("background.jpg"));
+		Image background = new Image(new Texture(backgroundString));
 		background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage.addActor(background);
+	}
+
+	public MenuScreen(JumazyController theGame) {
+		this(theGame, "background.jpg");
+
 	}
 
 	@Override
