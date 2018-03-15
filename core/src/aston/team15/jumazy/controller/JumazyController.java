@@ -122,8 +122,7 @@ public class JumazyController extends Game {
 										.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 							}
 						}
-					}
-					else {
+					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 					}
 					

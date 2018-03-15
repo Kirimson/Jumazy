@@ -25,7 +25,6 @@ public class HeadsUpDisplay extends Table {
 	private Label strengthLabel;
 	private Label agilityLabel;
 	private Label luckLabel;
-	private Label intelligenceLabel;
 	private Label[] statsLabels;
 	private Label diceLabel;
 	private String[] labelStrings;
@@ -49,7 +48,7 @@ public class HeadsUpDisplay extends Table {
 		statsTable = new Table();
 		hpLabel = new Label("HP: ", labelStyle);
 		hpLabel.setFontScale(fontScale);
-
+		
 		staminaLabel = new Label("Stamina: ", labelStyle);
 		staminaLabel.setFontScale(fontScale);
 
@@ -62,9 +61,6 @@ public class HeadsUpDisplay extends Table {
 		luckLabel = new Label("Luck: ", labelStyle);
 		luckLabel.setFontScale(fontScale);
 
-		intelligenceLabel = new Label("Intelligence: ", labelStyle);
-		intelligenceLabel.setFontScale(fontScale);
-
 		statsTable.add(playerStatsLabel).left();
 		statsTable.row();
 		statsTable.add(hpLabel).grow().left();
@@ -73,9 +69,8 @@ public class HeadsUpDisplay extends Table {
 		statsTable.row();
 		statsTable.add(agilityLabel).grow().left();
 		statsTable.add(luckLabel).grow().left();
-		statsTable.add(intelligenceLabel).grow().left();
 		
-		statsLabels = new Label[] {hpLabel, staminaLabel, strengthLabel, agilityLabel, luckLabel, intelligenceLabel};
+		statsLabels = new Label[] {hpLabel, staminaLabel, strengthLabel, agilityLabel, luckLabel};
 
 		labelStrings = new String[statsLabels.length];
 				
@@ -125,13 +120,14 @@ public class HeadsUpDisplay extends Table {
 		playerLabel.setText("Player " + currentPlayerNumber + "'s turn! " + playerLabelString);
 		diceLabel.setText(diceLabelString);
 
-		for (int i = 0; i < statsLabels.length; i++) {
-			statsLabels[i].setText(labelStrings[i] + currentPlayerStats[i]);
+		hpLabel.setText("HP: " + currentPlayerStats[1] + "/" + currentPlayerStats[0]);
+		for (int i = 2; i < currentPlayerStats.length; i++) {
+			statsLabels[i-1].setText(labelStrings[i-1] + currentPlayerStats[i]);
 		}
 	}
 	
-	public void updateForNewPlayer(Boolean bool) {
-		if (bool) {
+	public void updateForNewPlayer(Boolean turnPassValid) {
+		if (turnPassValid) {
 			setDiceLabel("Hit\nSpace!");
 			playerLabelString = "Press SPACE to roll!";
 		} else {
