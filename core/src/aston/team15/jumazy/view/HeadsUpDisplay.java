@@ -2,6 +2,7 @@ package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -14,6 +15,9 @@ import aston.team15.jumazy.controller.JumazyController;
 
 public class HeadsUpDisplay extends Table {
 
+	private Integer[] currentPlayerStats;
+	private int currentPlayerNumber;
+	
 	private Table statsTable;
 	private Table inventoryTable;
 
@@ -33,7 +37,7 @@ public class HeadsUpDisplay extends Table {
 	private String diceLabelString;
 	private String playerLabelString;
 
-	public HeadsUpDisplay(final JumazyController game, int currentPlayerIndex, Integer[] currentPlayerStats) {
+	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber, Integer[] currentPlayerStats) {
 		super(game.getSkin());
 		this.setBackground("rpgbg");
 		this.setHeight(170);
@@ -112,18 +116,36 @@ public class HeadsUpDisplay extends Table {
 		this.add(inventoryTable).grow().padBottom(15).padTop(15);
 		this.add(diceLabel).center().padRight(3).padBottom(8);
 
-		update(currentPlayerIndex, currentPlayerStats);
+		this.currentPlayerStats = currentPlayerStats;
+		this.currentPlayerNumber = currentPlayerNumber;
+		update(currentPlayerNumber, currentPlayerStats);
 		//this.debugAll();
 	}
 
-	public void update(int currentPlayerNumber, Integer[] currentPlayerStats) {
-		playerLabel.setText("Player " + currentPlayerNumber + "'s turn! " + playerLabelString);
+	public void update(int newPlayerNumber, Integer[] newPlayerStats) {
+		playerLabel.setText("Player " + newPlayerNumber + "'s turn! " + playerLabelString);
 		diceLabel.setText(diceLabelString);
 
-		hpLabel.setText("HP: " + currentPlayerStats[1] + "/" + currentPlayerStats[0]);
-		for (int i = 2; i < currentPlayerStats.length; i++) {
-			statsLabels[i-1].setText(labelStrings[i-1] + currentPlayerStats[i]);
+		hpLabel.setText("HP: " + newPlayerStats[1] + "/" + newPlayerStats[0]);
+		if (newPlayerStats[0] != currentPlayerStats[0] || newPlayerStats[0] != currentPlayerStats[1]) {	
+			if (currentPlayerNumber == newPlayerNumber)
+				highlightLabel(hpLabel);
 		}
+			
+		for (int i = 2; i < newPlayerStats.length; i++) {
+			statsLabels[i-1].setText(labelStrings[i-1] + newPlayerStats[i]);
+			if (newPlayerStats[i] != currentPlayerStats[i] && currentPlayerNumber == newPlayerNumber) {
+				highlightLabel(statsLabels[i-1]);
+			}
+		}
+		
+		currentPlayerStats = newPlayerStats;
+		currentPlayerNumber = newPlayerNumber;
+	}
+	
+	public void highlightLabel(Label label) {
+		label.setColor(Color.GREEN);
+		label.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
 	}
 	
 	public void updateForNewPlayer(Boolean turnPassValid) {
