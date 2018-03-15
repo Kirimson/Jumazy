@@ -107,7 +107,7 @@ public class JumazyController extends Game {
 				}
 
 				if (maze.getCurrentPlayer().isOnChest()) {
-					if (new Random().nextDouble() < 0.6) {
+					if (new Random().nextDouble() < (0.3 + maze.getCurrentPlayer().getLuck()/10)) {
 						int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
 						maze.getCurrentPlayer().obtainRandomItemFromChest();
 						gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());

@@ -265,4 +265,8 @@ public class PlayerModel {
 	public Integer[] getStatsArray() {
 		return playerStats.values().toArray(new Integer[0]);
 	}
+	
+	public int getLuck() {
+		return playerStats.get("Luck");
+	}
 }
