@@ -16,8 +16,6 @@ import aston.team15.jumazy.controller.JumazyController;
 public class HeadsUpDisplay extends Table {
 
 	private Integer[] currentPlayerStats;
-	private int currentPlayerNumber;
-	
 	private Table statsTable;
 	private Table inventoryTable;
 
@@ -52,7 +50,7 @@ public class HeadsUpDisplay extends Table {
 		statsTable = new Table();
 		hpLabel = new Label("HP: ", labelStyle);
 		hpLabel.setFontScale(fontScale);
-		
+
 		staminaLabel = new Label("Stamina: ", labelStyle);
 		staminaLabel.setFontScale(fontScale);
 
@@ -73,15 +71,15 @@ public class HeadsUpDisplay extends Table {
 		statsTable.row();
 		statsTable.add(agilityLabel).grow().left();
 		statsTable.add(luckLabel).grow().left();
-		
-		statsLabels = new Label[] {hpLabel, staminaLabel, strengthLabel, agilityLabel, luckLabel};
+
+		statsLabels = new Label[] { hpLabel, staminaLabel, strengthLabel, agilityLabel, luckLabel };
 
 		labelStrings = new String[statsLabels.length];
-				
+
 		for (int i = 0; i < statsLabels.length; i++) {
 			labelStrings[i] = "" + statsLabels[i].getText();
 		}
-		
+
 		// Create player inventory table
 		inventoryTable = new Table();
 		inventoryLabel = new Label("Inventory:", labelStyle);
@@ -91,23 +89,23 @@ public class HeadsUpDisplay extends Table {
 
 		playerLabel = new Label("", labelStyle);
 		playerLabel.setFontScale(fontScale);
-		
+
 		TextButtonStyle pauseBtnStyle = new TextButtonStyle();
 		pauseBtnStyle.font = game.getSkin().getFont("game-font");
 		pauseBtnStyle.downFontColor = Color.BLACK;
 		pauseBtnStyle.fontColor = Color.WHITE;
 		TextButton pauseBtn = new TextButton("PAUSE", pauseBtnStyle);
-		pauseBtn.getLabel().setFontScale(fontScale+0.1f);
-		
+		pauseBtn.getLabel().setFontScale(fontScale + 0.1f);
+
 		pauseBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				GameSound.playButtonSound();
 				game.pause();
 			}
 		});
-		
+
 		diceLabel = new Label("Hit\nSpace!", labelStyle);
-		diceLabel.setFontScale(fontScale-0.05f);
+		diceLabel.setFontScale(fontScale - 0.05f);
 
 		this.add(playerLabel).colspan(2).expandX().left().padLeft(15).height(40).padTop(4);
 		this.add(pauseBtn).padRight(2).width(150).padTop(4).fill();
@@ -117,9 +115,8 @@ public class HeadsUpDisplay extends Table {
 		this.add(diceLabel).center().padRight(3).padBottom(8);
 
 		this.currentPlayerStats = currentPlayerStats;
-		this.currentPlayerNumber = currentPlayerNumber;
 		update(currentPlayerNumber, currentPlayerStats);
-		//this.debugAll();
+		// this.debugAll();
 	}
 
 	public void update(int newPlayerNumber, Integer[] newPlayerStats) {
@@ -127,27 +124,37 @@ public class HeadsUpDisplay extends Table {
 		diceLabel.setText(diceLabelString);
 
 		hpLabel.setText("HP: " + newPlayerStats[1] + "/" + newPlayerStats[0]);
-		if (newPlayerStats[0] != currentPlayerStats[0] || newPlayerStats[0] != currentPlayerStats[1]) {	
-			if (currentPlayerNumber == newPlayerNumber)
+		if (newPlayerStats[0] != currentPlayerStats[0] || newPlayerStats[0] != currentPlayerStats[1]) {
+			if (countStatDifferences(newPlayerStats, currentPlayerStats) < 2)
 				highlightLabel(hpLabel);
 		}
-			
+
 		for (int i = 2; i < newPlayerStats.length; i++) {
-			statsLabels[i-1].setText(labelStrings[i-1] + newPlayerStats[i]);
-			if (newPlayerStats[i] != currentPlayerStats[i] && currentPlayerNumber == newPlayerNumber) {
-				highlightLabel(statsLabels[i-1]);
+			statsLabels[i - 1].setText(labelStrings[i - 1] + newPlayerStats[i]);
+			if (newPlayerStats[i] != currentPlayerStats[i]) {
+				if (countStatDifferences(newPlayerStats, currentPlayerStats) < 2)
+					highlightLabel(statsLabels[i - 1]);
 			}
 		}
-		
+
 		currentPlayerStats = newPlayerStats;
-		currentPlayerNumber = newPlayerNumber;
 	}
 	
+	public int countStatDifferences(Integer[] newPlayerStats, Integer[] currentPlayerStats) {
+		int countDifferences = 0;
+		for (int stat = 0; stat < currentPlayerStats.length; stat++) {
+			if (newPlayerStats[stat] != currentPlayerStats[stat]) {
+				countDifferences++;
+			}
+		}
+		return countDifferences;
+	}
+
 	public void highlightLabel(Label label) {
 		label.setColor(Color.GREEN);
 		label.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
 	}
-	
+
 	public void updateForNewPlayer(Boolean turnPassValid) {
 		if (turnPassValid) {
 			setDiceLabel("Hit\nSpace!");
@@ -156,11 +163,11 @@ public class HeadsUpDisplay extends Table {
 			return;
 		}
 	}
-	
+
 	public void setDiceLabel(String string) {
 		diceLabelString = string;
 	}
-	
+
 	public void setPlayerConsoleText(String string) {
 		playerLabelString = string;
 	}

@@ -266,7 +266,7 @@ public class PlayerModel {
 		return playerStats.values().toArray(new Integer[0]);
 	}
 	
-	public int getLuck() {
-		return playerStats.get("Luck");
+	public int getStatFromHashMap(String statStr) {
+		return playerStats.get(statStr);
 	}
 }

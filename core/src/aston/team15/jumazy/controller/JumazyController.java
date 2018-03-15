@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
+import aston.team15.jumazy.model.PlayerModel;
 import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
@@ -90,30 +91,34 @@ public class JumazyController extends Game {
 			gameScreen = (GameScreen) getScreen();
 		else
 			return false;
+		
+		PlayerModel currentPlayer = maze.getCurrentPlayer();
+		
+		Random randGen = new Random();
 
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
+			if (gameScreen.riddleIsntOpen() && currentPlayer.getMovesLeft() > 0) {
 				boolean canMove = maze.moveCurrentPlayerModel(keycode);
 				gameScreen.moveCurrentPlayerView(canMove, keycode);
 
-				if (canMove && maze.getCurrentPlayer().isOnTrap()) {
+				if (canMove && currentPlayer.isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
 				}
 
-				if (maze.getCurrentPlayer().isOnChest()) {
-					if (new Random().nextDouble() < (0.3 + maze.getCurrentPlayer().getLuck()/10)) {
-						int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
-						maze.getCurrentPlayer().obtainRandomItemFromChest();
-						gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
-						int newInventorySize = maze.getCurrentPlayer().getInventory().size();
+				if (currentPlayer.isOnChest()) {
+					if (randGen.nextDouble() < 0.5 + currentPlayer.getStatFromHashMap("Luck")/10) {
+						int originalInventorySize = currentPlayer.getInventory().size();
+						currentPlayer.obtainRandomItemFromChest();
+						gameScreen.setCurrentPlayerStats(currentPlayer.getStatsArray());
+						int newInventorySize = currentPlayer.getInventory().size();
 						if (newInventorySize > originalInventorySize) {
-							Item newItem = maze.getCurrentPlayer().getInventory().get(newInventorySize - 1);
+							Item newItem = currentPlayer.getInventory().get(newInventorySize - 1);
 							if (newItem != Item.KEY) {
 								gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItem.toString() + "! "
 										+ newItem.getStatEffected() + " increased by " + newItem.getValue() + "!");
@@ -126,15 +131,15 @@ public class JumazyController extends Game {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 					}
 					
-					gameScreen.openChest(maze.getCurrentPlayer().getPosition());
+					gameScreen.openChest(currentPlayer.getPosition());
 				}
 
-				if (maze.getCurrentPlayer().isOnVictorySquare()) {
+				if (currentPlayer.isOnVictorySquare()) {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 				}
 
-				if (maze.getCurrentPlayer().isOnDoor()) {
-					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
+				if (currentPlayer.isOnDoor()) {
+					gameScreen.unlockDoor(maze.getDoorPositions(currentPlayer));
 				}
 
 				return true;
@@ -142,16 +147,16 @@ public class JumazyController extends Game {
 				return false;
 			}
 		case Input.Keys.ENTER:
-			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
+			if (currentPlayer.getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
-				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
+				gameScreen.setCurrentPlayerStats(currentPlayer.getStatsArray());
 
 				return true;
 			} else {
 				return false;
 			}
 		case Input.Keys.SPACE:
-			if (maze.getCurrentPlayer().canRoll()) {
+			if (currentPlayer.canRoll()) {
 				gameScreen.rollDice(maze.rollForPlayer());
 			}
 			return true;
