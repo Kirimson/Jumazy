@@ -22,8 +22,6 @@ public class PlayerModel {
 	private String playerSymbol;
 	private String currentPositionSymbol;
 	private int movesLeft;
-	private int stamina, strength, hp, agility, luck, intelligence;
-	// private int[] playerStats;
 	private boolean onTrap;
 	private boolean onChest;
 	private boolean canRoll = true;
@@ -44,27 +42,27 @@ public class PlayerModel {
 		// health points:
 		// combat is based on dice rolls. If the opponents roll result is larger than
 		// this players roll result, subtract the difference from hp
-		hp = 10;
+		int hp = 10;
 
 		// stamina:
 		// added to movement dice roll result
-		stamina = 3;
+		int stamina = 3;
 
 		// strength:
 		// added to combat dice roll result
-		strength = 2;
+		int strength = 2;
 
 		// agility:
 		// chance to avoid a trap
-		agility = 2;
+		int agility = 2;
 
 		// luck:
 		// added chance to find an item in a chest
-		luck = 2;
+		int luck = 2;
 
 		// intelligence:
 		// added chance a player can pick door locks
-		intelligence = 2;
+//		int intelligence = 2;
 
 		currentPositionSymbol = "O";
 		movesLeft = 0;
@@ -78,20 +76,21 @@ public class PlayerModel {
 			break;
 		case FRANKLIN_FINBAR:
 			luck += 2;
-			intelligence += 1;
+//			intelligence += 1;
 			break;
 		case SHELLY_OBERON:
-			intelligence += 2;
+//			intelligence += 2;
+			stamina += 1;
 			break;
 		}
 
 		playerStats = new LinkedHashMap<String, Integer>();
-		playerStats.put("max-health", 10);
-		playerStats.put("health", 10);
-		playerStats.put("stamina", 3);
-		playerStats.put("strength", 2);
-		playerStats.put("agility", 2);
-		playerStats.put("luck", 2);
+		playerStats.put("Max Health", hp);
+		playerStats.put("Health", hp);
+		playerStats.put("Stamina", stamina);
+		playerStats.put("Strength", strength);
+		playerStats.put("Agility", agility);
+		playerStats.put("Luck", luck);
 
 		// playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence
 		// };
@@ -183,16 +182,12 @@ public class PlayerModel {
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
 
-		// replace item stat value with new value, unless its health, in which case,
-		// check if it
-		int stat = playerStats.get(item.getStatEffected());
-		// if (item.getStatEffected().equals("health") && playerStats.get("health") <
-		// playerStats.get("max-health")) {
-		// playerStats.replace("health", 10);
-		// }
-		playerStats.replace(item.getStatEffected(), stat + item.getValue());
-		if (playerStats.get("health") > playerStats.get("max-health")) {
-			playerStats.replace("health", playerStats.get("max-health"));
+		if (item != Item.KEY) {
+			int stat = playerStats.get(item.getStatEffected());
+			playerStats.replace(item.getStatEffected(), stat + item.getValue());
+			if (playerStats.get("Health") > playerStats.get("Max Health")) {
+				playerStats.replace("Health", playerStats.get("Max Health"));
+			}
 		}
 	}
 
@@ -215,7 +210,7 @@ public class PlayerModel {
 			movesLeft = rollResult + 1;
 			break;
 		}
-		movesLeft += stamina;
+		movesLeft += playerStats.get("Stamina");
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
 

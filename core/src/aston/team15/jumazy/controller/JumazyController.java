@@ -1,8 +1,7 @@
 package aston.team15.jumazy.controller;
 
-import aston.team15.jumazy.view.VictoryScreen;
-
 import java.util.HashMap;
+import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
@@ -26,7 +26,7 @@ public class JumazyController extends Game {
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
-	
+
 	@Override
 	public void create() {
 		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
@@ -60,7 +60,7 @@ public class JumazyController extends Game {
 	@Override
 	public void render() {
 		super.render();
-		
+
 	}
 
 	@Override
@@ -74,20 +74,23 @@ public class JumazyController extends Game {
 	public Skin getSkin() {
 		return gameSkin;
 	}
-  public void update(String path) {
-    textures = new TextureAtlas(path + "/jumazy-skin.atlas");
+
+	public void update(String path) {
+		textures = new TextureAtlas(path + "/jumazy-skin.atlas");
 		gameSkin = new Skin(Gdx.files.internal(path + "/jumazy-skin.json"));
-  }
+	}
+
 	public boolean handleGameInput(int keycode) {
 
-		//protects from some dumb error I found but cant replicate. Crashed when trying to cast VictoryScreen to
-		//GameScreen, checking instance now as a safeguard
+		// protects from some dumb error I found but cant replicate. Crashed when trying
+		// to cast VictoryScreen to
+		// GameScreen, checking instance now as a safeguard
 		GameScreen gameScreen;
-		if(getScreen() instanceof GameScreen)
+		if (getScreen() instanceof GameScreen)
 			gameScreen = (GameScreen) getScreen();
 		else
 			return false;
-		
+
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
@@ -102,27 +105,35 @@ public class JumazyController extends Game {
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
 				}
-				
-				if (maze.getCurrentPlayer().isOnChest()) {
+
+				if (maze.getCurrentPlayer().isOnChest() && new Random().nextDouble() < 0.6) {
 					int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
 					maze.getCurrentPlayer().obtainRandomItem();
 					gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 					int newInventorySize = maze.getCurrentPlayer().getInventory().size();
 					if (newInventorySize > originalInventorySize) {
-						String newItemString = maze.getCurrentPlayer().getInventory().get(newInventorySize-1).toString();
-						gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItemString + "!");
-						
+						Item newItem = maze.getCurrentPlayer().getInventory().get(newInventorySize - 1);
+						if (newItem != Item.KEY) {
+							gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItem.toString() + "! "
+									+ newItem.getStatEffected() + " increased by " + newItem.getValue() + "!");
+						} else {
+							gameScreen.getHUD()
+									.setPlayerConsoleText("You just picked up a key! Which door will you open?");
+						}
+
 					}
+				} else {
+					gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 				}
 
-				if(maze.getCurrentPlayer().isOnDoor()){
+				if (maze.getCurrentPlayer().isOnDoor()) {
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
 				}
-				
+
 				return true;
 			} else {
 				return false;
@@ -131,9 +142,9 @@ public class JumazyController extends Game {
 			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
 				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
 				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
-				
+
 				return true;
-			} else { 
+			} else {
 				return false;
 			}
 		case Input.Keys.SPACE:

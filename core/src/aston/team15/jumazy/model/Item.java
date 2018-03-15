@@ -1,14 +1,14 @@
 package aston.team15.jumazy.model;
 
 public enum Item {
-	RED_POTION("Red Potion", 4, "max-health"), 
-	BLUE_POTION("Blue Potion", 2, "stamina"), 
-	GREEN_POTION("Green Potion", 2, "luck"),
-	PURPLE_POTION("Purple Potion", 2, "agility"),
-	SWORD("Sword", 2, "strength"),
-	BOWANDARROW("Bow and Arrow", 2, "strength"),
-	APPLE("Apple", 2, "health"),
-	GRAPES("Grapes", 2, "health"),
+	RED_POTION("Red Potion", 4, "Max Health"), 
+	BLUE_POTION("Blue Potion", 2, "Stamina"), 
+	GREEN_POTION("Green Potion", 2, "Luck"),
+	PURPLE_POTION("Purple Potion", 2, "Agility"),
+	SWORD("Sword", 2, "Strength"),
+	BOWANDARROW("Bow and Arrow", 2, "Strength"),
+	APPLE("Apple", 2, "Health"),
+	GRAPES("Grapes", 2, "Health"),
 	KEY("Key", 0, null);
 
 	private final String name;
