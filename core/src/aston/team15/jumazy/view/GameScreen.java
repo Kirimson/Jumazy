@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel;
+import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class GameScreen implements Screen {
 
@@ -27,6 +28,7 @@ public class GameScreen implements Screen {
 	private Stage gameStage;
 	private Stage uiStage;
 
+	private Weather weather;
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
 	private FitViewport viewport;
@@ -55,7 +57,7 @@ public class GameScreen implements Screen {
 	 * @param integers
 	 *            current players stats
 	 */
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] integers) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] integers, Weather weather) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
@@ -130,6 +132,10 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
+		this.weather = weather;
+		if (weather != MazeModel.Weather.SUN)
+			setWeather(weather, maze[0].length, maze.length);
+		
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
@@ -157,6 +163,7 @@ public class GameScreen implements Screen {
 
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
+		
 	}
 
 	/**

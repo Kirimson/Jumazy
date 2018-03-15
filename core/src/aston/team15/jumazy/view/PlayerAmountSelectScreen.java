@@ -1,7 +1,5 @@
 package aston.team15.jumazy.view;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

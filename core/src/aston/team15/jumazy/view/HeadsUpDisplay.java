@@ -85,7 +85,7 @@ public class HeadsUpDisplay extends Table {
 		inventoryTable.add(inventoryLabel).expand().left().top();
 		inventoryTable.row();
 
-		playerLabel = new Label("Player " + (currentPlayerIndex + 1) + "'s turn!", labelStyle);
+		playerLabel = new Label("", labelStyle);
 		playerLabel.setFontScale(fontScale);
 		
 		TextButtonStyle pauseBtnStyle = new TextButtonStyle();

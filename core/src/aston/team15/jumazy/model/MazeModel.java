@@ -16,7 +16,17 @@ public class MazeModel {
 	// array goes (y,x)/(row,col)
 
 	public enum Weather {
-		RAIN, SUN
+		RAIN("Careful! It's raining, the ground will be slippery."), SUN("The weather's nice, it's sunny.");
+		
+		private final String desc;
+		
+		private Weather(String desc) {
+			this.desc = desc;
+		}
+		
+		public String toString() {
+			return desc;
+		}
 	}
 
 	private String[][] maze;
