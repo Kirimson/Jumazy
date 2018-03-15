@@ -97,7 +97,7 @@ public class PlayerModel {
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
-		String[] walls = new String[] { "#", "^", "W", "a", "b", "c" };
+		String[] walls = new String[] { "#", "^", "W" };
 		boolean valid = true;
 		for (String wall : walls) {
 			if (maze.getCoordinateString(newRow, newCol).equals(wall))
@@ -149,10 +149,10 @@ public class PlayerModel {
 				maze.unlockDoor(row, col);
 			} else onDoor = false;
 
-			if (currentPositionSymbol.equals("*"))
+			if (currentPositionSymbol.equals("C")) {
 				onChest = true;
-			else
-				onChest = false;
+				currentPositionSymbol = "c";
+			} else onChest = false;
 
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
@@ -168,7 +168,7 @@ public class PlayerModel {
 
 	}
 
-	public void obtainRandomItem() {
+	public void obtainRandomItemFromChest() {
 		Random randGen = new Random();
 		Item item = Item.values()[randGen.nextInt(Item.values().length)];
 		inventory.add(item);
@@ -183,6 +183,8 @@ public class PlayerModel {
 				playerStats.replace("Health", playerStats.get("Max Health"));
 			}
 		}
+		
+		
 	}
 
 	public ArrayList<Item> getInventory() {

@@ -8,6 +8,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -40,12 +42,18 @@ public class GameScreen implements Screen {
 	private DiceView dice;
 
 	/**
-	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui and pause layers.
-	 * Creates the maze in a graphical form, using the text format as a key for graphics
-	 * @param aGame {@link JumazyController} object
-	 * @param playerAmount amount of players
-	 * @param maze strin array representation of the maze
-	 * @param integers current players stats
+	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui
+	 * and pause layers. Creates the maze in a graphical form, using the text format
+	 * as a key for graphics
+	 * 
+	 * @param aGame
+	 *            {@link JumazyController} object
+	 * @param playerAmount
+	 *            amount of players
+	 * @param maze
+	 *            strin array representation of the maze
+	 * @param integers
+	 *            current players stats
 	 */
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] integers) {
 		game = aGame;
@@ -87,14 +95,19 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite(generateWaterTexture(maze, mazeX, mazeY)));
 					break;
-				case "*":
+				case "C":
+					// newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX *
+					// blockSpriteDimensions,
+					// game.getSprite("chest-gold-closed"), game.getSprite(randomFloorTexture()));
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("chest-gold"), game.getSprite(randomFloorTexture()));
+							new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Closed.png"))),
+							game.getSprite(randomFloorTexture()));
 					break;
-					case "D":
-						newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-								game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)), game.getSprite(randomFloorTexture()));
-						break;
+				case "D":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)),
+							game.getSprite(randomFloorTexture()));
+					break;
 				case "1":
 				case "2":
 				case "3":
@@ -148,7 +161,9 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Sets the vies stat field to reflect the current players stats
-	 * @param playerStats array of stats
+	 * 
+	 * @param playerStats
+	 *            array of stats
 	 */
 	public void setCurrentPlayerStats(Integer[] playerStats) {
 		currentPlayerStats = playerStats;
@@ -156,36 +171,40 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
-	 * @param maze the maze string
-	 * @param mazeX x position
-	 * @param mazeY y position
+	 * 
+	 * @param maze
+	 *            the maze string
+	 * @param mazeX
+	 *            x position
+	 * @param mazeY
+	 *            y position
 	 * @return texture string
 	 */
 	private String generateLockedDoorTexture(String[][] maze, int mazeX, int mazeY) {
-		//right door
-		if(maze[mazeX-1][mazeY].equals("D"))
+		// right door
+		if (maze[mazeX - 1][mazeY].equals("D"))
 			return "arrow";
-		//left door
-		if(maze[mazeX+1][mazeY].equals("D"))
+		// left door
+		if (maze[mazeX + 1][mazeY].equals("D"))
 			return "apple";
-		//top door
-		if(maze[mazeX][mazeY-1].equals("D"))
+		// top door
+		if (maze[mazeX][mazeY - 1].equals("D"))
 			return "arrow";
-		//bottom door
-		if(maze[mazeX][mazeY+1].equals("D"))
+		// bottom door
+		if (maze[mazeX][mazeY + 1].equals("D"))
 			return "apple";
 
 		return "arrow";
 	}
 
-	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY){
+	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY) {
 
-		if(mazeY > 0 && mazeY < maze[0].length-1) {
-			if (maze[mazeX][mazeY-1].equals("W") && maze[mazeX][mazeY+1].equals("W"))
+		if (mazeY > 0 && mazeY < maze[0].length - 1) {
+			if (maze[mazeX][mazeY - 1].equals("W") && maze[mazeX][mazeY + 1].equals("W"))
 				return "floor-middle-water";
-			else if (maze[mazeX][mazeY-1].equals("W") && !maze[mazeX][mazeY+1].equals("W"))
+			else if (maze[mazeX][mazeY - 1].equals("W") && !maze[mazeX][mazeY + 1].equals("W"))
 				return "floor-right-water";
-			else if (!maze[mazeX][mazeY-1].equals("W") && maze[mazeX][mazeY+1].equals("W"))
+			else if (!maze[mazeX][mazeY - 1].equals("W") && maze[mazeX][mazeY + 1].equals("W"))
 				return "floor-left-water";
 		}
 
@@ -193,30 +212,34 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * generates rcorrect type of wall depending on walls relative to this wall
+	 * generates correct type of wall depending on walls relative to this wall
+	 * 
 	 * @return string for wall texture
-	 * @param maze the maze string
-	 * @param mazeY y position in maze
-	 * @param mazeX x position in maze
+	 * @param maze
+	 *            the maze string
+	 * @param mazeY
+	 *            y position in maze
+	 * @param mazeX
+	 *            x position in maze
 	 */
 	private String generateWallTexture(String[][] maze, int mazeX, int mazeY) {
 
-		//very bottom corners
-		if((mazeY == 0 && mazeX == 0) || (mazeY == maze[0].length-1 && mazeX == 0))
+		// very bottom corners
+		if ((mazeY == 0 && mazeX == 0) || (mazeY == maze[0].length - 1 && mazeX == 0))
 			return "wall-no-edge";
 
-
-		//bottom of pillar wall
-		if(mazeY > 0 && mazeY < maze[0].length-1 && mazeX > 0) {
-			if(maze[mazeX][mazeY-1].equals("O") && maze[mazeX][mazeY+1].equals("O") && !maze[mazeX-1][mazeY].equals("#")){
+		// bottom of pillar wall
+		if (mazeY > 0 && mazeY < maze[0].length - 1 && mazeX > 0) {
+			if (maze[mazeX][mazeY - 1].equals("O") && maze[mazeX][mazeY + 1].equals("O")
+					&& !maze[mazeX - 1][mazeY].equals("#")) {
 				return randomWallTexture();
 			}
 		}
 
-		//wall going across
-		if(mazeY > 0 && mazeY < maze[0].length-1) {
-			if (maze[mazeX][mazeY-1].equals("#") || maze[mazeX][mazeY+1].equals("#")){
-				if(mazeX > 0) {
+		// wall going across
+		if (mazeY > 0 && mazeY < maze[0].length - 1) {
+			if (maze[mazeX][mazeY - 1].equals("#") || maze[mazeX][mazeY + 1].equals("#")) {
+				if (mazeX > 0) {
 					if (!maze[mazeX - 1][mazeY].equals("#"))
 						return randomWallTexture();
 				}
@@ -224,18 +247,20 @@ public class GameScreen implements Screen {
 			}
 		}
 
-		//wall going up
-		if(mazeX > 0 && mazeX < maze.length-1) {
-			if (maze[mazeX-1][mazeY].equals("#") || maze[mazeX+1][mazeY].equals("#"))
+		// wall going up
+		if (mazeX > 0 && mazeX < maze.length - 1) {
+			if (maze[mazeX - 1][mazeY].equals("#") || maze[mazeX + 1][mazeY].equals("#"))
 				return "wall-no-edge";
 		}
 
-		//very corner
+		// very corner
 		return "wall-plain";
 	}
 
 	/**
-	 * generates random types of walls, 90% of normal wall, 5% of leaf wall and 5% of missing brick
+	 * generates random types of walls, 90% of normal wall, 5% of leaf wall and 5%
+	 * of missing brick
+	 * 
 	 * @return type of wall
 	 */
 	private String randomWallTexture() {
@@ -249,7 +274,9 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * generates a random floor texture, 5% chance of cracked floor/square missing 90% chance of normal tile,
+	 * generates a random floor texture, 5% chance of cracked floor/square missing
+	 * 90% chance of normal tile,
+	 * 
 	 * @return string for floor texture
 	 */
 	private String randomFloorTexture() {
@@ -265,6 +292,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Creates a new question and adds QuestionUI to the uiStage
+	 * 
 	 * @param questionAndAns
 	 */
 	public void createQuestion(String[] questionAndAns) {
@@ -287,8 +315,11 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * sets the current player to a new player, adjusts the dice's position for when it's next going to be drawn
-	 * @param newPlayerIndex new player number
+	 * sets the current player to a new player, adjusts the dice's position for when
+	 * it's next going to be drawn
+	 * 
+	 * @param newPlayerIndex
+	 *            new player number
 	 */
 	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
@@ -297,8 +328,10 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Moves the current player in the view, calls the current players act method, passing the keycode to move the player on screen
-	 * Then decreases/removes dice actors sprite accordingly
+	 * Moves the current player in the view, calls the current players act method,
+	 * passing the keycode to move the player on screen Then decreases/removes dice
+	 * actors sprite accordingly
+	 * 
 	 * @param canMove
 	 * @param keycode
 	 */
@@ -321,7 +354,9 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * handles moving the player view back to the start position of their turn, also removes the dice from the stage
+	 * handles moving the player view back to the start position of their turn, also
+	 * removes the dice from the stage
+	 * 
 	 * @param position
 	 */
 	public void movePlayerToStartOfMove(int[] position) {
@@ -330,13 +365,19 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Applies the current weather affect to the maze, overlays the entire maze, rather than the entire screen.
-	 * @param weather enum type of weather in the maze
-	 * @param width width of the maze, got from the maze model
-	 * @param height height of the maze, got from the maze model
+	 * Applies the current weather affect to the maze, overlays the entire maze,
+	 * rather than the entire screen.
+	 * 
+	 * @param weather
+	 *            enum type of weather in the maze
+	 * @param width
+	 *            width of the maze, got from the maze model
+	 * @param height
+	 *            height of the maze, got from the maze model
 	 */
-	public void setWeather(MazeModel.Weather weather, int width, int height){
-		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions, height * blockSpriteDimensions);
+	public void setWeather(MazeModel.Weather weather, int width, int height) {
+		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions,
+				height * blockSpriteDimensions);
 		gameStage.addActor(weatherAnimation.getAnimation());
 	}
 
@@ -352,13 +393,13 @@ public class GameScreen implements Screen {
 			Gdx.input.setInputProcessor(pauseStage);
 			int number = dice.roll();
 			dice.updateSprite(game.getSprite("number" + number));
-		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())){
+		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())) {
 			if (!isPaused)
 				Gdx.input.setInputProcessor(multiplexer);
-			
+
 			if (dice.getRoll() == 8)
 				hud.setPlayerConsoleText("You rolled an 8, use the ARROW KEYS to move.");
-			else 				
+			else
 				hud.setPlayerConsoleText("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
 		}
 
@@ -366,7 +407,7 @@ public class GameScreen implements Screen {
 		gameStage.draw();
 
 		// draw all UI
-		hud.update(currentPlayerIndex+1, currentPlayerStats);
+		hud.update(currentPlayerIndex + 1, currentPlayerStats);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
@@ -393,7 +434,7 @@ public class GameScreen implements Screen {
 	public int getCurrentPlayerNumber() {
 		return currentPlayerIndex + 1;
 	}
-	
+
 	public HeadsUpDisplay getHUD() {
 		return hud;
 	}
@@ -430,46 +471,66 @@ public class GameScreen implements Screen {
 
 	}
 
-	/**
-	 * Finds the door actor that the player stepped on, then updates its sprite, casting the Actor to a BlockView
-	 * @param pos door's position for both blocks
-	 */
-	public void unlockDoor(int[] pos) {
-		hud.setPlayerConsoleText("You just unlocked a Door!");
-
-		for(Actor a : gameStage.getActors()){
-			if(a instanceof  BlockView) {
-				if (a.getName().equals("" + pos[1] + "," + pos[0]))
-					((BlockView) a).unlockDoor(game.getSprite(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2])));
-
-				if (a.getName().equals("" + pos[3] + "," + pos[2]))
-					((BlockView) a).unlockDoor(game.getSprite(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0])));
+	public void openChest(int[] pos) {
+		for (Actor a : gameStage.getActors()) {
+			if (a instanceof BlockView) {
+				if (a.getName().equals(pos[1] + "," + pos[0]))
+					((BlockView) a).changeSprite(new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Open.png"))));
 			}
 		}
 	}
 
 	/**
-	 * generates the correct texture for an unlocked door. Works differently to other texture generators as it edits existing actors
-	 * and needs to compare itself against another position within the maze that has been pre-defined
-	 * @param thisRow this door part's row
-	 * @param thisCol this door part's column
-	 * @param otherRow the other door part's row
-	 * @param otherCol the other door part's column
+	 * Finds the door actor that the player stepped on, then updates its sprite,
+	 * casting the Actor to a BlockView
+	 * 
+	 * @param pos
+	 *            door's position for both blocks
+	 */
+	public void unlockDoor(int[] pos) {
+		hud.setPlayerConsoleText("You just unlocked a Door!");
+
+		for (Actor a : gameStage.getActors()) {
+			if (a instanceof BlockView) {
+				if (a.getName().equals(pos[1] + "," + pos[0]))
+					((BlockView) a)
+							.changeSprite(game.getSprite(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2])));
+
+				if (a.getName().equals(pos[3] + "," + pos[2]))
+					((BlockView) a)
+							.changeSprite(game.getSprite(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0])));
+			}
+		}
+	}
+
+	/**
+	 * generates the correct texture for an unlocked door. Works differently to
+	 * other texture generators as it edits existing actors and needs to compare
+	 * itself against another position within the maze that has been pre-defined
+	 * 
+	 * @param thisRow
+	 *            this door part's row
+	 * @param thisCol
+	 *            this door part's column
+	 * @param otherRow
+	 *            the other door part's row
+	 * @param otherCol
+	 *            the other door part's column
 	 * @return string for the door's texture
 	 */
-	private String generateUnlockedDoorSprite(int thisRow, int thisCol, int otherRow, int otherCol){
+	private String generateUnlockedDoorSprite(int thisRow, int thisCol, int otherRow, int otherCol) {
 
-		//right door
-		if(thisRow - 1 == otherRow)
+		// right door
+		if (thisRow - 1 == otherRow)
 			return "checkbox-on";
-		//left door
-		if(thisRow + 1 == otherRow)
+		// left door
+		if (thisRow + 1 == otherRow)
 			return "checkbox-off";
-		//top door
-		if(thisCol - 1 == otherCol)
+		// top door
+		if (thisCol - 1 == otherCol)
 			return "checkbox-on";
-		//bottom door
-		if(thisCol + 1 == otherCol)
+		// bottom door
+		if (thisCol + 1 == otherCol)
 			return "checkbox-off";
 		return "arrow";
 	}

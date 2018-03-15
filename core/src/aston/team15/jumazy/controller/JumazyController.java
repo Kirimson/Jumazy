@@ -109,7 +109,7 @@ public class JumazyController extends Game {
 				if (maze.getCurrentPlayer().isOnChest()) {
 					if (new Random().nextDouble() < 0.6) {
 						int originalInventorySize = maze.getCurrentPlayer().getInventory().size();
-						maze.getCurrentPlayer().obtainRandomItem();
+						maze.getCurrentPlayer().obtainRandomItemFromChest();
 						gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStatsArray());
 						int newInventorySize = maze.getCurrentPlayer().getInventory().size();
 						if (newInventorySize > originalInventorySize) {
@@ -121,12 +121,13 @@ public class JumazyController extends Game {
 								gameScreen.getHUD()
 										.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 							}
-	
 						}
 					}
 					else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 					}
+					
+					gameScreen.openChest(maze.getCurrentPlayer().getPosition());
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {

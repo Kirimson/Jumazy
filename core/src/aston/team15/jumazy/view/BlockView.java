@@ -28,7 +28,7 @@ public class BlockView extends Actor {
 		setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
 	}
 
-	public void unlockDoor(TextureRegion newTexture){
+	public void changeSprite(TextureRegion newTexture){
 		sprite = new Sprite(newTexture);
 		sprite.setPosition(bgSprite.getX(), bgSprite.getY());
 	}
