@@ -1,20 +1,13 @@
 package aston.team15.jumazy.view;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
 public class Lighting extends Image{
 	
-	
+	/**
 	private FrameBuffer lightBuffer;
 	private TextureRegion lightBufferRegion;
 	private SpriteBatch batch;
@@ -24,6 +17,8 @@ public class Lighting extends Image{
     public Lighting(float mazeWidth, float mazeHeight) {
         this.width = mazeWidth;
         this.height = mazeHeight;
+        
+        
         
         if (lightBuffer!=null) lightBuffer.dispose();
         lightBuffer = new FrameBuffer(Format.RGBA8888, (int) width,(int) height, false);
@@ -59,6 +54,36 @@ public class Lighting extends Image{
         batch.begin();
         batch.draw(lightBufferRegion, 0, 0,width,height);               
         batch.end();
+        */
+       	private SpriteBatch batch;
+    	private float width, height;
+    
+    	public Lighting(float mazeWidth, float mazeHeight) {
+        this.width = mazeWidth;
+        this.height = mazeHeight;
+        
+        batch.begin();
+        
+        Pixmap Lighting = new Pixmap((int) width, (int) height, Pixmap.Format.RGBA8888);
+        Lighting.setColor(0.3f, 0.3f, 0.3f, 0.4f);
+        Lighting.fillRectangle(0, 0,(int) width,(int) height);
+        
+        Lighting.setBlending(Pixmap.Blending.None);
+        Lighting.setColor(0.7f,0.7f, 0.7f, 0f);
+      
+        Lighting.fillCircle((int)width / 2, (int) height/ 2, 100);
+        
+        Lighting.setColor(1, 1, 1, 0f);
+        
+        Lighting.fillCircle((int)width / 2, (int) height/ 2, 50);
+        Lighting.setBlending(Pixmap.Blending.SourceOver);
+
+        Texture lighting = new Texture(Lighting);
+        Lighting.dispose();
+    
+        batch.draw(lighting, 0, 0);
+    batch.end();
+         
 
     }
 
