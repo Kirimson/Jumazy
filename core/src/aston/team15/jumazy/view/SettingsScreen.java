@@ -21,6 +21,7 @@ public class SettingsScreen extends MenuScreen {
 		super(theGame);
 
 		MenuScreenButton backButton = new MenuScreenButton("BACK", MenuScreens.MAIN_MENU_SCREEN, game);
+		MenuScreenButton texturesButton = new MenuScreenButton("Textures", MenuScreens.TEXTURE_SELECTION_SCREEN, game);
 		Skin skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		volumeSlider = new Slider(0, 100, 1, false, skin);
 		volumeSlider.setValue(GameSound.getVolumePercent());
@@ -42,8 +43,16 @@ public class SettingsScreen extends MenuScreen {
 		settings.setFillParent(true);
 		settings.setPosition(0.0f, -50.0f);
 		settings.add(volumeTitle);
-		settings.add(volumeSlider).width(400.0f);
+		settings.add(volumeSlider).width(300.0f);
 		settings.add(percentage).width(50f);
+		
+		Table textureTable = new Table();
+		
+		textureTable.debug();
+		textureTable.setFillParent(true);
+		textureTable.setPosition(0.0f, -150.0f);
+		textureTable.row();
+		textureTable.add(texturesButton).pad(10);
 		
 		Table settingsScroll = new Table();
 
@@ -57,6 +66,7 @@ public class SettingsScreen extends MenuScreen {
 		stage.addActor(settingsScroll);
 		stage.addActor(settingsTitle);
 		stage.addActor(settings);
+		stage.addActor(textureTable);
 	}
 
 	@Override
