@@ -26,6 +26,7 @@ import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class GameScreen implements Screen {
 
+	private Lighting light;
 	private JumazyController game;
 	private Stage gameStage;
 	private Stage uiStage;
@@ -61,7 +62,7 @@ public class GameScreen implements Screen {
 	 *            current players stats
 	 */
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] playerStats,
-			Weather weather) {
+					  Weather weather) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
@@ -73,6 +74,7 @@ public class GameScreen implements Screen {
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
 		currentPlayerInventory = new ArrayList<Item>();
+		light = new Lighting();
 
 		GameSound.playGameStartMusic();
 		GameSound.stopMenuMusic();
@@ -140,6 +142,8 @@ public class GameScreen implements Screen {
 		this.weather = weather;
 		if (weather != MazeModel.Weather.SUN)
 			setWeather(weather, maze[0].length, maze.length);
+
+		uiStage.addActor(light);
 
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");

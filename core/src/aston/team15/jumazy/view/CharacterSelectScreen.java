@@ -161,7 +161,7 @@ public class CharacterSelectScreen implements Screen{
         statsTable.top();
 
         Label statsLabel = new Label("Character Stats:", skin);
-        statsLabel.getStyle().fontColor = Color.WHITE;
+
         statsTable.add(statsLabel).expandX();
         statsTable.row();
 
