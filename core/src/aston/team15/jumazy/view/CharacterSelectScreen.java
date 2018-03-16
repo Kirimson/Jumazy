@@ -17,10 +17,13 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 public class CharacterSelectScreen implements Screen{
 
+    private LinkedHashMap<String, ArrayList<Image>> stats;
     private JumazyController game;
     private Stage stage;
     private ArrayList<CharacterName> selectedPlayerOrder;
@@ -167,52 +170,27 @@ public class CharacterSelectScreen implements Screen{
 
             //labels for stats
             Table labelTable = new Table();
-            Label hpLabel = new Label("HP:", skin);
-            labelTable.add(hpLabel).expandX().align(Align.left).padLeft(10f);
-            for(int i = 0; i < 10; i++)
-                labelTable.add(new Image(new Texture("addtoskin/stat-indicator.png"))).padLeft(5f);
 
-            labelTable.row();
+            HashMap<String, Integer> statAmount = new LinkedHashMap<String, Integer>();
+            statAmount.put("HP", 10);
+            statAmount.put("Stamina", 5);
+            statAmount.put("Strength", 4);
+            statAmount.put("Agility", 4);
+            statAmount.put("Luck", 4);
+            statAmount.put("Intelligence", 4);
 
-            Label staminaLabel = new Label("Stamina:", skin);
-            labelTable.add(staminaLabel).expandX().align(Align.left).padLeft(10f);
-            for(int i = 0; i < 3; i++)
-                labelTable.add(new Image(new Texture("addtoskin/stat-indicator.png"))).padLeft(5f);
-            labelTable.row();
+            stats = new LinkedHashMap<String, ArrayList<Image>>();
 
-            strengthLabel = new Label("Strength:", skin);
-            labelTable.add(strengthLabel).expandX().align(Align.left).padLeft(10f);
-            for(int i = 0; i < 2; i++)
-                labelTable.add(new Image(new Texture("addtoskin/stat-indicator.png"))).padLeft(5f);
-            labelTable.add(strengthOne = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.add(strengthTwo = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.row();
-
-            agilityLabel = new Label("Agility:", skin);
-            labelTable.add(agilityLabel).expandX().align(Align.left).padLeft(10f);
-            for(int i = 0; i < 2; i++)
-                labelTable.add(new Image(new Texture("addtoskin/stat-indicator.png"))).padLeft(5f);
-            labelTable.add(agilityOne = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.add(agilityTwo = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.row();
-
-            luckLabel = new Label("Luck:", skin);
-            labelTable.add(luckLabel).expandX().align(Align.left).padLeft(10f);
-            for(int i = 0; i < 2; i++)
-                labelTable.add(new Image(new Texture("addtoskin/stat-indicator.png"))).padLeft(5f);
-            labelTable.add(luckOne = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.add(luckTwo = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.row();
-
-            intelligenceLabel = new Label("Intelligence:", skin);
-            labelTable.add(intelligenceLabel).expandX().align(Align.left).padLeft(10f);
-            for(int i = 0; i < 2; i++)
-                labelTable.add(new Image(new Texture("addtoskin/stat-indicator.png"))).padLeft(5f);
-            labelTable.add(intelligenceOne = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.add(intelligenceTwo = new Image(new Texture("addtoskin/stat-indicator.png")));
-            labelTable.row();
-
-        resetStats();
+            for(String stat : statAmount.keySet()){
+                labelTable.add(new Label(stat, skin)).expandX().align(Align.left).padLeft(10f);
+                ArrayList<Image> imageList = new ArrayList<Image>();
+                for(int i = 0; i < statAmount.get(stat); i++){
+                    imageList.add(new Image(new Texture("addtoskin/stat-indicator.png")));
+                    labelTable.add(imageList.get((i))).padLeft(5f);
+                }
+                stats.put(stat, imageList);
+                labelTable.row();
+            }
 
         statsTable.add(labelTable).expand().pad(10f).align(Align.left);
 
@@ -247,14 +225,26 @@ public class CharacterSelectScreen implements Screen{
     }
 
     private void resetStats() {
-        strengthOne.setColor(0f, 0f, 0f, 0f);
-        strengthTwo.setColor(0f,0f,0f,0f);
-        agilityOne.setColor(0f, 0f, 0f, 0f);
-        agilityTwo.setColor(0f,0f,0f,0f);
-        luckOne.setColor(0f, 0f, 0f, 0f);
-        luckTwo.setColor(0f,0f,0f,0f);
-        intelligenceOne.setColor(0f, 0f, 0f, 0f);
-        intelligenceTwo.setColor(0f,0f,0f,0f);
+        for(int i = 0; i < stats.get("Stamina").size(); i++)
+            if(i < 3) stats.get("Stamina").get(i).setColor(1f,1f,1f,1f);
+                else stats.get("Stamina").get(i).setColor(0f,0f,0f,0f);
+
+        for(int i = 0; i < stats.get("Strength").size(); i++)
+            if(i < 2) stats.get("Strength").get(i).setColor(1f,1f,1f,1f);
+            else stats.get("Strength").get(i).setColor(0f,0f,0f,0f);
+
+        for(int i = 0; i < stats.get("Agility").size(); i++)
+            if(i < 2) stats.get("Agility").get(i).setColor(1f,1f,1f,1f);
+            else stats.get("Agility").get(i).setColor(0f,0f,0f,0f);
+
+        for(int i = 0; i < stats.get("Luck").size(); i++)
+            if(i < 2) stats.get("Luck").get(i).setColor(1f,1f,1f,1f);
+            else stats.get("Luck").get(i).setColor(0f,0f,0f,0f);
+
+        for(int i = 0; i < stats.get("Intelligence").size(); i++)
+            if(i < 2) stats.get("Intelligence").get(i).setColor(1f,1f,1f,1f);
+            else stats.get("Intelligence").get(i).setColor(0f,0f,0f,0f);
+
     }
 
     @Override
@@ -316,33 +306,39 @@ public class CharacterSelectScreen implements Screen{
                 infoText.setText("Ruby is faster than the rest, she has a greater chance of skipping over pesky traps " +
                         "letting you get through dangerous rooms and reap their rewards! If you answer a question wrong " +
                         "you get sent back to the start of your turn!");
-                agilityOne.setColor(1f,1f,1f,1f);
-                agilityTwo.setColor(1f,1f,1f,1f);
+                for(int i = 0; i < stats.get("Agility").size(); i++)
+                    if(i < 4) stats.get("Agility").get(i).setColor(1f,1f,1f,1f);
+                    else stats.get("Agility").get(i).setColor(0f,0f,0f,0f);
                 break;
             case SHELLY_OBERON:
                 infoPanelTitle.setText("Shelly Oberon:");
                 infoText.setText("Shelly has greater stamina than the others. This lets him move further each turn " +
                         "giving you an advantage in navigating the labyrinth! Your stamina is added to a dice roll, " +
                         "which determines how far you can move each turn");
-                intelligenceOne.setColor(1f,1f,1f,1f);
-                intelligenceTwo.setColor(1f,1f,1f,1f);
+                for(int i = 0; i < stats.get("Intelligence").size(); i++)
+                    if(i < 4) stats.get("Intelligence").get(i).setColor(1f,1f,1f,1f);
+                    else stats.get("Intelligence").get(i).setColor(0f,0f,0f,0f);
                 break;
             case SMOLDER_BRAVESTONE:
                 infoPanelTitle.setText("Smolder Bravestone:");
                 infoText.setText("Smolder is the strongest of the pack, he has a better chance at defeating the monsters " +
                         "you'll encounter in the labyrinth! Defeat monsters to further increase your strength to have a " +
                         "better chance against the monster guarding the Victory Room!");
-                strengthOne.setColor(1f,1f,1f,1f);
-                strengthTwo.setColor(1f,1f,1f,1f);
+                for(int i = 0; i < stats.get("Strength").size(); i++)
+                    if(i < 4) stats.get("Strength").get(i).setColor(1f,1f,1f,1f);
+                    else stats.get("Strength").get(i).setColor(0f,0f,0f,0f);
                 break;
             case FRANKLIN_FINBAR:
                 infoPanelTitle.setText("Franklin Finbar:");
                 infoText.setText("Franklin is the luckiest of them all! He has a greater chance of finding useful items " +
                         "in chests, like potions and keys to increase your stats and unlock doors. Find enough keys and " +
                         "you can unlock the doors to victory!");
-                luckOne.setColor(1f,1f,1f,1f);
-                luckTwo.setColor(1f,1f,1f,1f);
-                intelligenceOne.setColor(1f,1f,1f,1f);
+                for(int i = 0; i < stats.get("Luck").size(); i++)
+                    if(i < 4) stats.get("Luck").get(i).setColor(1f,1f,1f,1f);
+                    else stats.get("Luck").get(i).setColor(0f,0f,0f,0f);
+                for(int i = 0; i < stats.get("Intelligence").size(); i++)
+                    if(i < 3) stats.get("Intelligence").get(i).setColor(1f,1f,1f,1f);
+                    else stats.get("Intelligence").get(i).setColor(0f,0f,0f,0f);
                 break;
         }
     }
