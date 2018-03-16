@@ -316,7 +316,6 @@ public class GameScreen implements Screen {
 
 	public void startFight(int health1, int health2) {  
 		fightingStage.setHealth(health1, health2);
-		Gdx.input.setInputProcessor(uiStage);
 
 		fightingStage.show();
 		Gdx.input.setInputProcessor(fightingStage);
