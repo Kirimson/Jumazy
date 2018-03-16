@@ -14,7 +14,7 @@ import aston.team15.jumazy.controller.JumazyController;
 
 public class SettingsScreen extends MenuScreen {
 
-	private Label percentage, title;
+	private Label percentage, title, volumeTitle;
 	private Slider volumeSlider;
 
 	public SettingsScreen(JumazyController theGame) {
@@ -27,33 +27,36 @@ public class SettingsScreen extends MenuScreen {
 		String sliderVal = "" + volumeSlider.getValue();
 		percentage = new Label(sliderVal, skin);
 		title = new Label("SETTINGS", skin);
-
-		Table settingsTitle = new Table();
+		title.setFontScale(2f);
+		volumeTitle = new Label("Volume: ", skin);
+		volumeTitle.setFontScale(1.3f);
 		
-		settingsTitle.debug();
+		Table settingsTitle = new Table();
+
 		settingsTitle.setFillParent(true);
-		settingsTitle.setPosition(0.0f, -100.0f);
+		settingsTitle.setPosition(0.0f, 35.0f);
 		settingsTitle.add(title);
 		
 		Table settings = new Table();
 
 		settings.setFillParent(true);
-		settings.setPosition(0.0f, -100.0f);
-		settings.add(volumeSlider);
-		settings.add(percentage);
+		settings.setPosition(0.0f, -50.0f);
+		settings.add(volumeTitle);
+		settings.add(volumeSlider).width(400.0f);
+		settings.add(percentage).width(50f);
 		
 		Table settingsScroll = new Table();
 
 		settingsScroll.setFillParent(true);
-		settingsScroll.setPosition(0.0f, -100.0f);
-		settingsScroll.add(new Image(game.getSprite("scroll"))).height(390.0f);
+		settingsScroll.setPosition(0.0f, -85.0f);
+		settingsScroll.add(new Image(game.getSprite("scroll"))).height(355.0f);
 
 		table.add(backButton).bottom().right().expand().pad(70);
 
-		stage.addActor(settingsTitle);
-		stage.addActor(settingsScroll);
-		stage.addActor(settings);
 		stage.addActor(table);
+		stage.addActor(settingsScroll);
+		stage.addActor(settingsTitle);
+		stage.addActor(settings);
 	}
 
 	@Override
