@@ -1,5 +1,7 @@
 package aston.team15.jumazy.view;
 
+import java.util.LinkedHashMap;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -12,10 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.model.Item;
 
 public class HeadsUpDisplay extends Table {
 
-	private Integer[] currentPlayerStats;
+	private LinkedHashMap<String, Integer> currentPlayerStats;
 	private Table statsTable;
 	private Table inventoryTable;
 
@@ -36,7 +39,8 @@ public class HeadsUpDisplay extends Table {
 	private String playerLabelString;
 	private int currentPlayerNumber;
 
-	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber, Integer[] currentPlayerStats) {
+	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber,
+			LinkedHashMap<String, Integer> currentPlayerStats) {
 		super(game.getSkin());
 		this.setBackground("rpgbg");
 		this.setHeight(170);
@@ -116,53 +120,75 @@ public class HeadsUpDisplay extends Table {
 		this.add(diceLabel).center().padRight(3).padBottom(8);
 
 		this.currentPlayerStats = currentPlayerStats;
-		update(currentPlayerNumber, currentPlayerStats);
+		setStatLabels(currentPlayerStats);
+		update(currentPlayerNumber);
 		// this.debugAll();
 	}
 
-	public void update(int newPlayerNumber, Integer[] newPlayerStats) {
+	public void update(int newPlayerNumber) {
 		playerLabel.setText("Player " + newPlayerNumber + "'s turn! " + playerLabelString);
 		diceLabel.setText(diceLabelString);
+	}
 
-		hpLabel.setText("HP: " + newPlayerStats[1] + "/" + newPlayerStats[0]);
-		if (newPlayerStats[0] != currentPlayerStats[0] || newPlayerStats[0] != currentPlayerStats[1]) {
-			if (currentPlayerNumber != newPlayerNumber)
-				highlightLabel(hpLabel);
-		}
-
-		for (int i = 2; i < newPlayerStats.length; i++) {
-			statsLabels[i - 1].setText(labelStrings[i - 1] + newPlayerStats[i]);
-			if (newPlayerStats[i] != currentPlayerStats[i]) {
-				if (currentPlayerNumber != newPlayerNumber)
-					highlightLabel(statsLabels[i - 1]);
-			}
-		}
-
-		currentPlayerStats = newPlayerStats;
-		currentPlayerNumber = newPlayerNumber;
+	public void updateItemStat(Item item) {
+		LinkedHashMap<String, Integer> tempStats = currentPlayerStats;
+		String str = item.getStatEffected();
+		int newVal = tempStats.get(item.getStatEffected()) + item.getValue();
+//		if ((item == Item.GRAPES || item == Item.APPLE) && tempVal > tempStats.get("Max Health")) {
+//			
+//		} else {
+			tempStats.replace(item.getStatEffected(), newVal);			
+//		}
+		
+		highlightLabel(item);
+		setStatLabels(tempStats);
 	}
 	
-	public int countStatDifferences(Integer[] newPlayerStats, Integer[] currentPlayerStats) {
-		int countDifferences = 0;
-		for (int stat = 0; stat < currentPlayerStats.length; stat++) {
-			if (newPlayerStats[stat] != currentPlayerStats[stat]) {
-				countDifferences++;
-			}
-		}
-		return countDifferences;
+	public void updateForNewPlayer(int newPlayerNumber, LinkedHashMap<String, Integer> newPlayerStats) {
+		setDiceLabel("Hit\nSpace!");
+		playerLabelString = "Press SPACE to roll!";
+		setStatLabels(newPlayerStats);
 	}
 
-	public void highlightLabel(Label label) {
-		label.setColor(Color.GREEN);
-		label.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+	public void setStatLabels(LinkedHashMap<String, Integer> newPlayerStats) {
+		hpLabel.setText("HP: " + newPlayerStats.get("Health") + "/" + newPlayerStats.get("Max Health"));
+		staminaLabel.setText("Stamina: " + newPlayerStats.get("Stamina"));
+		strengthLabel.setText("Strength: " + newPlayerStats.get("Strength"));
+		luckLabel.setText("Luck: " + newPlayerStats.get("Luck"));
+		agilityLabel.setText("Agility: " + newPlayerStats.get("Agility"));
+		currentPlayerStats = newPlayerStats;
 	}
 
-	public void updateForNewPlayer(Boolean turnPassValid) {
-		if (turnPassValid) {
-			setDiceLabel("Hit\nSpace!");
-			playerLabelString = "Press SPACE to roll!";
-		} else {
-			return;
+	public void highlightLabel(Item item) {
+		switch(item) {
+		case RED_POTION:
+		case GRAPES:
+		case APPLE:
+			hpLabel.setColor(Color.RED);
+			hpLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+			break;
+		case BLUE_POTION:
+			staminaLabel.setColor(Color.BLUE);
+			staminaLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+			break;
+		case GREEN_POTION:
+			luckLabel.setColor(Color.GREEN);
+			luckLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+			break;
+		case PURPLE_POTION:
+			agilityLabel.setColor(Color.PURPLE);
+			agilityLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+			break;
+		case SWORD:
+			strengthLabel.setColor(Color.YELLOW);
+			strengthLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+			break;
+		case BOWANDARROW:
+			strengthLabel.setColor(Color.YELLOW);
+			strengthLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+			break;
+		default:
+			break;
 		}
 	}
 

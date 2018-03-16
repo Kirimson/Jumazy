@@ -46,7 +46,7 @@ public class JumazyController extends Game {
 	public void setPlayerAmountAndStartGame(int playerAmount) {
 
 		maze = new MazeModel(4, 2, playerAmount);
-		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStatsArray(), maze.getWeather()));
+		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(), maze.getWeather()));
 
 //		GameScreen gameScreen = (GameScreen) getScreen();
 //
@@ -113,26 +113,13 @@ public class JumazyController extends Game {
 
 				if (currentPlayer.isOnChest()) {
 					if (randGen.nextDouble() < 0.6 + currentPlayer.getStatFromHashMap("Luck")/10) {
-						int originalInventorySize = currentPlayer.getInventory().size();
 						currentPlayer.obtainRandomItemFromChest();
-						gameScreen.setCurrentPlayerStats(currentPlayer.getStatsArray());
-						int newInventorySize = currentPlayer.getInventory().size();
-						if (newInventorySize > originalInventorySize) {
-							Item newItem = currentPlayer.getInventory().get(newInventorySize - 1);
-							if (newItem != Item.KEY) {
-								gameScreen.getHUD().setPlayerConsoleText("You just picked up a " + newItem.toString() + "! "
-										+ newItem.getStatEffected() + " increased by " + newItem.getValue() + "!");
-							} else {
-								gameScreen.getHUD()
-										.setPlayerConsoleText("You just picked up a key! Which door will you open?");
-							}
-						}
+						gameScreen.updateCurrentInventoryAndStats(currentPlayer.getInventory());
 					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 					}
 					
 					gameScreen.openChest(currentPlayer.getPosition());
-					gameScreen.updateCurrentInventory(currentPlayer.getInventory());
 				}
 
 				if (currentPlayer.isOnVictorySquare()) {
@@ -149,9 +136,9 @@ public class JumazyController extends Game {
 			}
 		case Input.Keys.ENTER:
 			if (currentPlayer.getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
-				gameScreen.setCurrentPlayer(maze.passTurnToNextPlayer());
-				gameScreen.setCurrentPlayerStats(currentPlayer.getStatsArray());
-
+				gameScreen.updateCurrentPlayer(maze.passTurnToNextPlayer(), maze.getCurrentPlayer().getStats() );
+				gameScreen.setCurrentPlayerStats(currentPlayer.getStats());
+				
 				return true;
 			} else {
 				return false;

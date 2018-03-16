@@ -182,9 +182,7 @@ public class PlayerModel {
 			if (playerStats.get("Health") > playerStats.get("Max Health")) {
 				playerStats.replace("Health", playerStats.get("Max Health"));
 			}
-		}
-		
-		
+		}		
 	}
 
 	public ArrayList<Item> getInventory() {
@@ -262,8 +260,12 @@ public class PlayerModel {
 		return currentPositionSymbol.equals("V");
 	}
 
-	public Integer[] getStatsArray() {
-		return playerStats.values().toArray(new Integer[0]);
+//	public Integer[] getStatsArray() {
+//		return playerStats.values().toArray(new Integer[0]);
+//	}
+	
+	public LinkedHashMap<String, Integer> getStats(){
+		return playerStats;
 	}
 	
 	public int getStatFromHashMap(String statStr) {

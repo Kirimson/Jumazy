@@ -1,6 +1,7 @@
 package aston.team15.jumazy.view;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -39,7 +40,7 @@ public class GameScreen implements Screen {
 	private QuestionUI questionUI;
 	private PauseView pauseStage;
 	private HeadsUpDisplay hud;
-	private Integer[] currentPlayerStats;
+	private LinkedHashMap<String, Integer> currentPlayerStats;
 	private InputMultiplexer multiplexer;
 	private boolean isPaused;
 	private ArrayList<Item> currentPlayerInventory;
@@ -60,7 +61,7 @@ public class GameScreen implements Screen {
 	 * @param playerStats
 	 *            current players stats
 	 */
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] playerStats,
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, LinkedHashMap<String, Integer> playerStats,
 			Weather weather) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
@@ -154,9 +155,6 @@ public class GameScreen implements Screen {
 				case Input.Keys.ESCAPE:
 					pause();
 					break;
-				case Input.Keys.ENTER:
-					hud.updateForNewPlayer(game.handleGameInput(keycode));
-					break;
 				default:
 					game.handleGameInput(keycode);
 				}
@@ -169,32 +167,39 @@ public class GameScreen implements Screen {
 		multiplexer.addProcessor(uiStage);
 	}
 
-	public void updateCurrentInventory(ArrayList<Item> inventory) {
-		ArrayList<Item> inventoryView = new ArrayList<Item>();
+	public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory) {
 
-		for (Item item : inventory) {
-			if (item.getType().equals("held")) {
-				inventoryView.add(item);
-			}
-			if (item.getStatEffected() != null) {
-				// pass to HUD
-			}
+		ArrayList<Item> inventory = playerInventory;
+		Item lastItem = inventory.get(inventory.size()-1);
+		ArrayList<Item> inventoryView = new ArrayList<Item>();
+		
+		if (lastItem.getStatEffected() != null) {
+			hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! " + lastItem.getStatEffected()
+			+ " increased by " + lastItem.getValue() + "!");
+			hud.updateItemStat(lastItem);
+		} else if (lastItem == Item.KEY) {
+			hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 		}
+		if (lastItem.getType().equals("held")) {
+			inventoryView.add(lastItem);
+		}
+		
 
 		int xPos = 610;
 		for (Item item : inventoryView) {
-			// BlockView itemView = new BlockView(xPos, 100,
-			// game.getSprite(item.getAtlasString()));
 			Actor itemView = new Actor() {
 				Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
+
 				public void draw(Batch batch, float parentAlpha) {
 					sprite.setSize(50, 50);
 					sprite.draw(batch);
 				}
+
 				public void setPosition(float x, float y) {
 					sprite.setPosition(x, y);
 				}
 			};
+			
 			itemView.setPosition(xPos, 35);
 			xPos += 70;
 			uiStage.addActor(itemView);
@@ -207,7 +212,7 @@ public class GameScreen implements Screen {
 	 * @param playerStats
 	 *            array of stats
 	 */
-	public void setCurrentPlayerStats(Integer[] playerStats) {
+	public void setCurrentPlayerStats(LinkedHashMap<String, Integer> playerStats) {
 		currentPlayerStats = playerStats;
 	}
 
@@ -363,10 +368,9 @@ public class GameScreen implements Screen {
 	 * @param newPlayerIndex
 	 *            new player number
 	 */
-	public void setCurrentPlayer(int newPlayerIndex) {
+	public void updateCurrentPlayer(int newPlayerIndex, LinkedHashMap<String, Integer> currentPlayerStats) {
 		currentPlayerIndex = newPlayerIndex;
-		// dice.setPosition(players.get(currentPlayerIndex).getX(),
-		// players.get(currentPlayerIndex).getY());
+		hud.updateForNewPlayer(newPlayerIndex, currentPlayerStats);
 	}
 
 	/**
@@ -449,7 +453,8 @@ public class GameScreen implements Screen {
 		gameStage.draw();
 
 		// draw all UI
-		hud.update(currentPlayerIndex + 1, currentPlayerStats);
+//		hud.update(currentPlayerIndex + 1, currentPlayerStats);
+		hud.update(currentPlayerIndex + 1);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 

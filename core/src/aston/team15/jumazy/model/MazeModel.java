@@ -315,7 +315,7 @@ public class MazeModel {
 					.println("Player " + (currentPlayerIndex + 1) + " inventory: " + getCurrentPlayer().getInventory());
 
 			String statsString = "";
-			for (int i : getCurrentPlayer().getStatsArray()) {
+			for (int i : getCurrentPlayer().getStats().values()) {
 				statsString += i + ", ";
 			}
 			System.out.println("Player " + (currentPlayerIndex + 1) + " stats: " + statsString);
