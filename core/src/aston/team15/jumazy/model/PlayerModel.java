@@ -12,7 +12,22 @@ import aston.team15.jumazy.model.MazeModel.Weather;
 public class PlayerModel {
 
 	public enum CharacterName {
-		SMOLDER_BRAVESTONE, RUBY_ROUNDHOUSE, FRANKLIN_FINBAR, SHELLY_OBERON;
+		SMOLDER_BRAVESTONE("3", "Smolder Bravestone"), RUBY_ROUNDHOUSE("1", "Ruby Roundhouse"),
+		FRANKLIN_FINBAR("4", "Franklin Finbar"), SHELLY_OBERON("2", "Shelly Oberon");
+		String Value;
+		String Name;
+		CharacterName(String value, String name){
+			Value = value;
+			Name = name;
+		}
+
+		public String getValue() {
+			return Value;
+		}
+
+		public String getName() {
+			return Name;
+		}
 	}
 
 	private int[] startOfTurnPosition;
