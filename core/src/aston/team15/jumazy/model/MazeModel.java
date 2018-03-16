@@ -36,7 +36,7 @@ public class MazeModel {
 	private ArrayList<String[][]> allRoomLayouts;
 	private boolean makeVictory = true;
 
-	public MazeModel(int roomsAcross, int roomsDown, int playerAmount) {
+	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 		float weatherDiscriminant = new Random().nextFloat();
 		if (weatherDiscriminant <= 0.5) {
 			weather = Weather.SUN;
@@ -49,17 +49,17 @@ public class MazeModel {
 		players = new ArrayList<PlayerModel>();
 
 		if (playerAmount == 2) {
-			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "2", this,
-					PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
+			players.add(new PlayerModel(1, 1, playerOrder.get(0).getValue(), this, playerOrder.get(0)));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, playerOrder.get(1).getValue(), this,
+					playerOrder.get(1)));
 		}
 
 		if (playerAmount == 4) {
-			players.add(new PlayerModel(1, 1, "1", this, PlayerModel.CharacterName.SMOLDER_BRAVESTONE));
-			players.add(new PlayerModel(1, maze[0].length - 2, "2", this, PlayerModel.CharacterName.RUBY_ROUNDHOUSE));
-			players.add(new PlayerModel(maze.length - 2, 1, "3", this, PlayerModel.CharacterName.FRANKLIN_FINBAR));
-			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, "4", this,
-					PlayerModel.CharacterName.SHELLY_OBERON));
+			players.add(new PlayerModel(1, 1, playerOrder.get(0).getValue(), this, playerOrder.get(0)));
+			players.add(new PlayerModel(1, maze[0].length - 2, playerOrder.get(1).getValue(), this, playerOrder.get(1)));
+			players.add(new PlayerModel(maze.length - 2, 1, playerOrder.get(2).getValue(), this, playerOrder.get(2)));
+			players.add(new PlayerModel(maze.length - 2, maze[0].length - 2, playerOrder.get(3).getValue(), this,
+					playerOrder.get(3)));
 		}
 
 		currentPlayerIndex = 0;
