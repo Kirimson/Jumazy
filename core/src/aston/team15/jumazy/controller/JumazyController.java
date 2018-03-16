@@ -94,7 +94,7 @@ public class JumazyController extends Game {
 
 				if (maze.getCurrentPlayer().isInFight()) {
 					
-					gameScreen.startFight();
+					gameScreen.startFight(maze.getCurrentPlayer().getStatsArray()[0],10);
 					maze.getCurrentPlayer().endFight();
 					
 				}
@@ -113,6 +113,10 @@ public class JumazyController extends Game {
 		case Input.Keys.SPACE:
 			if (maze.getCurrentPlayer().canRoll()) {
 				gameScreen.rollDice(maze.rollForPlayer());
+			}
+			if (maze.getCurrentPlayer().isInFight()) {
+				gameScreen.rollFightDice(this, maze.rollForPlayer());
+				break;
 			}
 			break;
 		default:

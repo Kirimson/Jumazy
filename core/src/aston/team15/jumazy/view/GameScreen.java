@@ -130,6 +130,7 @@ public class GameScreen implements Screen {
 
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		uiStage.addActor(hud);
+		
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
@@ -274,6 +275,11 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
+	public void rollFightDice(JumazyController game, int finalDie) {
+		fightingStage.rollDice(game, finalDie);
+		
+	}
+
 	public int getCurrentPlayerNumber() {
 		return currentPlayerIndex + 1;
 	}
@@ -284,9 +290,11 @@ public class GameScreen implements Screen {
 		uiStage.getViewport().update(width, height, true);
 	}
 
-	public void startFight() {  
+	public void startFight(int health1, int health2) {  
+		fightingStage.setHealth(health1, health2);
 		Gdx.input.setInputProcessor(fightingStage);
 		fightingStage.start();
+		System.out.println("p1 h:"+health1+" p2: h:"+health2);
 	}
 
 	@Override
