@@ -167,7 +167,7 @@ public class MazeModel {
 
 	private void createDoors(int roomsAcross, int roomsDown, String[][] maze) {
 
-		float lockedDoorProbability = 0.2f;
+		float lockedDoorProbability = 0.5f;
 		ArrayList<Boolean> lockedDoors = new ArrayList<Boolean>();
 
 		//make doors down the maze columns
@@ -178,7 +178,13 @@ public class MazeModel {
 
 					String symbol = (new Random().nextFloat() > lockedDoorProbability ? "O" : "D");
 
-					locked = symbol.equals("D");
+
+					if(symbol.equals("D") && !locked)
+						locked = true;
+					else if(locked)
+						symbol = "O";
+
+					System.out.println(locked);
 
 					float randomFloat = new Random().nextFloat();
 					if (randomFloat < 0.65) {
@@ -199,6 +205,7 @@ public class MazeModel {
 				} else
 					y -= 2;
 			}
+			System.out.println("new outer loop");
 			lockedDoors.add(locked);
 		}
 		lockedDoors.add(true);

@@ -46,6 +46,7 @@ public class GameScreen implements Screen {
 	private ArrayList<Item> currentPlayerInventory;
 
 	private DiceView dice;
+	private boolean lighttest;
 
 	/**
 	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui
@@ -160,6 +161,8 @@ public class GameScreen implements Screen {
 					break;
 				case Input.Keys.ENTER:
 					hud.updateForNewPlayer(game.handleGameInput(keycode));
+					lighttest = !lighttest;
+					light.increaseLightSize(lighttest);
 					break;
 				default:
 					game.handleGameInput(keycode);
