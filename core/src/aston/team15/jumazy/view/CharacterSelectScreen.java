@@ -149,10 +149,6 @@ public class CharacterSelectScreen implements Screen{
                 if(selectedPlayerOrder.size() == numOfPlayers){
                     game.setPlayerAmountAndStartGame(numOfPlayers, selectedPlayerOrder);
                 }
-                agilityLabel.setText("Agility:");
-                intelligenceLabel.setText("Intelligence:");
-                strengthLabel.setText("Strength:");
-                luckLabel.setText("Luck:");
                 titleLabel.setText("Player "+(selectedPlayerOrder.size()+1)+", Please Select Your Character");
 
                 currentSelectedImage.setColor(0.1f, 0.1f, 0.1f, 1f);
@@ -201,7 +197,6 @@ public class CharacterSelectScreen implements Screen{
         infoText = new Label("", skin);
         infoText.setWrap(true);
 
-//        table.debugAll();
         //setup the root table
         table.add(titleLabel).colspan(2).height(64f).expandX();
         table.row();
@@ -302,7 +297,7 @@ public class CharacterSelectScreen implements Screen{
     private void setCharacterInformation(CharacterName name){
         switch (name){
             case RUBY_ROUNDHOUSE:
-                infoPanelTitle.setText("Ruby Roundhouse:");
+                infoPanelTitle.setText("Ruby Roundhouse");
                 infoText.setText("Ruby is faster than the rest, she has a greater chance of skipping over pesky traps " +
                         "letting you get through dangerous rooms and reap their rewards! If you answer a question wrong " +
                         "you get sent back to the start of your turn!");
@@ -311,7 +306,7 @@ public class CharacterSelectScreen implements Screen{
                     else stats.get("Agility").get(i).setColor(0f,0f,0f,0f);
                 break;
             case SHELLY_OBERON:
-                infoPanelTitle.setText("Shelly Oberon:");
+                infoPanelTitle.setText("Shelly Oberon");
                 infoText.setText("Shelly has greater stamina than the others. This lets him move further each turn " +
                         "giving you an advantage in navigating the labyrinth! Your stamina is added to a dice roll, " +
                         "which determines how far you can move each turn");
@@ -320,7 +315,7 @@ public class CharacterSelectScreen implements Screen{
                     else stats.get("Intelligence").get(i).setColor(0f,0f,0f,0f);
                 break;
             case SMOLDER_BRAVESTONE:
-                infoPanelTitle.setText("Smolder Bravestone:");
+                infoPanelTitle.setText("Smolder Bravestone");
                 infoText.setText("Smolder is the strongest of the pack, he has a better chance at defeating the monsters " +
                         "you'll encounter in the labyrinth! Defeat monsters to further increase your strength to have a " +
                         "better chance against the monster guarding the Victory Room!");
