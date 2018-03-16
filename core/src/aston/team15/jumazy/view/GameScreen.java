@@ -242,7 +242,7 @@ public class GameScreen implements Screen {
 		} else if (moveStyle==2) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			inFight = true;
-			startFight(currentPlayerStats[0], 10 );
+			startFight(currentPlayerStats[0], 10, keycode);
 		}
 
 		int rollsLeft = dice.getRoll();
@@ -314,8 +314,8 @@ public class GameScreen implements Screen {
 		uiStage.getViewport().update(width, height, true);
 	}
 
-	public void startFight(int health1, int health2) {  
-		fightingStage.setHealth(health1, health2);
+	private void startFight(int health1, int health2, int keycode) {
+		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
 
 		fightingStage.show();
 		Gdx.input.setInputProcessor(fightingStage);
@@ -346,5 +346,10 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void stopFight() {
+		inFight = false;
+		resume();
 	}
 }

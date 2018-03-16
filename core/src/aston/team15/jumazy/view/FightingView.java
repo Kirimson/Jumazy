@@ -6,14 +6,11 @@ import java.util.Random;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 
 import aston.team15.jumazy.controller.JumazyController;
 
@@ -21,23 +18,26 @@ public class FightingView extends Stage {
 
     private Table fightBar;
     private Table background;
-    float maxhp1;
-	float maxhp2;
-	float currhp1;
-	float currhp2;
-	float health1Percent=1;
-	float health2Percent=1;
-	DiceView dice;
-	DiceView dice2;
-	Random rng;
-	int value1;
-	int value2;
-	float scale = 1.5f;
-	Image health1;
-	Image health2;
+    private float maxhp1;
+	private float maxhp2;
+	private float currhp1;
+	private float currhp2;
+	private float health1Percent=1;
+	private float health2Percent=1;
+	private DiceView dice;
+	private DiceView dice2;
+	private Random rng;
+	private int value1;
+	private int value2;
+	private float scale = 1.5f;
+	private Image health1;
+	private Image health2;
+	private float timeSinceFightDone = 0f;
 	private JumazyController game;
-	
-    public FightingView (final JumazyController game) {
+	private PlayerView player;
+	private int fightDirection;
+
+	FightingView(final JumazyController game) {
     	this.game = game;
     	rng = new Random();
     	
@@ -68,14 +68,11 @@ public class FightingView extends Stage {
 		
     }
 
-    public void resume(JumazyController game) {
-    	Timer.schedule(new Task() {
-			@Override
-		    public void run() {
-				remove();
-				game.resume();
-		    }
-		}, 1);
+    private void resumeGame() {
+		remove();
+		timeSinceFightDone = 0f;
+		game.stopFight();
+		System.out.println("task");
     }
 
 	public void playSound(File sound) {
@@ -88,12 +85,17 @@ public class FightingView extends Stage {
 		}
 	}
 	
-	public void setHealth(int health1, int health2) {
+	public void setHealth(int health1, int health2, PlayerView player, int direction) {
+    	this.player = player;
+    	fightDirection = direction;
 		maxhp1 = health1;
 		currhp1= maxhp1;
 		maxhp2 = health2;
 		currhp2= maxhp2;
-		
+
+		System.out.println("new fight hp1 "+currhp1);
+		System.out.println("new fight hp2 "+currhp2);
+
 		health1Percent = currhp1/maxhp1;
 		health2Percent = currhp2/maxhp2;
 	}
@@ -104,7 +106,7 @@ public class FightingView extends Stage {
 				this.addActor(dice);
 				this.addActor(dice2);
 			}
-			
+			player.act(Gdx.graphics.getDeltaTime(), fightDirection, 2);
 			value1 = rng.nextInt(12)+1;
 			dice.setDie(value1);
 			dice.roll();
@@ -125,15 +127,6 @@ public class FightingView extends Stage {
 		
 		health1Percent = currhp1/maxhp1;
 		health2Percent = currhp2/maxhp2;
-
-//		System.out.println("player1 percentage "+ health1Percent);
-//		System.out.println("player2 percentage "+health2Percent);
-//		
-//		System.out.println("player1 current "+currhp1);
-//		System.out.println("player1 max "+maxhp1);
-//
-//		System.out.println("player2 current "+currhp2);
-//		System.out.println("player2 max"+maxhp2);
 	}
 
 	public void show() {
@@ -146,17 +139,22 @@ public class FightingView extends Stage {
 	@Override
 	public void draw() {
 		super.draw();
+
 		if(dice.isRollFinished()) {
 			if(currhp1<=0) {
 				health1Percent = 0;
-				resume(game);
+				timeSinceFightDone += Gdx.graphics.getRawDeltaTime();
 			}
 			if(currhp2<=0) {
 				health2Percent = 0;
-				resume(game);
+				timeSinceFightDone += Gdx.graphics.getRawDeltaTime();
 			}
+
 			health1.setScaleX(scale*health1Percent);
 			health2.setScaleX(scale*health2Percent);
+
+			if(timeSinceFightDone > 1f)
+				resumeGame();
 		}
 	}
 	

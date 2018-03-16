@@ -149,7 +149,7 @@ public class PlayerModel {
 			row = newRow;
 			col = newCol;
 
-			return 2;
+			return 1;
 			
 		} else if (checkForEnemy(newRow, newCol) && movesLeft > 0) {
 			

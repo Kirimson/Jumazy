@@ -113,4 +113,9 @@ public class JumazyController extends Game {
 		}
 
 	}
+
+    public void stopFight() {
+        GameScreen gameScreen = (GameScreen) getScreen();
+        gameScreen.stopFight();
+    }
 }
