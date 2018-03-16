@@ -132,6 +132,7 @@ public class JumazyController extends Game {
 					}
 					
 					gameScreen.openChest(currentPlayer.getPosition());
+					gameScreen.updateCurrentInventory(currentPlayer.getInventory());
 				}
 
 				if (currentPlayer.isOnVictorySquare()) {

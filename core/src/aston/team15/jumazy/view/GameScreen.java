@@ -9,6 +9,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
@@ -40,6 +42,7 @@ public class GameScreen implements Screen {
 	private Integer[] currentPlayerStats;
 	private InputMultiplexer multiplexer;
 	private boolean isPaused;
+	private ArrayList<Item> currentPlayerInventory;
 
 	private DiceView dice;
 
@@ -53,11 +56,12 @@ public class GameScreen implements Screen {
 	 * @param playerAmount
 	 *            amount of players
 	 * @param maze
-	 *            strin array representation of the maze
-	 * @param integers
+	 *            string array representation of the maze
+	 * @param playerStats
 	 *            current players stats
 	 */
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] integers, Weather weather) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, Integer[] playerStats,
+			Weather weather) {
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
@@ -66,8 +70,9 @@ public class GameScreen implements Screen {
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
-		currentPlayerStats = integers;
+		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
+		currentPlayerInventory = new ArrayList<Item>();
 
 		GameSound.playGameStartMusic();
 		GameSound.stopMenuMusic();
@@ -135,7 +140,7 @@ public class GameScreen implements Screen {
 		this.weather = weather;
 		if (weather != MazeModel.Weather.SUN)
 			setWeather(weather, maze[0].length, maze.length);
-		
+
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
@@ -145,7 +150,6 @@ public class GameScreen implements Screen {
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
-
 				switch (keycode) {
 				case Input.Keys.ESCAPE:
 					pause();
@@ -163,7 +167,43 @@ public class GameScreen implements Screen {
 
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
-		
+
+		ArrayList<Item> temp = new ArrayList<Item>();
+		temp.add(Item.BOWANDARROW);
+		temp.add(Item.SWORD);
+		updateCurrentInventory(temp);
+	}
+
+	public void updateCurrentInventory(ArrayList<Item> inventory) {
+		ArrayList<Item> inventoryView = new ArrayList<Item>();
+
+		for (Item item : inventory) {
+			if (item.getType().equals("held")) {
+				inventoryView.add(item);
+			}
+			if (item.getStatEffected() != null) {
+				// pass to HUD
+			}
+		}
+
+		int xPos = 610;
+		for (Item item : inventoryView) {
+			// BlockView itemView = new BlockView(xPos, 100,
+			// game.getSprite(item.getAtlasString()));
+			Actor itemView = new Actor() {
+				Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
+				public void draw(Batch batch, float parentAlpha) {
+					sprite.setSize(50, 50);
+					sprite.draw(batch);
+				}
+				public void setPosition(float x, float y) {
+					sprite.setPosition(x, y);
+				}
+			};
+			itemView.setPosition(xPos, 35);
+			xPos += 70;
+			uiStage.addActor(itemView);
+		}
 	}
 
 	/**

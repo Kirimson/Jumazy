@@ -26,6 +26,7 @@ public class DiceView extends Actor {
 	private Sprite sprite;
  
 	public DiceView(float xPos, float yPos, TextureRegion textureRegion) {
+		super();
 		sprite = new Sprite(textureRegion);
 		sprite.setPosition(xPos, yPos);
 	}

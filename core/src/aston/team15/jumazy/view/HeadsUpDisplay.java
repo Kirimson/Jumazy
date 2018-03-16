@@ -34,6 +34,7 @@ public class HeadsUpDisplay extends Table {
 	private Label inventoryLabel;
 	private String diceLabelString;
 	private String playerLabelString;
+	private int currentPlayerNumber;
 
 	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber, Integer[] currentPlayerStats) {
 		super(game.getSkin());
@@ -125,19 +126,20 @@ public class HeadsUpDisplay extends Table {
 
 		hpLabel.setText("HP: " + newPlayerStats[1] + "/" + newPlayerStats[0]);
 		if (newPlayerStats[0] != currentPlayerStats[0] || newPlayerStats[0] != currentPlayerStats[1]) {
-			if (countStatDifferences(newPlayerStats, currentPlayerStats) < 2)
+			if (currentPlayerNumber != newPlayerNumber)
 				highlightLabel(hpLabel);
 		}
 
 		for (int i = 2; i < newPlayerStats.length; i++) {
 			statsLabels[i - 1].setText(labelStrings[i - 1] + newPlayerStats[i]);
 			if (newPlayerStats[i] != currentPlayerStats[i]) {
-				if (countStatDifferences(newPlayerStats, currentPlayerStats) < 2)
+				if (currentPlayerNumber != newPlayerNumber)
 					highlightLabel(statsLabels[i - 1]);
 			}
 		}
 
 		currentPlayerStats = newPlayerStats;
+		currentPlayerNumber = newPlayerNumber;
 	}
 	
 	public int countStatDifferences(Integer[] newPlayerStats, Integer[] currentPlayerStats) {
