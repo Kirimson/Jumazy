@@ -35,7 +35,6 @@ public class PlayerModel {
 	private boolean canRoll = true;
 	String[] walls = new String[] {"#","^","W","a","b","c"};
 	String[] enemies = new String[] {"E","X","1","2","3","4"};
-	private boolean inFight = false;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -150,7 +149,7 @@ public class PlayerModel {
 			row = newRow;
 			col = newCol;
 
-			return 1;
+			return 2;
 			
 		} else if (checkForEnemy(newRow, newCol) && movesLeft > 0) {
 			
@@ -159,7 +158,6 @@ public class PlayerModel {
 						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
 			
 			maze.setCoordinateString(row, col, "O");
-			inFight = true;
 			return 2;
 			
 		} else {
@@ -220,14 +218,5 @@ public class PlayerModel {
 
 	public void setStat(CalledStat stat, int newValue) {
 		playerStats[stat.index] = playerStats[stat.index] + newValue;
-	}
-
-	public boolean isInFight() {
-		return inFight ;
-	}
-
-	public void endFight() {
-		inFight = false;
-		
 	}
 }

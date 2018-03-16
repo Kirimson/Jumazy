@@ -1,5 +1,6 @@
 package aston.team15.jumazy.view;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,6 +37,7 @@ public class GameScreen implements Screen {
 	private HeadsUpDisplay hud;
 	private int[] currentPlayerStats;
 	private InputMultiplexer multiplexer;
+	private boolean inFight;
 
 	private DiceView dice;
 
@@ -126,7 +128,7 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
-		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game.getSprite("number1"));
+		dice = new DiceView(players.get(0).getX() + 32f, players.get(0).getY() + 32f, game);
 
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		uiStage.addActor(hud);
@@ -146,6 +148,32 @@ public class GameScreen implements Screen {
 				return true;
 			}
 		});
+		
+		fightingStage.addListener(new InputListener() {
+            public boolean keyDown(InputEvent event, int keycode) {
+            	if(inFight) {
+	                if(keycode == Input.Keys.SPACE){
+	                	
+	                	fightingStage.rollDice();
+	                	fightingStage.winnerAttack();
+	                	
+	                }
+	
+	                if(keycode == Input.Keys.F){
+	
+	                	fightingStage.remove();
+	                	resume();
+	                	inFight = false;
+	
+//	        			playSound(new File("../assets/snd/correct.wav"));
+//	        			resume(game);
+	                }
+	                
+	                return true;
+	            }
+            	return false;
+            }
+        });
 		
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
@@ -213,6 +241,8 @@ public class GameScreen implements Screen {
 			dice.decreaseRoll();
 		} else if (moveStyle==2) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
+			inFight = true;
+			startFight(currentPlayerStats[0], 10 );
 		}
 
 		int rollsLeft = dice.getRoll();
@@ -237,10 +267,7 @@ public class GameScreen implements Screen {
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
 
 		// draw stage
-		if (!dice.isRollFinished()) {
-			int number = dice.roll();
-			dice.updateSprite(game.getSprite("number" + number));
-		} else {
+		if (dice.isRollFinished()) {
 			dice.setPosition(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY());
 		}
 
@@ -252,11 +279,13 @@ public class GameScreen implements Screen {
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
 
+		if(inFight) {
+			fightingStage.act(Gdx.graphics.getDeltaTime());
+			fightingStage.draw();
+		}
+		
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
-
-		fightingStage.act(Gdx.graphics.getDeltaTime());
-		fightingStage.draw();
 	}
 
 	private void panCameraTo(Vector3 target) {
@@ -275,11 +304,6 @@ public class GameScreen implements Screen {
 		dice.setDie(finalDie);
 	}
 
-	public void rollFightDice(JumazyController game, int finalDie) {
-		fightingStage.rollDice(game, finalDie);
-		
-	}
-
 	public int getCurrentPlayerNumber() {
 		return currentPlayerIndex + 1;
 	}
@@ -292,9 +316,13 @@ public class GameScreen implements Screen {
 
 	public void startFight(int health1, int health2) {  
 		fightingStage.setHealth(health1, health2);
+		Gdx.input.setInputProcessor(uiStage);
+
+		fightingStage.show();
 		Gdx.input.setInputProcessor(fightingStage);
-		fightingStage.start();
+		
 		System.out.println("p1 h:"+health1+" p2: h:"+health2);
+		inFight = true;
 	}
 
 	@Override
