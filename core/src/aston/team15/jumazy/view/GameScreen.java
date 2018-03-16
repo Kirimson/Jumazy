@@ -167,11 +167,6 @@ public class GameScreen implements Screen {
 
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
-
-		ArrayList<Item> temp = new ArrayList<Item>();
-		temp.add(Item.BOWANDARROW);
-		temp.add(Item.SWORD);
-		updateCurrentInventory(temp);
 	}
 
 	public void updateCurrentInventory(ArrayList<Item> inventory) {

@@ -112,7 +112,7 @@ public class JumazyController extends Game {
 				}
 
 				if (currentPlayer.isOnChest()) {
-					if (randGen.nextDouble() < 0.5 + currentPlayer.getStatFromHashMap("Luck")/10) {
+					if (randGen.nextDouble() < 0.6 + currentPlayer.getStatFromHashMap("Luck")/10) {
 						int originalInventorySize = currentPlayer.getInventory().size();
 						currentPlayer.obtainRandomItemFromChest();
 						gameScreen.setCurrentPlayerStats(currentPlayer.getStatsArray());
