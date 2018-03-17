@@ -13,7 +13,7 @@ public class TextureSelectionScreen extends MenuScreen {
 	public TextureSelectionScreen(JumazyController theGame) {
 		super(theGame, "tBackground.jpg");
 
-		TextButton texture1 = new TextButton("Current", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
+		JumazyButton texture1 = new JumazyButton("Current", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
 		texture1.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/current");
@@ -21,14 +21,14 @@ public class TextureSelectionScreen extends MenuScreen {
 			}
 		});
 
-		TextButton texture2 = new TextButton("Old English", new Skin(Gdx.files.internal("jumazyskin/oldenglish/jumazy-skin.json")));
+		JumazyButton texture2 = new JumazyButton("Old English", new Skin(Gdx.files.internal("jumazyskin/oldenglish/jumazy-skin.json")));
 		texture2.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/oldenglish");
 				game.setScreen(new TextureSelectionScreen(game));
 			}
 		});
-		TextButton texture3 = new TextButton("Medieval", new Skin(Gdx.files.internal("jumazyskin/medievel/jumazy-skin.json")));
+		JumazyButton texture3 = new JumazyButton("Medieval", new Skin(Gdx.files.internal("jumazyskin/medievel/jumazy-skin.json")));
 		texture3.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/medievel");
