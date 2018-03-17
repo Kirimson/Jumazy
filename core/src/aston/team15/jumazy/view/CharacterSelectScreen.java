@@ -108,7 +108,7 @@ public class CharacterSelectScreen implements Screen{
         }
 
         CharacterName[] names = {CharacterName.RUBY_ROUNDHOUSE, CharacterName.SHELLY_OBERON,
-                CharacterName.SMOLDER_BRAVESTONE, CharacterName.FRANKLIN_FINBAR};
+                CharacterName.FRANKLIN_FINBAR, CharacterName.SMOLDER_BRAVESTONE};
 
         //default character needs to be made here for simulated click
         CharacterImage characterOne = new CharacterImage("addtoskin/character1Box.png", names[0]);
