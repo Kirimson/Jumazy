@@ -31,7 +31,7 @@ public class GameSound {
 
     public static void playGameStartMusic() {
         gameStartMusic.play();
-        currentMusic.setVolume(uniVol);
+        gameStartMusic.setVolume(uniVol);
     }
 
     public static void stopGameStartMusic() {
