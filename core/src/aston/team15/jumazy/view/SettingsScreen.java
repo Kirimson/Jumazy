@@ -44,7 +44,6 @@ public class SettingsScreen extends MenuScreen {
 		
 		Table textureTable = new Table();
 		
-//		textureTable.debug();
 		textureTable.setFillParent(true);
 		textureTable.setPosition(0.0f, -150.0f);
 		textureTable.row();

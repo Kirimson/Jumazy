@@ -27,6 +27,9 @@ public class WeatherAnimation extends Image{
             case RAIN:
                 animation = new Animation<TextureRegion>(0.05f, animationAtlas.findRegions("Rain"), LOOP);
                 break;
+            case SNOW:
+                animation = new Animation<TextureRegion>(0.05f, animationAtlas.findRegions("Snow"), LOOP);
+                break;
             default:
                 break;
         }
