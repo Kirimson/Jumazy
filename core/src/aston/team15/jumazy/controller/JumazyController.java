@@ -102,7 +102,6 @@ public class JumazyController extends Game {
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			Random randGen = new Random();
 			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
 				boolean canMove = maze.moveCurrentPlayerModel(keycode);
 				gameScreen.moveCurrentPlayerView(canMove, keycode);
@@ -114,12 +113,20 @@ public class JumazyController extends Game {
 				}
 
 				if (maze.getCurrentPlayer().isOnChest()) {
-					if (randGen.nextDouble() < 0.6 + maze.getCurrentPlayer().getStatFromHashMap("Luck")/10) {
+					double discriminant = new Random().nextDouble();
+					
+					if (JumazyController.DEBUG_ON) {
+						System.out.println("DISC: " + discriminant);
+						System.out.println("LUCK: " + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck")/10);
+						System.out.println("0.6 + LUCK = " + (0.5 + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck")/10));
+					}
+					
+					if (discriminant < 0.5 + maze.getCurrentPlayer().getStatFromHashMap("Luck")/10) {
 						maze.getCurrentPlayer().obtainRandomItemFromChest();
 						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
 						gameScreen.openChest(maze.getCurrentPlayer().getPosition());
 					} else if (maze.getWeather() == Weather.SNOW && maze.getCurrentPlayer().isOnStuckChest()){
-						gameScreen.getHUD().setPlayerConsoleText("The cold's stuck this chest closed! Try again.");
+						gameScreen.getHUD().setPlayerConsoleText("The cold has stuck this chest closed! Try again.");
 					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 						gameScreen.openChest(maze.getCurrentPlayer().getPosition());
