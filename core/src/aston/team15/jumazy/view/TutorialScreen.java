@@ -1,6 +1,7 @@
 package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -26,6 +27,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
 		
+		
 		background();
 		controlsSection();
 		itemsSection();
@@ -41,7 +43,7 @@ public class TutorialScreen extends MenuScreen {
 		tutorialBG = new Table();
 		tutorialBG.setFillParent(true);
 		tutorialBG.center();
-		tutorialBG.add(new Image(game.getSprite("pause-dialog"))).height(1200).width(1100).padTop(-300);
+		tutorialBG.add(new Image(new Texture("Menu Blank.png"))).height(700).width(1200).padTop(0);
 		stage.addActor(tutorialBG);
 	}
 	
@@ -49,7 +51,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		controlTable = new Table();
 		controlTable.setFillParent(true);
-		controlTable.top().padTop(50).left().padLeft(180);
+		controlTable.top().padTop(50).left().padLeft(100);
 		
 		Image enterKey = new Image(new Texture("enter.png"));
 		controlTable.add(enterKey).width(40).height(60);
@@ -78,13 +80,14 @@ public class TutorialScreen extends MenuScreen {
 		controlTable.add(description).padTop(40).padLeft(-215);
 		
 		stage.addActor(controlTable);
+		description.getStyle().fontColor = Color.WHITE;
 	}
 	
 	public void itemsSection() {
 		
 		itemsTable = new Table();
 		itemsTable.setFillParent(true);
-		itemsTable.right().padRight(200).top().padTop(50);
+		itemsTable.right().padRight(150).top().padTop(50);
 		
 		description = new Label("Items", skin);
 		description.setFontScale(1.1f);
