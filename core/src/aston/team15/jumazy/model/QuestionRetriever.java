@@ -3,13 +3,7 @@ package aston.team15.jumazy.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class QuestionRetriever {
 	private String[] cells = null;
@@ -18,7 +12,7 @@ public class QuestionRetriever {
 	private String lastQuestion;
 
 	public void chosenTypes(HashMap<String, String> levels) {
-		questionRandomiser  = new ArrayList<String>();
+		questionRandomiser = new ArrayList<String>();
 		//adds to a HashMap the categories and level if they are checked
 		categoryLevels = new HashMap<String, String>();
 		for(String category : levels.keySet()) {

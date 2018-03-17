@@ -1,8 +1,8 @@
 package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.GameSound;
@@ -12,6 +12,9 @@ public class MainMenuScreen extends MenuScreen {
 
 	public MainMenuScreen(JumazyController theGame) {
 		super(theGame);
+
+		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 
 		MenuScreenButton playButton = new MenuScreenButton("Play", MenuScreens.START_GAME_SCREEN, game);
 		MenuScreenButton settingsButton = new MenuScreenButton("Settings", MenuScreens.SETTINGS_SCREEN, game);

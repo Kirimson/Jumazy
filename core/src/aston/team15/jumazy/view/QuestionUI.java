@@ -7,8 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.io.File;
 
 public class QuestionUI {

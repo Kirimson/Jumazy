@@ -1,12 +1,8 @@
 package aston.team15.jumazy.view;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
-
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 public class SettingsScreen extends MenuScreen {
 

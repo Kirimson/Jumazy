@@ -1,26 +1,21 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.model.MazeModel;
+import aston.team15.jumazy.model.MazeModel.Weather;
 import aston.team15.jumazy.model.PlayerModel;
+import aston.team15.jumazy.model.QuestionRetriever;
+import aston.team15.jumazy.view.GameScreen;
+import aston.team15.jumazy.view.MainMenuScreen;
 import aston.team15.jumazy.view.VictoryScreen;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
-import aston.team15.jumazy.model.Item;
-import aston.team15.jumazy.model.MazeModel;
-import aston.team15.jumazy.model.PlayerModel;
-import aston.team15.jumazy.model.QuestionRetriever;
-import aston.team15.jumazy.model.MazeModel.Weather;
-import aston.team15.jumazy.view.GameScreen;
-import aston.team15.jumazy.view.MainMenuScreen;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
 public class JumazyController extends Game {
@@ -35,8 +30,6 @@ public class JumazyController extends Game {
 
 	@Override
 	public void create() {
-		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
-		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 
 		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
