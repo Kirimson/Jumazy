@@ -36,14 +36,14 @@ public class TutorialScreen extends MenuScreen {
 		controlTable.setFillParent(true);
 		controlTable.top().padTop(50).left().padLeft(100);
 		
-		Image enterKey = new Image(new Texture("enter.png"));
+		Image enterKey = new Image(new Texture("Enter.png"));
 		controlTable.add(enterKey).width(40).height(60);
 		description = new Label("Press enter to switch players.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padLeft(40);
 		controlTable.row();
 		
-		Image spaceKey = new Image(new Texture("space.png"));
+		Image spaceKey = new Image(new Texture("Space.png"));
 		controlTable.add(spaceKey).width(90).height(20).padTop(20);
 		description = new Label("Press space to roll the dice.", skin);
 		description.setFontScale(0.75f);
