@@ -41,6 +41,9 @@ public class CharacterSelectScreen implements Screen{
     private Image currentSelectedImage;
 
     CharacterSelectScreen(JumazyController theGame, int numOfPlayers) {
+        Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
+
         game = theGame;
         Skin skin = game.getSkin();
         stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));

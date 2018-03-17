@@ -3,6 +3,7 @@ package aston.team15.jumazy.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -28,6 +29,8 @@ public abstract class MenuScreen implements Screen {
 	protected Table table;
 
 	public MenuScreen(JumazyController theGame, String backgroundString){
+		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 		game = theGame;
 		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
 

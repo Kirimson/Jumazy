@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
@@ -64,6 +65,9 @@ public class GameScreen implements Screen {
 	 */
 	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, LinkedHashMap<String, Integer> playerStats,
 			Weather weather) {
+		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
+
 		game = aGame;
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
