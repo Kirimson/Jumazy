@@ -45,7 +45,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image spaceKey = new Image(new Texture("Space.png"));
 		controlTable.add(spaceKey).width(90).height(20).padTop(20);
-		description = new Label("Press space to roll the dice.", skin);
+		description = new Label("Press space to roll the die.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padLeft(30).padTop(20);
 		controlTable.row();
@@ -149,7 +149,7 @@ public class TutorialScreen extends MenuScreen {
 		Image trap = new Image(game.getSprite("floor-trap-spikes"));
 		statsTable.add(trap).size(30).padLeft(-600);
 		description = new Label("These are traps! if stepped on a question will have to be answered."
-				+ "\nGet it correct, you may pass. Get it wrong and you will be punished.", skin);
+				+ "\nGet if correct, you may pass. Get it wrong and you will be punished.", skin);
 		description.setFontScale(0.75f);
 		statsTable.add(description).padLeft(-650);
 		
