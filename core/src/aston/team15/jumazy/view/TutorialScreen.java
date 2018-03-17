@@ -22,11 +22,10 @@ public class TutorialScreen extends MenuScreen {
 	private Label description;
 	
 	public TutorialScreen(JumazyController theGame) {
-		super(theGame);
+		super(theGame,"TutorialBack.png");
 		
 		skin = game.getSkin();
-		
-		background();
+
 		controlsSection();
 		itemsSection();
 		statsSection();
@@ -36,20 +35,11 @@ public class TutorialScreen extends MenuScreen {
 		stage.addActor(table);
 	}
 	
-	public void background() {
-		
-		tutorialBG = new Table();
-		tutorialBG.setFillParent(true);
-		tutorialBG.center();
-		tutorialBG.add(new Image(game.getSprite("pause-dialog"))).height(1200).width(1100).padTop(-300);
-		stage.addActor(tutorialBG);
-	}
-	
 	public void controlsSection() {
 		
 		controlTable = new Table();
 		controlTable.setFillParent(true);
-		controlTable.top().padTop(50).left().padLeft(180);
+		controlTable.top().padTop(50).left().padLeft(100);
 		
 		Image enterKey = new Image(new Texture("enter.png"));
 		controlTable.add(enterKey).width(40).height(60);
@@ -84,7 +74,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		itemsTable = new Table();
 		itemsTable.setFillParent(true);
-		itemsTable.right().padRight(200).top().padTop(50);
+		itemsTable.right().padRight(150).top().padTop(50);
 		
 		description = new Label("Items", skin);
 		description.setFontScale(1.1f);
@@ -139,7 +129,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		statsTable = new Table();
 		statsTable.setFillParent(true);
-		statsTable.center().padTop(150);
+		statsTable.center().padTop(350);
 		
 		description = new Label("Stats & Gameplay", skin);
 		description.setFontScale(1.1f);
