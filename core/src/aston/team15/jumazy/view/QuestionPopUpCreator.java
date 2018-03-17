@@ -52,6 +52,8 @@ public class QuestionPopUpCreator {
 						mathSB.setItems(mathObjects);
 					}
 					
+					
+					
 				}
 			});
 			
@@ -105,7 +107,7 @@ public class QuestionPopUpCreator {
 	
 	private void createTables() {
 		questionTable = new Table();
-		questionTable.center();
+		questionTable.top().padTop(-400);
 		questionTable.setFillParent(true);
 
 		Table questionBG = new Table();

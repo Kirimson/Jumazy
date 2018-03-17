@@ -26,19 +26,19 @@ public class QuestionUI {
 		
 		table = new Table();
 		table.setFillParent(true);
-		table.padTop(-100);
+		table.padTop(-175);
 		table.center();
 		
 		questionUIBG = new Table();
 		questionUIBG.setFillParent(true);
-		questionUIBG.padTop(-100);
-		questionUIBG.add(new Image(new Texture("scroll1.png"))).width(1200);
+		questionUIBG.padTop(-175);
+		questionUIBG.add(new Image(new Texture("scroll1.png"))).width(1300).height(550);
 		
 		final TextButton btnSubmit = new TextButton("Submit", skin);
 		tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 		
-		lQuestion.setFontScale(0.6f);
+		lQuestion.setFontScale(0.75f);
 		
 		table.add(lQuestion);
 		table.row();
