@@ -187,17 +187,13 @@ public class PlayerModel {
 	}
 
 	public void obtainRandomItemFromChest() {
-		Random randGen = new Random();
-		Item item = Item.values()[randGen.nextInt(Item.values().length)];
+		Item item = Item.values()[new Random().nextInt(Item.values().length)];
 		inventory.add(item);
 
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
 
 		if (item != Item.KEY) {
-			System.out.println(playerStats.get(item.getStatEffected()));
-			System.out.println(item.getValue());
-			
 			int newStat = playerStats.get(item.getStatEffected()) + item.getValue();
 			
 			playerStats.replace(item.getStatEffected(), newStat);
@@ -205,9 +201,6 @@ public class PlayerModel {
 			if (playerStats.get("Health") > playerStats.get("Max Health")) {
 				playerStats.replace("Health", playerStats.get("Max Health"));
 			}
-			
-			System.out.println(playerStats.get(item.getStatEffected()));
-			System.out.println(item.getValue());
 		}		
 	}
 
