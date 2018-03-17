@@ -12,8 +12,8 @@ import aston.team15.jumazy.model.MazeModel.Weather;
 public class PlayerModel {
 
 	public enum CharacterName {
-		SMOLDER_BRAVESTONE("4", "Smolder Bravestone"), RUBY_ROUNDHOUSE("1", "Ruby Roundhouse"),
-		FRANKLIN_FINBAR("3", "Franklin Finbar"), SHELLY_OBERON("2", "Shelly Oberon");
+		SMOLDER_BRAVESTONE("4", "Dr. Smolder Bravestone"), RUBY_ROUNDHOUSE("1", "Ruby Roundhouse"),
+		FRANKLIN_FINBAR("3", "Franklin Finbar"), SHELLY_OBERON("2", "Professor Shelly Oberon");
 		String Value;
 		String Name;
 		CharacterName(String value, String name){
