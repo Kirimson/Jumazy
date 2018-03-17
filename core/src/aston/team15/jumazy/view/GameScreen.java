@@ -27,6 +27,7 @@ import aston.team15.jumazy.model.MazeModel.Weather;
 
 public class GameScreen implements Screen {
 
+	private Lighting light;
 	private JumazyController game;
 	private Stage gameStage;
 	private Stage uiStage;
@@ -46,6 +47,7 @@ public class GameScreen implements Screen {
 	private ArrayList<Item> currentPlayerInventory;
 
 	private DiceView dice;
+	private boolean lighttest;
 
 	/**
 	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui
@@ -74,6 +76,7 @@ public class GameScreen implements Screen {
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
 		currentPlayerInventory = new ArrayList<Item>();
+		light = new Lighting();
 
 		GameSound.playGameStartMusic();
 		GameSound.stopMenuMusic();
@@ -142,6 +145,8 @@ public class GameScreen implements Screen {
 		if (weather != MazeModel.Weather.SUN)
 			setWeather(weather, maze[0].length, maze.length);
 
+		uiStage.addActor(light);
+
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
@@ -154,6 +159,11 @@ public class GameScreen implements Screen {
 				switch (keycode) {
 				case Input.Keys.ESCAPE:
 					pause();
+					break;
+				case Input.Keys.ENTER:
+					hud.updateForNewPlayer(game.handleGameInput(keycode));
+					lighttest = !lighttest;
+					light.increaseLightSize(lighttest);
 					break;
 				default:
 					game.handleGameInput(keycode);

@@ -112,18 +112,18 @@ public class PlayerModel {
 	}
 
 	private boolean checkValidMove(int newRow, int newCol) {
-		String[] walls = new String[] { "#", "^", "W" };
+		String[] walls = new String[] { "#", "^", "W", "D" };
 		boolean valid = true;
 		for (String wall : walls) {
 			if (maze.getCoordinateString(newRow, newCol).equals(wall))
 				valid = false;
 		}
-		
 
 		//if Door
 		if(maze.getCoordinateString(newRow, newCol).equals("D")){
 			System.out.println("HERE");
 			if(inventory.contains(Item.KEY)){
+				System.out.println("here");
 				inventory.remove(Item.KEY);
 				valid = true;
 			}
