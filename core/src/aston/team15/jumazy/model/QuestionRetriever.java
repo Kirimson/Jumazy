@@ -13,15 +13,16 @@ import java.util.Scanner;
 
 public class QuestionRetriever {
 	private String[] cells = null;
-	private ArrayList<String> questionRandomiser = new ArrayList<String>();
+	private ArrayList<String> questionRandomiser;
 	private HashMap<String, String> categoryLevels;
 	private String lastQuestion;
 
 	public void chosenTypes(HashMap<String, String> levels) {
-
+		questionRandomiser  = new ArrayList<String>();
 		//adds to a HashMap the categories and level if they are checked
 		categoryLevels = new HashMap<String, String>();
 		for(String category : levels.keySet()) {
+			System.out.println(category);
 			switch (levels.get(category)) {
 				case "Easy":
 				case "Medium":

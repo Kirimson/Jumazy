@@ -31,10 +31,10 @@ public class TextureSelectionScreen extends MenuScreen {
 				game.setScreen(new TextureSelectionScreen(game));
 			}
 		});
-		TextButton texture3 = new TextButton("Medieval", new Skin(Gdx.files.internal("jumazyskin/snow/jumazy-skin.json")));
+		TextButton texture3 = new TextButton("Medieval", new Skin(Gdx.files.internal("jumazyskin/medievel/jumazy-skin.json")));
 		texture3.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				game.update("jumazyskin/snow");
+				game.update("jumazyskin/medievel");
 				game.setScreen(new TextureSelectionScreen(game));
 			}
 		});
