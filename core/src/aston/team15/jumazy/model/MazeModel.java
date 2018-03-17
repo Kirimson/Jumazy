@@ -1,16 +1,13 @@
 package aston.team15.jumazy.model;
 
-import aston.team15.jumazy.controller.JumazyController;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+
+import aston.team15.jumazy.controller.JumazyController;
 
 public class MazeModel {
 

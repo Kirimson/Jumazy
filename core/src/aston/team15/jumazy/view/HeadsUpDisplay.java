@@ -131,22 +131,8 @@ public class HeadsUpDisplay extends Table {
 	}
 
 	public void updateItemStat(Item item) {
-		LinkedHashMap<String, Integer> tempStats = currentPlayerStats;
-		int newVal = tempStats.get(item.getStatEffected()) + item.getValue();
-		
-		if ((item == Item.GRAPES || item == Item.APPLE) && newVal > tempStats.get("Max Health")) {
-			tempStats.replace("Health", tempStats.get("Max Health"));
-//		} else if (newVal > 10){
-//			tempStats.replace(item.getStatEffected(), 10);			
-//		} else if(item == Item.BLUE_POTION && newVal > 6) {
-		} else if (newVal > 6 && item != Item.RED_POTION) {
-			tempStats.replace(item.getStatEffected(), 6);
-		} else {
-			tempStats.replace(item.getStatEffected(), newVal);			
-		}
-		
 		highlightLabel(item);
-		setStatLabels(tempStats);
+		setStatLabels(currentPlayerStats);
 	}
 	
 	public void updateForNewPlayer(int newPlayerNumber, LinkedHashMap<String, Integer> newPlayerStats) {

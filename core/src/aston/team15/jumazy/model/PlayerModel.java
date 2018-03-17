@@ -106,8 +106,6 @@ public class PlayerModel {
 		playerStats.put("Agility", agility);
 		playerStats.put("Luck", luck);
 
-		// playerStats = new int[] { hp, stamina, strength, agility, luck, intelligence
-		// };
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
 
@@ -192,11 +190,19 @@ public class PlayerModel {
 			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
 
 		if (item != Item.KEY) {
-			int stat = playerStats.get(item.getStatEffected());
-			playerStats.replace(item.getStatEffected(), stat + item.getValue());
+			System.out.println(playerStats.get(item.getStatEffected()));
+			System.out.println(item.getValue());
+			
+			int newStat = playerStats.get(item.getStatEffected()) + item.getValue();
+			
+			playerStats.replace(item.getStatEffected(), newStat);
+			
 			if (playerStats.get("Health") > playerStats.get("Max Health")) {
 				playerStats.replace("Health", playerStats.get("Max Health"));
 			}
+			
+			System.out.println(playerStats.get(item.getStatEffected()));
+			System.out.println(item.getValue());
 		}		
 	}
 

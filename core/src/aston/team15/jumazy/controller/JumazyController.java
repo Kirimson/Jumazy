@@ -95,13 +95,13 @@ public class JumazyController extends Game {
 		else
 			return false;
 		
-		Random randGen = new Random();
 
 		switch (keycode) {
 		case Input.Keys.RIGHT:
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
+			Random randGen = new Random();
 			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
 				boolean canMove = maze.moveCurrentPlayerModel(keycode);
 				gameScreen.moveCurrentPlayerView(canMove, keycode);

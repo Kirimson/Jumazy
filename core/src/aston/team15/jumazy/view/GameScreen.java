@@ -10,7 +10,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -187,7 +186,6 @@ public class GameScreen implements Screen {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}
 		}
-		
 	}
 	
 	public void renderInventory(ArrayList<Item> inventory) {
@@ -502,6 +500,7 @@ public class GameScreen implements Screen {
 	public void resize(int width, int height) {
 		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
+		pauseStage.getViewport().update(width, height);
 	}
 
 	@Override
