@@ -17,7 +17,7 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 		super(theGame);
 
 
-		TextButton twoPlayerButton = new TextButton("2 Players", game.getSkin());
+		JumazyButton twoPlayerButton = new JumazyButton("2 Players", game.getSkin());
 		twoPlayerButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				GameSound.playButtonSound();
@@ -25,7 +25,7 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 			}
 		});
 
-		TextButton fourPlayerButton = new TextButton("4 Players", game.getSkin());
+		JumazyButton fourPlayerButton = new JumazyButton("4 Players", game.getSkin());
 		fourPlayerButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				GameSound.playButtonSound();

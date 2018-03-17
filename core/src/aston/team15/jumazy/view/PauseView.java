@@ -27,7 +27,7 @@ public class PauseView extends Stage {
 
         background.add(new Image(game.getSprite("pause-dialog")));
 
-        TextButton resumeButton = new TextButton("Resume", game.getSkin());
+        JumazyButton resumeButton = new JumazyButton("Resume", game.getSkin());
 
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {

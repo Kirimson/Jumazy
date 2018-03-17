@@ -33,7 +33,7 @@ public class QuestionUI {
 		questionUIBG.padTop(-100);
 		questionUIBG.add(new Image(game.getSprite("scroll")));
 		
-		final TextButton btnSubmit = new TextButton("Submit", skin);
+		final JumazyButton btnSubmit = new JumazyButton("Submit", skin);
 		tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
 

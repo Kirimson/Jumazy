@@ -10,6 +10,7 @@ import java.util.Random;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -34,6 +35,9 @@ public class JumazyController extends Game {
 
 	@Override
 	public void create() {
+		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
+
 		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 

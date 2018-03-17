@@ -10,30 +10,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.JumazyController;
 
-public class MenuScreenButton extends TextButton {
+public class MenuScreenButton extends JumazyButton {
 
 	public MenuScreenButton(String string, final MenuScreens startGameScreen, final JumazyController game) {
 		super(string, game.getSkin());
-		
-		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
-		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
-
-		this.addListener(new InputListener() {
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-				Pixmap cursor = new Pixmap(Gdx.files.internal("hand.png"));
-				Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
-			}
-			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-				Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
-				Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
-			}
-		});
 
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {

@@ -25,7 +25,7 @@ public class QuestionPopUpCreator {
 	private SelectBox<String> geoSB;
 	private SelectBox<String> mathSB;
 	private SelectBox<String> histoSB;
-	private TextButton playButton;
+	private JumazyButton playButton;
 
 	QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
 		 skin = game.getSkin();
@@ -121,7 +121,7 @@ public class QuestionPopUpCreator {
 		mathSB.setDisabled(true);
 		histoSB.setDisabled(true);
 
-		playButton = new TextButton("Play", skin);
+		playButton = new JumazyButton("Play", skin);
 
 		questionTable.add(playButton).padTop(20);
 	}

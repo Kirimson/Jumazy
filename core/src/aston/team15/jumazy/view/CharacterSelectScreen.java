@@ -7,7 +7,9 @@ import java.util.LinkedHashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -33,19 +35,10 @@ public class CharacterSelectScreen implements Screen{
     private ArrayList<CharacterName> selectedPlayerOrder;
     private ArrayList<Image> selectedImages;
     private CharacterName currentSelectedPlayer;
-    private TextButton selectButton;
-    private Label strengthLabel;
-    private Label agilityLabel;
-    private Label luckLabel;
-    private Label intelligenceLabel;
+    private JumazyButton selectButton;
     private Label infoPanelTitle;
     private Label infoText;
     private Image currentSelectedImage;
-
-    private Image strengthOne, strengthTwo;
-    private Image agilityOne, agilityTwo;
-    private Image luckOne, luckTwo;
-    private Image intelligenceOne, intelligenceTwo;
 
     CharacterSelectScreen(JumazyController theGame, int numOfPlayers) {
         game = theGame;
@@ -100,6 +93,14 @@ public class CharacterSelectScreen implements Screen{
                         //add stats and info
                         setCharacterInformation(name);
                     }
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        Pixmap cursor = new Pixmap(Gdx.files.internal("hand.png"));
+                        Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
+                    }
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                        Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+                        Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
+                    }
                 });
             }
         }
@@ -128,7 +129,7 @@ public class CharacterSelectScreen implements Screen{
         playerTable.row();
 
         //buttons
-        TextButton backButton = new TextButton("Back", skin);
+        JumazyButton backButton = new JumazyButton("Back", skin);
         playerTable.add(backButton).expandY();
 
         backButton.addListener(new ClickListener() {
@@ -144,7 +145,7 @@ public class CharacterSelectScreen implements Screen{
            }
        });
 
-        selectButton = new TextButton("Select", skin);
+        selectButton = new JumazyButton("Select", skin);
         playerTable.add(selectButton).expandY();
 
         selectButton.addListener(new ClickListener(){

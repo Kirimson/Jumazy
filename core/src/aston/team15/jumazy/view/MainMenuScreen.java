@@ -16,7 +16,7 @@ public class MainMenuScreen extends MenuScreen {
 		MenuScreenButton playButton = new MenuScreenButton("Play", MenuScreens.START_GAME_SCREEN, game);
 		MenuScreenButton settingsButton = new MenuScreenButton("Settings", MenuScreens.SETTINGS_SCREEN, game);
 
-		TextButton quitButton = new TextButton("Quit", game.getSkin());
+		JumazyButton quitButton = new JumazyButton("Quit", game.getSkin());
 		quitButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				Gdx.app.exit();
