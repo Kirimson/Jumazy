@@ -1,5 +1,16 @@
 package aston.team15.jumazy.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -30,22 +41,22 @@ public class TutorialScreen extends MenuScreen {
 		stage.addActor(table);
 	}
 	
-	public void controlsSection() {
+	private void controlsSection() {
 		
 		controlTable = new Table();
 		controlTable.setFillParent(true);
 		controlTable.top().padTop(50).left().padLeft(100);
 		
-		Image enterKey = new Image(new Texture("Enter.png"));
+		Image enterKey = new Image(new Texture("enter.png"));
 		controlTable.add(enterKey).width(40).height(60);
 		description = new Label("Press enter to switch players.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padLeft(40);
 		controlTable.row();
 		
-		Image spaceKey = new Image(new Texture("Space.png"));
+		Image spaceKey = new Image(new Texture("space.png"));
 		controlTable.add(spaceKey).width(90).height(20).padTop(20);
-		description = new Label("Press space to roll the die.", skin);
+		description = new Label("Press space to roll the dice.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padLeft(30).padTop(20);
 		controlTable.row();
@@ -63,6 +74,7 @@ public class TutorialScreen extends MenuScreen {
 		controlTable.add(description).padTop(40).padLeft(-215);
 		
 		stage.addActor(controlTable);
+		description.getStyle().fontColor = Color.WHITE;
 	}
 	
 	public void itemsSection() {
@@ -124,7 +136,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		statsTable = new Table();
 		statsTable.setFillParent(true);
-		statsTable.center().padTop(350);
+		statsTable.center().padTop(300);
 		
 		description = new Label("Stats & Gameplay", skin);
 		description.setFontScale(1.1f);
@@ -132,8 +144,8 @@ public class TutorialScreen extends MenuScreen {
 		statsTable.row();
 		
 		description = new Label("HP: This is your health and if it hits 0 you will be spawned back where you started. "
-				+ "\nSTAMINA: The amount of stamina you have is added on to your dice roll."
-				+ "\nLUCK: This affects your chances of recieving an item from a chest."
+				+ "\nSTAMINA: The amount of stamina you have is added onto your dice roll."
+				+ "\nLUCK: This effects your chances of recieving an item from a chest."
 				+ "\nSTRENGTH: This increases your chances of winning fights against monsters.", skin);
 		description.setFontScale(0.75f);
 		statsTable.add(description);
@@ -149,7 +161,7 @@ public class TutorialScreen extends MenuScreen {
 		Image trap = new Image(game.getSprite("floor-trap-spikes"));
 		statsTable.add(trap).size(30).padLeft(-600);
 		description = new Label("These are traps! if stepped on a question will have to be answered."
-				+ "\nGet if correct, you may pass. Get it wrong and you will be punished.", skin);
+				+ "\nGet it correct, you may pass. Get it wrong and you will be punished.", skin);
 		description.setFontScale(0.75f);
 		statsTable.add(description).padLeft(-650);
 		
