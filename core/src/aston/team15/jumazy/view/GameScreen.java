@@ -106,9 +106,6 @@ public class GameScreen implements Screen {
 							game.getSprite(generateWaterTexture(maze, mazeX, mazeY)));
 					break;
 				case "C":
-					// newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX *
-					// blockSpriteDimensions,
-					// game.getSprite("chest-gold-closed"), game.getSprite(randomFloorTexture()));
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Closed.png"))),
 							game.getSprite(randomFloorTexture()));
@@ -236,6 +233,7 @@ public class GameScreen implements Screen {
 		// left door
 		if (maze[mazeX + 1][mazeY].equals("D"))
 			return "apple";
+
 		// top door
 		if (maze[mazeX][mazeY - 1].equals("D"))
 			return "arrow";
@@ -279,7 +277,7 @@ public class GameScreen implements Screen {
 
 		// bottom of pillar wall
 		if (mazeY > 0 && mazeY < maze[0].length - 1 && mazeX > 0) {
-			if (maze[mazeX][mazeY - 1].equals("O") && maze[mazeX][mazeY + 1].equals("O")
+			if (!maze[mazeX][mazeY - 1].equals("#") && !maze[mazeX][mazeY + 1].equals("#")
 					&& !maze[mazeX - 1][mazeY].equals("#")) {
 				return randomWallTexture();
 			}
@@ -342,7 +340,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Creates a new question and adds QuestionUI to the uiStage
 	 * 
-	 * @param questionAndAns
+	 * @param questionAndAns string containing both question and answer for question
 	 */
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
@@ -350,9 +348,9 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Check if question UI Actor isnt on the stage
+	 * Check if question UI Actor isn't on the stage
 	 * 
-	 * @return boolean if riddle isnt open
+	 * @return boolean if riddle isn't open
 	 */
 	public boolean riddleIsntOpen() {
 		return questionUI.notActive();
@@ -372,8 +370,6 @@ public class GameScreen implements Screen {
 	 */
 	public void setCurrentPlayer(int newPlayerIndex) {
 		currentPlayerIndex = newPlayerIndex;
-		// dice.setPosition(players.get(currentPlayerIndex).getX(),
-		// players.get(currentPlayerIndex).getY());
 	}
 
 	/**
@@ -381,8 +377,8 @@ public class GameScreen implements Screen {
 	 * passing the keycode to move the player on screen Then decreases/removes dice
 	 * actors sprite accordingly
 	 * 
-	 * @param canMove
-	 * @param keycode
+	 * @param canMove boolean if player can move
+	 * @param keycode direction the player moved
 	 */
 	public void moveCurrentPlayerView(boolean canMove, int keycode) {
 		if (canMove) {
@@ -406,7 +402,7 @@ public class GameScreen implements Screen {
 	 * handles moving the player view back to the start position of their turn, also
 	 * removes the dice from the stage
 	 * 
-	 * @param position
+	 * @param position position to move player to
 	 */
 	public void movePlayerToStartOfMove(int[] position) {
 		players.get(currentPlayerIndex).moveToStartOfTurn(position[0], position[1]);

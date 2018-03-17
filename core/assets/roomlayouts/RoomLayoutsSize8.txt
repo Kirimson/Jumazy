@@ -1,13 +1,13 @@
-/Room Type 1: Empty
+/Room Type 1: Pillars
 OOOOOOOO
-OOOOCOOO
+OOOOC#OO
+OOOOO#OO
+OOOOO#OO
+OO#OOOOO
+OO#OOOOO
+OO#COOOO
 OOOOOOOO
-OOO#OOOO
-OOO#OOOO
-OOO#OOOO
-OOOCOOOO
-OOOOOOOO
-/Room Type 2: LWrge PWths
+/Room Type 2: Large Paths
 OOOOOOOO
 OOOOCOOO
 OOW##WOO
@@ -25,7 +25,7 @@ OOWWWWOO
 OC####OO
 OO####OO
 OOCOOOOO
-/Room Type 4: WWlled WWter Wnd TrWp
+/Room Type 4: Walled Water Wnd TrWp
 OOOOOOOO
 OOOOOOOO
 OOWWWWOO
@@ -34,7 +34,7 @@ OOOTTOOO
 OO#WW#OO
 OOCOOOOO
 OOOOOOOO
-/Room Type 5: WWter X
+/Room Type 5: Water X
 O#O##O#O
 O#OOOO#O
 OOWOOWOO
@@ -43,7 +43,7 @@ OOWOOWOO
 OOWOOWOO
 O#OOOO#O
 O#O##O#O
-/Room Type 6: Wentre SqWure
+/Room Type 6: Centre Sqaure
 OOOOOOOO
 OO####OO
 OO####OO
@@ -52,7 +52,7 @@ OO#OO#OO
 OOWWWWCO
 OOOOOOOO
 OOOCOOOO
-/Room Type 7: Wentre WloWk
+/Room Type 7: Centre Block
 OOOOOOOO
 OOO##OOO
 OO####OO
@@ -61,7 +61,7 @@ OO####OO
 OO####OO
 OOC##OOO
 OOOOOOOO
-/Room Type 8: Wentre Worner Open
+/Room Type 8: Centre Corner Open
 OOOOOOOO
 O######O
 O######O
@@ -70,7 +70,7 @@ OOOOOWWO
 O######O
 O######O
 OOOOOOOO
-/Room Type 9: Wentre Worner TrWps
+/Room Type 9: Centre Corner Traps
 OOOOOOOO
 O######O
 O######O
@@ -79,7 +79,7 @@ OOOTO##O
 O######O
 O######O
 OOOOOOOO
-/Room Type 10: Two TrWp Thin Worridor
+/Room Type 10: Two TrWp Thin Corridor
 O#OOOOOO
 O#T####O
 O#O####O
@@ -88,7 +88,7 @@ O#COOO#O
 O####O#O
 O####T#O
 OOOOOO#O
-/Room Type 11: Four TrWp Thin Worridor
+/Room Type 11: Four Trap Thin Corridor
 O#OOOO#O
 O#T####O
 O#O####O
@@ -97,16 +97,16 @@ OTOOCO#O
 O####O#O
 O####T#O
 O#OOOO#O
-/Room Type 12: ThiWW WWlled ViWtory
+/Room Type 12: Thicc Walled Victory
 OOOOOOOO
-O##OO##O
-O##TT##O
-O##TT##O
-O##VV##O
-O######O
-O######O
+O#WDDW#O
+O#WDDW#O
+OOOVVOOO
+OOOVVOOO
+OW#TT#WO
+OW#TT#WO
 OOOOOOOO
-/Room Type 13: WWter Lines
+/Room Type 13: Water Lines
 OOOWWOOO
 OOOOOOOO
 OWWWWWWO
