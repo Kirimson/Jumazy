@@ -46,7 +46,7 @@ public class TextureSelectionScreen extends MenuScreen {
 		Table textureTable = new Table();
 
 		textureTable.setFillParent(true);
-		textureTable.setPosition(0.0f, -150.0f);
+		textureTable.setPosition(0.0f, 0.0f);
 		textureTable.row();
 		textureTable.add(texture1).pad(100);
 		textureTable.add(texture2).pad(100);
