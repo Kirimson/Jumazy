@@ -24,7 +24,7 @@ public class TutorialScreen extends MenuScreen {
 	public TutorialScreen(JumazyController theGame) {
 		super(theGame);
 		
-		skin = new Skin(Gdx.files.internal("jumazyskin/jumazy-skin.json"));
+		skin = game.getSkin();
 		
 		background();
 		controlsSection();
