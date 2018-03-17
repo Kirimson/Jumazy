@@ -132,8 +132,8 @@ public class TutorialScreen extends MenuScreen {
 		statsTable.row();
 		
 		description = new Label("HP: This is your health and if it hits 0 you will be spawned back where you started. "
-				+ "\nSTAMINA: The amount of stamina you have is added onto your dice roll."
-				+ "\nLUCK: This effects your chances of recieving an item from a chest."
+				+ "\nSTAMINA: The amount of stamina you have is added on to your dice roll."
+				+ "\nLUCK: This affects your chances of recieving an item from a chest."
 				+ "\nSTRENGTH: This increases your chances of winning fights against monsters.", skin);
 		description.setFontScale(0.75f);
 		statsTable.add(description);
