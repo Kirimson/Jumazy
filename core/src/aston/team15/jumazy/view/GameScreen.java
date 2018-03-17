@@ -435,7 +435,7 @@ public class GameScreen implements Screen {
 	public void setWeather(MazeModel.Weather weather, int width, int height) {
 		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions,
 				height * blockSpriteDimensions);
-		gameStage.addActor(weatherAnimation.getAnimation());
+		gameStage.addActor(weatherAnimation);
 	}
 
 	@Override

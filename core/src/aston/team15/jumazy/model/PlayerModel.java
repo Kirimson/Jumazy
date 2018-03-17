@@ -42,6 +42,7 @@ public class PlayerModel {
 	private ArrayList<Item> inventory;
 	private LinkedHashMap<String, Integer> playerStats;
 	private boolean onDoor;
+	private boolean onStuckChest;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -164,7 +165,11 @@ public class PlayerModel {
 
 			if (currentPositionSymbol.equals("C")) {
 				onChest = true;
-				currentPositionSymbol = "c";
+				onStuckChest = false;
+				if (new Random().nextDouble() < 0.1)
+					onStuckChest = true;
+				else
+					currentPositionSymbol = "c";
 			} else onChest = false;
 
 			if (JumazyController.DEBUG_ON)
@@ -224,6 +229,8 @@ public class PlayerModel {
 		case RAIN:
 			movesLeft = rollResult + 1;
 			break;
+		default:
+			break;
 		}
 		movesLeft += playerStats.get("Stamina");
 		if (JumazyController.DEBUG_ON)
@@ -267,6 +274,10 @@ public class PlayerModel {
 
 	public boolean isOnChest() {
 		return onChest;
+	}
+	
+	public boolean isOnStuckChest() {
+		return onStuckChest;
 	}
 
 	public void setCanRoll(boolean canRoll) {

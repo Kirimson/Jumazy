@@ -17,6 +17,7 @@ import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.PlayerModel;
 import aston.team15.jumazy.model.QuestionRetriever;
+import aston.team15.jumazy.model.MazeModel.Weather;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
 
@@ -116,10 +117,13 @@ public class JumazyController extends Game {
 					if (randGen.nextDouble() < 0.6 + maze.getCurrentPlayer().getStatFromHashMap("Luck")/10) {
 						maze.getCurrentPlayer().obtainRandomItemFromChest();
 						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
+						gameScreen.openChest(maze.getCurrentPlayer().getPosition());
+					} else if (maze.getWeather() == Weather.SNOW && maze.getCurrentPlayer().isOnStuckChest()){
+						gameScreen.getHUD().setPlayerConsoleText("The cold's stuck this chest closed! Try again.");
 					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
+						gameScreen.openChest(maze.getCurrentPlayer().getPosition());
 					}
-					gameScreen.openChest(maze.getCurrentPlayer().getPosition());
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare()) {

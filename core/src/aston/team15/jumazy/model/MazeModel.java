@@ -16,7 +16,9 @@ public class MazeModel {
 	// array goes (y,x)/(row,col)
 
 	public enum Weather {
-		RAIN("Careful! It's raining, the ground will be slippery."), SUN("The weather's nice, it's sunny.");
+		RAIN("Careful! It's raining, the ground will be slippery."), 
+		SUN("The weather's nice, it's sunny."), 
+		SNOW("Hope you dressed warm, the snows coming down hard!");
 		
 		private final String desc;
 		
@@ -38,10 +40,12 @@ public class MazeModel {
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 		float weatherDiscriminant = new Random().nextFloat();
-		if (weatherDiscriminant <= 0.5) {
+		if (weatherDiscriminant <= 0.3) {
 			weather = Weather.SUN;
-		} else {
+		} else if (weatherDiscriminant <= 0.6){
 			weather = Weather.RAIN;
+		} else {
+			weather = Weather.SNOW;
 		}
 		
 		maze = genMaze(roomsAcross, roomsDown);
@@ -66,11 +70,7 @@ public class MazeModel {
 
 		if (JumazyController.DEBUG_ON) {
 			String initialState = "Maze initialized to a " + playerAmount + " player game.\n";
-			if (weather == Weather.SUN) {
-				initialState += "It is sunny.";
-			} else if (weather == Weather.RAIN) {
-				initialState += "It is raining.";
-			}
+			initialState += weather.toString();
 			initialState += "\nPlayer 1 will start.";
 			System.out.println(initialState);
 			System.out.println(toString());

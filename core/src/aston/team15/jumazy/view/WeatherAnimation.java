@@ -40,9 +40,4 @@ public class WeatherAnimation extends Image{
 
         tile.draw(batch, 0,0, width,height);
     }
-
-    public WeatherAnimation getAnimation() {
-        return this;
-    }
-
 }
