@@ -48,7 +48,7 @@ public class JumazyController extends Game {
 
 	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 
-		maze = new MazeModel(4, 2, playerAmount);
+		maze = new MazeModel(4, 2, playerAmount, playerOrder);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(), maze.getWeather()));
 
 //		GameScreen gameScreen = (GameScreen) getScreen();
@@ -95,8 +95,6 @@ public class JumazyController extends Game {
 		else
 			return false;
 		
-		PlayerModel currentPlayer = maze.getCurrentPlayer();
-		
 		Random randGen = new Random();
 
 		switch (keycode) {
@@ -104,50 +102,53 @@ public class JumazyController extends Game {
 		case Input.Keys.LEFT:
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
-			if (gameScreen.riddleIsntOpen() && currentPlayer.getMovesLeft() > 0) {
+			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
 				boolean canMove = maze.moveCurrentPlayerModel(keycode);
 				gameScreen.moveCurrentPlayerView(canMove, keycode);
 
-				if (canMove && currentPlayer.isOnTrap()) {
+				if (canMove && maze.getCurrentPlayer().isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
 				}
 
-				if (currentPlayer.isOnChest()) {
-					if (randGen.nextDouble() < 0.6 + currentPlayer.getStatFromHashMap("Luck")/10) {
-						currentPlayer.obtainRandomItemFromChest();
-						gameScreen.updateCurrentInventoryAndStats(currentPlayer.getInventory());
+				if (maze.getCurrentPlayer().isOnChest()) {
+					if (randGen.nextDouble() < 0.6 + maze.getCurrentPlayer().getStatFromHashMap("Luck")/10) {
+						maze.getCurrentPlayer().obtainRandomItemFromChest();
+						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
 					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 					}
 					
-					gameScreen.openChest(currentPlayer.getPosition());
+					gameScreen.openChest(maze.getCurrentPlayer().getPosition());
 				}
 
-				if (currentPlayer.isOnVictorySquare()) {
+				if (maze.getCurrentPlayer().isOnVictorySquare()) {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 				}
 
-				if (currentPlayer.isOnDoor()) {
-					gameScreen.unlockDoor(maze.getDoorPositions(currentPlayer));
+				if (maze.getCurrentPlayer().isOnDoor()) {
+					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
 				}
 
+				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
 				return true;
 			} else {
 				return false;
 			}
 		case Input.Keys.ENTER:
-			if (currentPlayer.getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
+			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
 				gameScreen.updateCurrentPlayer(maze.passTurnToNextPlayer(), maze.getCurrentPlayer().getStats() );
-				gameScreen.setCurrentPlayerStats(currentPlayer.getStats());
+				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStats());
+				gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), false);
+				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
 				
 				return true;
 			} else {
 				return false;
 			}
 		case Input.Keys.SPACE:
-			if (currentPlayer.canRoll()) {
+			if (maze.getCurrentPlayer().canRoll()) {
 				gameScreen.rollDice(maze.rollForPlayer());
 			}
 			return true;

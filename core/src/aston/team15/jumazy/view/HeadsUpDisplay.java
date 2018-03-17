@@ -132,13 +132,18 @@ public class HeadsUpDisplay extends Table {
 
 	public void updateItemStat(Item item) {
 		LinkedHashMap<String, Integer> tempStats = currentPlayerStats;
-		String str = item.getStatEffected();
 		int newVal = tempStats.get(item.getStatEffected()) + item.getValue();
-//		if ((item == Item.GRAPES || item == Item.APPLE) && tempVal > tempStats.get("Max Health")) {
-//			
-//		} else {
+		
+		if ((item == Item.GRAPES || item == Item.APPLE) && newVal > tempStats.get("Max Health")) {
+			tempStats.replace("Health", tempStats.get("Max Health"));
+//		} else if (newVal > 10){
+//			tempStats.replace(item.getStatEffected(), 10);			
+//		} else if(item == Item.BLUE_POTION && newVal > 6) {
+		} else if (newVal > 6 && item != Item.RED_POTION) {
+			tempStats.replace(item.getStatEffected(), 6);
+		} else {
 			tempStats.replace(item.getStatEffected(), newVal);			
-//		}
+		}
 		
 		highlightLabel(item);
 		setStatLabels(tempStats);
@@ -152,10 +157,10 @@ public class HeadsUpDisplay extends Table {
 
 	public void setStatLabels(LinkedHashMap<String, Integer> newPlayerStats) {
 		hpLabel.setText("HP: " + newPlayerStats.get("Health") + "/" + newPlayerStats.get("Max Health"));
-		staminaLabel.setText("Stamina: " + newPlayerStats.get("Stamina"));
-		strengthLabel.setText("Strength: " + newPlayerStats.get("Strength"));
-		luckLabel.setText("Luck: " + newPlayerStats.get("Luck"));
-		agilityLabel.setText("Agility: " + newPlayerStats.get("Agility"));
+		staminaLabel.setText("Stamina: " + newPlayerStats.get("Stamina") + "/6");
+		strengthLabel.setText("Strength: " + newPlayerStats.get("Strength") + "/6");
+		luckLabel.setText("Luck: " + newPlayerStats.get("Luck") + "/6");
+		agilityLabel.setText("Agility: " + newPlayerStats.get("Agility") + "/6");
 		currentPlayerStats = newPlayerStats;
 	}
 

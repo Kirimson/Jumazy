@@ -167,42 +167,47 @@ public class GameScreen implements Screen {
 		multiplexer.addProcessor(uiStage);
 	}
 
-	public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory) {
-
+	public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory, boolean pickup) {
 		ArrayList<Item> inventory = playerInventory;
-		Item lastItem = inventory.get(inventory.size()-1);
+		
+		if (pickup) {
+			Item lastItem = inventory.get(inventory.size()-1);
+			if (lastItem.getStatEffected() != null) {
+				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! " + lastItem.getStatEffected()
+				+ " increased by " + lastItem.getValue() + "!");
+				hud.updateItemStat(lastItem);
+			} else if (lastItem == Item.KEY) {
+				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
+			}
+		}
+		
+	}
+	
+	public void renderInventory(ArrayList<Item> inventory) {
 		ArrayList<Item> inventoryView = new ArrayList<Item>();
 		
-		if (lastItem.getStatEffected() != null) {
-			hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! " + lastItem.getStatEffected()
-			+ " increased by " + lastItem.getValue() + "!");
-			hud.updateItemStat(lastItem);
-		} else if (lastItem == Item.KEY) {
-			hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
-		}
-		if (lastItem.getType().equals("held")) {
-			inventoryView.add(lastItem);
+		for (Item item : inventory) {
+			if (item.getType().equals("held")) {
+				inventoryView.add(item);
+			}
 		}
 		
-
 		int xPos = 610;
-		for (Item item : inventoryView) {
-			Actor itemView = new Actor() {
-				Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
-
-				public void draw(Batch batch, float parentAlpha) {
-					sprite.setSize(50, 50);
-					sprite.draw(batch);
-				}
-
-				public void setPosition(float x, float y) {
-					sprite.setPosition(x, y);
-				}
-			};
+		for (Item item : inventoryView) {			
+			ItemView itemView = new ItemView(game.getSprite(item.getAtlasString()));
+			itemView.setVisible(true);
 			
 			itemView.setPosition(xPos, 35);
 			xPos += 70;
 			uiStage.addActor(itemView);
+		}
+	}
+	
+	public void clearInventory() {
+		for (Actor actor : uiStage.getActors()) {
+			if (actor instanceof ItemView) {
+				actor.setVisible(false);
+			}
 		}
 	}
 
