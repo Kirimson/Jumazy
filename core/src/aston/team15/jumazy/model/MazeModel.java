@@ -1,8 +1,11 @@
 package aston.team15.jumazy.model;
 
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,35 +95,37 @@ public class MazeModel {
 	 * @return the maze
 	 */
 	private String[][] genMaze(int roomsAcross, int roomsDown) {
-		String currentLine;
+	    String currentLine;
 		String currentChar;
 		int roomSize=8;
 		int roomBorder = 2;
-		BufferedReader reader;
 
 		//creates a list of room layouts from provided file. ArrayList of String[][]
 		String filename = "roomlayouts/RoomLayoutsSize"+roomSize+".txt";
-		allRoomLayouts = new ArrayList<String[][]>();
-		try {
-			reader = new BufferedReader(new FileReader(filename));
-			while (reader.ready()) {
-				currentLine = reader.readLine();
-				if (!currentLine.startsWith("/")) {
-					String[][] newLayout = new String[roomSize][roomSize];
-					for(int j = 0; j < roomSize; j++) {
-						for(int i = 0; i < roomSize; i++) {
-							currentChar = currentLine.substring(i, i+1);
-							//do this so stuff isn't flipped in the file
-								newLayout[i][(roomSize-1)-j]=currentChar;
-						}
-						currentLine = reader.readLine();
-					}
-					allRoomLayouts.add(newLayout);
-				}
-			}
-		} catch (IOException e1) {
-			System.out.println("Failed to parse room layout file.");
-		}
+
+		FileHandle file = Gdx.files.internal("roomlayouts/RoomLayoutsSize"+roomSize+".txt");
+
+        String[] lines = file.readString().split("\r\n|\r|\n");
+
+        allRoomLayouts = new ArrayList<String[][]>();
+
+        for(int currentLineIndex = 0; currentLineIndex < lines.length; currentLineIndex++){
+            currentLine = lines[currentLineIndex];
+            if(!currentLine.startsWith("/")){
+                String[][] newLayout = new String[roomSize][roomSize];
+                for(int j = 0; j < roomSize; j++) {
+                    for(int i = 0; i < roomSize; i++) {
+                        currentChar = currentLine.substring(i, i+1);
+                        newLayout[i][(roomSize-1)-j]=currentChar;
+                    }
+                    currentLineIndex = currentLineIndex+1;
+                    if(currentLineIndex < lines.length)
+                        currentLine = lines[currentLineIndex];
+                }
+                allRoomLayouts.add(newLayout);
+                System.out.println(currentLineIndex+ " "+currentLine);
+            }
+        }
 
 		// create maze with enough space to store all cells of all rooms in a square
 		// shape

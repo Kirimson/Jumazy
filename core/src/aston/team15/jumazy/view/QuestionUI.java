@@ -1,5 +1,6 @@
 package aston.team15.jumazy.view;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -69,12 +70,11 @@ public class QuestionUI {
 
 				File sound;
 				if (correct) {
-					sound = new File("../assets/snd/correct.wav");
+					GameSound.playCorrectSound();
 				} else {
-					sound = new File("../assets/snd/incorrect.wav");
+					GameSound.playIncorrectSound();
 					game.incorrectRiddle();
 				}
-				playSound(sound);
 				game.resume();
 			}
 		});
@@ -107,20 +107,6 @@ public class QuestionUI {
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Incorrect");
 		return false;
-	}
-
-	/**
-	 * plays a given sound, catches any file Exceptions
-	 * @param sound sound to play
-	 */
-	private void playSound(File sound) {
-		try {
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(sound));
-			clip.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**

@@ -40,4 +40,14 @@ public class GameSound {
     public static void playButtonSound() {
         buttonSound.play();
     }
+
+    public static void playCorrectSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/correct.wav")).play();
+
+    }
+
+    public static void playIncorrectSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/incorrect.wav")).play();
+
+    }
 }
