@@ -36,7 +36,7 @@ public class QuestionUI {
 		final TextButton btnSubmit = new TextButton("Submit", skin);
 		tfAnswer = new TextField("", skin);
 		lQuestion = new Label("", skin);
-		
+
 		lQuestion.setFontScale(0.6f);
 		
 		table.add(lQuestion);
