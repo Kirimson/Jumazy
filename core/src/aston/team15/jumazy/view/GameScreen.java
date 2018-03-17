@@ -161,7 +161,7 @@ public class GameScreen implements Screen {
 					pause();
 					break;
 				case Input.Keys.ENTER:
-					hud.updateForNewPlayer(game.handleGameInput(keycode));
+					game.handleGameInput(keycode);
 					lighttest = !lighttest;
 					light.increaseLightSize(lighttest);
 					break;
@@ -227,9 +227,9 @@ public class GameScreen implements Screen {
 	 * @param playerStats
 	 *            array of stats
 	 */
-	public void setCurrentPlayerStats(LinkedHashMap<String, Integer> playerStats) {
-		currentPlayerStats = playerStats;
-	}
+//	public void setCurrentPlayerStats(LinkedHashMap<String, Integer> playerStats) {
+//		currentPlayerStats = playerStats;
+//	}
 
 	/**
 	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
@@ -468,7 +468,6 @@ public class GameScreen implements Screen {
 		gameStage.draw();
 
 		// draw all UI
-//		hud.update(currentPlayerIndex + 1, currentPlayerStats);
 		hud.update(currentPlayerIndex + 1);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();

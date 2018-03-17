@@ -119,7 +119,6 @@ public class JumazyController extends Game {
 					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 					}
-					
 					gameScreen.openChest(maze.getCurrentPlayer().getPosition());
 				}
 
@@ -138,8 +137,8 @@ public class JumazyController extends Game {
 			}
 		case Input.Keys.ENTER:
 			if (maze.getCurrentPlayer().getMovesLeft() < 1 && gameScreen.riddleIsntOpen()) {
-				gameScreen.updateCurrentPlayer(maze.passTurnToNextPlayer(), maze.getCurrentPlayer().getStats() );
-				gameScreen.setCurrentPlayerStats(maze.getCurrentPlayer().getStats());
+				gameScreen.clearInventory();
+				gameScreen.updateCurrentPlayer(maze.passTurnToNextPlayer(), maze.getCurrentPlayer().getStats());
 				gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), false);
 				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
 				
