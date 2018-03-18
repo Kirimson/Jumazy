@@ -73,7 +73,7 @@ public class QuestionUI {
 					GameSound.playCorrectSound();
 				} else {
 					GameSound.playIncorrectSound();
-					game.incorrectRiddle();
+					game.moveCurrentPlayerToStartOfTurn();
 				}
 				game.resume();
 			}

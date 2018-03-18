@@ -174,6 +174,9 @@ public class GameScreen implements Screen {
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
+				if(inFight)
+					inFight = false;
+				
 				switch (keycode) {
 				case Input.Keys.ESCAPE:
 					pause();
@@ -195,25 +198,11 @@ public class GameScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
             	if(inFight) {
 	                if(keycode == Input.Keys.SPACE){
-	                	
 	                	fightingStage.rollDice();
 	                	fightingStage.winnerAttack();
-	                	
 	                }
-	
-	                if(keycode == Input.Keys.F){
-	
-	                	fightingStage.remove();
-	                	resume();
-	                	inFight = false;
-	
-//	        			playSound(new File("../assets/snd/correct.wav"));
-//	        			resume(game);
-	                }
-	                
-	                return true;
 	            }
-            	return false;
+            	return true;
             }
         });
 		

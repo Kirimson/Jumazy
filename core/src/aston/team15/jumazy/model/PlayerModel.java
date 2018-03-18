@@ -253,6 +253,9 @@ public class PlayerModel {
 			break;
 		}
 		movesLeft += playerStats.get("Stamina");
+
+//		System.out.println("left: "+movesLeft);
+
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
 

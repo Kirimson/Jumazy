@@ -172,7 +172,7 @@ public class JumazyController extends Game {
         gameScreen.stopFight();
     }
 
-	public void incorrectRiddle() {
+	public void moveCurrentPlayerToStartOfTurn() {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
 	}
