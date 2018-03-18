@@ -8,13 +8,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,34 +28,48 @@ import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
+/**
+ * The main class used to manage the gameplay view. It creates, initialises and
+ * renders objects pertaining to the visual representation of the model objects.
+ * 
+ * Passes user input to {@link aston.team15.jumazy.controller.JumazyController}
+ * for handling, and accepts the updated model in return to render to the
+ * screen.
+ * 
+ * This class follows the facade design pattern, in that it provides the main
+ * interface for communication between this package and others.
+ * 
+ * @author Abdullah, Kieran, Jawwad, Shayan, David
+ *
+ */
 public class GameScreen implements Screen {
 
-	private Lighting light;
 	private JumazyController game;
+
+	private InputMultiplexer multiplexer;
 	private Stage gameStage;
 	private Stage uiStage;
+	private PauseView pauseStage;
+	private boolean isPaused;
 
-	private Weather weather;
-	private ArrayList<PlayerView> players;
-	private int currentPlayerIndex;
 	private FitViewport viewport;
 	private FitViewport uiViewport;
-	private int blockSpriteDimensions = 32;
 	private QuestionUI questionUI;
-	private PauseView pauseStage;
+
+	private int blockSpriteDimensions = 32;
+	private ArrayList<PlayerView> players;
+	private int currentPlayerIndex;
 	private HeadsUpDisplay hud;
 	private LinkedHashMap<String, Integer> currentPlayerStats;
-	private InputMultiplexer multiplexer;
-	private boolean isPaused;
-	private ArrayList<Item> currentPlayerInventory;
 
-	private DiceView dice;
+	private Lighting light;
 	private boolean lighttest;
+	private DiceView dice;
 
 	/**
-	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui
-	 * and pause layers. Creates the maze in a graphical form, using the text format
-	 * as a key for graphics
+	 * Creates a new GameScreen object. Comes with multiple stages for the game, UI
+	 * and pause layers. Renders the maze to the screen in accordance to the String
+	 * arrays provided by the model package.
 	 * 
 	 * @param aGame
 	 *            {@link JumazyController} object
@@ -66,10 +78,10 @@ public class GameScreen implements Screen {
 	 * @param maze
 	 *            string array representation of the maze
 	 * @param playerStats
-	 *            current players stats
+	 *            current players statistics
 	 */
-	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze, LinkedHashMap<String, Integer> playerStats,
-			Weather weather) {
+	public GameScreen(JumazyController aGame, int playerAmount, String[][] maze,
+			LinkedHashMap<String, Integer> playerStats, Weather weather) {
 		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 
@@ -83,7 +95,6 @@ public class GameScreen implements Screen {
 		pauseStage = new PauseView(game);
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
-		currentPlayerInventory = new ArrayList<Item>();
 		light = new Lighting();
 
 		GameSound.playGameStartMusic();
@@ -146,7 +157,6 @@ public class GameScreen implements Screen {
 
 		currentPlayerIndex = 0;
 
-		this.weather = weather;
 		if (weather != MazeModel.Weather.SUN)
 			setWeather(weather, maze[0].length, maze.length);
 
@@ -182,41 +192,152 @@ public class GameScreen implements Screen {
 		multiplexer.addProcessor(uiStage);
 	}
 
+	/**
+	 * Called when the screen is first rendered. In this case, sets the LibGDX input
+	 * processor to the multiplexer used to handle input for multiple stages, i.e.
+	 * the Pause, Game and UI stage objects.
+	 */
+	@Override
+	public void show() {
+		Gdx.input.setInputProcessor(multiplexer);
+	}
+
+	/**
+	 * Overrides super class render method, which is called repeatedly to render to
+	 * screen.
+	 * 
+	 * Some of the dynamic aspects of the on-screen view are handled by this method.
+	 * Draws stages to the screen and calls their act method, handles the
+	 * {@link DiceView} object, and controls the camera.
+	 */
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		// update camera position if needed
+		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
+
+		// draw stage
+		if (!dice.isRollFinished()) {
+			Gdx.input.setInputProcessor(pauseStage);
+			int number = dice.roll();
+			dice.updateSprite(game.getSprite("number" + number));
+		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())) {
+			if (!isPaused)
+				Gdx.input.setInputProcessor(multiplexer);
+
+			if (dice.getRoll() == 8)
+				hud.setPlayerConsoleText("You rolled an 8, use the ARROW KEYS to move.");
+			else
+				hud.setPlayerConsoleText("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
+		}
+
+		gameStage.act(Gdx.graphics.getDeltaTime());
+		gameStage.draw();
+
+		// draw all UI
+		hud.update(currentPlayerIndex + 1);
+		uiStage.act(Gdx.graphics.getDeltaTime());
+		uiStage.draw();
+
+		pauseStage.act(Gdx.graphics.getDeltaTime());
+		pauseStage.draw();
+	}
+
+	/**
+	 * Overrides super class resize method, to ensure that every stage updates in
+	 * accordance to the new dimensions of the screen when the user resizes the
+	 * window
+	 */
+	@Override
+	public void resize(int width, int height) {
+		gameStage.getViewport().update(width, height, true);
+		uiStage.getViewport().update(width, height, true);
+		pauseStage.getViewport().update(width, height, true);
+	}
+
+	/**
+	 * Overrides super class pause method, to switch the input processor to the
+	 * pauseStage object, and pause the game. Called as a result of user input, and
+	 * also when focus deviates from the game window.
+	 */
+	@Override
+	public void pause() {
+		Gdx.input.setInputProcessor(pauseStage);
+		pauseStage.pause();
+		isPaused = true;
+	}
+
+	/**
+	 * Overrides super class resume method, switches input processor back to the
+	 * multiplexer that handles UI and Game input, and removes the pauseStage.
+	 */
+	@Override
+	public void resume() {
+		Gdx.input.setInputProcessor(multiplexer);
+		pauseStage.remove();
+		isPaused = false;
+	}
+
+	/**
+	 * Updates the inventory and statistics currently displayed by the Heads Up
+	 * Display on screen, also provides the user with information about what they
+	 * have picked up (if anything) and what it will do.
+	 * 
+	 * @param playerInventory
+	 *            An ArrayList of {@link aston.team15.jumazy.model.Item} objects
+	 *            that represent a player inventory.
+	 * @param pickup
+	 *            Signifies whether this method was called after an item was picked
+	 *            up or not
+	 */
 	public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory, boolean pickup) {
 		ArrayList<Item> inventory = playerInventory;
-		
+
 		if (pickup) {
-			Item lastItem = inventory.get(inventory.size()-1);
+			Item lastItem = inventory.get(inventory.size() - 1);
 			if (lastItem.getStatEffected() != null) {
-				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! " + lastItem.getStatEffected()
-				+ " increased by " + lastItem.getValue() + "!");
+				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! "
+						+ lastItem.getStatEffected() + " increased by " + lastItem.getValue() + "!");
 				hud.updateItemStat(lastItem);
 			} else if (lastItem == Item.KEY) {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}
 		}
 	}
-	
+
+	/**
+	 * Renders the graphical representation of every object the player is carrying
+	 * to the screen.
+	 * 
+	 * @param inventory
+	 *            An ArrayList object representing a player inventory.
+	 */
 	public void renderInventory(ArrayList<Item> inventory) {
 		ArrayList<Item> inventoryView = new ArrayList<Item>();
-		
+
 		for (Item item : inventory) {
 			if (item.getType().equals("held")) {
 				inventoryView.add(item);
 			}
 		}
-		
+
 		int xPos = 610;
-		for (Item item : inventoryView) {			
+		for (Item item : inventoryView) {
 			ItemView itemView = new ItemView(game.getSprite(item.getAtlasString()));
 			itemView.setVisible(true);
-			
+
 			itemView.setPosition(xPos, 35);
 			xPos += 70;
 			uiStage.addActor(itemView);
 		}
 	}
-	
+
+	/**
+	 * Clears the inventory from the screen. This is usually called when passing the
+	 * turn onto the next player, to make clear room on the screen for a different
+	 * inventory.
+	 */
 	public void clearInventory() {
 		for (Actor actor : uiStage.getActors()) {
 			if (actor instanceof ItemView) {
@@ -224,23 +345,33 @@ public class GameScreen implements Screen {
 			}
 		}
 	}
-	
+
+	/**
+	 * 'Opens' the graphical chest object by replacing its sprite with that of an
+	 * open chest. Also creates and runs a small animation to show the player what
+	 * they have just picked up, if anything.
+	 * 
+	 * @param pos
+	 *            The position in the Model grid where this chest resides.
+	 * @param item
+	 *            An Item object, if it isn't null, the method will run an
+	 *            appropriate animation
+	 */
 	public void openChest(int[] pos, Item item) {
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0])) {
 					((BlockView) a).changeSprite(new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Open.png"))));
-										
+
 					if (item != null) {
 						gameStage.addAction(Actions.sequence(Actions.alpha(1)));
-						
 						Actor tempItemActor = new Actor() {
 							private Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
-							
+
 							public void setPosition(float x, float y) {
 								sprite.setScale(1.6f);
-								sprite.setPosition(x + blockSpriteDimensions/6, y);
-								
+								sprite.setPosition(x + blockSpriteDimensions / 6, y);
+
 								MoveByAction move = new MoveByAction();
 								move.setAmount(0, 50f);
 								move.setDuration(1f);
@@ -248,22 +379,21 @@ public class GameScreen implements Screen {
 								addAction(move);
 								addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(1f)));
 							}
-							
+
 							public void draw(Batch batch, float parentAlpha) {
-								sprite.setPosition(getX() + blockSpriteDimensions/6, getY());
-							    sprite.setColor(getColor());
+								sprite.setPosition(getX() + blockSpriteDimensions / 6, getY());
+								sprite.setColor(getColor());
 								sprite.draw(batch, parentAlpha);
 							}
 						};
-						
+
 						tempItemActor.setPosition(a.getX(), a.getY());
-						
 						gameStage.addActor(tempItemActor);
 					}
 				}
 			}
 		}
-		
+
 	}
 
 	/**
@@ -392,7 +522,8 @@ public class GameScreen implements Screen {
 	/**
 	 * Creates a new question and adds QuestionUI to the uiStage
 	 * 
-	 * @param questionAndAns string containing both question and answer for question
+	 * @param questionAndAns
+	 *            string containing both question and answer for question
 	 */
 	public void createQuestion(String[] questionAndAns) {
 		questionUI.displayQuestion(questionAndAns);
@@ -406,11 +537,6 @@ public class GameScreen implements Screen {
 	 */
 	public boolean riddleIsntOpen() {
 		return questionUI.notActive();
-	}
-
-	@Override
-	public void show() {
-		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	/**
@@ -430,8 +556,10 @@ public class GameScreen implements Screen {
 	 * passing the keycode to move the player on screen Then decreases/removes dice
 	 * actors sprite accordingly
 	 * 
-	 * @param canMove boolean if player can move
-	 * @param keycode direction the player moved
+	 * @param canMove
+	 *            boolean if player can move
+	 * @param keycode
+	 *            direction the player moved
 	 */
 	public void moveCurrentPlayerView(boolean canMove, int keycode) {
 		if (canMove) {
@@ -455,7 +583,8 @@ public class GameScreen implements Screen {
 	 * handles moving the player view back to the start position of their turn, also
 	 * removes the dice from the stage
 	 * 
-	 * @param position position to move player to
+	 * @param position
+	 *            position to move player to
 	 */
 	public void movePlayerToStartOfMove(int[] position) {
 		players.get(currentPlayerIndex).moveToStartOfTurn(position[0], position[1]);
@@ -477,40 +606,6 @@ public class GameScreen implements Screen {
 		WeatherAnimation weatherAnimation = new WeatherAnimation(weather, width * blockSpriteDimensions,
 				height * blockSpriteDimensions);
 		gameStage.addActor(weatherAnimation);
-	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		// update camera position if needed
-		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
-
-		// draw stage
-		if (!dice.isRollFinished()) {
-			Gdx.input.setInputProcessor(pauseStage);
-			int number = dice.roll();
-			dice.updateSprite(game.getSprite("number" + number));
-		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())) {
-			if (!isPaused)
-				Gdx.input.setInputProcessor(multiplexer);
-
-			if (dice.getRoll() == 8)
-				hud.setPlayerConsoleText("You rolled an 8, use the ARROW KEYS to move.");
-			else
-				hud.setPlayerConsoleText("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
-		}
-
-		gameStage.act(Gdx.graphics.getDeltaTime());
-		gameStage.draw();
-
-		// draw all UI
-		hud.update(currentPlayerIndex + 1);
-		uiStage.act(Gdx.graphics.getDeltaTime());
-		uiStage.draw();
-
-		pauseStage.act(Gdx.graphics.getDeltaTime());
-		pauseStage.draw();
 	}
 
 	private void panCameraTo(Vector3 target) {
@@ -537,39 +632,6 @@ public class GameScreen implements Screen {
 		return hud;
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		gameStage.getViewport().update(width, height, true);
-		uiStage.getViewport().update(width, height, true);
-		pauseStage.getViewport().update(width, height);
-	}
-
-	@Override
-	public void pause() {
-		Gdx.input.setInputProcessor(pauseStage);
-		pauseStage.pause();
-		isPaused = true;
-	}
-
-	@Override
-	public void resume() {
-		Gdx.input.setInputProcessor(multiplexer);
-		pauseStage.remove();
-		isPaused = false;
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Finds the door actor that the player stepped on, then updates its sprite,
 	 * casting the Actor to a BlockView
@@ -583,12 +645,12 @@ public class GameScreen implements Screen {
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0]))
-					((BlockView) a)
-							.changeSprite(new Sprite(new Texture(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2]))));
+					((BlockView) a).changeSprite(
+							new Sprite(new Texture(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2]))));
 
 				if (a.getName().equals(pos[3] + "," + pos[2]))
-					((BlockView) a)
-							.changeSprite(new Sprite(new Texture(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0]))));
+					((BlockView) a).changeSprite(
+							new Sprite(new Texture(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0]))));
 			}
 		}
 	}
@@ -623,5 +685,13 @@ public class GameScreen implements Screen {
 		if (thisCol + 1 == otherCol)
 			return "addtoskin/door-vertical-open.png";
 		return "arrow";
+	}
+
+	@Override
+	public void hide() {
+	}
+
+	@Override
+	public void dispose() {
 	}
 }

@@ -175,7 +175,6 @@ public class QuestionPopUpCreator {
 			selections.put("maths", mathSB.getSelected().substring(mathSB.getSelected().lastIndexOf(" ")+1));
 
 		if(!histoSB.isDisabled()){
-//			System.out.println("did it");
 			selections.put("history", histoSB.getSelected().substring(histoSB.getSelected().lastIndexOf(" ")+1));
 		}
 

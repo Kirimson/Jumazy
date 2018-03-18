@@ -1,5 +1,16 @@
 package aston.team15.jumazy.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
 import aston.team15.jumazy.model.PlayerModel;
@@ -7,30 +18,44 @@ import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
 import aston.team15.jumazy.view.MainMenuScreen;
 import aston.team15.jumazy.view.VictoryScreen;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
-//this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
+/**
+ * This class represents the controller in this applications
+ * Model-View-Controller architecture. It uses the facade design pattern, as it
+ * is the only class in this package used to interface with others.
+ * 
+ * It creates the facade classes for the view and model packages as well, who in
+ * turn initialise other classes. It also initialises/declares global final
+ * variables, and handles file I/O for the game skin and questions.
+ * 
+ * As part of its role, this class uses the state-like design pattern to manage
+ * the games screens.
+ * 
+ * @author Abdullah, Kieran, Shayan, Jawwad
+ *
+ */
 public class JumazyController extends Game {
-
-	private QuestionRetriever questionRetriever = new QuestionRetriever();
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 	public static final boolean DEBUG_ON = true;
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
+	private QuestionRetriever questionRetriever;
 
+	/**
+	 * Provides the logic for creating objects from the contents of the game skins
+	 * atlas and json files. These few files contain every texture used throughout
+	 * the game, therefore reducing the need to include many different files in the
+	 * assets folder and applying excess stress to the GPU.
+	 * 
+	 * Also sets global OpenGL clear colour, the initial game screen, and
+	 * initialises a {@link QuestionRetriever} object.
+	 * 
+	 * Calls the super constructor for the parent class.
+	 */
 	@Override
 	public void create() {
-
 		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
@@ -38,56 +63,94 @@ public class JumazyController extends Game {
 		// needlessly put on the GPU when having to load in many individual png's
 		gameSkin = new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json"));
 
+		questionRetriever = new QuestionRetriever();
+
 		setScreen(new MainMenuScreen(this));
 
 		if (DEBUG_ON)
 			System.out.println("Ready.");
 	}
 
-	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
-
-		maze = new MazeModel(4, 4, playerAmount, playerOrder);
-		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(), maze.getWeather()));
-
-		// GameScreen gameScreen = (GameScreen) getScreen();
-		//
-		// if (maze.getWeather() != MazeModel.Weather.SUN)
-		// gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length,
-		// maze.getMaze().length);
+	/**
+	 * Renders the screen, with logic that is mainly provided by the LibGDX
+	 * framework.
+	 */
+	@Override
+	public void render() {
+		super.render();
 	}
 
+	/**
+	 * Set player amount and start game, by creating a new
+	 * {@link aston.team15.jumazy.model.MazeModel} object for the maze, and
+	 * switching to a new instance of {@link aston.team15.jumazy.view.GameScreen}.
+	 * 
+	 * @param playerAmount
+	 *            the number of players the user has chosen to play with
+	 * @param playerOrder
+	 *            the order in which the character for each player has been selected
+	 *            in the form of an ArrayList
+	 */
+	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
+		maze = new MazeModel(4, 4, playerAmount, playerOrder);
+		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(),
+				maze.getWeather()));
+	}
+
+	/**
+	 * Sets the question type and difficulty after they've been chosen by the user.
+	 * 
+	 * @param levels
+	 *            a HashMap object that contains information representing levels and
+	 *            difficulty for questions
+	 */
 	public void setQuestionType(HashMap<String, String> levels) {
 		questionRetriever.chosenTypes(levels);
 	}
 
-	@Override
-	public void render() {
-		super.render();
-
-	}
-
-	@Override
-	public void dispose() {
-	}
-
-	public TextureAtlas.AtlasRegion getSprite(String name) {
+	/**
+	 * Returns a specified sprite from the skin files.
+	 * 
+	 * @param name
+	 *            A String that represents the texture contained in the skin files.
+	 * @return The corresponding texture as an AtlasRegion object
+	 */
+	public AtlasRegion getSprite(String name) {
 		return textures.findRegion(name);
 	}
 
+	/**
+	 * Returns the Skin object representing the current skin for the game.
+	 * 
+	 * @return Games Skin object.
+	 */
 	public Skin getSkin() {
 		return gameSkin;
 	}
 
-	public void update(String path) {
+	/**
+	 * Updates the chosen skin for the game.
+	 * 
+	 * @param path
+	 *            A String that represents the name of the new skin.
+	 */
+	public void updateSkin(String path) {
 		textures = new TextureAtlas(path + "/jumazy-skin.atlas");
 		gameSkin = new Skin(Gdx.files.internal(path + "/jumazy-skin.json"));
 	}
 
+	/**
+	 * Handles the logic for interfacing between the model and view when the view
+	 * detects user input during gameplay. Updates the model depending on what has
+	 * been detected by the view, and then updates the view according to the new
+	 * model.
+	 * 
+	 * @param keycode
+	 *            The keycode that represents which key was pressed by the user.
+	 * @return True or False depending on the success of the operation that was
+	 *         executed as a result of user input
+	 */
 	public boolean handleGameInput(int keycode) {
-
-		// protects from some dumb error I found but cant replicate. Crashed when trying
-		// to cast VictoryScreen to
-		// GameScreen, checking instance now as a safeguard
 		GameScreen gameScreen;
 		if (getScreen() instanceof GameScreen)
 			gameScreen = (GameScreen) getScreen();
@@ -120,10 +183,13 @@ public class JumazyController extends Game {
 					}
 
 					if (discriminant < 0.6 + maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10) {
-						maze.getCurrentPlayer().obtainRandomItemFromChest();
+						if (maze.getCurrentPlayer().obtainRandomItemFromChest()) {
 						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
 						gameScreen.openChest(maze.getCurrentPlayer().getPosition(), maze.getCurrentPlayer()
 								.getInventory().get(maze.getCurrentPlayer().getInventory().size() - 1));
+						} else {
+							gameScreen.getHUD().setPlayerConsoleText("Looks like there's no space left in your inventory!");
+						}
 					} else if (maze.getWeather() == Weather.SNOW && maze.getCurrentPlayer().isOnStuckChest()) {
 						gameScreen.getHUD().setPlayerConsoleText("The cold has stuck this chest closed! Try again.");
 					} else {
@@ -167,6 +233,11 @@ public class JumazyController extends Game {
 
 	}
 
+	/**
+	 * Handles the logic for question answering, particularly when a riddle is
+	 * incorrect. Updates the maze to move player to the position they were at
+	 * before this turn, and then the view to match the new state of the maze model.
+	 */
 	public void incorrectRiddle() {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
