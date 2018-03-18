@@ -100,10 +100,10 @@ public class JumazyController extends Game {
 		case Input.Keys.UP:
 		case Input.Keys.DOWN:
 			if (gameScreen.riddleIsntOpen() && maze.getCurrentPlayer().getMovesLeft() > 0) {
-				boolean canMove = maze.moveCurrentPlayerModel(keycode);
-				gameScreen.moveCurrentPlayerView(canMove, keycode);
+				int moveStyle = maze.moveCurrentPlayerModel(keycode);
+				gameScreen.moveCurrentPlayerView(moveStyle, keycode);
 
-				if (canMove && maze.getCurrentPlayer().isOnTrap()) {
+				if (moveStyle != 0 && maze.getCurrentPlayer().isOnTrap()) {
 					questionRetriever.selectFile();
 					String[] questionAndAns = questionRetriever.retrieveRiddle();
 					gameScreen.createQuestion(questionAndAns);
@@ -166,6 +166,11 @@ public class JumazyController extends Game {
 		}
 
 	}
+
+    public void stopFight() {
+        GameScreen gameScreen = (GameScreen) getScreen();
+        gameScreen.stopFight();
+    }
 
 	public void incorrectRiddle() {
 		GameScreen gameScreen = (GameScreen) getScreen();
