@@ -1,11 +1,13 @@
 package aston.team15.jumazy.view;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 public class PlayerView extends Actor {
@@ -49,12 +51,13 @@ public class PlayerView extends Actor {
 		}
 
 		move.setDuration(0.05f);
-		PlayerView.this.addAction(move);
+		this.addAction(move);
 	}
 
 	public void moveToStartOfTurn(int row, int col) {
-		setX(col*32);
-		setY(row*32);
+//		setX(col*32);
+//		setY(row*32);
+		addAction(Actions.sequence(Actions.moveTo(col*32, row*32, 0.5f)));
 	}
 
 //	public void moveTo

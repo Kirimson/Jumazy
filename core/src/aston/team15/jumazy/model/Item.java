@@ -4,7 +4,7 @@ public enum Item {
 	RED_POTION("Red Potion", 4, "Max Health", "consumable", "potion-red"), 
 	BLUE_POTION("Blue Potion", 2, "Stamina", "consumable", "potion-blue"), 
 	GREEN_POTION("Green Potion", 2, "Luck", "consumable", "potion-green"),
-	PURPLE_POTION("Purple Potion", 2, "Agility", "consumable", ""),
+	PURPLE_POTION("Purple Potion", 2, "Agility", "consumable", "potion-blue"),
 	APPLE("Apple", 2, "Health", "consumable", "apple"),
 	GRAPES("Grapes", 2, "Health", "consumable", "grapes"),
 	SWORD("Sword", 2, "Strength", "held", "sword"),
