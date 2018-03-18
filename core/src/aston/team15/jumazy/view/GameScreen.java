@@ -585,11 +585,11 @@ public class GameScreen implements Screen {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0]))
 					((BlockView) a)
-							.changeSprite(game.getSprite(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2])));
+							.changeSprite(new Sprite(new Texture(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2]))));
 
 				if (a.getName().equals(pos[3] + "," + pos[2]))
 					((BlockView) a)
-							.changeSprite(game.getSprite(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0])));
+							.changeSprite(new Sprite(new Texture(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0]))));
 			}
 		}
 	}
@@ -613,16 +613,16 @@ public class GameScreen implements Screen {
 
 		// right door
 		if (thisRow - 1 == otherRow)
-			return "checkbox-on";
+			return "addtoskin/door-open.png";
 		// left door
 		if (thisRow + 1 == otherRow)
-			return "checkbox-off";
+			return "addtoskin/door-open.png";
 		// top door
 		if (thisCol - 1 == otherCol)
-			return "checkbox-on";
+			return "addtoskin/door-vertical-open.png";
 		// bottom door
 		if (thisCol + 1 == otherCol)
-			return "checkbox-off";
+			return "addtoskin/door-vertical-open.png";
 		return "arrow";
 	}
 }
