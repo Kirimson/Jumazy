@@ -187,25 +187,27 @@ public class PlayerModel {
 	}
 
 	public void obtainRandomItemFromChest() {
-		Item item = Item.values()[new Random().nextInt(Item.values().length)];
-		inventory.add(item);
-
-		if (JumazyController.DEBUG_ON)
-			System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
-
-		if (item != Item.KEY) {
-			int newStat = playerStats.get(item.getStatEffected()) + item.getValue();
-			
-			playerStats.replace(item.getStatEffected(), newStat);
-			
-			if (item != Item.RED_POTION && item != Item.GRAPES && item != Item.APPLE) {
-				if (newStat > 6) {					
-					playerStats.replace(item.getStatEffected(), 6);
-				}
-			} else if (playerStats.get("Health") > playerStats.get("Max Health")) {
-				playerStats.replace("Health", playerStats.get("Max Health"));
-			} 
-		}		
+		if (inventory.size() < 7) {
+			Item item = Item.values()[new Random().nextInt(Item.values().length)];
+			inventory.add(item);
+	
+			if (JumazyController.DEBUG_ON)
+				System.out.println("Player " + playerSymbol + " just picked up a " + item.toString());
+	
+			if (item != Item.KEY) {
+				int newStat = playerStats.get(item.getStatEffected()) + item.getValue();
+				
+				playerStats.replace(item.getStatEffected(), newStat);
+				
+				if (item != Item.RED_POTION && item != Item.GRAPES && item != Item.APPLE) {
+					if (newStat > 6) {					
+						playerStats.replace(item.getStatEffected(), 6);
+					}
+				} else if (playerStats.get("Health") > playerStats.get("Max Health")) {
+					playerStats.replace("Health", playerStats.get("Max Health"));
+				} 
+			}		
+		}
 	}
 
 	public ArrayList<Item> getInventory() {

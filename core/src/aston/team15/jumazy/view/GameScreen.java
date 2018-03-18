@@ -225,7 +225,6 @@ public class GameScreen implements Screen {
 		}
 	}
 	
-
 	public void openChest(int[] pos, Item item) {
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
