@@ -270,7 +270,7 @@ public class MazeModel {
 		for (int j = 0; j < roomSize; j++) {
 			for (int i = 0; i < roomSize; i++) {
 				if (i == 0 || i == roomSize - 1 || j == 0 || j == roomSize - 1) {
-					room[i][j] = "#";
+					room[j][i] = "#";
 				} else {
 					room[i][j] = layout[i-1][j-1];
 					if(layout[i-1][j-1].equals("V"))
@@ -343,8 +343,8 @@ public class MazeModel {
 		return players.get(currentPlayerIndex);
 	}
 
-	public boolean moveCurrentPlayerModel(int direction) {
-		return getCurrentPlayer().move(direction);
+	public int moveCurrentPlayerModel(int inputDirection) {
+		return getCurrentPlayer().move(inputDirection);
 	}
 
 	public void setCoordinateString(int row, int col, String symbol) {

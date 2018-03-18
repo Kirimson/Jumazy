@@ -31,7 +31,7 @@ public class PlayerView extends Actor {
 		super.positionChanged();
 	}
 
-	public void act(float delta, int keycode) {
+	public void act(float delta, int keycode, int style) {
 		super.act(delta);
 		MoveByAction move = new MoveByAction();
 
@@ -48,6 +48,10 @@ public class PlayerView extends Actor {
 		case Input.Keys.DOWN:
 			move.setAmount(0, -32f);
 			break;
+		}
+		
+		if (style==2) {
+			move.setReverse(true);
 		}
 
 		move.setDuration(0.05f);

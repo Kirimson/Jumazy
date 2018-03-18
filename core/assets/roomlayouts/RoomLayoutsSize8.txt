@@ -6,7 +6,7 @@ OOOOO#OO
 OO#OOOOO
 OO#OOOOO
 OO#COOOO
-OOOOOOOO
+OOOEOOOO
 /Room Type 2: Large Paths
 OOOOOOOO
 OOOOCOOO
@@ -27,7 +27,7 @@ OO####OO
 OOCOOOOO
 /Room Type 4: Walled Water Wnd TrWp
 OOOOOOOO
-OOOOOOOO
+OOOEOOOO
 OOWWWWOO
 OOOTTCOO
 OOOTTOOO
@@ -51,7 +51,7 @@ OO#OO#OO
 OO#OO#OO
 OOWWWWCO
 OOOOOOOO
-OOOCOOOO
+OOECOOOO
 /Room Type 7: Centre Block
 OOOOOOOO
 OOO##OOO
@@ -60,7 +60,7 @@ OO####OO
 OO####OO
 OO####OO
 OOC##OOO
-OOOOOOOO
+OOEOOOOO
 /Room Type 8: Centre Corner Open
 OOOOOOOO
 O######O
@@ -69,7 +69,7 @@ OWWCOOOO
 OOOOOWWO
 O######O
 O######O
-OOOOOOOO
+OOOEOOOO
 /Room Type 9: Centre Corner Traps
 OOOOOOOO
 O######O
@@ -78,7 +78,7 @@ O##OCOOO
 OOOTO##O
 O######O
 O######O
-OOOOOOOO
+OOOEOOOO
 /Room Type 10: Two TrWp Thin Corridor
 O#OOOOOO
 O#T####O
@@ -87,16 +87,16 @@ O#OOOO#O
 O#COOO#O
 O####O#O
 O####T#O
-OOOOOO#O
+OEOOOO#O
 /Room Type 11: Four Trap Thin Corridor
 O#OOOO#O
 O#T####O
-O#O####O
+O#O####E
 O#OOOOTO
 OTOOCO#O
 O####O#O
 O####T#O
-O#OOOO#O
+O#OEOO#O
 /Room Type 12: Thicc Walled Victory
 OOOOOOOO
 O#WDDW#O
@@ -105,7 +105,7 @@ OOOVVOOO
 OOOVVOOO
 OW#TT#WO
 OW#TT#WO
-OOOOOOOO
+OOOEOOOO
 /Room Type 13: Water Lines
 OOOWWOOO
 OOOOOOOO
@@ -114,4 +114,4 @@ OOOOCOOO
 OOCOOOOO
 OWWWWWWO
 OOCOOOOO
-OOOWWOOO
+OOOWWOEO

@@ -59,8 +59,10 @@ public class GameScreen implements Screen {
 	private int blockSpriteDimensions = 32;
 	private ArrayList<PlayerView> players;
 	private int currentPlayerIndex;
+	private FightingView fightingStage;
 	private HeadsUpDisplay hud;
 	private LinkedHashMap<String, Integer> currentPlayerStats;
+	private boolean inFight;
 
 	private Lighting light;
 	private boolean lighttest;
@@ -93,6 +95,7 @@ public class GameScreen implements Screen {
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
+		fightingStage = new FightingView(game);
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
 		light = new Lighting();
@@ -135,6 +138,14 @@ public class GameScreen implements Screen {
 							new Sprite(new Texture(generateLockedDoorTexture(maze, mazeX, mazeY))),
 							game.getSprite(randomFloorTexture()));
 					break;
+				case "E":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("skeleton"),game.getSprite(randomFloorTexture()));
+					break;
+				case "X":
+					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+							game.getSprite("mummy"),game.getSprite(randomFloorTexture()));
+					break;
 				case "1":
 				case "2":
 				case "3":
@@ -165,9 +176,10 @@ public class GameScreen implements Screen {
 		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
+		
 
 		dice = new DiceView(JumazyController.WORLD_WIDTH - game.getSprite("number1").originalWidth - 29, 23,
-				game.getSprite("number1"));
+				game);
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
@@ -187,7 +199,33 @@ public class GameScreen implements Screen {
 				return true;
 			}
 		});
-
+		
+		fightingStage.addListener(new InputListener() {
+            public boolean keyDown(InputEvent event, int keycode) {
+            	if(inFight) {
+	                if(keycode == Input.Keys.SPACE){
+	                	
+	                	fightingStage.rollDice();
+	                	fightingStage.winnerAttack();
+	                	
+	                }
+	
+	                if(keycode == Input.Keys.F){
+	
+	                	fightingStage.remove();
+	                	resume();
+	                	inFight = false;
+	
+//	        			playSound(new File("../assets/snd/correct.wav"));
+//	        			resume(game);
+	                }
+	                
+	                return true;
+	            }
+            	return false;
+            }
+        });
+		
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
 	}
@@ -203,7 +241,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Overrides super class render method, which is called repeatedly to render to
+	 * Over rides super class render method, which is called repeatedly to render to
 	 * screen.
 	 * 
 	 * Some of the dynamic aspects of the on-screen view are handled by this method.
@@ -213,10 +251,10 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+	
 		// update camera position if needed
 		panCameraTo(new Vector3(players.get(currentPlayerIndex).getX(), players.get(currentPlayerIndex).getY(), 1f));
-
+	
 		// draw stage
 		if (!dice.isRollFinished()) {
 			Gdx.input.setInputProcessor(pauseStage);
@@ -225,25 +263,31 @@ public class GameScreen implements Screen {
 		} else if (dice.isRollFinished() && (dice.getRoll() == dice.getRollResult())) {
 			if (!isPaused)
 				Gdx.input.setInputProcessor(multiplexer);
-
+	
 			if (dice.getRoll() == 8)
 				hud.setPlayerConsoleText("You rolled an 8, use the ARROW KEYS to move.");
 			else
 				hud.setPlayerConsoleText("You rolled a " + dice.getRoll() + ", use the ARROW KEYS to move.");
 		}
-
+	
 		gameStage.act(Gdx.graphics.getDeltaTime());
 		gameStage.draw();
-
+	
 		// draw all UI
 		hud.update(currentPlayerIndex + 1);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
-
+	
+		if(inFight) {
+			fightingStage.act(Gdx.graphics.getDeltaTime());
+			fightingStage.draw();
+		}
+		
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
 	}
 
+	
 	/**
 	 * Overrides super class resize method, to ensure that every stage updates in
 	 * accordance to the new dimensions of the screen when the user resizes the
@@ -253,7 +297,7 @@ public class GameScreen implements Screen {
 	public void resize(int width, int height) {
 		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
-		pauseStage.getViewport().update(width, height, true);
+		pauseStage.getViewport().update(width, height);
 	}
 
 	/**
@@ -278,6 +322,7 @@ public class GameScreen implements Screen {
 		pauseStage.remove();
 		isPaused = false;
 	}
+
 
 	/**
 	 * Updates the inventory and statistics currently displayed by the Heads Up
@@ -556,28 +601,31 @@ public class GameScreen implements Screen {
 	 * passing the keycode to move the player on screen Then decreases/removes dice
 	 * actors sprite accordingly
 	 * 
-	 * @param canMove
-	 *            boolean if player can move
-	 * @param keycode
-	 *            direction the player moved
+	 * @param moveStyle int of player move style. 1 is normal, 2 reversed 0 invalid
+	 * @param keycode direction the player moved
 	 */
-	public void moveCurrentPlayerView(boolean canMove, int keycode) {
-		if (canMove) {
-			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode);
+	public void moveCurrentPlayerView(int moveStyle, int keycode) {
+		if (moveStyle==1) {
+			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			dice.decreaseRoll();
+		} else if (moveStyle==2) {
+			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
+			inFight = true;
+			startFight(currentPlayerStats.get("Health"), 10, keycode);
+		}
 
-			int rollsLeft = dice.getRoll();
-			if (rollsLeft > 0) {
-				dice.updateSprite(game.getSprite("number" + rollsLeft));
-				dice.act(keycode);
-				hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
-			} else {
-				dice.remove();
-				hud.setDiceLabel("No\nMoves\nLeft!");
-				hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
-			}
+		int rollsLeft = dice.getRoll();
+		if (rollsLeft > 0) {
+			dice.updateSprite(game.getSprite("number" + rollsLeft));
+			dice.act(keycode);
+			hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
+		} else {
+			dice.remove();
+			hud.setDiceLabel("No\nMoves\nLeft!");
+			hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
 		}
 	}
+
 
 	/**
 	 * handles moving the player view back to the start position of their turn, also
@@ -630,6 +678,16 @@ public class GameScreen implements Screen {
 
 	public HeadsUpDisplay getHUD() {
 		return hud;
+	}
+
+	private void startFight(int health1, int health2, int keycode) {
+		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
+
+		fightingStage.show();
+		Gdx.input.setInputProcessor(fightingStage);
+		
+		System.out.println("p1 h:"+health1+" p2: h:"+health2);
+		inFight = true;
 	}
 
 	/**
@@ -685,6 +743,11 @@ public class GameScreen implements Screen {
 		if (thisCol + 1 == otherCol)
 			return "addtoskin/door-vertical-open.png";
 		return "arrow";
+	}
+
+	public void stopFight() {
+		inFight = false;
+		resume();
 	}
 
 	@Override

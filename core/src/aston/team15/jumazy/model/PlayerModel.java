@@ -43,6 +43,7 @@ public class PlayerModel {
 	private LinkedHashMap<String, Integer> playerStats;
 	private boolean onDoor;
 	private boolean onStuckChest;
+	String[] enemies = new String[] {"E","X","1","2","3","4"};
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -128,10 +129,21 @@ public class PlayerModel {
 			}
 		}
 
+		if(checkForEnemy(newRow, newCol))
+			valid = false;
+
 		return valid;
 	}
 
-	public boolean move(int direction) {
+	private boolean checkForEnemy(int newRow, int newCol) {
+		for(String enemy : enemies) {
+			if(maze.getCoordinateString(newRow, newCol).equals(enemy))
+				return true;
+		}
+		return false;
+	}
+
+	public int move(int direction) {
 		int rowDiff = 0, colDiff = 0;
 
 		switch (direction) {
@@ -176,12 +188,21 @@ public class PlayerModel {
 				System.out.println("Player " + playerSymbol + " just moved successfully. They have " + movesLeft
 						+ " moves left.\n" + maze.toString());
 
-			return true;
+			return 1;
+		} else if (checkForEnemy(row + rowDiff, col + colDiff) && movesLeft > 0) {
+
+			if (JumazyController.DEBUG_ON)
+				System.out.println("Player " + playerSymbol + " just moved into a " + maze.getCoordinateString(row + rowDiff, col + colDiff) + " enemy.\nThey have " + movesLeft
+						+ " move" + (movesLeft == 1 ? "" : "s") + " left.\n" + maze.toString());
+
+			maze.setCoordinateString(row, col, "O");
+			return 2;
+
 		} else {
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " tried to move, but failed. They have " + movesLeft
 						+ " moves left.\n" + maze.toString());
-			return false;
+			return 0;
 		}
 
 	}

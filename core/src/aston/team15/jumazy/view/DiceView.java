@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import aston.team15.jumazy.controller.JumazyController;
+
 public class DiceView extends Actor {
 
 	private int imageConstantAppearances = 24; // how often to display the dice at a constant rate before slowing down
@@ -22,12 +24,13 @@ public class DiceView extends Actor {
 	private long lastTime = System.nanoTime();
 	private int finalDie = -1;
 	private int rollResult;
+	private final JumazyController game;
 
 	private Sprite sprite;
- 
-	public DiceView(float xPos, float yPos, TextureRegion textureRegion) {
-		super();
-		sprite = new Sprite(textureRegion);
+
+	public DiceView(float xPos, float yPos, JumazyController game) {
+		this.game = game;
+		sprite = new Sprite(game.getSprite("number1"));
 		sprite.setPosition(xPos, yPos);
 	}
 
@@ -133,6 +136,10 @@ public class DiceView extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		if(!rollFinished) {
+			int number = roll();
+			updateSprite(game.getSprite("number" + number));
+		}
 		sprite.draw(batch, parentAlpha);
 	}
 
