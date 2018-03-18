@@ -119,7 +119,7 @@ public class JumazyController extends Game {
 								+ (0.5 + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10));
 					}
 
-					if (discriminant < 0.5 + maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10) {
+					if (discriminant < 0.6 + maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10) {
 						maze.getCurrentPlayer().obtainRandomItemFromChest();
 						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
 						gameScreen.openChest(maze.getCurrentPlayer().getPosition(), maze.getCurrentPlayer()
