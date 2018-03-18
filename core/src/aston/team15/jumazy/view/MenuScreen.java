@@ -27,6 +27,7 @@ public abstract class MenuScreen implements Screen {
 	protected JumazyController game;
 	protected Stage stage;
 	protected Table table;
+	private static String background  = "background.jpg";
 
 	public MenuScreen(JumazyController theGame, String backgroundString){
 		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
@@ -47,7 +48,7 @@ public abstract class MenuScreen implements Screen {
 	}
 
 	public MenuScreen(JumazyController theGame) {
-		this(theGame, "background.jpg");
+		this(theGame, background);
 
 	}
 
@@ -66,5 +67,17 @@ public abstract class MenuScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+	}
+	
+	public static void setMedieval() {
+		background = "background3.png";
+	}
+	
+	public static void setOldEnglish() {
+		background = "background2.png";
+	}
+	
+	public static void setJungle() {
+		background = "background.jpg";
 	}
 }

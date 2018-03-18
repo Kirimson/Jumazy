@@ -9,8 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class TextureSelectionScreen extends MenuScreen {
-
+	
 	public TextureSelectionScreen(JumazyController theGame) {
+		
 		super(theGame, "tBackground.jpg");
 
 		JumazyButton texture1 = new JumazyButton("Current", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
@@ -18,6 +19,7 @@ public class TextureSelectionScreen extends MenuScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/current");
 				game.setScreen(new TextureSelectionScreen(game));
+				MenuScreen.setJungle();
 			}
 		});
 
@@ -26,6 +28,7 @@ public class TextureSelectionScreen extends MenuScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/oldenglish");
 				game.setScreen(new TextureSelectionScreen(game));
+				MenuScreen.setOldEnglish();
 			}
 		});
 		JumazyButton texture3 = new JumazyButton("Medieval", new Skin(Gdx.files.internal("jumazyskin/medievel/jumazy-skin.json")));
@@ -33,6 +36,7 @@ public class TextureSelectionScreen extends MenuScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				game.update("jumazyskin/medievel");
 				game.setScreen(new TextureSelectionScreen(game));
+				MenuScreen.setMedieval();
 			}
 		});
 
