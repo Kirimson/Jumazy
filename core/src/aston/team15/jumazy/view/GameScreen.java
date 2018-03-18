@@ -116,7 +116,7 @@ public class GameScreen implements Screen {
 					break;
 				case "D":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)),
+							new Sprite(new Texture(generateLockedDoorTexture(maze, mazeX, mazeY))),
 							game.getSprite(randomFloorTexture()));
 					break;
 				case "1":
@@ -242,19 +242,20 @@ public class GameScreen implements Screen {
 	 * @return texture string
 	 */
 	private String generateLockedDoorTexture(String[][] maze, int mazeX, int mazeY) {
-		// right door
-		if (maze[mazeX - 1][mazeY].equals("D"))
-			return "arrow";
+
 		// left door
-		if (maze[mazeX + 1][mazeY].equals("D"))
-			return "apple";
+		if (maze[mazeX][mazeY - 1].equals("D"))
+			return "addtoskin/door.png";
+		// right door
+		if (maze[mazeX][mazeY + 1].equals("D"))
+			return "addtoskin/door.png";
 
 		// top door
-		if (maze[mazeX][mazeY - 1].equals("D"))
-			return "arrow";
+		if (maze[mazeX - 1][mazeY].equals("D"))
+			return "addtoskin/door-vertical.png";
 		// bottom door
-		if (maze[mazeX][mazeY + 1].equals("D"))
-			return "apple";
+		if (maze[mazeX + 1][mazeY].equals("D"))
+			return "addtoskin/door-vertical.png";
 
 		return "arrow";
 	}

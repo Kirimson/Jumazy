@@ -359,15 +359,22 @@ public class MazeModel {
 	 */
 	public void unlockDoor(int row, int col) {
 
-		if(maze[row-1][col].equals("D"))
-			maze[row-1][col] = "d";
-		if(maze[row+1][col].equals("D"))
-			maze[row+1][col] = "d";
+		if(maze[row][col-1].equals("D")) {
+			maze[row][col - 1] = "d";
+			return;
+		}
+		if(maze[row][col+1].equals("D")) {
+			maze[row][col + 1] = "d";
+		}
 
-		if(maze[row][col-1].equals("D"))
-			maze[row][col-1] = "d";
-		if(maze[row][col+1].equals("D"))
-			maze[row][col+1] = "d";
+		if(maze[row-1][col].equals("D")) {
+			maze[row - 1][col] = "d";
+			return;
+		}
+		if(maze[row+1][col].equals("D")) {
+			maze[row + 1][col] = "d";
+			return;
+		}
 	}
 
 	/**
