@@ -198,9 +198,13 @@ public class PlayerModel {
 			
 			playerStats.replace(item.getStatEffected(), newStat);
 			
-			if (playerStats.get("Health") > playerStats.get("Max Health")) {
+			if (item != Item.RED_POTION && item != Item.GRAPES && item != Item.APPLE) {
+				if (newStat > 6) {					
+					playerStats.replace(item.getStatEffected(), 6);
+				}
+			} else if (playerStats.get("Health") > playerStats.get("Max Health")) {
 				playerStats.replace("Health", playerStats.get("Max Health"));
-			}
+			} 
 		}		
 	}
 

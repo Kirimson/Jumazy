@@ -46,13 +46,14 @@ public class JumazyController extends Game {
 
 	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 
-		maze = new MazeModel(4, 2, playerAmount, playerOrder);
+		maze = new MazeModel(4, 4, playerAmount, playerOrder);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(), maze.getWeather()));
 
-//		GameScreen gameScreen = (GameScreen) getScreen();
-//
-//		if (maze.getWeather() != MazeModel.Weather.SUN)
-//			gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length, maze.getMaze().length);
+		// GameScreen gameScreen = (GameScreen) getScreen();
+		//
+		// if (maze.getWeather() != MazeModel.Weather.SUN)
+		// gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length,
+		// maze.getMaze().length);
 	}
 
 	public void setQuestionType(HashMap<String, String> levels) {
@@ -92,7 +93,6 @@ public class JumazyController extends Game {
 			gameScreen = (GameScreen) getScreen();
 		else
 			return false;
-		
 
 		switch (keycode) {
 		case Input.Keys.RIGHT:
@@ -111,22 +111,24 @@ public class JumazyController extends Game {
 
 				if (maze.getCurrentPlayer().isOnChest()) {
 					double discriminant = new Random().nextDouble();
-					
+
 					if (JumazyController.DEBUG_ON) {
 						System.out.println("DISC: " + discriminant);
-						System.out.println("LUCK: " + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck")/10);
-						System.out.println("0.6 + LUCK = " + (0.5 + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck")/10));
+						System.out.println("LUCK: " + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10);
+						System.out.println("0.6 + LUCK = "
+								+ (0.5 + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10));
 					}
-					
-					if (discriminant < 0.5 + maze.getCurrentPlayer().getStatFromHashMap("Luck")/10) {
+
+					if (discriminant < 0.5 + maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10) {
 						maze.getCurrentPlayer().obtainRandomItemFromChest();
 						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
-						gameScreen.openChest(maze.getCurrentPlayer().getPosition());
-					} else if (maze.getWeather() == Weather.SNOW && maze.getCurrentPlayer().isOnStuckChest()){
+						gameScreen.openChest(maze.getCurrentPlayer().getPosition(), maze.getCurrentPlayer()
+								.getInventory().get(maze.getCurrentPlayer().getInventory().size() - 1));
+					} else if (maze.getWeather() == Weather.SNOW && maze.getCurrentPlayer().isOnStuckChest()) {
 						gameScreen.getHUD().setPlayerConsoleText("The cold has stuck this chest closed! Try again.");
 					} else {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
-						gameScreen.openChest(maze.getCurrentPlayer().getPosition());
+						gameScreen.openChest(maze.getCurrentPlayer().getPosition(), null);
 					}
 				}
 
@@ -149,7 +151,7 @@ public class JumazyController extends Game {
 				gameScreen.updateCurrentPlayer(maze.passTurnToNextPlayer(), maze.getCurrentPlayer().getStats());
 				gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), false);
 				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
-				
+
 				return true;
 			} else {
 				return false;

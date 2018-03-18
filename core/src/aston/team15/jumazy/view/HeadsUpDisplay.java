@@ -42,9 +42,9 @@ public class HeadsUpDisplay extends Table {
 	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber,
 			LinkedHashMap<String, Integer> currentPlayerStats) {
 		super(game.getSkin());
-		this.setBackground("rpgbg");
-		this.setHeight(170);
-		this.setWidth(JumazyController.WORLD_WIDTH);
+		setBackground("rpgbg");
+		setHeight(170);
+		setWidth(JumazyController.WORLD_WIDTH);
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = game.getSkin().getFont("game-font");
 		labelStyle.fontColor = Color.WHITE;
@@ -112,12 +112,12 @@ public class HeadsUpDisplay extends Table {
 		diceLabel = new Label("Hit\nSpace!", labelStyle);
 		diceLabel.setFontScale(fontScale - 0.05f);
 
-		this.add(playerLabel).colspan(2).expandX().left().padLeft(15).height(40).padTop(4);
-		this.add(pauseBtn).padRight(2).width(150).padTop(4).fill();
-		this.row();
-		this.add(statsTable).width(590).growY().padLeft(15).padBottom(15).padTop(15);
-		this.add(inventoryTable).grow().padBottom(15).padTop(15);
-		this.add(diceLabel).center().padRight(3).padBottom(8);
+		add(playerLabel).colspan(2).expandX().left().padLeft(15).height(40).padTop(4);
+		add(pauseBtn).padRight(2).width(150).padTop(4).fill();
+		row();
+		add(statsTable).width(590).growY().padLeft(15).padBottom(15).padTop(15);
+		add(inventoryTable).grow().padBottom(15).padTop(15);
+		add(diceLabel).center().padRight(3).padBottom(8);
 
 		this.currentPlayerStats = currentPlayerStats;
 		setStatLabels(currentPlayerStats);

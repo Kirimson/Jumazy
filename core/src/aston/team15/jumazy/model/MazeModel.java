@@ -40,13 +40,13 @@ public class MazeModel {
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 		float weatherDiscriminant = new Random().nextFloat();
-//		if (weatherDiscriminant <= 0.3) {
-//			weather = Weather.SUN;
-//		} else if (weatherDiscriminant <= 0.6){
+		if (weatherDiscriminant <= 0.3) {
+			weather = Weather.SUN;
+		} else if (weatherDiscriminant <= 0.6){
 			weather = Weather.RAIN;
-//		} else {
-//			weather = Weather.SNOW;
-//		}
+		} else {
+			weather = Weather.SNOW;
+		}
 		
 		maze = genMaze(roomsAcross, roomsDown);
 
@@ -120,7 +120,6 @@ public class MazeModel {
                         currentLine = lines[currentLineIndex];
                 }
                 allRoomLayouts.add(newLayout);
-                System.out.println(currentLineIndex+ " "+currentLine);
             }
         }
 
@@ -175,6 +174,7 @@ public class MazeModel {
 		//make doors down the maze columns
 		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
 			boolean locked = false;
+			int count = 1;
 			for (int y = 2; y < (roomsDown * 10) - 1; y += 10) {
 				if (y % 9 != 0) {
 
@@ -185,8 +185,6 @@ public class MazeModel {
 						locked = true;
 					else if(locked)
 						symbol = "O";
-
-					System.out.println(locked);
 
 					float randomFloat = new Random().nextFloat();
 					if (randomFloat < 0.65) {
@@ -204,15 +202,17 @@ public class MazeModel {
 						maze[y + 5][x + 1] = "O";
 					}
 
+					System.out.println(locked);
+					lockedDoors.add(locked);
 				} else
 					y -= 2;
+				count++;
 			}
-			System.out.println("new outer loop");
-			lockedDoors.add(locked);
 		}
 		lockedDoors.add(true);
 
-		int currentRoom = 0;
+		int currentCol = 0;
+		int currentRow = 0;
 		//make doors across the maze rows
 		for (int x = 2; x < (roomsAcross * 10) - 1; x += 10) {
 			for (int y = 9; y < (roomsDown * 10) - 1; y += 10) {
@@ -220,7 +220,7 @@ public class MazeModel {
 
 					String symbol = "O";
 
-					if(!lockedDoors.get(currentRoom))
+					if(!lockedDoors.get((currentCol * 4)  + ((currentRow *4) % 3)))
 						symbol = (new Random().nextFloat() < lockedDoorProbability ? "D" : "O");
 
 					float randomFloat = new Random().nextFloat();
@@ -239,10 +239,12 @@ public class MazeModel {
 						maze[y + 1][x + 5] = "O";
 					}
 
-					currentRoom++;
+					currentCol++;
 				} else
 					x -= 2;
 			}
+			currentCol = 0;
+			currentRow++;
 		}
 	}
 
@@ -357,15 +359,22 @@ public class MazeModel {
 	 */
 	public void unlockDoor(int row, int col) {
 
-		if(maze[row-1][col].equals("D"))
-			maze[row-1][col] = "d";
-		if(maze[row+1][col].equals("D"))
-			maze[row+1][col] = "d";
+		if(maze[row][col-1].equals("D")) {
+			maze[row][col - 1] = "d";
+			return;
+		}
+		if(maze[row][col+1].equals("D")) {
+			maze[row][col + 1] = "d";
+		}
 
-		if(maze[row][col-1].equals("D"))
-			maze[row][col-1] = "d";
-		if(maze[row][col+1].equals("D"))
-			maze[row][col+1] = "d";
+		if(maze[row-1][col].equals("D")) {
+			maze[row - 1][col] = "d";
+			return;
+		}
+		if(maze[row+1][col].equals("D")) {
+			maze[row + 1][col] = "d";
+			return;
+		}
 	}
 
 	/**

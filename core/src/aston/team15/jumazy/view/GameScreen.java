@@ -8,15 +8,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.GameSound;
@@ -116,7 +121,7 @@ public class GameScreen implements Screen {
 					break;
 				case "D":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)),
+							new Sprite(new Texture(generateLockedDoorTexture(maze, mazeX, mazeY))),
 							game.getSprite(randomFloorTexture()));
 					break;
 				case "1":
@@ -219,16 +224,48 @@ public class GameScreen implements Screen {
 			}
 		}
 	}
+	
 
-	/**
-	 * Sets the vies stat field to reflect the current players stats
-	 * 
-	 * @param playerStats
-	 *            array of stats
-	 */
-//	public void setCurrentPlayerStats(LinkedHashMap<String, Integer> playerStats) {
-//		currentPlayerStats = playerStats;
-//	}
+	public void openChest(int[] pos, Item item) {
+		for (Actor a : gameStage.getActors()) {
+			if (a instanceof BlockView) {
+				if (a.getName().equals(pos[1] + "," + pos[0])) {
+					((BlockView) a).changeSprite(new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Open.png"))));
+										
+					if (item != null) {
+						gameStage.addAction(Actions.sequence(Actions.alpha(1)));
+						
+						Actor tempItemActor = new Actor() {
+							private Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
+							
+							public void setPosition(float x, float y) {
+								sprite.setScale(1.6f);
+								sprite.setPosition(x + blockSpriteDimensions/6, y);
+								
+								MoveByAction move = new MoveByAction();
+								move.setAmount(0, 50f);
+								move.setDuration(1f);
+								setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
+								addAction(move);
+								addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(1f)));
+							}
+							
+							public void draw(Batch batch, float parentAlpha) {
+								sprite.setPosition(getX() + blockSpriteDimensions/6, getY());
+							    sprite.setColor(getColor());
+								sprite.draw(batch, parentAlpha);
+							}
+						};
+						
+						tempItemActor.setPosition(a.getX(), a.getY());
+						
+						gameStage.addActor(tempItemActor);
+					}
+				}
+			}
+		}
+		
+	}
 
 	/**
 	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
@@ -242,19 +279,20 @@ public class GameScreen implements Screen {
 	 * @return texture string
 	 */
 	private String generateLockedDoorTexture(String[][] maze, int mazeX, int mazeY) {
-		// right door
-		if (maze[mazeX - 1][mazeY].equals("D"))
-			return "arrow";
+
 		// left door
-		if (maze[mazeX + 1][mazeY].equals("D"))
-			return "apple";
+		if (maze[mazeX][mazeY - 1].equals("D"))
+			return "addtoskin/door.png";
+		// right door
+		if (maze[mazeX][mazeY + 1].equals("D"))
+			return "addtoskin/door.png";
 
 		// top door
-		if (maze[mazeX][mazeY - 1].equals("D"))
-			return "arrow";
+		if (maze[mazeX - 1][mazeY].equals("D"))
+			return "addtoskin/door-vertical.png";
 		// bottom door
-		if (maze[mazeX][mazeY + 1].equals("D"))
-			return "apple";
+		if (maze[mazeX + 1][mazeY].equals("D"))
+			return "addtoskin/door-vertical.png";
 
 		return "arrow";
 	}
@@ -531,15 +569,6 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 
-	}
-
-	public void openChest(int[] pos) {
-		for (Actor a : gameStage.getActors()) {
-			if (a instanceof BlockView) {
-				if (a.getName().equals(pos[1] + "," + pos[0]))
-					((BlockView) a).changeSprite(new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Open.png"))));
-			}
-		}
 	}
 
 	/**
