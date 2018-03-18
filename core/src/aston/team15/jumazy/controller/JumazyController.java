@@ -46,7 +46,7 @@ public class JumazyController extends Game {
 
 	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 
-		maze = new MazeModel(4, 2, playerAmount, playerOrder);
+		maze = new MazeModel(4, 4, playerAmount, playerOrder);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(), maze.getWeather()));
 
 //		GameScreen gameScreen = (GameScreen) getScreen();
