@@ -40,13 +40,13 @@ public class MazeModel {
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 		float weatherDiscriminant = new Random().nextFloat();
-//		if (weatherDiscriminant <= 0.3) {
-//			weather = Weather.SUN;
-//		} else if (weatherDiscriminant <= 0.6){
+		if (weatherDiscriminant <= 0.3) {
+			weather = Weather.SUN;
+		} else if (weatherDiscriminant <= 0.6){
 			weather = Weather.RAIN;
-//		} else {
-//			weather = Weather.SNOW;
-//		}
+		} else {
+			weather = Weather.SNOW;
+		}
 		
 		maze = genMaze(roomsAcross, roomsDown);
 
