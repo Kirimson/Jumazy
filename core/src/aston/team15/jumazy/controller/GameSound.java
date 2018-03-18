@@ -61,4 +61,16 @@ public class GameSound {
         Gdx.audio.newSound(Gdx.files.internal("snd/incorrect.wav")).play();
 
     }
+    
+    public static void setJungleMenuMusic() {
+    	stopMenuMusic();
+    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Menu-Music.mp3"));
+    	playMenuMusic();
+    }
+    
+    public static void setOldEnglishMenuMusic() {
+    	stopMenuMusic();
+    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/OldEnglishMenuSong.wav"));
+    	playMenuMusic();
+    }
 }
