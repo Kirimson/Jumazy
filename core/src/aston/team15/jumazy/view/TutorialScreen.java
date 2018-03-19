@@ -1,22 +1,13 @@
 package aston.team15.jumazy.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.JumazyController;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class TutorialScreen extends MenuScreen {
 	
@@ -24,7 +15,6 @@ public class TutorialScreen extends MenuScreen {
 	private Table controlTable;
 	private Table itemsTable;
 	private Table statsTable;
-	private Table tutorialBG;
 	private Label description;
 	
 	public TutorialScreen(JumazyController theGame) {

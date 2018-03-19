@@ -62,7 +62,8 @@ public class QuestionRetriever {
 
 			Collections.shuffle(lines);
 			cells = lines.get(0).split("_");
-		}while (cells[0].equals(lastQuestion));
+			inputStream.close();
+		} while (cells[0].equals(lastQuestion));
 
 		lastQuestion = cells[0];
 

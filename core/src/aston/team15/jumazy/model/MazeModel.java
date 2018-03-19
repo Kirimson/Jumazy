@@ -98,8 +98,6 @@ public class MazeModel {
 		int roomBorder = 2;
 
 		//creates a list of room layouts from provided file. ArrayList of String[][]
-		String filename = "roomlayouts/RoomLayoutsSize"+roomSize+".txt";
-
 		FileHandle file = Gdx.files.internal("roomlayouts/RoomLayoutsSize"+roomSize+".txt");
 
         String[] lines = file.readString().split("\r\n|\r|\n");
@@ -174,12 +172,9 @@ public class MazeModel {
 		//make doors down the maze columns
 		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
 			boolean locked = false;
-			int count = 1;
 			for (int y = 2; y < (roomsDown * 10) - 1; y += 10) {
 				if (y % 9 != 0) {
-
 					String symbol = (new Random().nextFloat() > lockedDoorProbability ? "O" : "D");
-
 
 					if(symbol.equals("D") && !locked)
 						locked = true;
@@ -206,7 +201,6 @@ public class MazeModel {
 					lockedDoors.add(locked);
 				} else
 					y -= 2;
-				count++;
 			}
 		}
 		lockedDoors.add(true);

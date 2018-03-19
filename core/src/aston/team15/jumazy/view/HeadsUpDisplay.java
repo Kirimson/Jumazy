@@ -37,7 +37,6 @@ public class HeadsUpDisplay extends Table {
 	private Label inventoryLabel;
 	private String diceLabelString;
 	private String playerLabelString;
-	private int currentPlayerNumber;
 
 	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber,
 			LinkedHashMap<String, Integer> currentPlayerStats) {
