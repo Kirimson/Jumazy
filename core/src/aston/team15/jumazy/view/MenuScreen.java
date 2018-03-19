@@ -27,7 +27,7 @@ public abstract class MenuScreen implements Screen {
 	protected JumazyController game;
 	protected Stage stage;
 	protected Table table;
-	private static String background  = "background.jpg";
+	private static String background  = "backgrounds/background.jpg";
 
 	public MenuScreen(JumazyController theGame, String backgroundString){
 		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
@@ -70,14 +70,14 @@ public abstract class MenuScreen implements Screen {
 	}
 	
 	public static void setMedieval() {
-		background = "background3.png";
+		background = "backgrounds/background3.png";
 	}
 	
 	public static void setOldEnglish() {
-		background = "background2.png";
+		background = "backgrounds/background2.png";
 	}
 	
 	public static void setJungle() {
-		background = "background.jpg";
+		background = "backgrounds/background.jpg";
 	}
 }

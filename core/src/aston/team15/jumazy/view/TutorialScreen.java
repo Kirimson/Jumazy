@@ -18,7 +18,8 @@ public class TutorialScreen extends MenuScreen {
 	private Label description;
 	
 	public TutorialScreen(JumazyController theGame) {
-		super(theGame,"TutorialBack.png");
+		super(theGame, theGame.getTexturePackName().equals("oldenglish") ? "backgrounds/TutorialBackBW.png" :
+				"backgrounds/TutorialBack.png");
 		
 		skin = game.getSkin();
 
@@ -37,24 +38,24 @@ public class TutorialScreen extends MenuScreen {
 		controlTable.setFillParent(true);
 		controlTable.top().padTop(50).left().padLeft(100);
 		
-		Image enterKey = new Image(new Texture("enter.png"));
+		Image enterKey = new Image(game.getSprite("enter"));
 		controlTable.add(enterKey).width(40).height(60);
 		description = new Label("Press enter to switch players.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padLeft(40);
 		controlTable.row();
 		
-		Image spaceKey = new Image(new Texture("space.png"));
+		Image spaceKey = new Image(game.getSprite("space"));
 		controlTable.add(spaceKey).width(90).height(20).padTop(20);
 		description = new Label("Press space to roll the dice.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padLeft(30).padTop(20);
 		controlTable.row();
 		
-		Image leftKey = new Image(new Texture("left.png"));
-		Image upKey = new Image(new Texture("up.png"));
-		Image downKey = new Image(new Texture("down.png"));
-		Image rightKey = new Image(new Texture("right.png"));
+		Image leftKey = new Image(game.getSprite("left"));
+		Image upKey = new Image(game.getSprite("up"));
+		Image downKey = new Image(game.getSprite("down"));
+		Image rightKey = new Image(game.getSprite("right"));
 		controlTable.add(leftKey).padTop(60).size(30).padLeft(-60);
 		controlTable.add(downKey).padTop(60).padLeft(-343).size(30);
 		controlTable.add(upKey).size(30).padLeft(-600).padTop(-5);
