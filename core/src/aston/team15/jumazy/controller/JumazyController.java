@@ -1,5 +1,6 @@
 package aston.team15.jumazy.controller;
 
+import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
 import aston.team15.jumazy.model.PlayerModel;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 //this follows the state design pattern, setScreen is an inherited function, but does what a setState function would do
@@ -45,15 +47,8 @@ public class JumazyController extends Game {
 	}
 
 	public void setPlayerAmountAndStartGame(int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
-
 		maze = new MazeModel(4, 4, playerAmount, playerOrder);
 		setScreen(new GameScreen(this, playerAmount, maze.getMaze(), maze.getCurrentPlayer().getStats(), maze.getWeather()));
-
-		// GameScreen gameScreen = (GameScreen) getScreen();
-		//
-		// if (maze.getWeather() != MazeModel.Weather.SUN)
-		// gameScreen.setWeather(maze.getWeather(), maze.getMaze()[0].length,
-		// maze.getMaze().length);
 	}
 
 	public void setQuestionType(HashMap<String, String> levels) {
@@ -132,13 +127,11 @@ public class JumazyController extends Game {
 					}
 				}
 
-				if (maze.getCurrentPlayer().isOnVictorySquare()) {
+				if (maze.getCurrentPlayer().isOnVictorySquare())
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
-				}
 
-				if (maze.getCurrentPlayer().isOnDoor()) {
+				if (maze.getCurrentPlayer().isOnDoor())
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
-				}
 
 				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
 				return true;
@@ -167,24 +160,30 @@ public class JumazyController extends Game {
 
 	}
 
-    public void stopFight(boolean won) {
+    public void stopFight(boolean won, int playerHealth, int reward) {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		if(won){
-			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + 2;
-			if (newStat > 6) {
+			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + reward;
+			if (newStat >= 6) {
 				maze.getCurrentPlayer().getStats().replace("Strength", 6);
-				gameScreen.getHUD().setPlayerConsoleText("You won the fight! Your strength is already maxed out, maybe try the FINAL BOSS?");
+				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength is maxed out, why not try the FINAL BOSS?");
 			} else {
-				gameScreen.getHUD().setPlayerConsoleText("You won the fight! Your strength increased by 2!");
-				maze.getCurrentPlayer().editStat("Strength", 2, true);
+				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength increased by "+reward+"!");
+				maze.getCurrentPlayer().editStat("Strength", reward, true);
 			}
-			gameScreen.showStrengthIncrease();
+
+			if(playerHealth != maze.getCurrentPlayer().getStats().get("Health")){
+				maze.getCurrentPlayer().editStat("Health", playerHealth, false);
+				gameScreen.getHUD().updateItemStat(Item.APPLE);
+			}
+
+			gameScreen.getHUD().updateItemStat(Item.SWORD);
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
 
 		} else {
 			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health"),
 					false);
-			gameScreen.getHUD().setPlayerConsoleText("You lost this fight! Try again when you're ready!");
+			gameScreen.getHUD().setPlayerConsoleText("You lost! Try again when you're ready!");
 			moveCurrentPlayerToStartOfTurn();
 		}
 
@@ -194,5 +193,34 @@ public class JumazyController extends Game {
 	public void moveCurrentPlayerToStartOfTurn() {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
+	}
+
+	public LinkedHashMap<String, Integer> generateMonsterStats() {
+		String monsterType = maze.getMonsterType(maze.getCurrentPlayer());
+
+		LinkedHashMap<String, Integer> monsterStats = new LinkedHashMap<String, Integer>();
+
+		int hp, str, reward;
+
+		switch (monsterType){
+			case "X":
+				hp = 9;
+				str = 2;
+				reward = 2;
+				break;
+			case "E":
+			default :
+				hp = 8;
+				str = 1;
+				reward = 1;
+				break;
+		}
+
+		monsterStats.put("Max Health", hp);
+		monsterStats.put("Health", hp);
+		monsterStats.put("Strength", str);
+		monsterStats.put("Reward", reward);
+
+		return monsterStats;
 	}
 }

@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.GameSound;
@@ -77,7 +76,6 @@ public class GameScreen implements Screen {
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 
 		game = aGame;
-        hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
 		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
@@ -85,7 +83,6 @@ public class GameScreen implements Screen {
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
-		fightingStage = new FightingView(game, hud);
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
 		currentPlayerInventory = new ArrayList<Item>();
@@ -165,9 +162,10 @@ public class GameScreen implements Screen {
 
 		uiStage.addActor(light);
 
+        hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
-		
+        fightingStage = new FightingView(game, hud);
 
 		dice = new DiceView(JumazyController.WORLD_WIDTH - game.getSprite("number1").originalWidth - 29, 23,
 				game);
@@ -225,11 +223,6 @@ public class GameScreen implements Screen {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}
 		}
-	}
-
-	public void showStrengthIncrease(){
-		hud.setPlayerConsoleText("You won the fight! Your strength has increase by 2!");
-		hud.updateItemStat(Item.SWORD);
 	}
 	
 	public void renderInventory(ArrayList<Item> inventory) {
@@ -461,6 +454,7 @@ public class GameScreen implements Screen {
 	 */
 	public void updateCurrentPlayer(int newPlayerIndex, LinkedHashMap<String, Integer> currentPlayerStats) {
 		currentPlayerIndex = newPlayerIndex;
+		this.currentPlayerStats = currentPlayerStats;
 		hud.updateForNewPlayer(newPlayerIndex, currentPlayerStats);
 	}
 
@@ -489,7 +483,7 @@ public class GameScreen implements Screen {
 		} else if (moveStyle==2) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			inFight = true;
-			startFight(currentPlayerStats.get("Health"), 10, keycode);
+			startFight(currentPlayerStats, keycode);
 		}
 	}
 
@@ -593,9 +587,9 @@ public class GameScreen implements Screen {
 		fightingStage.getViewport().update(width, height);
 	}
 
-	private void startFight(int health1, int health2, int keycode) {
+	private void startFight(LinkedHashMap<String, Integer> stats1, int keycode) {
         hud.setPlayerConsoleText("You've entered a fight! press SPACE to fight the monster!");
-		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
+		fightingStage.setupNewFight(stats1, game.generateMonsterStats(), players.get(currentPlayerIndex), keycode);
 		fightingStage.show();
 
 		inFight = true;

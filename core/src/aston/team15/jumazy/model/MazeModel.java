@@ -10,7 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class MazeModel {
-	// row is y and maze[0].length
+    // row is y and maze[0].length
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
 
@@ -407,38 +407,47 @@ public class MazeModel {
 		return positions;
 	}
 
+	private int[] findMonsterCoordinate(int row, int col){
+        ArrayList<String> monsters = new ArrayList<String>();
+        monsters.add("E");
+        monsters.add("X");
+
+        int[] monsterPos = new int[2];
+
+        if(monsters.contains(maze[row-1][col])) {
+            monsterPos[0] = row-1;
+            monsterPos[1] = col;
+        }
+        if(monsters.contains(maze[row+1][col])) {
+            monsterPos[0] = row+1;
+            monsterPos[1] = col;
+        }
+        if(monsters.contains(maze[row][col-1])) {
+            monsterPos[0] = row;
+            monsterPos[1] = col-1;
+        }
+        if(monsters.contains(maze[row][col+1])) {
+            monsterPos[0] = row;
+            monsterPos[1] = col+1;
+        }
+        return monsterPos;
+    }
+
 	public int[] removeMonster(int[] position) {
 		int row = position[0];
 		int col = position[1];
 
-		ArrayList<String> monsters = new ArrayList<String>();
-		monsters.add("E");
-		monsters.add("X");
-
-		int[] monsterPos = new int[2];
-
-		if(monsters.contains(maze[row-1][col])) {
-			monsterPos[0] = row-1;
-			monsterPos[1] = col;
-		}
-		if(monsters.contains(maze[row+1][col])) {
-			monsterPos[0] = row+1;
-			monsterPos[1] = col;
-		}
-		if(monsters.contains(maze[row][col-1])) {
-			monsterPos[0] = row;
-			monsterPos[1] = col-1;
-		}
-		if(monsters.contains(maze[row][col+1])) {
-			monsterPos[0] = row;
-			monsterPos[1] = col+1;
-		}
+		int[] monsterPos = findMonsterCoordinate(row, col);
 		setCoordinateString(monsterPos[0], monsterPos[1], "O");
-
-		System.out.println(toString());
 
 		return monsterPos;
 	}
+
+    public String getMonsterType(PlayerModel currentPlayer) {
+        int[] monsterPos = findMonsterCoordinate(currentPlayer.getPosition()[0], currentPlayer.getPosition()[1]);
+        System.out.println(maze[monsterPos[0]][monsterPos[1]]);
+        return maze[monsterPos[0]][monsterPos[1]];
+    }
 
 	public String getCoordinateString(int row, int col) {
 		return maze[row][col];
