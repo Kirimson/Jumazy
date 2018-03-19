@@ -311,20 +311,20 @@ public class JumazyController extends Game {
 		int hp, str, reward;
 
 		switch (monsterType){
-			case "X":
-				hp = 9;
-				str = 2;
-				reward = 2;
-				break;
 			case "Z":
-				hp = 12;
+				hp = 18;
+				str = 15 - playerstats.get("Strength");
+				reward = 0;
+				break;
+			case "X":
+				hp = 11;
 				str = 3;
-				reward = 5;
+				reward = 2;
 				break;
 			case "E":
 			default :
-				hp = 8;
-				str = 1;
+				hp = 10;
+				str = 2;
 				reward = 1;
 				break;
 		}
