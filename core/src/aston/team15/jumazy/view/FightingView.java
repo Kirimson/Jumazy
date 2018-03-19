@@ -38,11 +38,9 @@ public class FightingView extends Stage {
 	private JumazyController game;
 	private PlayerView player;
 	private int fightDirection;
-	private HeadsUpDisplay hud;
 	private int reward;
 
-	FightingView(final JumazyController game, HeadsUpDisplay hud) {
-		this.hud = hud;
+	FightingView(final JumazyController game) {
     	this.game = game;
     	rng = new Random();
     	

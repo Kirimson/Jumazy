@@ -178,7 +178,7 @@ public class GameScreen implements Screen {
         hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
-        fightingStage = new FightingView(game, hud);
+        fightingStage = new FightingView(game);
         
 		questionUI = new QuestionUI(game, hud);
 
