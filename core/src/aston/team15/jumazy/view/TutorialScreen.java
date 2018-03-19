@@ -68,7 +68,7 @@ public class TutorialScreen extends MenuScreen {
 		controlTable.row();
 		
 		Image escapeKey = new Image(game.getSprite("Esc"));
-		controlTable.add(escapeKey).width(40).height(20).padTop(20);
+		controlTable.add(escapeKey).width(40).height(30).padTop(20);
 		description = new Label("Press escape to pause.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padTop(20);
@@ -81,7 +81,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		itemsTable = new Table();
 		itemsTable.setFillParent(true);
-		itemsTable.right().padRight(150).top().padTop(50);
+		itemsTable.right().padRight(120).top().padTop(50);
 		
 		description = new Label("Items", skin);
 		description.setFontScale(1.1f);
@@ -133,8 +133,8 @@ public class TutorialScreen extends MenuScreen {
 		Image key = new Image(game.getSprite("key"));
 		description = new Label("Unlocks doors", skin);
 		description.setFontScale(0.75f);
-		itemsTable.add(key).size(30).padTop(10).padLeft(-10);
-		itemsTable.add(description).padTop(10);
+		itemsTable.add(key).size(30).padTop(10);
+		itemsTable.add(description).padTop(10).padLeft(30);
 		
 		stage.addActor(itemsTable);
 	}
@@ -197,7 +197,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image victory = new Image(game.getSprite("victory-statue"));
 		gameplayTable.add(victory).size(30).padTop(10);
-		description = new Label("To win the game you must get to this vitory treasure", skin);
+		description = new Label("To win the game you must get to this victory treasure", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-200);
 		
