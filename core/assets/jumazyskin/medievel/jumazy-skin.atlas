@@ -236,352 +236,310 @@ filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 260, 458
+  xy: 813, 228
   size: 200, 50
   orig: 200, 50
   offset: 0, 0
   index: -1
 button-down
   rotate: false
-  xy: 727, 298
+  xy: 784, 74
   size: 200, 50
   orig: 200, 50
   offset: 0, 0
   index: -1
 button-hover
   rotate: false
-  xy: 309, 200
+  xy: 784, 22
   size: 200, 50
   orig: 200, 50
   offset: 0, 0
   index: -1
 door
   rotate: false
-  xy: 462, 476
+  xy: 260, 294
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 door-open
   rotate: false
-  xy: 929, 316
+  xy: 260, 260
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 door-vertical
   rotate: false
-  xy: 390, 424
+  xy: 260, 226
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 door-vertical-open
   rotate: false
-  xy: 465, 36
+  xy: 985, 194
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 down
   rotate: false
-  xy: 465, 70
+  xy: 858, 883
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 enter
   rotate: false
-  xy: 335, 18
+  xy: 2, 16
   size: 128, 180
   orig: 128, 180
   offset: 0, 0
   index: -1
 fight-bar
   rotate: false
-  xy: 260, 350
+  xy: 260, 154
   size: 723, 70
   orig: 723, 70
   offset: 0, 0
   index: -1
 floor-bottom-water
   rotate: false
-  xy: 465, 2
+  xy: 985, 160
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-left-water
   rotate: false
-  xy: 424, 424
+  xy: 985, 126
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-middle-water
   rotate: false
-  xy: 499, 36
+  xy: 988, 979
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-middle-water-vertical
   rotate: false
-  xy: 499, 2
+  xy: 988, 945
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-right-water
   rotate: false
-  xy: 533, 36
+  xy: 988, 911
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-single-water
   rotate: false
-  xy: 533, 2
+  xy: 986, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares
   rotate: false
-  xy: 567, 36
+  xy: 986, 58
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares-cracked
   rotate: false
-  xy: 567, 2
+  xy: 986, 24
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares-missing
   rotate: false
-  xy: 601, 36
+  xy: 620, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-top-water
   rotate: false
-  xy: 601, 2
+  xy: 654, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-trap-spikes
   rotate: false
-  xy: 635, 36
+  xy: 688, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 game
   rotate: false
-  xy: 2, 510
+  xy: 2, 401
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 health
   rotate: false
-  xy: 2, 179
+  xy: 2, 328
   size: 305, 71
   orig: 305, 71
   offset: 0, 0
   index: -1
 left
   rotate: false
-  xy: 595, 70
+  xy: 230, 24
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 list
   rotate: false
-  xy: 260, 424
+  xy: 490, 22
   size: 128, 32
   orig: 128, 32
   offset: 0, 0
   index: -1
 list-bg
   rotate: false
-  xy: 511, 200
-  size: 200, 50
-  orig: 200, 50
+  xy: 511, 228
+  size: 300, 50
+  orig: 300, 50
   offset: 0, 0
   index: -1
 mummy
   rotate: false
-  xy: 635, 2
+  xy: 722, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 number1
   rotate: false
-  xy: 913, 926
+  xy: 132, 100
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number10
   rotate: false
-  xy: 921, 102
+  xy: 588, 56
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number11
   rotate: false
-  xy: 921, 4
+  xy: 686, 56
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number2
   rotate: false
-  xy: 913, 828
+  xy: 913, 785
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number3
   rotate: false
-  xy: 913, 730
+  xy: 913, 687
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number4
   rotate: false
-  xy: 913, 632
+  xy: 913, 589
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number5
   rotate: false
-  xy: 913, 534
+  xy: 913, 491
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number6
   rotate: false
-  xy: 913, 436
+  xy: 913, 393
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number7
   rotate: false
-  xy: 725, 70
+  xy: 913, 295
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number8
   rotate: false
-  xy: 857, 200
+  xy: 132, 2
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number9
   rotate: false
-  xy: 823, 70
+  xy: 490, 56
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 pause-dialog
   rotate: false
-  xy: 516, 422
+  xy: 516, 280
   size: 395, 600
   orig: 395, 600
   offset: 0, 0
   index: -1
 right
   rotate: false
-  xy: 204, 48
+  xy: 727, 882
   size: 129, 129
   orig: 129, 129
   offset: 0, 0
   index: -1
 rpgbg
   rotate: false
-  xy: 2, 252
+  xy: 2, 915
   size: 723, 96
   orig: 723, 96
   offset: 0, 0
   index: -1
 scroll-bg
   rotate: false
-  xy: 2, 27
+  xy: 309, 249
   size: 200, 150
   orig: 200, 150
   offset: 0, 0
   index: -1
-skeleton
-  rotate: false
-  xy: 669, 36
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-slider-knob
-  rotate: false
-  xy: 669, 2
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 space
   rotate: false
-  xy: 2, 380
+  xy: 2, 198
   size: 256, 128
   orig: 256, 128
   offset: 0, 0
   index: -1
 up
   rotate: false
-  xy: 727, 168
+  xy: 360, 24
   size: 128, 128
   orig: 128, 128
-  offset: 0, 0
-  index: -1
-wall-brick-missing
-  rotate: false
-  xy: 703, 36
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-wall-leaves
-  rotate: false
-  xy: 703, 2
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-wall-no-edge
-  rotate: false
-  xy: 737, 36
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-wall-plain
-  rotate: false
-  xy: 737, 2
-  size: 32, 32
-  orig: 32, 32
   offset: 0, 0
   index: -1
 
@@ -592,22 +550,64 @@ filter: Nearest,Nearest
 repeat: none
 number12
   rotate: false
-  xy: 2, 2
+  xy: 2, 70
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 number13
   rotate: false
-  xy: 516, 516
+  xy: 516, 584
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
+skeleton
+  rotate: false
+  xy: 2, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+slider-knob
+  rotate: false
+  xy: 100, 134
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 tea
   rotate: false
-  xy: 2, 100
+  xy: 2, 168
   size: 512, 512
   orig: 512, 512
+  offset: 0, 0
+  index: -1
+wall-brick-missing
+  rotate: false
+  xy: 516, 550
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-leaves
+  rotate: false
+  xy: 614, 648
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-no-edge
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-plain
+  rotate: false
+  xy: 36, 36
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
