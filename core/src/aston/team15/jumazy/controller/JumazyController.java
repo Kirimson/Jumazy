@@ -40,6 +40,7 @@ public class JumazyController extends Game {
 
 	public static final int WORLD_WIDTH = 1280, WORLD_HEIGHT = 720;
 	public static final boolean DEBUG_ON = true;
+	private boolean questionsRetrieved = false;
 	private MazeModel maze;
 	private Skin gameSkin;
 	private TextureAtlas textures;
@@ -182,8 +183,11 @@ public class JumazyController extends Game {
 					} else {
 						gameScreen.getHUD()
 								.setPlayerConsoleText("You landed on a trap! Answer the question to keep going!");
-						questionRetriever.selectFile();
-						String[] questionAndAns = questionRetriever.retrieveRiddle();
+						if(questionsRetrieved == false) {
+							questionRetriever.retrieveFromFile();
+							questionsRetrieved = true;
+						}
+						String[] questionAndAns = questionRetriever.questionSelector();
 						gameScreen.createQuestion(questionAndAns);
 					}
 				}
