@@ -151,7 +151,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		description = new Label("HP: This is your health and if it hits 0 you will be spawned back where you started."
 				+ "\nSTAMINA: The amount of stamina you have is added onto your dice roll."
-				+ "\nLUCK: This effects your chances of recieving an item from a chest."
+				+ "\nLUCK: This effects your chances of receiving an item from a chest."
 				+ "\nSTRENGTH: This increases your chances of winning fights against monsters."
 				+ "\nAGILITY: This increases your chance of skipping a trap"
 				+ "\nINTELLIGENCE: This increases your chances of opening doors without keys by lock picking.", skin);
@@ -173,7 +173,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image chest = new Image(game.getSprite("chest-closed"));
 		gameplayTable.add(chest).size(50).padTop(10);
-		description = new Label("You can recieve special items to help you towards victory", skin);
+		description = new Label("You can receive special items to help you towards victory", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-200);
 		gameplayTable.row();
