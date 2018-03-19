@@ -33,32 +33,38 @@ public class QuestionRetriever {
 
 
 	/**
-	 * Get a question from a selected question file.
-	 *
+	 * Get a question from a selected question file. Checks current question against
+	 * lastQuestion so no duplicates occur
+	 * 
+	 * @return String array for contents of question
 	 */
 	public void retrieveFromFile() {
 		int index = 0;
-
+		questionRandomiser.addAll(categoryLevels.keySet());
+		String line;
+		
 		while(index <= questionRandomiser.size() - 1) {
-			questionRandomiser.addAll(categoryLevels.keySet());
-			String line;
+			
 			String selectedType = questionRandomiser.get(index);
 			String fileName = "questions/" + selectedType.toLowerCase() + categoryLevels.get(selectedType) + ".csv";
+			
 			FileHandle csv = Gdx.files.internal(fileName);
+			
 			inputStream = new Scanner(csv.read());
+			
 			
 			while (inputStream.hasNext()) {
 				line = inputStream.nextLine();
 				lines.add(line);
 			}
 			index = index + 1;
+			
 		}
 		inputStream.close();
 	}
 	
 	public String[] questionSelector() {
 		boolean questionUsedBefore;
-		
 		do {
 			questionUsedBefore = false;
 			Collections.shuffle(lines);
@@ -69,15 +75,15 @@ public class QuestionRetriever {
 				if (cells[0].equals(ques)) {
 					questionUsedBefore = true;
 				}
+				
 			}
+			
 		} while (questionUsedBefore == true);
 
 		lastQuestion.add(cells[0]);
-		
 		if(lastQuestion.size() == lines.size()) {
 			lastQuestion.clear();
 		}
-		
 		return cells;
 	}
 
