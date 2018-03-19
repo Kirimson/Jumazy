@@ -111,7 +111,7 @@ public class TutorialScreen extends MenuScreen {
 		itemsTable.add(sword).size(40).padTop(10);
 		itemsTable.add(description).padTop(10).padLeft(10);
 		Image bow = new Image(game.getSprite("arrow"));
-		description = new Label("+1 strength", skin);
+		description = new Label("+1 Strength", skin);
 		description.setFontScale(0.75f);
 		itemsTable.add(bow).size(40).padLeft(20).padTop(10);
 		itemsTable.add(description).padTop(10);
@@ -153,7 +153,7 @@ public class TutorialScreen extends MenuScreen {
 				+ "\nSTAMINA: The amount of stamina you have is added onto your dice roll."
 				+ "\nLUCK: This effects your chances of receiving an item from a chest."
 				+ "\nSTRENGTH: This increases your chances of winning fights against monsters."
-				+ "\nAGILITY: This increases your chance of skipping a trap"
+				+ "\nAGILITY: This increases your chances of skipping a trap."
 				+ "\nINTELLIGENCE: This increases your chances of opening doors without keys by lock picking.", skin);
 		description.setFontScale(0.65f);
 		statsTable.add(description);
@@ -180,7 +180,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image trap = new Image(game.getSprite("floor-trap-spikes"));
 		gameplayTable.add(trap).size(30).padTop(10);
-		description = new Label("These are traps! if stepped on a question will have to be answered."
+		description = new Label("These are traps! If stepped on a question will have to be answered."
 				+ "\nGet it correct, you may pass. Get it wrong and you will be punished.", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-120);
@@ -197,7 +197,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image victory = new Image(game.getSprite("victory-statue"));
 		gameplayTable.add(victory).size(30).padTop(10);
-		description = new Label("To win the game you must get to this victory treasure", skin);
+		description = new Label("To win the game you must get to this victory treasure.", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-200);
 		
