@@ -9,41 +9,47 @@ public class QuestionRetriever {
 	private String[] cells = null;
 	private ArrayList<String> questionRandomiser;
 	private HashMap<String, String> categoryLevels;
-	private String lastQuestion;
+	private ArrayList<String> lastQuestion = new ArrayList<>();
 
 	public void chosenTypes(HashMap<String, String> levels) {
 		questionRandomiser = new ArrayList<String>();
-		//adds to a HashMap the categories and level if they are checked
+		// adds to a HashMap the categories and level if they are checked
 		categoryLevels = new HashMap<String, String>();
-		for(String category : levels.keySet()) {
+		for (String category : levels.keySet()) {
 			System.out.println(category);
 			switch (levels.get(category)) {
-				case "Easy":
-				case "Medium":
-				case "Hard":
-					categoryLevels.put(category, levels.get(category));break;
+			case "Easy":
+			case "Medium":
+			case "Hard":
+				categoryLevels.put(category, levels.get(category));
+				break;
 			}
 		}
 
 	}
 
 	/**
-	 * Generates a file path for a new question based on selected categories and their difficulty
+	 * Generates a file path for a new question based on selected categories and
+	 * their difficulty
+	 * 
 	 * @return path to a riddle file
 	 */
 	public String selectFile() {
-		//creates an ArrayList out of the HashMap's keys to be shuffled
+		// creates an ArrayList out of the HashMap's keys to be shuffled
 		questionRandomiser.addAll(categoryLevels.keySet());
 		Collections.shuffle(questionRandomiser);
 
 		String selectedType = questionRandomiser.get(0);
 
-		//return the URI of the file. has no checks if the file inst there, as they should soon be put in
-		return "questions/"+selectedType.toLowerCase()+categoryLevels.get(selectedType)+".csv";
+		// return the URI of the file. has no checks if the file inst there, as they
+		// should soon be put in
+		return "questions/" + selectedType.toLowerCase() + categoryLevels.get(selectedType) + ".csv";
 	}
 
 	/**
-	 * Get a question from a selected question file. Checks current question against lastQuestion so no duplicates occur
+	 * Get a question from a selected question file. Checks current question against
+	 * lastQuestion so no duplicates occur
+	 * 
 	 * @return String array for contents of question
 	 */
 	public String[] retrieveRiddle() {
@@ -51,21 +57,30 @@ public class QuestionRetriever {
 
 		FileHandle csv = Gdx.files.internal(fileName);
 
-		do {
-			Scanner inputStream = new Scanner(csv.read());
-			String line;
-			List<String> lines = new ArrayList<>();
-			while (inputStream.hasNext()) {
-				line = inputStream.nextLine();
-				lines.add(line);
-			}
+		boolean questionUsedBefore = false;
+		Scanner inputStream = new Scanner(csv.read());
+		String line;
+		List<String> lines = new ArrayList<>();
+		while (inputStream.hasNext()) {
+			line = inputStream.nextLine();
+			lines.add(line);
+		}
 
+		do {
 			Collections.shuffle(lines);
 			cells = lines.get(0).split("_");
-			inputStream.close();
-		} while (cells[0].equals(lastQuestion));
-		
-		lastQuestion = cells[0];
+			for (String ques : lastQuestion) {
+				if (cells[0].equals(ques)) {
+					questionUsedBefore = true;
+
+
+				}
+			}
+		} while (questionUsedBefore == true);
+
+		inputStream.close();
+
+		lastQuestion.add(cells[0]);
 
 		return cells;
 	}
