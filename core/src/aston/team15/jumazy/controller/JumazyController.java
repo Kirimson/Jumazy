@@ -208,6 +208,11 @@ public class JumazyController extends Game {
 				str = 2;
 				reward = 2;
 				break;
+			case "Z":
+				hp = 12;
+				str = 3;
+				reward = 5;
+				break;
 			case "E":
 			default :
 				hp = 8;
