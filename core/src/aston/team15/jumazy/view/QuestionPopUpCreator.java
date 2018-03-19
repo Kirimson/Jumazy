@@ -5,10 +5,7 @@ package aston.team15.jumazy.view;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.HashMap;
@@ -24,9 +21,9 @@ public class QuestionPopUpCreator {
 	private String[] geoObjects;
 	private String[] mathObjects;
 	private String[] histoObjects;
-	private SelectBox<String> geoSB;
-	private SelectBox<String> mathSB;
-	private SelectBox<String> histoSB;
+	private JumazySelectBox<String> geoSB;
+	private JumazySelectBox<String> mathSB;
+	private JumazySelectBox<String> histoSB;
 	private JumazyButton playButton;
 
 	QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
@@ -96,7 +93,6 @@ public class QuestionPopUpCreator {
 					HashMap<String, String> levels = getSelections();
 					game.setQuestionType(levels);
 					game.setScreen(new CharacterSelectScreen(game, numOfPlayers));
-//					game.setPlayerAmountAndStartGame(numOfPlayers);
 				}
 			}
 		});
@@ -152,9 +148,9 @@ public class QuestionPopUpCreator {
 	    histoObjects[1] = "History Difficulty: Medium";
 	    histoObjects[2] = "History Difficulty: Hard";
 	   
-	    geoSB = new SelectBox<String>(skin);
-		mathSB = new SelectBox<String>(skin);
-		histoSB = new SelectBox<String>(skin);
+	    geoSB = new JumazySelectBox<String>(skin);
+		mathSB = new JumazySelectBox<String>(skin);
+		histoSB = new JumazySelectBox<String>(skin);
 		
 		geoSB.setItems(geoObjects);
 		mathSB.setItems(mathObjects);
