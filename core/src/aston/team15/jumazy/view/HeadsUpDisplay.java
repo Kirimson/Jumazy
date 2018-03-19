@@ -37,6 +37,7 @@ public class HeadsUpDisplay extends Table {
 	private Label inventoryLabel;
 	private String diceLabelString;
 	private String playerLabelString;
+	private Label intelligenceLabel;
 
 	public HeadsUpDisplay(final JumazyController game, int currentPlayerNumber,
 			LinkedHashMap<String, Integer> currentPlayerStats) {
@@ -66,6 +67,9 @@ public class HeadsUpDisplay extends Table {
 
 		luckLabel = new Label("Luck: ", labelStyle);
 		luckLabel.setFontScale(fontScale);
+		
+		intelligenceLabel = new Label("Intelligence: ", labelStyle);
+		intelligenceLabel.setFontScale(fontScale);
 
 		statsTable.add(playerStatsLabel).left();
 		statsTable.row();
@@ -75,6 +79,7 @@ public class HeadsUpDisplay extends Table {
 		statsTable.row();
 		statsTable.add(agilityLabel).grow().left();
 		statsTable.add(luckLabel).grow().left();
+		statsTable.add(intelligenceLabel).grow().left();
 
 		statsLabels = new Label[] { hpLabel, staminaLabel, strengthLabel, agilityLabel, luckLabel };
 
@@ -121,7 +126,7 @@ public class HeadsUpDisplay extends Table {
 		this.currentPlayerStats = currentPlayerStats;
 		setStatLabels(currentPlayerStats);
 		update(currentPlayerNumber);
-		// this.debugAll();
+		this.debugAll();
 	}
 
 	public void update(int newPlayerNumber) {
@@ -146,6 +151,7 @@ public class HeadsUpDisplay extends Table {
 		strengthLabel.setText("Strength: " + newPlayerStats.get("Strength") + "/6");
 		luckLabel.setText("Luck: " + newPlayerStats.get("Luck") + "/6");
 		agilityLabel.setText("Agility: " + newPlayerStats.get("Agility") + "/6");
+		intelligenceLabel.setText("Intelligence: " + newPlayerStats.get("Intelligence") + "/6");
 		currentPlayerStats = newPlayerStats;
 	}
 
