@@ -178,7 +178,8 @@ public class GameScreen implements Screen {
         hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
-        fightingStage = new FightingView(game);
+
+        fightingStage = new FightingView(game, uiViewport);
         
 		questionUI = new QuestionUI(game, hud);
 
@@ -288,7 +289,7 @@ public class GameScreen implements Screen {
 		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
 		pauseStage.getViewport().update(width, height);
-		fightingStage.getViewport().update(width, height);
+		fightingStage.getViewport().update(width, height, true);
 	}
 
 	/**

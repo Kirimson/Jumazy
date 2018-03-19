@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class FightingView extends Stage {
 
@@ -41,16 +42,17 @@ public class FightingView extends Stage {
 	private int fightDirection;
 	private int reward;
 
-	FightingView(final JumazyController game) {
+	FightingView(final JumazyController game, Viewport view) {
+		super(view);
     	this.game = game;
     	rng = new Random();
-    	
-        fightBar = new Table(game.getSkin());
-        fightBar.bottom();
 
-        fightBar.setBackground(new TextureRegionDrawable(new TextureRegion(game.getSprite("fight-bar"))));
+        fightBar = new Table(game.getSkin());
+
+        fightBar.setBackground(new TextureRegionDrawable(game.getSprite("fight-bar")));
 		fightBar.setHeight(124);
 		fightBar.setWidth(JumazyController.WORLD_WIDTH);
+
 
 		playerHealth = new Image(game.getSprite("health"));
 		enemyHealth = new Image(game.getSprite("health"));

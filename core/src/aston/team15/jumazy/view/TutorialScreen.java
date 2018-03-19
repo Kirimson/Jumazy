@@ -173,7 +173,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image chest = new Image(game.getSprite("chest-closed"));
 		gameplayTable.add(chest).size(50).padTop(10);
-		description = new Label("You can recieve special items to help you towards vitory", skin);
+		description = new Label("You can receive special items to help you towards victory", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-200);
 		gameplayTable.row();
@@ -188,7 +188,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image monster = new Image(game.getSprite("skeleton"));
 		gameplayTable.add(monster).size(30).padTop(10);
-		description = new Label("You can recieve more strength by fighting monsters. You and the monster both"
+		description = new Label("You can receive more strength by fighting monsters. You and the monster both"
 				+ "\nroll a dice and if you roll 6 and the monster rolls 2, the monster will lose 4 hp."
 				+ "\nThe amount of strength you have is added on to what you roll.", skin);
 		description.setFontScale(0.65f);
