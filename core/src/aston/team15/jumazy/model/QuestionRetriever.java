@@ -64,7 +64,7 @@ public class QuestionRetriever {
 			cells = lines.get(0).split("_");
 			inputStream.close();
 		} while (cells[0].equals(lastQuestion));
-
+		
 		lastQuestion = cells[0];
 
 		return cells;

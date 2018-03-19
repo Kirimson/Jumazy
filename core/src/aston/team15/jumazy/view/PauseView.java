@@ -43,6 +43,7 @@ public class PauseView extends Stage {
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {
             	 GameSound.playButtonSound();
+            	
                  remove();
                  game.resume();
              }
@@ -72,6 +73,7 @@ public class PauseView extends Stage {
     }
 
     public void remove() {
+
     	background.remove();
         table.remove();
     }
