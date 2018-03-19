@@ -8,10 +8,16 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	}
 }
 com.badlogic.gdx.graphics.Color: {
-	RGBA_0_0_0_255: {
+	black: {
 		r: 0
 		g: 0
 		b: 0
+		a: 1
+	}
+	White: {
+		r: 1
+		g: 1
+		b: 1
 		a: 1
 	}
 }
@@ -19,6 +25,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
 		up: button
 		down: button-down
+		over: button-hover
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
@@ -26,34 +33,38 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 		checkboxOn: checkbox-on
 		checkboxOff: checkbox-off
 		font: tea
-		fontColor: RGBA_0_0_0_255
+		fontColor: White
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: tea
-		fontColor: RGBA_0_0_0_255
+		fontColor: White
+	}
+	blackFont: {
+		font: tea
+		fontColor: black
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
 		font: tea
-		fontColorSelected: RGBA_0_0_0_255
-		fontColorUnselected: RGBA_0_0_0_255
-		selection: box-outline
+		fontColorSelected: White
+		fontColorUnselected: White
+		selection: list
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 	default: {
-		background: box-clear
+		background: scroll-bg
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
 		font: tea
-		fontColor: RGBA_0_0_0_255
-		disabledFontColor: RGBA_0_0_0_255
-		background: box-outline
+		fontColor: White
+		disabledFontColor: White
+		background: list-bg
 		scrollStyle: default
 		listStyle: default
 	}
@@ -67,16 +78,18 @@ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
 		font: tea
-		fontColor: RGBA_0_0_0_255
+		fontColor: White
 		up: button
 		down: button-down
+		over: button-hover
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: tea
-		fontColor: RGBA_0_0_0_255
-		background: box-outline
+		fontColor: White
+		background: button
+		focusedBackground: button-hover
 		cursor: cursor
 	}
 }
@@ -87,7 +100,6 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
-		background: box-clear
 		titleFont: tea
 	}
 }
