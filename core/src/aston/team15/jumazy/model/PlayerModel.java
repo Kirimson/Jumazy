@@ -229,7 +229,8 @@ public class PlayerModel {
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " just picked up a " + newItem.toString());
 
-			if (newItem.getType().equals("held") && heldItems.size() > 6) {
+			if (newItem.getType().equals("held") && heldItems.size() > 7) {
+			    inventory.remove(inventory.size()-1);
 				return false;
 			} else {
 				if (newItem != Item.KEY && newItem != Item.TORCH) {
