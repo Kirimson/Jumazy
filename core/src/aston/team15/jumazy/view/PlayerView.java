@@ -49,17 +49,14 @@ public class PlayerView extends Actor {
 			break;
 		}
 		
-		if (style==2) {
+		if (style==2)
 			move.setReverse(true);
-		}
 
 		move.setDuration(0.05f);
 		this.addAction(move);
 	}
 
 	public void moveToStartOfTurn(int row, int col) {
-//		setX(col*32);
-//		setY(row*32);
 		addAction(Actions.sequence(Actions.moveTo(col*32, row*32, 0.5f)));
 	}
 
