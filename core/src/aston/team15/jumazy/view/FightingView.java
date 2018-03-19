@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -62,7 +63,6 @@ public class FightingView extends Stage {
 		
 		fightBar.add(playerHealth).left().expandX().height(124f).padLeft(37f);
 		fightBar.add(enemyHealth).right().expandX().height(124f).left().padLeft(260f);
-		
     }
 
     private void resumeGame() {
@@ -90,6 +90,7 @@ public class FightingView extends Stage {
 
 		playerHealth.setScaleX(scale * playerHealthPercent);
 		enemyHealth.setScaleX(scale * enemyHealthPercent);
+		GameSound.playPreFightSound();
 	}
 
 	public void rollDice() {
