@@ -230,6 +230,14 @@ public class JumazyController extends Game {
 				gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), false);
 				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
 
+				boolean bigLight;
+				if(maze.getCurrentPlayer().getInventory().contains(Item.TORCH))
+				    bigLight = true;
+				else
+				    bigLight = false;
+
+                gameScreen.setBigLight(bigLight);
+
 				return true;
 			} else {
 				return false;

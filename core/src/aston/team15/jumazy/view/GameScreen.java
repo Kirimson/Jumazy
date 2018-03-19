@@ -196,11 +196,6 @@ public class GameScreen implements Screen {
 				case Input.Keys.ESCAPE:
 					pause();
 					break;
-				case Input.Keys.ENTER:
-					game.handleGameInput(keycode);
-					lighttest = !lighttest;
-					light.increaseLightSize(lighttest);
-					break;
 				default:
 					game.handleGameInput(keycode);
 				}
@@ -295,10 +290,6 @@ public class GameScreen implements Screen {
 		pauseStage.getViewport().update(width, height);
 		fightingStage.getViewport().update(width, height);
 	}
-
-
-
-
 
 	/**
 	 * Overrides super class pause method, to switch the input processor to the
@@ -403,6 +394,9 @@ public class GameScreen implements Screen {
 	 *            appropriate animation
 	 */
 	public void openChest(int[] pos, Item item) {
+	    if(item == Item.TORCH)
+	        setBigLight(true);
+
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0])) {
@@ -730,7 +724,7 @@ public class GameScreen implements Screen {
 					((BlockView) a).changeSprite(
 							new Sprite(new Texture(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2]))));
 
-				if (a.getName().equals(pos[3] + "," + pos[2]))
+				if (a.getName().equals(pos[3] + "," + pos[2]) && pos[0] != 0 && pos[1] != 0)
 					((BlockView) a).changeSprite(
 							new Sprite(new Texture(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0]))));
 			}
@@ -795,4 +789,8 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 	}
+
+    public void setBigLight(boolean bigLight) {
+        light.increaseLightSize(bigLight);
+    }
 }

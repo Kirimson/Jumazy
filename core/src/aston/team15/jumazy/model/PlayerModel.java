@@ -225,11 +225,11 @@ public class PlayerModel {
 			
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " just picked up a " + newItem.toString());
-			
+
 			if (newItem.getType().equals("held") && heldItems.size() > 6) {
 				return false;
 			} else {
-				if (newItem != Item.KEY) {
+				if (newItem != Item.KEY && newItem != Item.TORCH) {
 					int newStat = playerStats.get(newItem.getStatEffected()) + newItem.getValue();
 					
 					playerStats.replace(newItem.getStatEffected(), newStat);
