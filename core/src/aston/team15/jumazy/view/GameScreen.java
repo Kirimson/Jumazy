@@ -695,7 +695,7 @@ public class GameScreen implements Screen {
 
 	private void startFight(LinkedHashMap<String, Integer> stats1, int keycode) {
         hud.setPlayerConsoleText("You've entered a fight! press SPACE to attack the monster!");
-		fightingStage.setupNewFight(stats1, game.generateMonsterStats(), players.get(currentPlayerIndex), keycode);
+		fightingStage.setupNewFight(stats1, game.generateMonsterStats(stats1), players.get(currentPlayerIndex), keycode);
 		fightingStage.show();
 
 		inFight = true;

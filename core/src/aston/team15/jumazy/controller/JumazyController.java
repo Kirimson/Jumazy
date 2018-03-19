@@ -303,7 +303,7 @@ public class JumazyController extends Game {
 		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
 	}
 
-	public LinkedHashMap<String, Integer> generateMonsterStats() {
+	public LinkedHashMap<String, Integer> generateMonsterStats(LinkedHashMap<String, Integer> playerstats) {
 		String monsterType = maze.getMonsterType(maze.getCurrentPlayer());
 
 		LinkedHashMap<String, Integer> monsterStats = new LinkedHashMap<String, Integer>();

@@ -234,6 +234,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Esc
+  rotate: false
+  xy: 2, 401
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 button
   rotate: false
   xy: 813, 228
@@ -379,13 +386,6 @@ floor-trap-spikes
   xy: 688, 22
   size: 32, 32
   orig: 32, 32
-  offset: 0, 0
-  index: -1
-game
-  rotate: false
-  xy: 2, 401
-  size: 512, 512
-  orig: 512, 512
   offset: 0, 0
   index: -1
 health
@@ -548,6 +548,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+game
+  rotate: false
+  xy: 2, 168
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 number12
   rotate: false
   xy: 2, 70
@@ -576,13 +583,6 @@ slider-knob
   orig: 32, 32
   offset: 0, 0
   index: -1
-tea
-  rotate: false
-  xy: 2, 168
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 wall-brick-missing
   rotate: false
   xy: 516, 550
@@ -609,5 +609,18 @@ wall-plain
   xy: 36, 36
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+
+jumazy-skin4.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tea
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

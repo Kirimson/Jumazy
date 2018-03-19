@@ -234,6 +234,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Esc
+  rotate: false
+  xy: 2, 510
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 button
   rotate: false
   xy: 260, 458
@@ -393,13 +400,6 @@ floor-trap-spikes
   xy: 929, 248
   size: 32, 32
   orig: 32, 32
-  offset: 0, 0
-  index: -1
-game
-  rotate: false
-  xy: 2, 510
-  size: 512, 512
-  orig: 512, 512
   offset: 0, 0
   index: -1
 hand
@@ -660,6 +660,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+game
+  rotate: false
+  xy: 2, 230
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 number12
   rotate: false
   xy: 516, 646
@@ -674,17 +681,23 @@ number13
   orig: 96, 96
   offset: 0, 0
   index: -1
-tea
-  rotate: false
-  xy: 2, 230
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 up
   rotate: false
   xy: 2, 100
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+
+jumazy-skin4.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tea
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

@@ -67,7 +67,7 @@ public class TutorialScreen extends MenuScreen {
 		controlTable.add(description).padTop(40).padLeft(-215);
 		controlTable.row();
 		
-		Image escapeKey = new Image(game.getSprite("space"));
+		Image escapeKey = new Image(game.getSprite("Esc"));
 		controlTable.add(escapeKey).width(40).height(20).padTop(20);
 		description = new Label("Press escape to pause.", skin);
 		description.setFontScale(0.75f);
