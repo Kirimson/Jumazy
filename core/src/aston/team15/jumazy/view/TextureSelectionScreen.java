@@ -40,6 +40,7 @@ public class TextureSelectionScreen extends MenuScreen {
 				game.updateSkin("medievel");
 				game.setScreen(new TextureSelectionScreen(game));
 				MenuScreen.setMedieval();
+				GameSound.setJungleMenuMusic();
 			}
 		});
 

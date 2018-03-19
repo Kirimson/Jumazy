@@ -53,13 +53,12 @@ public class GameSound {
 	}
 
     public static void playCorrectSound() {
-        Gdx.audio.newSound(Gdx.files.internal("snd/correct.wav")).play();
+        Gdx.audio.newSound(Gdx.files.internal("snd/correct.wav")).play(uniVol);
 
     }
 
     public static void playIncorrectSound() {
-        Gdx.audio.newSound(Gdx.files.internal("snd/incorrect.wav")).play();
-
+        Gdx.audio.newSound(Gdx.files.internal("snd/incorrect.wav")).play(uniVol);
     }
     
     public static void setJungleMenuMusic() {
