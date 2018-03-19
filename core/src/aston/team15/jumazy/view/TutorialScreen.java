@@ -197,7 +197,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image victory = new Image(game.getSprite("victory-statue"));
 		gameplayTable.add(victory).size(30).padTop(10);
-		description = new Label("To win the game you must get to this vcitory treasure", skin);
+		description = new Label("To win the game you must get to this victory treasure", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-200);
 		
