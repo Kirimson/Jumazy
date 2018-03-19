@@ -1,3 +1,11 @@
+/KEY:
+/O = Floor
+/# = Wall
+/W = Water
+/D = door dont know how they'll work in single format though
+/C = chest
+/E X = monster 1/2
+/Z = Boss
 /Room Type 1: Pillars
 OOOOOOOO
 OOOOC#OO
@@ -103,8 +111,8 @@ O#WDDW#O
 O#WDDW#O
 OZZVV##O
 OZZVV##O
-OW#TT#WO
-OW#TT#WO
+OW####WO
+OW####WO
 OOOEOOOO
 /Room Type 13: Water Lines
 OOOWWOOO
