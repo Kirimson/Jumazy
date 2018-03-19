@@ -2,6 +2,7 @@ package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 public class SettingsScreen extends MenuScreen {
@@ -19,9 +20,13 @@ public class SettingsScreen extends MenuScreen {
 		volumeSlider.setValue(GameSound.getVolumePercent());
 		String sliderVal = "" + volumeSlider.getValue();
 		percentage = new Label(sliderVal, skin);
+		percentage.setColor(Color.BLACK);
 		title = new Label("Settings", skin);
+		title.setColor(Color.BLACK);
+
 		title.setFontScale(2f);
 		volumeTitle = new Label("Volume: ", skin);
+		volumeTitle.setColor(Color.BLACK);
 		volumeTitle.setFontScale(1.3f);
 		
 		Table settingsTitle = new Table();
@@ -49,7 +54,7 @@ public class SettingsScreen extends MenuScreen {
 
 		settingsScroll.setFillParent(true);
 		settingsScroll.setPosition(0.0f, -85.0f);
-		settingsScroll.add(new Image(game.getSprite("scroll"))).height(355.0f);
+		settingsScroll.add(new Image(game.getSprite("settingsback"))).height(355.0f).width(600);
 
 		table.add(backButton).bottom().right().expand().pad(70);
 

@@ -14,7 +14,7 @@ public class Lighting extends Image{
     private boolean increaseSize = true;
 
     public Lighting() {
-        lightImage = new Sprite(new Texture("light.png"));
+        lightImage = new Sprite(new Texture("backgrounds/light.png"));
         lightImage.setOriginCenter();
     }
 

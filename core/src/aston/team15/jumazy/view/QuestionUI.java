@@ -1,5 +1,6 @@
 package aston.team15.jumazy.view;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.utils.Align;
 
 public class QuestionUI {
 
@@ -33,11 +35,14 @@ public class QuestionUI {
 		questionUIBG = new Table();
 		questionUIBG.setFillParent(true);
 		questionUIBG.padTop(-175);
-		questionUIBG.add(new Image(new Texture("scroll1.png"))).width(1300).height(550);
+		questionUIBG.add(new Image(game.getSprite("scroll"))).width(1300).height(550);
 
 		final JumazyButton btnSubmit = new JumazyButton("Submit", skin);
 		tfAnswer = new TextField("", skin);
+		tfAnswer.setAlignment(Align.center);
+
 		lQuestion = new Label("", skin);
+		lQuestion.setColor(Color.BLACK);
 
 		lQuestion.setFontScale(0.75f);
 

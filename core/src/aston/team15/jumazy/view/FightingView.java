@@ -47,12 +47,12 @@ public class FightingView extends Stage {
         fightBar = new Table(game.getSkin());
         fightBar.bottom();
 
-        fightBar.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("fightbarPNG.png"))));
+        fightBar.setBackground(new TextureRegionDrawable(new TextureRegion(game.getSprite("fight-bar"))));
 		fightBar.setHeight(124);
 		fightBar.setWidth(JumazyController.WORLD_WIDTH);
 
-		playerHealth = new Image(new Texture("health.png"));
-		enemyHealth = new Image(new Texture("health.png"));
+		playerHealth = new Image(game.getSprite("health"));
+		enemyHealth = new Image(game.getSprite("health"));
 		
 		playerHealth.setScaleX(scale);
 		enemyHealth.setScaleX(scale);

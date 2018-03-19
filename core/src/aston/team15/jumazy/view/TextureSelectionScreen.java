@@ -13,7 +13,7 @@ public class TextureSelectionScreen extends MenuScreen {
 	
 	public TextureSelectionScreen(JumazyController theGame) {
 		
-		super(theGame, "tBackground.jpg");
+		super(theGame, "backgrounds/tBackground.jpg");
 
 		JumazyButton texture1 = new JumazyButton("Current", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
 		texture1.addListener(new ClickListener() {

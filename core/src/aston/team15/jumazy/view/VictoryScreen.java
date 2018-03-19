@@ -13,11 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class VictoryScreen extends MenuScreen {
 
     public VictoryScreen(JumazyController game, int winningPlayer) {
-        super(game, "victoryBackground.jpg");
+        super(game, "backgrounds/victoryBackground.jpg");
 
-        Image background = new Image(new Texture("victoryBackground.jpg"));
-        background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
-        stage.addActor(background);
         table.top().padTop(225f);
 
         Skin skin = game.getSkin();

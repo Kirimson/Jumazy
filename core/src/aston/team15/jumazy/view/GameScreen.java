@@ -128,12 +128,12 @@ public class GameScreen implements Screen {
 					break;
 				case "C":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Closed.png"))),
+							new Sprite(game.getSprite("chest-closed")),
 							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "D":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							new Sprite(new Texture(generateLockedDoorTexture(maze, mazeX, mazeY))),
+							game.getSprite(generateLockedDoorTexture(maze, mazeX, mazeY)),
 							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "E":
@@ -146,7 +146,7 @@ public class GameScreen implements Screen {
 					break;
                 case "Z":
                     newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-                            new Sprite(new Texture(generateBossSprite(maze, mazeX, mazeY))),game.getSprite(generateRandomFloorTexture()));
+                            game.getSprite(generateBossSprite(maze, mazeX, mazeY)),game.getSprite(generateRandomFloorTexture()));
                     break;
 				case "1":
 				case "2":
@@ -400,7 +400,7 @@ public class GameScreen implements Screen {
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0])) {
-					((BlockView) a).changeSprite(new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Open.png"))));
+					((BlockView) a).changeSprite(new Sprite(game.getSprite("chest-open")));
 
 					if (item != null) {
 						gameStage.addAction(Actions.sequence(Actions.alpha(1)));
@@ -454,41 +454,34 @@ public class GameScreen implements Screen {
 	 */
 	private String generateLockedDoorTexture(String[][] maze, int mazeX, int mazeY) {
 
-		// left door
-		if (maze[mazeX][mazeY - 1].equals("D"))
-			return "addtoskin/door.png";
-		// right door
-		if (maze[mazeX][mazeY + 1].equals("D"))
-			return "addtoskin/door.png";
+		// horizontal door
+		if (maze[mazeX][mazeY - 1].equals("D") || maze[mazeX][mazeY + 1].equals("D"))
+			return "door";
+		// vertical door
+		if (maze[mazeX - 1][mazeY].equals("D") || maze[mazeX + 1][mazeY].equals("D"))
+			return "door-vertical";
 
-		// top door
-		if (maze[mazeX - 1][mazeY].equals("D"))
-			return "addtoskin/door-vertical.png";
-		// bottom door
-		if (maze[mazeX + 1][mazeY].equals("D"))
-			return "addtoskin/door-vertical.png";
-
-		return "arrow";
+		return "door";
 	}
 
     private String generateBossSprite(String[][] maze, int mazeX, int mazeY) {
 	    //upperright
         if (maze[mazeX][mazeY - 1].equals("Z") && maze[mazeX - 1][mazeY].equals("Z"))
-            return "addtoskin/bossUR.png";
+            return "bossUR";
 
         //upperleft
         if (maze[mazeX][mazeY + 1].equals("Z") && maze[mazeX - 1][mazeY].equals("Z"))
-            return "addtoskin/bossUL.png";
+            return "bossUL";
 
         //lowerright
         if (maze[mazeX][mazeY - 1].equals("Z") && maze[mazeX + 1][mazeY].equals("Z"))
-            return "addtoskin/bossLR.png";
+            return "bossLR";
 
         //lowerleft
         if (maze[mazeX][mazeY + 1].equals("Z") && maze[mazeX + 1][mazeY].equals("Z"))
-            return "addtoskin/bossLL.png";
+            return "bossLL";
 
-	    return  "";
+	    return  "bossUR";
     }
 
 	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY) {
@@ -722,11 +715,11 @@ public class GameScreen implements Screen {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0]))
 					((BlockView) a).changeSprite(
-							new Sprite(new Texture(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2]))));
+							game.getSprite(generateUnlockedDoorSprite(pos[1], pos[0], pos[3], pos[2])));
 
 				if (a.getName().equals(pos[3] + "," + pos[2]) && pos[0] != 0 && pos[1] != 0)
 					((BlockView) a).changeSprite(
-							new Sprite(new Texture(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0]))));
+							game.getSprite(generateUnlockedDoorSprite(pos[3], pos[2], pos[1], pos[0])));
 			}
 		}
 	}
@@ -748,18 +741,14 @@ public class GameScreen implements Screen {
 	 */
 	private String generateUnlockedDoorSprite(int thisRow, int thisCol, int otherRow, int otherCol) {
 
-		// right door
-		if (thisRow - 1 == otherRow)
-			return "addtoskin/door-open.png";
-		// left door
-		if (thisRow + 1 == otherRow)
-			return "addtoskin/door-open.png";
-		// top door
-		if (thisCol - 1 == otherCol)
-			return "addtoskin/door-vertical-open.png";
-		// bottom door
-		if (thisCol + 1 == otherCol)
-			return "addtoskin/door-vertical-open.png";
+		// horizontal door
+		if (thisRow - 1 == otherRow || thisRow + 1 == otherRow)
+			return "door-open";
+
+		// vertical door
+		if (thisCol - 1 == otherCol || thisCol + 1 == otherCol)
+			return "door-vertical-open";
+
 		return "arrow";
 	}
 

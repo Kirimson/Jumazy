@@ -50,7 +50,7 @@ public class CharacterSelectScreen implements Screen{
         selectedImages = new ArrayList<Image>();
 
         //background image
-        Image background = new Image(new Texture("playerSelectBackground.png"));
+        Image background = new Image(new Texture("backgrounds/playerSelectBackground.png"));
         stage.addActor(background);
 
         //setup table
@@ -71,13 +71,13 @@ public class CharacterSelectScreen implements Screen{
         playerImages.top();
 
         //large player image
-        Image bigCharImage = new Image(new Texture("addtoskin/character1Box.png"));
+        Image bigCharImage = new Image();
 
         class CharacterImage extends Image{
 
-            private CharacterImage(String internalPath, CharacterName name){
-                super(new Texture(internalPath));
-                Image image = this;
+            private CharacterImage(String atlasString, CharacterName name){
+                super(game.getSprite(atlasString));
+                Image image = new Image(game.getSprite("stat-indicator"));
 
                 addListener(new ClickListener(){
                     public void clicked(InputEvent event, float x, float y){
@@ -111,14 +111,14 @@ public class CharacterSelectScreen implements Screen{
                 CharacterName.FRANKLIN_FINBAR, CharacterName.SMOLDER_BRAVESTONE};
 
         //default character needs to be made here for simulated click
-        CharacterImage characterOne = new CharacterImage("addtoskin/character1Box.png", names[0]);
+        CharacterImage characterOne = new CharacterImage("character1Box", names[0]);
         playerImages.add(characterOne).align(Align.left).pad(10f);
         playerImages.add(new Label(names[0].getName(), skin)).align(Align.left);
         playerImages.row();
 
         //add characters to screen
         for(int i = 1; i < 4; i++){
-            playerImages.add(new CharacterImage("addtoskin/character"+(i+1)+"Box.png",
+            playerImages.add(new CharacterImage("character"+(i+1)+"Box",
                     names[i])).align(Align.left).pad(10f);
             playerImages.add(new Label(names[i].getName(), skin)).align(Align.left);
             playerImages.row();
@@ -189,7 +189,7 @@ public class CharacterSelectScreen implements Screen{
                 labelTable.add(new Label(stat, skin)).expandX().align(Align.left).padLeft(10f);
                 ArrayList<Image> imageList = new ArrayList<Image>();
                 for(int i = 0; i < statAmount.get(stat); i++){
-                    imageList.add(new Image(new Texture("addtoskin/stat-indicator.png")));
+                    imageList.add(new Image(game.getSprite("stat-indicator")));
                     labelTable.add(imageList.get((i))).padLeft(5f);
                 }
                 stats.put(stat, imageList);
@@ -315,9 +315,9 @@ public class CharacterSelectScreen implements Screen{
                 break;
             case SHELLY_OBERON:
                 infoPanelTitle.setText("Shelly Oberon");
-                infoText.setText("Shelly has greater stamina than the others. This lets him move further each turn " +
-                        "giving you an advantage in navigating the labyrinth! Your stamina is added to a dice roll, " +
-                        "which determines how far you can move each turn");
+                infoText.setText("Shelly is wiser than the others. This gives him a chance to pick locks you encounter" +
+                        "giving you an advantage in navigating the labyrinth! making paths where others may be blocked" +
+                        "off.");
                 for(int i = 0; i < stats.get("Intelligence").size(); i++)
                     if(i < 4) stats.get("Intelligence").get(i).setColor(1f,1f,1f,1f);
                     else stats.get("Intelligence").get(i).setColor(0f,0f,0f,0f);
