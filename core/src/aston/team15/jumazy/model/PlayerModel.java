@@ -204,6 +204,7 @@ public class PlayerModel {
 			return 2;
 
 		} else {
+			onChest = false;
 			if (JumazyController.DEBUG_ON)
 				System.out.println("Player " + playerSymbol + " tried to move, but failed. They have " + movesLeft
 						+ " moves left.\n" + maze.toString());
@@ -216,6 +217,8 @@ public class PlayerModel {
 			Item newItem = Item.values()[new Random().nextInt(Item.values().length)];
 			inventory.add(newItem);
 			ArrayList<Item> heldItems = new ArrayList<Item>();
+
+			currentPositionSymbol = "c";
 			
 			for (Item item : inventory) {
 				if (item.getType().equals("held")) {
