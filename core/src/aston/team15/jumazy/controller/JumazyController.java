@@ -175,7 +175,8 @@ public class JumazyController extends Game {
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
 		} else {
 			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health"),
-					true);
+					false);
+			gameScreen.getHUD().setPlayerConsoleText("You lost this fight! Try again when you're ready!");
 			moveCurrentPlayerToStartOfTurn();
 		}
 

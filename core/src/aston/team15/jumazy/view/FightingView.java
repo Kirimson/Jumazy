@@ -95,24 +95,30 @@ public class FightingView extends Stage {
 	}
 
 	public void rollDice() {
-		if(dice.isRollFinished()) {
-			if(dice.getStage() == null) {
-				this.addActor(dice);
-				this.addActor(dice2);
-			}
-			player.act(Gdx.graphics.getDeltaTime(), fightDirection, 2);
-			value1 = rng.nextInt(12)+1;
-			dice.setDie(value1);
-			dice.roll();
-					
-			value2 = rng.nextInt(10)+1;
-			dice2.setDie(value2);
-			dice2.roll();
-			System.out.println("rolled: " + value1 + " and " + value2);
-		}
+	    if(fightNotFinished()) {
+            if (dice.isRollFinished()) {
+                if (dice.getStage() == null) {
+                    this.addActor(dice);
+                    this.addActor(dice2);
+                }
+                player.act(Gdx.graphics.getDeltaTime(), fightDirection, 2);
+                value1 = rng.nextInt(12) + 1;
+                dice.setDie(value1);
+                dice.roll();
+
+                value2 = rng.nextInt(10) + 1;
+                dice2.setDie(value2);
+                dice2.roll();
+                System.out.println("rolled: " + value1 + " and " + value2);
+            }
+        }
 	}
 
-	public void winnerAttack() {
+    private boolean fightNotFinished() {
+	    return (currhp1 > 0) && (currhp2 > 0);
+    }
+
+    public void winnerAttack() {
 		if (value1>value2) {
 			currhp2 -= (value1 - value2);
 		} else if (value2 > value1) {

@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.GameSound;
@@ -27,6 +28,8 @@ import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 
 public class GameScreen implements Screen {
 
@@ -171,8 +174,10 @@ public class GameScreen implements Screen {
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
-				if(inFight)
-					inFight = false;
+				if(inFight) {
+                    fightingStage.keyDown(keycode);
+                    return true;
+                }
 
 				switch (keycode) {
 				case Input.Keys.ESCAPE:
@@ -260,41 +265,45 @@ public class GameScreen implements Screen {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0])) {
 					((BlockView) a).changeSprite(new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Open.png"))));
-										
+
 					if (item != null) {
 						gameStage.addAction(Actions.sequence(Actions.alpha(1)));
-						
-						Actor tempItemActor = new Actor() {
-							private Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
-							
-							public void setPosition(float x, float y) {
-								sprite.setScale(1.6f);
-								sprite.setPosition(x + blockSpriteDimensions/6, y);
-								
-								MoveByAction move = new MoveByAction();
-								move.setAmount(0, 50f);
-								move.setDuration(1f);
-								setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
-								addAction(move);
-								addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(1f)));
-							}
-							
-							public void draw(Batch batch, float parentAlpha) {
-								sprite.setPosition(getX() + blockSpriteDimensions/6, getY());
-							    sprite.setColor(getColor());
-								sprite.draw(batch, parentAlpha);
-							}
-						};
-						
-						tempItemActor.setPosition(a.getX(), a.getY());
-						
-						gameStage.addActor(tempItemActor);
+						fadeActorOut(new Sprite(game.getSprite(item.getAtlasString())), a.getX(), a.getY(), true);
 					}
 				}
 			}
 		}
 		
 	}
+
+	private void fadeActorOut(Sprite actorSprite, float x, float y, boolean moveUp){
+        Actor tempItemActor = new Actor() {
+            private Sprite sprite = actorSprite;
+
+            public void setPosition(float x, float y) {
+                if(moveUp) {
+                    sprite.setScale(1.6f);
+                    sprite.setPosition(x + blockSpriteDimensions / 6, y);
+                    MoveByAction move = new MoveByAction();
+                    move.setAmount(0, 50f);
+                    move.setDuration(1f);
+                    setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
+                    addAction(move);
+                } else super.setPosition(x, y);
+                addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(1f)));
+            }
+
+            public void draw(Batch batch, float parentAlpha) {
+                sprite.setPosition(getX(), getY());
+                sprite.setColor(getColor());
+                sprite.draw(batch, parentAlpha);
+            }
+        };
+
+        tempItemActor.setPosition(x, y);
+
+        gameStage.addActor(tempItemActor);
+    }
 
 	/**
 	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
@@ -586,11 +595,7 @@ public class GameScreen implements Screen {
 
 	private void startFight(int health1, int health2, int keycode) {
 		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
-
 		fightingStage.show();
-		Gdx.input.setInputProcessor(fightingStage);
-		
-		System.out.println("p1 h:"+health1+" p2: h:"+health2);
 		inFight = true;
 	}
 
@@ -683,8 +688,11 @@ public class GameScreen implements Screen {
 	public void removeMonster(int[] position) {
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
-				if (a.getName().equals(position[1] + "," + position[0]))
-					((BlockView) a).changeSprite(game.getSprite(generateRandomFloorTexture()));
+				if (a.getName().equals(position[1] + "," + position[0])) {
+                    fadeActorOut(((BlockView) a).getSprite(), a.getX(), a.getY(), false);
+                    ((BlockView) a).changeSprite(game.getSprite(generateRandomFloorTexture()));
+
+                }
 			}
 		}
 	}
