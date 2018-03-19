@@ -170,9 +170,17 @@ public class JumazyController extends Game {
     public void stopFight(boolean won) {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		if(won){
-			maze.getCurrentPlayer().editStat("Strength", 2, true);
+			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + 2;
+			if (newStat > 6) {
+				maze.getCurrentPlayer().getStats().replace("Strength", 6);
+				gameScreen.getHUD().setPlayerConsoleText("You won the fight! Your strength is already maxed out, maybe try the FINAL BOSS?");
+			} else {
+				gameScreen.getHUD().setPlayerConsoleText("You won the fight! Your strength increased by 2!");
+				maze.getCurrentPlayer().editStat("Strength", 2, true);
+			}
 			gameScreen.showStrengthIncrease();
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
+
 		} else {
 			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health"),
 					false);

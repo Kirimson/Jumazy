@@ -77,6 +77,7 @@ public class GameScreen implements Screen {
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 
 		game = aGame;
+        hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		gameStage = new Stage(viewport);
 		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
@@ -84,7 +85,7 @@ public class GameScreen implements Screen {
 		players = new ArrayList<PlayerView>();
 		questionUI = new QuestionUI(game);
 		pauseStage = new PauseView(game);
-		fightingStage = new FightingView(game);
+		fightingStage = new FightingView(game, hud);
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
 		currentPlayerInventory = new ArrayList<Item>();
@@ -164,7 +165,6 @@ public class GameScreen implements Screen {
 
 		uiStage.addActor(light);
 
-		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
 		
@@ -476,21 +476,20 @@ public class GameScreen implements Screen {
 		if (moveStyle==1) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			dice.decreaseRoll();
+            int rollsLeft = dice.getRoll();
+            if (rollsLeft > 0) {
+                dice.updateSprite(game.getSprite("number" + rollsLeft));
+                dice.act(keycode);
+                hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
+            } else {
+                dice.remove();
+                hud.setDiceLabel("No\nMoves\nLeft!");
+                hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
+            }
 		} else if (moveStyle==2) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			inFight = true;
 			startFight(currentPlayerStats.get("Health"), 10, keycode);
-		}
-
-		int rollsLeft = dice.getRoll();
-		if (rollsLeft > 0) {
-			dice.updateSprite(game.getSprite("number" + rollsLeft));
-			dice.act(keycode);
-			hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
-		} else {
-			dice.remove();
-			hud.setDiceLabel("No\nMoves\nLeft!");
-			hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
 		}
 	}
 
@@ -591,18 +590,21 @@ public class GameScreen implements Screen {
 		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
 		pauseStage.getViewport().update(width, height);
+		fightingStage.getViewport().update(width, height);
 	}
 
 	private void startFight(int health1, int health2, int keycode) {
+        hud.setPlayerConsoleText("You've entered a fight! press SPACE to fight the monster!");
 		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
 		fightingStage.show();
+
 		inFight = true;
 	}
 
 	@Override
 	public void pause() {
 		Gdx.input.setInputProcessor(pauseStage);
-		pauseStage.pause();
+        pauseStage.pause();
 		isPaused = true;
 	}
 
@@ -690,8 +692,7 @@ public class GameScreen implements Screen {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(position[1] + "," + position[0])) {
                     fadeActorOut(((BlockView) a).getSprite(), a.getX(), a.getY(), false);
-                    ((BlockView) a).changeSprite(game.getSprite(generateRandomFloorTexture()));
-
+                    ((BlockView) a).changeSprite(((BlockView) a).getBGSprite());
                 }
 			}
 		}

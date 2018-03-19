@@ -21,6 +21,10 @@ public class BlockView extends Actor {
 	public Sprite getSprite(){
 	    return sprite;
     }
+
+    public Sprite getBGSprite(){
+        return bgSprite;
+    }
 	
 	public BlockView(float xPos, float yPos, TextureRegion texture, TextureRegion backgroundTexture) {
 		bgSprite = new Sprite(backgroundTexture);

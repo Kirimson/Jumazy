@@ -8,16 +8,17 @@ import javax.sound.sampled.Clip;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class FightingView extends Stage {
 
     private Table fightBar;
-    private Table background;
     private float maxhp1;
 	private float maxhp2;
 	private float currhp1;
@@ -36,20 +37,19 @@ public class FightingView extends Stage {
 	private JumazyController game;
 	private PlayerView player;
 	private int fightDirection;
+	private HeadsUpDisplay hud;
 
-	FightingView(final JumazyController game) {
+	FightingView(final JumazyController game, HeadsUpDisplay hud) {
+		this.hud = hud;
     	this.game = game;
     	rng = new Random();
     	
-        fightBar = new Table();
+        fightBar = new Table(game.getSkin());
         fightBar.bottom();
-        fightBar.setFillParent(true);
 
-        background = new Table();
-        background.bottom();
-        background.setFillParent(true);
-        
-        background.add(new Image(new Texture("fightbarPNG.png"))).growX().height(124f);
+        fightBar.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("fightbarPNG.png"))));
+		fightBar.setHeight(124);
+		fightBar.setWidth(JumazyController.WORLD_WIDTH);
 
 		health1 = new Image(new Texture("health.png"));
 		health2 = new Image(new Texture("health.png"));
@@ -131,8 +131,7 @@ public class FightingView extends Stage {
 
 	public void show() {
 		// TODO Auto-generated method stub
-	   
-		this.addActor(background);
+
 		this.addActor(fightBar);
 	}
 	
@@ -159,7 +158,6 @@ public class FightingView extends Stage {
 	}
 	
 	public void remove() {
-		background.remove();
 		fightBar.remove();
 		dice.remove();
 		dice2.remove();
