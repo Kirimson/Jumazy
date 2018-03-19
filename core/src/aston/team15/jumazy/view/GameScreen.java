@@ -120,7 +120,7 @@ public class GameScreen implements Screen {
 					break;
 				case "V":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("victory-statue"));
+							game.getSprite("victory-statue"), game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "W":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
