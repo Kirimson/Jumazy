@@ -93,7 +93,7 @@ public class GameScreen implements Screen {
 		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
-		questionUI = new QuestionUI(game);
+		questionUI = new QuestionUI(game, hud);
 		pauseStage = new PauseView(game);
 		fightingStage = new FightingView(game);
 		currentPlayerStats = playerStats;

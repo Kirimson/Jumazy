@@ -378,7 +378,7 @@ public class MazeModel {
 	}
 
 	/**
-	 * Finds a doors position as well as it's other halfs position, given a player that has stepped on a door
+	 * Finds a doors position as well as it's other half's position, given a player that has stepped on a door
 	 * @param player PlayerModel that has stepped on a door
 	 * @return
 	 */
@@ -405,6 +405,7 @@ public class MazeModel {
 			positions[2]=row;
 			positions[3]=col+1;
 		}
+		
 		return positions;
 	}
 

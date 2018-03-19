@@ -168,7 +168,7 @@ public class JumazyController extends Game {
 
 				if (moveStyle != 0 && maze.getCurrentPlayer().isOnTrap()) {
 					if (new Random().nextDouble() < (0.15
-							+ ((double) maze.getCurrentPlayer().getStatFromHashMap("Agility")) / 20)) {
+							+ ((double) maze.getCurrentPlayer().getStatFromHashMap("Agility")) / 100)) {
 						gameScreen.getHUD().setPlayerConsoleText("Your agility helped you escape this trap!");
 					} else {
 						gameScreen.getHUD()

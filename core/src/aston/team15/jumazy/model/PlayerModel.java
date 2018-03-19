@@ -78,7 +78,7 @@ public class PlayerModel {
 
 		// intelligence:
 		// added chance a player can pick door locks
-//		int intelligence = 2;
+		int intelligence = 2;
 
 		currentPositionSymbol = "O";
 		movesLeft = 0;
@@ -92,11 +92,10 @@ public class PlayerModel {
 			break;
 		case FRANKLIN_FINBAR:
 			luck += 2;
-//			intelligence += 1;
+			intelligence += 1;
 			break;
 		case SHELLY_OBERON:
-//			intelligence += 2;
-			stamina += 1;
+			intelligence += 2;
 			break;
 		}
 
@@ -107,6 +106,7 @@ public class PlayerModel {
 		playerStats.put("Strength", strength);
 		playerStats.put("Agility", agility);
 		playerStats.put("Luck", luck);
+		playerStats.put("Intelligence", intelligence);
 
 		maze.setCoordinateString(row, col, playerSymbol);
 	}
@@ -121,9 +121,7 @@ public class PlayerModel {
 
 		//if Door
 		if(maze.getCoordinateString(newRow, newCol).equals("D")){
-			System.out.println("HERE");
 			if(inventory.contains(Item.KEY)){
-				System.out.println("here");
 				inventory.remove(Item.KEY);
 				valid = true;
 			}
