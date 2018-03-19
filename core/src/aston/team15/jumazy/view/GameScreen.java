@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
 	 * Creates a new GameScreen object. Comes with multiple stages for the game, ui
 	 * and pause layers. Creates the maze in a graphical form, using the text format
 	 * as a key for graphics
-	 * 
+	 *
 	 * @param aGame
 	 *            {@link JumazyController} object
 	 * @param playerAmount
@@ -134,6 +134,10 @@ public class GameScreen implements Screen {
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							game.getSprite("mummy"),game.getSprite(generateRandomFloorTexture()));
 					break;
+                case "Z":
+                    newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+                            new Sprite(new Texture(generateBossSprite(maze, mazeX, mazeY))),game.getSprite(generateRandomFloorTexture()));
+                    break;
 				case "1":
 				case "2":
 				case "3":
@@ -193,7 +197,7 @@ public class GameScreen implements Screen {
 				return true;
 			}
 		});
-		
+
 		fightingStage.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
             	if(inFight) {
@@ -205,14 +209,14 @@ public class GameScreen implements Screen {
             	return true;
             }
         });
-		
+
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
 	}
 
-	public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory, boolean pickup) {
+    public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory, boolean pickup) {
 		ArrayList<Item> inventory = playerInventory;
-		
+
 		if (pickup) {
 			Item lastItem = inventory.get(inventory.size()-1);
 			if (lastItem.getStatEffected() != null) {
@@ -224,27 +228,27 @@ public class GameScreen implements Screen {
 			}
 		}
 	}
-	
+
 	public void renderInventory(ArrayList<Item> inventory) {
 		ArrayList<Item> inventoryView = new ArrayList<Item>();
-		
+
 		for (Item item : inventory) {
 			if (item.getType().equals("held")) {
 				inventoryView.add(item);
 			}
 		}
-		
+
 		int xPos = 610;
-		for (Item item : inventoryView) {			
+		for (Item item : inventoryView) {
 			ItemView itemView = new ItemView(game.getSprite(item.getAtlasString()));
 			itemView.setVisible(true);
-			
+
 			itemView.setPosition(xPos, 35);
 			xPos += 70;
 			uiStage.addActor(itemView);
 		}
 	}
-	
+
 	public void clearInventory() {
 		for (Actor actor : uiStage.getActors()) {
 			if (actor instanceof ItemView) {
@@ -252,7 +256,7 @@ public class GameScreen implements Screen {
 			}
 		}
 	}
-	
+
 	public void openChest(int[] pos, Item item) {
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
@@ -266,7 +270,7 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-		
+
 	}
 
 	private void fadeActorOut(Sprite actorSprite, float x, float y, boolean moveUp){
@@ -300,7 +304,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
-	 * 
+	 *
 	 * @param maze
 	 *            the maze string
 	 * @param mazeX
@@ -328,6 +332,26 @@ public class GameScreen implements Screen {
 		return "arrow";
 	}
 
+    private String generateBossSprite(String[][] maze, int mazeX, int mazeY) {
+	    //upperright
+        if (maze[mazeX][mazeY - 1].equals("Z") && maze[mazeX - 1][mazeY].equals("Z"))
+            return "addtoskin/bossUR.png";
+
+        //upperleft
+        if (maze[mazeX][mazeY + 1].equals("Z") && maze[mazeX - 1][mazeY].equals("Z"))
+            return "addtoskin/bossUL.png";
+
+        //lowerright
+        if (maze[mazeX][mazeY - 1].equals("Z") && maze[mazeX + 1][mazeY].equals("Z"))
+            return "addtoskin/bossLR.png";
+
+        //lowerleft
+        if (maze[mazeX][mazeY + 1].equals("Z") && maze[mazeX + 1][mazeY].equals("Z"))
+            return "addtoskin/bossLL.png";
+
+	    return  "";
+    }
+
 	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY) {
 
 		if (mazeY > 0 && mazeY < maze[0].length - 1) {
@@ -344,7 +368,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * generates correct type of wall depending on walls relative to this wall
-	 * 
+	 *
 	 * @return string for wall texture
 	 * @param maze
 	 *            the maze string
@@ -391,7 +415,7 @@ public class GameScreen implements Screen {
 	/**
 	 * generates random types of walls, 90% of normal wall, 5% of leaf wall and 5%
 	 * of missing brick
-	 * 
+	 *
 	 * @return type of wall
 	 */
 	private String randomWallTexture() {
@@ -407,7 +431,7 @@ public class GameScreen implements Screen {
 	/**
 	 * generates a random floor texture, 5% chance of cracked floor/square missing
 	 * 90% chance of normal tile,
-	 * 
+	 *
 	 * @return string for floor texture
 	 */
 	private String generateRandomFloorTexture() {
@@ -423,7 +447,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Creates a new question and adds QuestionUI to the uiStage
-	 * 
+	 *
 	 * @param questionAndAns string containing both question and answer for question
 	 */
 	public void createQuestion(String[] questionAndAns) {
@@ -433,7 +457,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Check if question UI Actor isn't on the stage
-	 * 
+	 *
 	 * @return boolean if riddle isn't open
 	 */
 	public boolean riddleIsntOpen() {
@@ -448,7 +472,7 @@ public class GameScreen implements Screen {
 	/**
 	 * sets the current player to a new player, adjusts the dice's position for when
 	 * it's next going to be drawn
-	 * 
+	 *
 	 * @param newPlayerIndex
 	 *            new player number
 	 */
@@ -462,7 +486,7 @@ public class GameScreen implements Screen {
 	 * Moves the current player in the view, calls the current players act method,
 	 * passing the keycode to move the player on screen Then decreases/removes dice
 	 * actors sprite accordingly
-	 * 
+	 *
 	 * @param moveStyle int of player move style. 1 is normal, 2 reversed 0 invalid
 	 * @param keycode direction the player moved
 	 */
@@ -491,7 +515,7 @@ public class GameScreen implements Screen {
 	/**
 	 * handles moving the player view back to the start position of their turn, also
 	 * removes the dice from the stage
-	 * 
+	 *
 	 * @param position position to move player to
 	 */
 	public void movePlayerToStartOfMove(int[] position) {
@@ -502,7 +526,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Applies the current weather affect to the maze, overlays the entire maze,
 	 * rather than the entire screen.
-	 * 
+	 *
 	 * @param weather
 	 *            enum type of weather in the maze
 	 * @param width
@@ -550,7 +574,7 @@ public class GameScreen implements Screen {
 			fightingStage.act(Gdx.graphics.getDeltaTime());
 			fightingStage.draw();
 		}
-		
+
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
 	}
@@ -624,7 +648,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Finds the door actor that the player stepped on, then updates its sprite,
 	 * casting the Actor to a BlockView
-	 * 
+	 *
 	 * @param pos
 	 *            door's position for both blocks
 	 */
@@ -648,7 +672,7 @@ public class GameScreen implements Screen {
 	 * generates the correct texture for an unlocked door. Works differently to
 	 * other texture generators as it edits existing actors and needs to compare
 	 * itself against another position within the maze that has been pre-defined
-	 * 
+	 *
 	 * @param thisRow
 	 *            this door part's row
 	 * @param thisCol
@@ -682,13 +706,16 @@ public class GameScreen implements Screen {
 	}
 
 	public void removeMonster(int[] position) {
-		for (Actor a : gameStage.getActors()) {
-			if (a instanceof BlockView) {
-				if (a.getName().equals(position[1] + "," + position[0])) {
-                    fadeActorOut(((BlockView) a).getSprite(), a.getX(), a.getY(), false);
-                    ((BlockView) a).changeSprite(((BlockView) a).getBGSprite());
+
+        for (int i = 0; i <= position.length-1; i = i + 2) {
+            for (Actor a : gameStage.getActors()) {
+                if (a instanceof BlockView && position[i+1] != 0 && position[i] != 0) {
+                    if (a.getName().equals(position[i+1] + "," + position[i])) {
+                        fadeActorOut(((BlockView) a).getSprite(), a.getX(), a.getY(), false);
+                        ((BlockView) a).changeSprite(((BlockView) a).getBGSprite());
+                    }
                 }
-			}
-		}
+            }
+        }
 	}
 }

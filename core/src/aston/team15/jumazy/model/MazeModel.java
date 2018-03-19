@@ -21,7 +21,7 @@ public class MazeModel {
 		
 		private final String desc;
 		
-		private Weather(String desc) {
+		Weather(String desc) {
 			this.desc = desc;
 		}
 		
@@ -173,7 +173,6 @@ public class MazeModel {
 		//make doors down the maze columns
 		for (int x = 9; x < (roomsAcross * 10) - 1; x += 10) {
 			boolean locked = false;
-			int count = 1;
 			for (int y = 2; y < (roomsDown * 10) - 1; y += 10) {
 				if (y % 9 != 0) {
 
@@ -205,7 +204,6 @@ public class MazeModel {
 					lockedDoors.add(locked);
 				} else
 					y -= 2;
-				count++;
 			}
 		}
 		lockedDoors.add(true);
@@ -411,6 +409,7 @@ public class MazeModel {
         ArrayList<String> monsters = new ArrayList<String>();
         monsters.add("E");
         monsters.add("X");
+        monsters.add("Z");
 
         int[] monsterPos = new int[2];
 
@@ -437,7 +436,46 @@ public class MazeModel {
 		int row = position[0];
 		int col = position[1];
 
-		int[] monsterPos = findMonsterCoordinate(row, col);
+		int[] monsterPos = new int[8];
+
+		monsterPos[0] = findMonsterCoordinate(row, col)[0];
+		monsterPos[1] = findMonsterCoordinate(row, col)[1];
+
+        if(maze[monsterPos[0]][monsterPos[1]].equals("Z")){
+            //fought bottom of boss
+            if(maze[monsterPos[0]+1][monsterPos[1]].equals("Z")){
+                System.out.println("here");
+                setCoordinateString(monsterPos[0], monsterPos[1]+1, "O");
+                monsterPos[2] = monsterPos[0];
+                monsterPos[3] = monsterPos[1]+1;
+
+                setCoordinateString(monsterPos[0]+1, monsterPos[1]+1, "O");
+                monsterPos[4] = monsterPos[0]+1;
+                monsterPos[5] = monsterPos[1]+1;
+
+                setCoordinateString(monsterPos[0]+1, monsterPos[1], "O");
+                monsterPos[6] = monsterPos[0]+1;
+                monsterPos[7] = monsterPos[1];
+            }
+            else //fought top of boss
+            {
+                setCoordinateString(monsterPos[0], monsterPos[1]+1, "O");
+                monsterPos[2] = monsterPos[0];
+                monsterPos[3] = monsterPos[1]+1;
+
+                setCoordinateString(monsterPos[0]-1, monsterPos[1]+1, "O");
+                monsterPos[4] = monsterPos[0]-1;
+                monsterPos[5] = monsterPos[1]+1;
+
+                setCoordinateString(monsterPos[0]-1, monsterPos[1], "O");
+                monsterPos[6] = monsterPos[0]-1;
+                monsterPos[7] = monsterPos[1];
+
+            }
+        }
+
+        System.out.println(toString());
+        System.out.println("ppos"+position[0]+","+position[1]);
 		setCoordinateString(monsterPos[0], monsterPos[1], "O");
 
 		return monsterPos;
@@ -445,7 +483,6 @@ public class MazeModel {
 
     public String getMonsterType(PlayerModel currentPlayer) {
         int[] monsterPos = findMonsterCoordinate(currentPlayer.getPosition()[0], currentPlayer.getPosition()[1]);
-        System.out.println(maze[monsterPos[0]][monsterPos[1]]);
         return maze[monsterPos[0]][monsterPos[1]];
     }
 

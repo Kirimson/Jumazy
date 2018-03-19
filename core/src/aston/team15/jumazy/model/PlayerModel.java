@@ -44,7 +44,7 @@ public class PlayerModel {
 	private LinkedHashMap<String, Integer> playerStats;
 	private boolean onDoor;
 	private boolean onStuckChest;
-	private String[] enemies = new String[] {"E","X","1","2","3","4"};
+	private String[] enemies = new String[] {"E","X","Z"};
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
