@@ -10,7 +10,7 @@ public enum Item {
 	SWORD("Sword", 2, "Strength", "held", "sword"),
 	BOWANDARROW("Bow and Arrow", 2, "Strength", "held", "arrow"),
 	KEY("Key", 0, null, "held", "key"),
-	TORCH("Torch", 0, null, "held", "key");
+	TORCH("Torch", 0, null, "held", "torch");
 
 	private final String name;
 	private final int value;
