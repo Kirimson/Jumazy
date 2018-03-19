@@ -642,7 +642,7 @@ public class GameScreen implements Screen {
                 hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
             } else {
                 dice.remove();
-                hud.setDiceLabel("No\nMoves\nLeft!");
+                hud.setDiceLabel("No Moves\nLeft!\n\nHit Enter!");
                 hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
             }
 		} else if (moveStyle==2) {
