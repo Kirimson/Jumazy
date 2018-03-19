@@ -44,6 +44,7 @@ public class PlayerModel {
 	private boolean onDoor;
 	private boolean onStuckChest;
 	String[] enemies = new String[] {"E","X","1","2","3","4"};
+	private boolean pickedDoor = false;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -123,6 +124,9 @@ public class PlayerModel {
 		if(maze.getCoordinateString(newRow, newCol).equals("D")){
 			if(inventory.contains(Item.KEY)){
 				inventory.remove(Item.KEY);
+				valid = true;
+			} else if (new Random().nextDouble() < ((double) playerStats.get("Intelligence"))/10) {
+				pickedDoor = true;
 				valid = true;
 			}
 		}
@@ -320,9 +324,9 @@ public class PlayerModel {
 		return currentPositionSymbol.equals("V");
 	}
 
-//	public Integer[] getStatsArray() {
-//		return playerStats.values().toArray(new Integer[0]);
-//	}
+	public boolean pickedDoor() {
+		return pickedDoor;
+	}
 	
 	public LinkedHashMap<String, Integer> getStats(){
 		return playerStats;

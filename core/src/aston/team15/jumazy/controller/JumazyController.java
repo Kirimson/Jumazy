@@ -212,6 +212,9 @@ public class JumazyController extends Game {
 
 				if (maze.getCurrentPlayer().isOnDoor()) {
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
+					if (maze.getCurrentPlayer().pickedDoor()) {
+						gameScreen.getHUD().setPlayerConsoleText("You used your intelligence to pick this door's lock!");
+					}
 				}
 
 				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
