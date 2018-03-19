@@ -14,6 +14,7 @@ public class TutorialScreen extends MenuScreen {
 	private Skin skin;
 	private Table controlTable;
 	private Table itemsTable;
+	private Table gameplayTable;
 	private Table statsTable;
 	private Label description;
 	
@@ -25,6 +26,7 @@ public class TutorialScreen extends MenuScreen {
 
 		controlsSection();
 		itemsSection();
+		gameplaySection();
 		statsSection();
 		
 		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
@@ -63,6 +65,13 @@ public class TutorialScreen extends MenuScreen {
 		description = new Label("Use the arrow keys to move your character.", skin);
 		description.setFontScale(0.75f);
 		controlTable.add(description).padTop(40).padLeft(-215);
+		controlTable.row();
+		
+		Image escapeKey = new Image(game.getSprite("space"));
+		controlTable.add(escapeKey).width(40).height(20).padTop(20);
+		description = new Label("Press escape to pause.", skin);
+		description.setFontScale(0.75f);
+		controlTable.add(description).padTop(20);
 		
 		stage.addActor(controlTable);
 		description.getStyle().fontColor = Color.WHITE;
@@ -76,7 +85,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		description = new Label("Items", skin);
 		description.setFontScale(1.1f);
-		itemsTable.add(description);
+		itemsTable.add(description).padLeft(20);
 		itemsTable.row();
 		
 		Image healthPotion = new Image(game.getSprite("potion-red"));
@@ -119,44 +128,80 @@ public class TutorialScreen extends MenuScreen {
 		description.setFontScale(0.75f);
 		itemsTable.add(grapes).size(30).padTop(10);
 		itemsTable.add(description).padTop(10);
+		itemsTable.row();
+		
+		Image key = new Image(game.getSprite("key"));
+		description = new Label("Unlocks doors", skin);
+		description.setFontScale(0.75f);
+		itemsTable.add(key).size(30).padTop(10).padLeft(-10);
+		itemsTable.add(description).padTop(10);
 		
 		stage.addActor(itemsTable);
 	}
 	
 	public void statsSection() {
-		
 		statsTable = new Table();
 		statsTable.setFillParent(true);
-		statsTable.center().padTop(300);
+		statsTable.right().padRight(40).bottom().padBottom(130);
 		
-		description = new Label("Stats & Gameplay", skin);
+		description = new Label("Stats", skin);
 		description.setFontScale(1.1f);
-		statsTable.add(description).padLeft(-450);
+		statsTable.add(description).padLeft(-525);
 		statsTable.row();
 		
-		description = new Label("HP: This is your health and if it hits 0 you will be spawned back where you started. "
+		description = new Label("HP: This is your health and if it hits 0 you will be spawned back where you started."
 				+ "\nSTAMINA: The amount of stamina you have is added onto your dice roll."
 				+ "\nLUCK: This effects your chances of recieving an item from a chest."
-				+ "\nSTRENGTH: This increases your chances of winning fights against monsters.", skin);
-		description.setFontScale(0.75f);
+				+ "\nSTRENGTH: This increases your chances of winning fights against monsters."
+				+ "\nAGILITY: This increases your chance of skipping a trap"
+				+ "\nINTELLIGENCE: This increases your chances of opening doors without keys by lock picking.", skin);
+		description.setFontScale(0.65f);
 		statsTable.add(description);
 		statsTable.row();
+		stage.addActor(statsTable);
+	}
+	
+	public void gameplaySection() {
+		gameplayTable = new Table();
+		gameplayTable.setFillParent(true);
+		gameplayTable.left().padLeft(0).bottom().padBottom(50);
+		
+		description = new Label("Gameplay", skin);
+		description.setFontScale(1.1f);
+		gameplayTable.add(description).padLeft(50);
+		gameplayTable.row();
 		
 		Image chest = new Image(new Texture("chest-gold.png"));
-		statsTable.add(chest).size(50).padLeft(-600);
+		gameplayTable.add(chest).size(50).padTop(10);
 		description = new Label("You can recieve special items to help you towards vitory", skin);
-		description.setFontScale(0.75f);
-		statsTable.add(description).padLeft(-740);
-		statsTable.row();
+		description.setFontScale(0.65f);
+		gameplayTable.add(description).padTop(10).padLeft(-200);
+		gameplayTable.row();
 		
 		Image trap = new Image(game.getSprite("floor-trap-spikes"));
-		statsTable.add(trap).size(30).padLeft(-600);
+		gameplayTable.add(trap).size(30).padTop(10);
 		description = new Label("These are traps! if stepped on a question will have to be answered."
 				+ "\nGet it correct, you may pass. Get it wrong and you will be punished.", skin);
-		description.setFontScale(0.75f);
-		statsTable.add(description).padLeft(-650);
+		description.setFontScale(0.65f);
+		gameplayTable.add(description).padTop(10).padLeft(-120);
+		gameplayTable.row();
 		
-		stage.addActor(statsTable);
+		Image monster = new Image(game.getSprite("skeleton"));
+		gameplayTable.add(monster).size(30).padTop(10);
+		description = new Label("You can recieve more strength by fighting monsters. You and the monster both"
+				+ "\nroll a dice and if you roll 6 and the monster rolls 2, the monster will lose 4 hp."
+				+ "\nThe amount of strength you have is added on to what you roll.", skin);
+		description.setFontScale(0.65f);
+		gameplayTable.add(description).padTop(10).padLeft(-50);
+		gameplayTable.row();
+		
+		Image victory = new Image(game.getSprite("victory-statue"));
+		gameplayTable.add(victory).size(30).padTop(10);
+		description = new Label("To win the game you must get to this vitory treasure", skin);
+		description.setFontScale(0.65f);
+		gameplayTable.add(description).padTop(10).padLeft(-200);
+		
+		stage.addActor(gameplayTable);
 	}
 	
 	@Override
