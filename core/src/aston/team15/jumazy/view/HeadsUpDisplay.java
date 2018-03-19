@@ -126,7 +126,7 @@ public class HeadsUpDisplay extends Table {
 		this.currentPlayerStats = currentPlayerStats;
 		setStatLabels(currentPlayerStats);
 		update(currentPlayerNumber);
-		this.debugAll();
+//		this.debugAll();
 	}
 
 	public void update(int newPlayerNumber) {
