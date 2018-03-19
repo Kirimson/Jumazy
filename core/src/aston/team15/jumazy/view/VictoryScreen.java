@@ -23,7 +23,7 @@ public class VictoryScreen extends MenuScreen {
         table.add(victoryString);
         table.row().pad(10);
 
-        MenuScreenButton playAgainButton = new MenuScreenButton("Play Again", MenuScreens.START_GAME_SCREEN, game);
+        MenuScreenButton playAgainButton = new MenuScreenButton("Play Again", MenuScreens.MAIN_MENU_SCREEN, game);
         table.add(playAgainButton);
         table.row().pad(10);
 
