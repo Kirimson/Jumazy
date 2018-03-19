@@ -54,34 +54,35 @@ public class QuestionRetriever {
 	 */
 	public String[] retrieveRiddle() {
 		String fileName = selectFile();
-
 		FileHandle csv = Gdx.files.internal(fileName);
-
-		boolean questionUsedBefore = false;
+		boolean questionUsedBefore;
 		Scanner inputStream = new Scanner(csv.read());
 		String line;
 		List<String> lines = new ArrayList<>();
+		
 		while (inputStream.hasNext()) {
 			line = inputStream.nextLine();
 			lines.add(line);
 		}
 
 		do {
+			questionUsedBefore = false;
 			Collections.shuffle(lines);
 			cells = lines.get(0).split("_");
+			
 			for (String ques : lastQuestion) {
+				
 				if (cells[0].equals(ques)) {
 					questionUsedBefore = true;
-
-
 				}
+				
 			}
+			
 		} while (questionUsedBefore == true);
 
 		inputStream.close();
-
 		lastQuestion.add(cells[0]);
-
+		
 		return cells;
 	}
 
