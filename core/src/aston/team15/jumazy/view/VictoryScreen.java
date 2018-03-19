@@ -1,14 +1,13 @@
 package aston.team15.jumazy.view;
 
-import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import aston.team15.jumazy.controller.JumazyController;
 
 public class VictoryScreen extends MenuScreen {
 
