@@ -80,7 +80,7 @@ public class CharacterSelectScreen implements Screen{
 
             private CharacterImage(String atlasString, CharacterName name){
                 super(game.getSprite(atlasString));
-                Image image = new Image(game.getSprite("stat-indicator"));
+                Image image = this;
 
                 addListener(new ClickListener(){
                     public void clicked(InputEvent event, float x, float y){
