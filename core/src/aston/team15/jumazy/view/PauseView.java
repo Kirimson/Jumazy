@@ -1,35 +1,49 @@
 package aston.team15.jumazy.view;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PauseView extends Stage {
 
     private Table table;
     private Table background;
+    MoveToAction tableMA;
+    MoveToAction backgroundMA;
 
     public PauseView (final JumazyController game){
         table = new Table();
         table.setFillParent(true);
-        table.top().padTop(300f);
+        table.top().padTop(-400);
 
         background = new Table();
         background.setFillParent(true);
-        background.top().padTop(0f);
+        background.top().padTop(-400);
+
+		tableMA = new MoveToAction();
+		backgroundMA = new MoveToAction();
+		tableMA.setPosition(0f, -700f);
+		tableMA.setDuration(0.25f);
+		backgroundMA.setPosition(0f, -375f);
+		backgroundMA.setDuration(0.25f);
+		table.addAction(tableMA);
+		background.addAction(backgroundMA);
 
         background.add(new Image(game.getSprite("pause-dialog")));
 
-        TextButton resumeButton = new TextButton("Resume", game.getSkin());
+        JumazyButton resumeButton = new JumazyButton("Resume", game.getSkin());
 
         resumeButton.addListener(new ClickListener() {
              public void clicked(InputEvent event, float x, float y) {
+            	 GameSound.playButtonSound();
+            	
                  remove();
                  game.resume();
              }
@@ -59,7 +73,8 @@ public class PauseView extends Stage {
     }
 
     public void remove() {
-        background.remove();
+
+    	background.remove();
         table.remove();
     }
 }

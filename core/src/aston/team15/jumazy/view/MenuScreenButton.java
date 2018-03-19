@@ -1,16 +1,15 @@
 package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.GameSound;
+import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import aston.team15.jumazy.controller.JumazyController;
-
-public class MenuScreenButton extends TextButton {
+public class MenuScreenButton extends JumazyButton {
 
 	public MenuScreenButton(String string, final MenuScreens startGameScreen, final JumazyController game) {
 		super(string, game.getSkin());
+
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				GameSound.playButtonSound();

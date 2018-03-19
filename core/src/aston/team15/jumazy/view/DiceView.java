@@ -23,6 +23,7 @@ public class DiceView extends Actor {
 	private boolean canRoll = true;
 	private long lastTime = System.nanoTime();
 	private int finalDie = -1;
+	private int rollResult;
 	private final JumazyController game;
 
 	private Sprite sprite;
@@ -34,7 +35,7 @@ public class DiceView extends Actor {
 	}
 
 	public void setPosition(float xPos, float yPos) {
-		sprite.setPosition(xPos + 32f, yPos + 32f);
+//		sprite.setPosition(xPos + 32f, yPos + 32f);
 	}
 
 	public void updateSprite(TextureRegion textureRegion) {
@@ -91,6 +92,7 @@ public class DiceView extends Actor {
 
 	public void decreaseRoll() {
 		if (finalDie >= 1) {
+
 			finalDie--;
 		}
 	}
@@ -127,6 +129,8 @@ public class DiceView extends Actor {
 			currentElapsedTime += (float) ((time - lastTime) / 1000000);
 			lastTime = time;
 		}
+		
+		rollResult = rollNumber;
 		return rollNumber;
 	}
 
@@ -139,6 +143,10 @@ public class DiceView extends Actor {
 		sprite.draw(batch, parentAlpha);
 	}
 
+	public int getRollResult() {
+		return rollResult;
+	}
+	
 	public int getRoll() {
 		return finalDie;
 	}

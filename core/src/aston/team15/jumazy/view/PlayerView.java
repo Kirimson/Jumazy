@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 public class PlayerView extends Actor {
@@ -48,12 +49,17 @@ public class PlayerView extends Actor {
 			break;
 		}
 		
-		if (style==2) {
+		if (style==2)
 			move.setReverse(true);
-		}
 
-		move.setDuration(0.1f);
-		PlayerView.this.addAction(move);
+		move.setDuration(0.05f);
+		this.addAction(move);
 	}
+
+	public void moveToStartOfTurn(int row, int col) {
+		addAction(Actions.sequence(Actions.moveTo(col*32, row*32, 0.5f)));
+	}
+
+//	public void moveTo
 
 }

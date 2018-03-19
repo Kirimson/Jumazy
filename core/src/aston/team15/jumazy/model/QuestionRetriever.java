@@ -1,80 +1,89 @@
 package aston.team15.jumazy.model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+
+import java.util.*;
 
 public class QuestionRetriever {
 	private String[] cells = null;
-	private String geoLevel;
-	private String mathsLevel;
-	private String histoLevel;
-	private ArrayList<String> questionRandomiser = new ArrayList<>();
-	private ArrayList<String> keyHolder = new ArrayList<>();
-	
+	private ArrayList<String> questionRandomiser;
+	private HashMap<String, String> categoryLevels;
+	private ArrayList<String> lastQuestion = new ArrayList<>();
+	private Scanner inputStream;
+	private List<String> lines = new ArrayList<>();
+
 	public void chosenTypes(HashMap<String, String> levels) {
-		for (String key : levels.keySet()) {
-		    keyHolder.add(key);
-		}
-		
-		for(int i = 0; i < keyHolder.size()-1; i++) {
-			String level = levels.get(keyHolder.get(i));
-			if(keyHolder.get(i).equals("geography") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
-				geoLevel = level;
-				questionRandomiser.add("geography");
-			}
-			else if(keyHolder.get(i).equals("maths") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
-				mathsLevel = level;
-				questionRandomiser.add("maths");
-			}
-			else if(keyHolder.get(i).equals("history") && (level.equals("Easy") || level.equals("Medium") || level.equals("Hard"))) {
-				histoLevel = level;
-				questionRandomiser.add("history");
+		questionRandomiser = new ArrayList<String>();
+		// adds to a HashMap the categories and level if they are checked
+		categoryLevels = new HashMap<String, String>();
+		for (String category : levels.keySet()) {
+			System.out.println(category);
+			switch (levels.get(category)) {
+			case "Easy":
+			case "Medium":
+			case "Hard":
+				categoryLevels.put(category, levels.get(category));
+				break;
 			}
 		}
-	}
-	
-	public String selectFile() {
-		Collections.shuffle(questionRandomiser);
-		String selectedType = questionRandomiser.get(0);
-		String fileName = "";
 
-		if (selectedType.equals("geography")) {
-			fileName = "../assets/questions/geography" + geoLevel + ".csv";
-		} else if (selectedType.equals("maths")) {
-			fileName = "../assets/questions/maths" + mathsLevel + ".csv";
-		}
-		/* } else if(selectedType.equals("history")) {
-			fileName = "../assets/questions/history" + histoLevel + ".csv";
-		} */
-
-		return fileName;
 	}
 
-	public String[] retrieveRiddle() {
-		String fileName = selectFile();
-		File file = new File(fileName);
+
+
+	/**
+	 * Get a question from a selected question file. Checks current question against
+	 * lastQuestion so no duplicates occur
+	 * 
+	 * @return String array for contents of question
+	 */
+	public void retrieveFromFile() {
+		int index = 0;
+		questionRandomiser.addAll(categoryLevels.keySet());
+		String line;
 		
-		try {
-			Scanner inputStream = new Scanner(file);
-			String line;
-			List<String> lines = new ArrayList<>();
+		while(index <= questionRandomiser.size() - 1) {
+			
+			String selectedType = questionRandomiser.get(index);
+			String fileName = "questions/" + selectedType.toLowerCase() + categoryLevels.get(selectedType) + ".csv";
+			
+			FileHandle csv = Gdx.files.internal(fileName);
+			
+			inputStream = new Scanner(csv.read());
+			
+			
 			while (inputStream.hasNext()) {
 				line = inputStream.nextLine();
 				lines.add(line);
+			}
+			index = index + 1;
+			
+		}
+		inputStream.close();
+	}
+	
+	public String[] questionSelector() {
+		boolean questionUsedBefore;
+		do {
+			questionUsedBefore = false;
+			Collections.shuffle(lines);
+			cells = lines.get(0).split("_");
+			
+			for (String ques : lastQuestion) {
+				
+				if (cells[0].equals(ques)) {
+					questionUsedBefore = true;
+				}
 				
 			}
+			
+		} while (questionUsedBefore == true);
 
-			Collections.shuffle(lines);
-			cells = lines.get(0).split(",");
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
+		lastQuestion.add(cells[0]);
+		if(lastQuestion.size() == lines.size()) {
+			lastQuestion.clear();
 		}
-
 		return cells;
 	}
 

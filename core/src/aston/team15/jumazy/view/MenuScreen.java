@@ -3,6 +3,7 @@ package aston.team15.jumazy.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -26,8 +27,11 @@ public abstract class MenuScreen implements Screen {
 	protected JumazyController game;
 	protected Stage stage;
 	protected Table table;
+	private static String background  = "backgrounds/background.jpg";
 
-	public MenuScreen(JumazyController theGame) {
+	public MenuScreen(JumazyController theGame, String backgroundString){
+		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 		game = theGame;
 		stage = new Stage(new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT));
 
@@ -38,9 +42,14 @@ public abstract class MenuScreen implements Screen {
 
 		// initialises background Image object and adds it as the first actor on the
 		// stage
-		Image background = new Image(new Texture("background.jpg"));
+		Image background = new Image(new Texture(backgroundString));
 		background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		stage.addActor(background);
+	}
+
+	public MenuScreen(JumazyController theGame) {
+		this(theGame, background);
+
 	}
 
 	@Override
@@ -58,5 +67,17 @@ public abstract class MenuScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+	}
+	
+	public static void setMedieval() {
+		background = "backgrounds/background3.png";
+	}
+	
+	public static void setOldEnglish() {
+		background = "backgrounds/background2.png";
+	}
+	
+	public static void setJungle() {
+		background = "backgrounds/background.jpg";
 	}
 }

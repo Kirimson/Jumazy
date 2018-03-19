@@ -1,69 +1,272 @@
 
 pack.png
-size: 512,512
+size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 Rain
   rotate: false
-  xy: 2, 262
+  xy: 2, 782
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 0
 Rain
   rotate: false
-  xy: 2, 132
+  xy: 2, 652
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
 Rain
   rotate: false
-  xy: 132, 262
+  xy: 132, 782
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
 Rain
   rotate: false
-  xy: 2, 2
+  xy: 2, 522
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
 Rain
   rotate: false
-  xy: 132, 132
+  xy: 132, 652
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
 Rain
   rotate: false
-  xy: 262, 262
+  xy: 262, 782
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 5
 Rain
   rotate: false
-  xy: 132, 2
+  xy: 2, 392
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 6
 Rain
   rotate: false
-  xy: 262, 132
+  xy: 132, 522
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 7
 Rain
   rotate: false
-  xy: 262, 2
+  xy: 262, 652
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 8
+Snow
+  rotate: false
+  xy: 392, 782
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+Snow
+  rotate: false
+  xy: 2, 262
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 1
+Snow
+  rotate: false
+  xy: 132, 392
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 2
+Snow
+  rotate: false
+  xy: 262, 522
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 3
+Snow
+  rotate: false
+  xy: 392, 652
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 4
+Snow
+  rotate: false
+  xy: 522, 782
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 5
+Snow
+  rotate: false
+  xy: 2, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 6
+Snow
+  rotate: false
+  xy: 132, 262
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 7
+Snow
+  rotate: false
+  xy: 262, 392
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 8
+Snow
+  rotate: false
+  xy: 392, 522
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 9
+Snow
+  rotate: false
+  xy: 522, 652
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 10
+Snow
+  rotate: false
+  xy: 652, 782
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 11
+Snow
+  rotate: false
+  xy: 2, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 12
+Snow
+  rotate: false
+  xy: 132, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 13
+Snow
+  rotate: false
+  xy: 262, 262
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 14
+Snow
+  rotate: false
+  xy: 392, 392
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 15
+Snow
+  rotate: false
+  xy: 522, 522
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 16
+Snow
+  rotate: false
+  xy: 652, 652
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 17
+Snow
+  rotate: false
+  xy: 782, 782
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 18
+Snow
+  rotate: false
+  xy: 132, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 19
+Snow
+  rotate: false
+  xy: 262, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 20
+Snow
+  rotate: false
+  xy: 392, 262
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 21
+Snow
+  rotate: false
+  xy: 522, 392
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 22
+Snow
+  rotate: false
+  xy: 652, 522
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 23
+Snow
+  rotate: false
+  xy: 782, 652
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 24
+Snow
+  rotate: false
+  xy: 262, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 25
+Snow
+  rotate: false
+  xy: 392, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 26
+Snow
+  rotate: false
+  xy: 522, 262
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 27
+Snow
+  rotate: false
+  xy: 652, 392
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 28

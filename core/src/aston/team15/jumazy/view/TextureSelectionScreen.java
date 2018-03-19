@@ -1,26 +1,65 @@
 package aston.team15.jumazy.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class TextureSelectionScreen extends MenuScreen {
-
+	
 	public TextureSelectionScreen(JumazyController theGame) {
-		super(theGame);
+		
+		super(theGame, "backgrounds/tBackground.jpg");
 
-		MenuScreenButton texture1 = new MenuScreenButton("Texture 1", null, game);
-		MenuScreenButton texture2 = new MenuScreenButton("Texture 2", null, game);
-		MenuScreenButton texture3 = new MenuScreenButton("Texture 3", null, game);
-		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
+		JumazyButton texture1 = new JumazyButton("Current", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
+		texture1.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.updateSkin("current");
+				game.setScreen(new TextureSelectionScreen(game));
+				MenuScreen.setJungle();
+				GameSound.setJungleMenuMusic();
+			}
+		});
 
-		table.add(texture1).pad(10);
-		table.row();
-		table.add(texture2).pad(10);
-		table.row();
-		table.add(texture3).pad(10);
-		table.row();
+		JumazyButton texture2 = new JumazyButton("Old English", new Skin(Gdx.files.internal("jumazyskin/oldenglish/jumazy-skin.json")));
+		texture2.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.updateSkin("oldenglish");
+				game.setScreen(new TextureSelectionScreen(game));
+				MenuScreen.setOldEnglish();
+				GameSound.setOldEnglishMenuMusic();
+			}
+		});
+		JumazyButton texture3 = new JumazyButton("Medieval", new Skin(Gdx.files.internal("jumazyskin/medievel/jumazy-skin.json")));
+		texture3.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.updateSkin("medievel");
+				game.setScreen(new TextureSelectionScreen(game));
+				MenuScreen.setMedieval();
+			}
+		});
+
+
+
+		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.SETTINGS_SCREEN, game);
+
+		Table textureTable = new Table();
+
+		textureTable.setFillParent(true);
+		textureTable.setPosition(0.0f, 0.0f);
+		textureTable.row();
+		textureTable.add(texture1).pad(100);
+		textureTable.add(texture2).pad(100);
+		textureTable.add(texture3).pad(100);
+
 		table.add(backButton).bottom().right().expand().pad(70);
 
 		stage.addActor(table);
+		stage.addActor(textureTable);
 	}
 
 	@Override
