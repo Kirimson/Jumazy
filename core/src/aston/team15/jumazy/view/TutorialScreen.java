@@ -173,7 +173,7 @@ public class TutorialScreen extends MenuScreen {
 		
 		Image chest = new Image(new Texture("chest-gold.png"));
 		gameplayTable.add(chest).size(50).padTop(10);
-		description = new Label("You can recieve special items to help you towards vitory", skin);
+		description = new Label("You can recieve special items to help you towards victory", skin);
 		description.setFontScale(0.65f);
 		gameplayTable.add(description).padTop(10).padLeft(-200);
 		gameplayTable.row();
