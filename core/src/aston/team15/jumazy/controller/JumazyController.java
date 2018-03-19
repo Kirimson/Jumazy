@@ -167,8 +167,18 @@ public class JumazyController extends Game {
 
 	}
 
-    public void stopFight() {
-        GameScreen gameScreen = (GameScreen) getScreen();
+    public void stopFight(boolean won) {
+		GameScreen gameScreen = (GameScreen) getScreen();
+		if(won){
+			maze.getCurrentPlayer().editStat("Strength", 2, true);
+			gameScreen.showStrengthIncrease();
+			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
+		} else {
+			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health"),
+					true);
+			moveCurrentPlayerToStartOfTurn();
+		}
+
         gameScreen.stopFight();
     }
 

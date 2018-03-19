@@ -28,7 +28,9 @@ public class BlockView extends Actor {
 	}
 
 	public void changeSprite(TextureRegion newTexture){
+		System.out.println(getName());
 		sprite = new Sprite(newTexture);
+
 		sprite.setPosition(bgSprite.getX(), bgSprite.getY());
 	}
 

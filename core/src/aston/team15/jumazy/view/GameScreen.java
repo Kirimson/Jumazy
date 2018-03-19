@@ -1,6 +1,5 @@
 package aston.team15.jumazy.view;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Random;
@@ -9,13 +8,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -100,7 +97,7 @@ public class GameScreen implements Screen {
 				switch (maze[mazeX][mazeY]) {
 				case "O":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "#":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -121,20 +118,20 @@ public class GameScreen implements Screen {
 				case "C":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Closed.png"))),
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "D":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							new Sprite(new Texture(generateLockedDoorTexture(maze, mazeX, mazeY))),
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "E":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("skeleton"),game.getSprite(randomFloorTexture()));
+							game.getSprite("skeleton"),game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "X":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("mummy"),game.getSprite(randomFloorTexture()));
+							game.getSprite("mummy"),game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "1":
 				case "2":
@@ -144,7 +141,7 @@ public class GameScreen implements Screen {
 							game.getSprite("char" + maze[mazeX][mazeY])));
 				default:
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				}
 
@@ -176,7 +173,7 @@ public class GameScreen implements Screen {
 			public boolean keyDown(InputEvent event, int keycode) {
 				if(inFight)
 					inFight = false;
-				
+
 				switch (keycode) {
 				case Input.Keys.ESCAPE:
 					pause();
@@ -223,6 +220,11 @@ public class GameScreen implements Screen {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}
 		}
+	}
+
+	public void showStrengthIncrease(){
+		hud.setPlayerConsoleText("You won the fight! Your strength has increase by 2!");
+		hud.updateItemStat(Item.SWORD);
 	}
 	
 	public void renderInventory(ArrayList<Item> inventory) {
@@ -406,7 +408,7 @@ public class GameScreen implements Screen {
 	 * 
 	 * @return string for floor texture
 	 */
-	private String randomFloorTexture() {
+	private String generateRandomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
 		if (floorType < 0.05)
@@ -676,5 +678,14 @@ public class GameScreen implements Screen {
 	public void stopFight() {
 		inFight = false;
 		resume();
+	}
+
+	public void removeMonster(int[] position) {
+		for (Actor a : gameStage.getActors()) {
+			if (a instanceof BlockView) {
+				if (a.getName().equals(position[1] + "," + position[0]))
+					((BlockView) a).changeSprite(game.getSprite(generateRandomFloorTexture()));
+			}
+		}
 	}
 }

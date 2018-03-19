@@ -10,7 +10,6 @@ import com.badlogic.gdx.files.FileHandle;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class MazeModel {
-
 	// row is y and maze[0].length
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
@@ -406,6 +405,39 @@ public class MazeModel {
 			positions[3]=col+1;
 		}
 		return positions;
+	}
+
+	public int[] removeMonster(int[] position) {
+		int row = position[0];
+		int col = position[1];
+
+		ArrayList<String> monsters = new ArrayList<String>();
+		monsters.add("E");
+		monsters.add("X");
+
+		int[] monsterPos = new int[2];
+
+		if(monsters.contains(maze[row-1][col])) {
+			monsterPos[0] = row-1;
+			monsterPos[1] = col;
+		}
+		if(monsters.contains(maze[row+1][col])) {
+			monsterPos[0] = row+1;
+			monsterPos[1] = col;
+		}
+		if(monsters.contains(maze[row][col-1])) {
+			monsterPos[0] = row;
+			monsterPos[1] = col-1;
+		}
+		if(monsters.contains(maze[row][col+1])) {
+			monsterPos[0] = row;
+			monsterPos[1] = col+1;
+		}
+		setCoordinateString(monsterPos[0], monsterPos[1], "O");
+
+		System.out.println(toString());
+
+		return monsterPos;
 	}
 
 	public String getCoordinateString(int row, int col) {

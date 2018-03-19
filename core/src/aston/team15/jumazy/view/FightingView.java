@@ -71,19 +71,13 @@ public class FightingView extends Stage {
     private void resumeGame() {
 		remove();
 		timeSinceFightDone = 0f;
-		game.stopFight();
-		System.out.println("task");
-    }
 
-	public void playSound(File sound) {
-		try {
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(sound));
-			clip.start();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
+		boolean won = !(currhp1 <= 0);
+
+        System.out.println(won);
+
+		game.stopFight(won);
+    }
 	
 	public void setHealth(int health1, int health2, PlayerView player, int direction) {
     	this.player = player;

@@ -30,6 +30,7 @@ public class PlayerModel {
 		}
 	}
 
+	private Random pleaseWorkplease;
 	private int[] startOfTurnPosition;
 	private MazeModel maze;
 	private int row;
@@ -43,13 +44,15 @@ public class PlayerModel {
 	private LinkedHashMap<String, Integer> playerStats;
 	private boolean onDoor;
 	private boolean onStuckChest;
-	String[] enemies = new String[] {"E","X","1","2","3","4"};
+	private String[] enemies = new String[] {"E","X","1","2","3","4"};
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
+
+		pleaseWorkplease = new Random();
 
 		startOfTurnPosition = new int[2];
 
@@ -237,24 +240,15 @@ public class PlayerModel {
 
 	public int rollDie(Weather weather) {
 		canRoll = false;
-		int rollResult = new Random().nextInt(6) + 1;
+		movesLeft += pleaseWorkplease.nextInt(6) + 1;
 
 		startOfTurnPosition[0] = row;
 		startOfTurnPosition[1] = col;
 
-		switch (weather) {
-		case SUN:
-			movesLeft = rollResult;
-			break;
-		case RAIN:
-			movesLeft = rollResult + 1;
-			break;
-		default:
-			break;
-		}
-		movesLeft += playerStats.get("Stamina");
+		if(weather == Weather.RAIN)
+			movesLeft += 1;
 
-//		System.out.println("left: "+movesLeft);
+		movesLeft += playerStats.get("Stamina");
 
 		if (JumazyController.DEBUG_ON)
 			System.out.println("Player " + playerSymbol + " just rolled a " + movesLeft + ".");
@@ -318,7 +312,20 @@ public class PlayerModel {
 //	public Integer[] getStatsArray() {
 //		return playerStats.values().toArray(new Integer[0]);
 //	}
-	
+
+	/**
+	 * set a player stat to a specified value. used for fights
+	 * @param statName stat to change
+	 * @param value value of stat
+	 */
+	public void editStat(String statName, int value, boolean relative){
+		if(relative){
+			value += playerStats.get(statName);
+		}
+
+		playerStats.replace(statName, value);
+	}
+
 	public LinkedHashMap<String, Integer> getStats(){
 		return playerStats;
 	}
