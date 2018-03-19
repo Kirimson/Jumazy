@@ -77,7 +77,7 @@ public class QuestionUI {
 				} else {
 					GameSound.playIncorrectSound();
 					hud.setPlayerConsoleText("Incorrect! Move back a turn.");
-					game.incorrectRiddle();
+					game.moveCurrentPlayerToStartOfTurn();
 				}
 				game.resume();
 			}

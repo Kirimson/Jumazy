@@ -2,6 +2,7 @@ package aston.team15.jumazy.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Game;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
 import aston.team15.jumazy.model.PlayerModel;
@@ -206,9 +208,8 @@ public class JumazyController extends Game {
 					}
 				}
 
-				if (maze.getCurrentPlayer().isOnVictorySquare()) {
+				if (maze.getCurrentPlayer().isOnVictorySquare())
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
-				}
 
 				if (maze.getCurrentPlayer().isOnDoor()) {
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
@@ -241,21 +242,79 @@ public class JumazyController extends Game {
 		default:
 			return true;
 		}
-
 	}
 
-	public void stopFight() {
+    public void stopFight(boolean won, int playerHealth, int reward) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-		gameScreen.stopFight();
-	}
+		if(won){
+			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + reward;
+			if (newStat >= 6) {
+				maze.getCurrentPlayer().getStats().replace("Strength", 6);
+				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength is maxed out, why not try the FINAL BOSS?");
+			} else {
+				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength increased by "+reward+"!");
+				maze.getCurrentPlayer().editStat("Strength", reward, true);
+			}
+
+			if(playerHealth != maze.getCurrentPlayer().getStats().get("Health")){
+				maze.getCurrentPlayer().editStat("Health", playerHealth, false);
+				gameScreen.getHUD().updateItemStat(Item.APPLE);
+			}
+
+			gameScreen.getHUD().updateItemStat(Item.SWORD);
+			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
+
+		} else {
+			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health"),
+					false);
+			gameScreen.getHUD().setPlayerConsoleText("You lost! Try again when you're ready!");
+			moveCurrentPlayerToStartOfTurn();
+		}
+
+        gameScreen.stopFight();
+    }
 
 	/**
 	 * Handles the logic for question answering, particularly when a riddle is
 	 * incorrect. Updates the maze to move player to the position they were at
 	 * before this turn, and then the view to match the new state of the maze model.
 	 */
-	public void incorrectRiddle() {
+	public void moveCurrentPlayerToStartOfTurn() {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		gameScreen.movePlayerToStartOfMove(maze.getCurrentPlayer().moveToStartOfTurn());
+	}
+
+	public LinkedHashMap<String, Integer> generateMonsterStats() {
+		String monsterType = maze.getMonsterType(maze.getCurrentPlayer());
+
+		LinkedHashMap<String, Integer> monsterStats = new LinkedHashMap<String, Integer>();
+
+		int hp, str, reward;
+
+		switch (monsterType){
+			case "X":
+				hp = 9;
+				str = 2;
+				reward = 2;
+				break;
+			case "Z":
+				hp = 12;
+				str = 3;
+				reward = 5;
+				break;
+			case "E":
+			default :
+				hp = 8;
+				str = 1;
+				reward = 1;
+				break;
+		}
+
+		monsterStats.put("Max Health", hp);
+		monsterStats.put("Health", hp);
+		monsterStats.put("Strength", str);
+		monsterStats.put("Reward", reward);
+
+		return monsterStats;
 	}
 }

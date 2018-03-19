@@ -93,9 +93,7 @@ public class GameScreen implements Screen {
 		uiViewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
 		uiStage = new Stage(uiViewport);
 		players = new ArrayList<PlayerView>();
-		questionUI = new QuestionUI(game, hud);
 		pauseStage = new PauseView(game);
-		fightingStage = new FightingView(game);
 		currentPlayerStats = playerStats;
 		multiplexer = new InputMultiplexer();
 		light = new Lighting();
@@ -110,7 +108,7 @@ public class GameScreen implements Screen {
 				switch (maze[mazeX][mazeY]) {
 				case "O":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "#":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -131,21 +129,25 @@ public class GameScreen implements Screen {
 				case "C":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							new Sprite(new Texture(Gdx.files.internal("Chest-Gold-Closed.png"))),
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "D":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
 							new Sprite(new Texture(generateLockedDoorTexture(maze, mazeX, mazeY))),
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "E":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("skeleton"),game.getSprite(randomFloorTexture()));
+							game.getSprite("skeleton"),game.getSprite(generateRandomFloorTexture()));
 					break;
 				case "X":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("mummy"),game.getSprite(randomFloorTexture()));
+							game.getSprite("mummy"),game.getSprite(generateRandomFloorTexture()));
 					break;
+                case "Z":
+                    newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
+                            new Sprite(new Texture(generateBossSprite(maze, mazeX, mazeY))),game.getSprite(generateRandomFloorTexture()));
+                    break;
 				case "1":
 				case "2":
 				case "3":
@@ -154,7 +156,7 @@ public class GameScreen implements Screen {
 							game.getSprite("char" + maze[mazeX][mazeY])));
 				default:
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite(randomFloorTexture()));
+							game.getSprite(generateRandomFloorTexture()));
 					break;
 				}
 
@@ -173,16 +175,23 @@ public class GameScreen implements Screen {
 
 		uiStage.addActor(light);
 
-		hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
+        hud = new HeadsUpDisplay(game, currentPlayerIndex, currentPlayerStats);
 		hud.setDiceLabel("Hit\nSpace!");
 		uiStage.addActor(hud);
-		
+        fightingStage = new FightingView(game, hud);
+        
+		questionUI = new QuestionUI(game, hud);
 
 		dice = new DiceView(JumazyController.WORLD_WIDTH - game.getSprite("number1").originalWidth - 29, 23,
 				game);
 
 		gameStage.addListener(new InputListener() {
 			public boolean keyDown(InputEvent event, int keycode) {
+				if(inFight) {
+                    fightingStage.keyDown(keycode);
+                    return true;
+                }
+
 				switch (keycode) {
 				case Input.Keys.ESCAPE:
 					pause();
@@ -199,27 +208,19 @@ public class GameScreen implements Screen {
 				return true;
 			}
 		});
-		
+
 		fightingStage.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
             	if(inFight) {         		
 	                if(keycode == Input.Keys.SPACE){
 	                	fightingStage.rollDice();
-	                	fightingStage.winnerAttack();     	
+	                	fightingStage.winnerAttack();
 	                }
-	
-	                if(keycode == Input.Keys.F){
-	                	fightingStage.remove();
-	                	resume();
-	                	inFight = false;
-	                }
-	                
-	                return true;
 	            }
-            	return false;
+            	return true;
             }
         });
-		
+
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
 	}
@@ -276,7 +277,7 @@ public class GameScreen implements Screen {
 			fightingStage.act(Gdx.graphics.getDeltaTime());
 			fightingStage.draw();
 		}
-		
+	
 		pauseStage.act(Gdx.graphics.getDeltaTime());
 		pauseStage.draw();
 	}
@@ -292,7 +293,12 @@ public class GameScreen implements Screen {
 		gameStage.getViewport().update(width, height, true);
 		uiStage.getViewport().update(width, height, true);
 		pauseStage.getViewport().update(width, height);
+		fightingStage.getViewport().update(width, height);
 	}
+
+
+
+
 
 	/**
 	 * Overrides super class pause method, to switch the input processor to the
@@ -404,30 +410,7 @@ public class GameScreen implements Screen {
 
 					if (item != null) {
 						gameStage.addAction(Actions.sequence(Actions.alpha(1)));
-						Actor tempItemActor = new Actor() {
-							private Sprite sprite = new Sprite(game.getSprite(item.getAtlasString()));
-
-							public void setPosition(float x, float y) {
-								sprite.setScale(1.6f);
-								sprite.setPosition(x + blockSpriteDimensions / 6, y);
-
-								MoveByAction move = new MoveByAction();
-								move.setAmount(0, 50f);
-								move.setDuration(1f);
-								setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
-								addAction(move);
-								addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(1f)));
-							}
-
-							public void draw(Batch batch, float parentAlpha) {
-								sprite.setPosition(getX() + blockSpriteDimensions / 6, getY());
-								sprite.setColor(getColor());
-								sprite.draw(batch, parentAlpha);
-							}
-						};
-
-						tempItemActor.setPosition(a.getX(), a.getY());
-						gameStage.addActor(tempItemActor);
+						fadeActorOut(new Sprite(game.getSprite(item.getAtlasString())), a.getX(), a.getY(), true);
 					}
 				}
 			}
@@ -435,9 +418,38 @@ public class GameScreen implements Screen {
 
 	}
 
+	private void fadeActorOut(Sprite actorSprite, float x, float y, boolean moveUp){
+        Actor tempItemActor = new Actor() {
+            private Sprite sprite = actorSprite;
+
+            public void setPosition(float x, float y) {
+                if(moveUp) {
+                    sprite.setScale(1.6f);
+                    sprite.setPosition(x + blockSpriteDimensions / 6, y);
+                    MoveByAction move = new MoveByAction();
+                    move.setAmount(0, 50f);
+                    move.setDuration(1f);
+                    setBounds(sprite.getX(), sprite.getY(), sprite.getHeight(), sprite.getWidth());
+                    addAction(move);
+                } else super.setPosition(x, y);
+                addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(1f)));
+            }
+
+            public void draw(Batch batch, float parentAlpha) {
+                sprite.setPosition(getX(), getY());
+                sprite.setColor(getColor());
+                sprite.draw(batch, parentAlpha);
+            }
+        };
+
+        tempItemActor.setPosition(x, y);
+
+        gameStage.addActor(tempItemActor);
+    }
+
 	/**
 	 * Creates the correct sprite for a locked door (right/left and top/bottom door)
-	 * 
+	 *
 	 * @param maze
 	 *            the maze string
 	 * @param mazeX
@@ -465,6 +477,26 @@ public class GameScreen implements Screen {
 		return "arrow";
 	}
 
+    private String generateBossSprite(String[][] maze, int mazeX, int mazeY) {
+	    //upperright
+        if (maze[mazeX][mazeY - 1].equals("Z") && maze[mazeX - 1][mazeY].equals("Z"))
+            return "addtoskin/bossUR.png";
+
+        //upperleft
+        if (maze[mazeX][mazeY + 1].equals("Z") && maze[mazeX - 1][mazeY].equals("Z"))
+            return "addtoskin/bossUL.png";
+
+        //lowerright
+        if (maze[mazeX][mazeY - 1].equals("Z") && maze[mazeX + 1][mazeY].equals("Z"))
+            return "addtoskin/bossLR.png";
+
+        //lowerleft
+        if (maze[mazeX][mazeY + 1].equals("Z") && maze[mazeX + 1][mazeY].equals("Z"))
+            return "addtoskin/bossLL.png";
+
+	    return  "";
+    }
+
 	private String generateWaterTexture(String[][] maze, int mazeX, int mazeY) {
 
 		if (mazeY > 0 && mazeY < maze[0].length - 1) {
@@ -481,7 +513,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * generates correct type of wall depending on walls relative to this wall
-	 * 
+	 *
 	 * @return string for wall texture
 	 * @param maze
 	 *            the maze string
@@ -528,7 +560,7 @@ public class GameScreen implements Screen {
 	/**
 	 * generates random types of walls, 90% of normal wall, 5% of leaf wall and 5%
 	 * of missing brick
-	 * 
+	 *
 	 * @return type of wall
 	 */
 	private String randomWallTexture() {
@@ -544,10 +576,10 @@ public class GameScreen implements Screen {
 	/**
 	 * generates a random floor texture, 5% chance of cracked floor/square missing
 	 * 90% chance of normal tile,
-	 * 
+	 *
 	 * @return string for floor texture
 	 */
-	private String randomFloorTexture() {
+	private String generateRandomFloorTexture() {
 		float floorType = new Random().nextFloat();
 
 		if (floorType < 0.05)
@@ -571,7 +603,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Check if question UI Actor isn't on the stage
-	 * 
+	 *
 	 * @return boolean if riddle isn't open
 	 */
 	public boolean riddleIsntOpen() {
@@ -581,12 +613,13 @@ public class GameScreen implements Screen {
 	/**
 	 * sets the current player to a new player, adjusts the dice's position for when
 	 * it's next going to be drawn
-	 * 
+	 *
 	 * @param newPlayerIndex
 	 *            new player number
 	 */
 	public void updateCurrentPlayer(int newPlayerIndex, LinkedHashMap<String, Integer> currentPlayerStats) {
 		currentPlayerIndex = newPlayerIndex;
+		this.currentPlayerStats = currentPlayerStats;
 		hud.updateForNewPlayer(newPlayerIndex, currentPlayerStats);
 	}
 
@@ -594,7 +627,7 @@ public class GameScreen implements Screen {
 	 * Moves the current player in the view, calls the current players act method,
 	 * passing the keycode to move the player on screen Then decreases/removes dice
 	 * actors sprite accordingly
-	 * 
+	 *
 	 * @param moveStyle int of player move style. 1 is normal, 2 reversed 0 invalid
 	 * @param keycode direction the player moved
 	 */
@@ -602,21 +635,20 @@ public class GameScreen implements Screen {
 		if (moveStyle==1) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			dice.decreaseRoll();
+            int rollsLeft = dice.getRoll();
+            if (rollsLeft > 0) {
+                dice.updateSprite(game.getSprite("number" + rollsLeft));
+                dice.act(keycode);
+                hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
+            } else {
+                dice.remove();
+                hud.setDiceLabel("No\nMoves\nLeft!");
+                hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
+            }
 		} else if (moveStyle==2) {
 			players.get(currentPlayerIndex).act(Gdx.graphics.getDeltaTime(), keycode, moveStyle);
 			inFight = true;
-			startFight(currentPlayerStats.get("Health"), 10, keycode);
-		}
-
-		int rollsLeft = dice.getRoll();
-		if (rollsLeft > 0) {
-			dice.updateSprite(game.getSprite("number" + rollsLeft));
-			dice.act(keycode);
-			hud.setPlayerConsoleText("You have " + dice.getRoll() + " moves left, use the ARROW KEYS to move.");
-		} else {
-			dice.remove();
-			hud.setDiceLabel("No\nMoves\nLeft!");
-			hud.setPlayerConsoleText("No moves left, press ENTER to pass your turn to the next player.");
+			startFight(currentPlayerStats, keycode);
 		}
 	}
 
@@ -636,7 +668,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Applies the current weather affect to the maze, overlays the entire maze,
 	 * rather than the entire screen.
-	 * 
+	 *
 	 * @param weather
 	 *            enum type of weather in the maze
 	 * @param width
@@ -674,20 +706,18 @@ public class GameScreen implements Screen {
 		return hud;
 	}
 
-	private void startFight(int health1, int health2, int keycode) {
-		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
-		
+	private void startFight(LinkedHashMap<String, Integer> stats1, int keycode) {
+        hud.setPlayerConsoleText("You've entered a fight! press SPACE to fight the monster!");
+		fightingStage.setupNewFight(stats1, game.generateMonsterStats(), players.get(currentPlayerIndex), keycode);
 		fightingStage.show();
-		Gdx.input.setInputProcessor(fightingStage);
-		
-		System.out.println("p1 h:"+health1+" p2: h:"+health2);
+
 		inFight = true;
 	}
 
 	/**
 	 * Finds the door actor that the player stepped on, then updates its sprite,
 	 * casting the Actor to a BlockView
-	 * 
+	 *
 	 * @param pos
 	 *            door's position for both blocks
 	 */
@@ -711,7 +741,7 @@ public class GameScreen implements Screen {
 	 * generates the correct texture for an unlocked door. Works differently to
 	 * other texture generators as it edits existing actors and needs to compare
 	 * itself against another position within the maze that has been pre-defined
-	 * 
+	 *
 	 * @param thisRow
 	 *            this door part's row
 	 * @param thisCol
@@ -742,6 +772,20 @@ public class GameScreen implements Screen {
 	public void stopFight() {
 		inFight = false;
 		resume();
+	}
+
+	public void removeMonster(int[] position) {
+
+        for (int i = 0; i <= position.length-1; i = i + 2) {
+            for (Actor a : gameStage.getActors()) {
+                if (a instanceof BlockView && position[i+1] != 0 && position[i] != 0) {
+                    if (a.getName().equals(position[i+1] + "," + position[i])) {
+                        fadeActorOut(((BlockView) a).getSprite(), a.getX(), a.getY(), false);
+                        ((BlockView) a).changeSprite(((BlockView) a).getBGSprite());
+                    }
+                }
+            }
+        }
 	}
 
 	@Override

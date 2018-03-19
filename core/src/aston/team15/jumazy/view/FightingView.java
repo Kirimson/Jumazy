@@ -1,138 +1,147 @@
 package aston.team15.jumazy.view;
 
-import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.Random;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import aston.team15.jumazy.controller.JumazyController;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class FightingView extends Stage {
 
     private Table fightBar;
-    private Table background;
-    private float maxhp1;
-	private float maxhp2;
-	private float currhp1;
-	private float currhp2;
-	private float health1Percent=1;
-	private float health2Percent=1;
+    private int playerMaxHP;
+	private int playerCurrentHP;
+	private int playerStrength;
+
+	private int enemyMaxHP;
+	private int enemyCurrentHP;
+	private int enemyStrength;
+
+	private float playerHealthPercent =1;
+	private float enemyHealthPercent =1;
 	private DiceView dice;
 	private DiceView dice2;
 	private Random rng;
-	private int value1;
-	private int value2;
+	private int playerRoll;
+	private int enemyRoll;
 	private float scale = 1.5f;
-	private Image health1;
-	private Image health2;
+	private Image playerHealth;
+	private Image enemyHealth;
 	private float timeSinceFightDone = 0f;
 	private JumazyController game;
 	private PlayerView player;
 	private int fightDirection;
+	private HeadsUpDisplay hud;
+	private int reward;
 
-	FightingView(final JumazyController game) {
+	FightingView(final JumazyController game, HeadsUpDisplay hud) {
+		this.hud = hud;
     	this.game = game;
     	rng = new Random();
     	
-        fightBar = new Table();
+        fightBar = new Table(game.getSkin());
         fightBar.bottom();
-        fightBar.setFillParent(true);
 
-        background = new Table();
-        background.bottom();
-        background.setFillParent(true);
-        
-        background.add(new Image(new Texture("fightbarPNG.png"))).growX().height(124f);
+        fightBar.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("fightbarPNG.png"))));
+		fightBar.setHeight(124);
+		fightBar.setWidth(JumazyController.WORLD_WIDTH);
 
-		health1 = new Image(new Texture("health.png"));
-		health2 = new Image(new Texture("health.png"));
+		playerHealth = new Image(new Texture("health.png"));
+		enemyHealth = new Image(new Texture("health.png"));
 		
-		health1.setScaleX(scale);
-		health2.setScaleX(scale);
-		
-		System.out.println(health1Percent);
-		System.out.println(health2Percent);
+		playerHealth.setScaleX(scale);
+		enemyHealth.setScaleX(scale);
 
 		dice = new DiceView((JumazyController.WORLD_WIDTH/2) - game.getSprite("number1").originalWidth - 9, 23, game);
 		dice2 = new DiceView((JumazyController.WORLD_WIDTH/2) + 7 , 23, game);
 		
-		fightBar.add(health1).left().expandX().height(124f).padLeft(37f);
-		fightBar.add(health2).right().expandX().height(124f).left().padLeft(260f);
+		fightBar.add(playerHealth).left().expandX().height(124f).padLeft(37f);
+		fightBar.add(enemyHealth).right().expandX().height(124f).left().padLeft(260f);
 		
     }
 
     private void resumeGame() {
 		remove();
 		timeSinceFightDone = 0f;
-		game.stopFight();
-		System.out.println("task");
+		boolean won = !(playerCurrentHP <= 0);
+		game.stopFight(won, playerCurrentHP, reward);
     }
-
-	public void playSound(File sound) {
-		try {
-			Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(sound));
-			clip.start();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
 	
-	public void setHealth(int health1, int health2, PlayerView player, int direction) {
+	public void setupNewFight(LinkedHashMap<String, Integer> playerStats,
+							  LinkedHashMap<String, Integer> enemyStats, PlayerView player, int direction) {
     	this.player = player;
     	fightDirection = direction;
-		maxhp1 = health1;
-		currhp1= maxhp1;
-		maxhp2 = health2;
-		currhp2= maxhp2;
+		playerMaxHP = playerStats.get("Max Health");
+		playerCurrentHP = playerStats.get("Health");
+		playerStrength = playerStats.get("Strength");
 
-		System.out.println("new fight hp1 "+currhp1);
-		System.out.println("new fight hp2 "+currhp2);
+		enemyMaxHP = enemyStats.get("Max Health");
+		enemyCurrentHP = enemyStats.get("Health");
+		enemyStrength = enemyStats.get("Strength");
+		reward = enemyStats.get("Reward");
 
-		health1Percent = currhp1/maxhp1;
-		health2Percent = currhp2/maxhp2;
+		playerHealthPercent = (float)playerCurrentHP / (float)playerMaxHP;
+		enemyHealthPercent = (float)enemyCurrentHP / (float)enemyMaxHP;
+
+		playerHealth.setScaleX(scale * playerHealthPercent);
+		enemyHealth.setScaleX(scale * enemyHealthPercent);
 	}
 
 	public void rollDice() {
-		if(dice.isRollFinished()) {
-			if(dice.getStage() == null) {
-				this.addActor(dice);
-				this.addActor(dice2);
-			}
-			player.act(Gdx.graphics.getDeltaTime(), fightDirection, 2);
-			value1 = rng.nextInt(12)+1;
-			dice.setDie(value1);
-			dice.roll();
-					
-			value2 = rng.nextInt(10)+1;
-			dice2.setDie(value2);
-			dice2.roll();
-			System.out.println("rolled: " + value1 + " and " + value2);
-		}
+	    if(fightNotFinished()) {
+            if (dice.isRollFinished()) {
+                if (dice.getStage() == null) {
+                    this.addActor(dice);
+                    this.addActor(dice2);
+                }
+                player.act(Gdx.graphics.getDeltaTime(), fightDirection, 2);
+                playerRoll = rng.nextInt(5) + 1 + playerStrength;
+
+				System.out.println("player strength: "+ playerStrength);
+
+                if(playerRoll > 13)
+                	playerRoll = 13;
+
+                dice.setDie(playerRoll);
+                dice.roll();
+
+                enemyRoll = rng.nextInt(5) + 1 + enemyStrength;
+
+				if(enemyRoll > 13)
+					enemyRoll = 13;
+
+                dice2.setDie(enemyRoll);
+                dice2.roll();
+                System.out.println("rolled: " + playerRoll + " and " + enemyRoll);
+            }
+        }
 	}
 
-	public void winnerAttack() {
-		if (value1>value2) {
-			currhp2 -= (value1 - value2);
-		} else if (value2 > value1) {
-			currhp1 -= (value2 - value1);
+    private boolean fightNotFinished() {
+	    return (playerCurrentHP > 0) && (enemyCurrentHP > 0);
+    }
+
+    public void winnerAttack() {
+		if (playerRoll > enemyRoll) {
+			enemyCurrentHP -= (playerRoll - enemyRoll);
+		} else if (enemyRoll > playerRoll) {
+			playerCurrentHP -= (enemyRoll - playerRoll);
 		}
 		
-		health1Percent = currhp1/maxhp1;
-		health2Percent = currhp2/maxhp2;
+		playerHealthPercent = (float)playerCurrentHP / (float)playerMaxHP;
+		enemyHealthPercent = (float)enemyCurrentHP / (float)enemyMaxHP;
 	}
 
 	public void show() {
 		// TODO Auto-generated method stub
-	   
-		this.addActor(background);
+
 		this.addActor(fightBar);
 	}
 	
@@ -141,25 +150,24 @@ public class FightingView extends Stage {
 		super.draw();
 
 		if(dice.isRollFinished()) {
-			if(currhp1<=0) {
-				health1Percent = 0;
+			if(playerCurrentHP <=0) {
+				playerHealthPercent = 0;
 				timeSinceFightDone += Gdx.graphics.getRawDeltaTime();
 			}
-			if(currhp2<=0) {
-				health2Percent = 0;
+			if(enemyCurrentHP <=0) {
+				enemyHealthPercent = 0;
 				timeSinceFightDone += Gdx.graphics.getRawDeltaTime();
 			}
 
-			health1.setScaleX(scale*health1Percent);
-			health2.setScaleX(scale*health2Percent);
+			playerHealth.setScaleX(scale* playerHealthPercent);
+			enemyHealth.setScaleX(scale* enemyHealthPercent);
 
 			if(timeSinceFightDone > 1f)
 				resumeGame();
 		}
 	}
 	
-	public void remove() {
-		background.remove();
+	private void remove() {
 		fightBar.remove();
 		dice.remove();
 		dice2.remove();
