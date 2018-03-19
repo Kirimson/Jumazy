@@ -18,7 +18,8 @@ public class TutorialScreen extends MenuScreen {
 	private Label description;
 	
 	public TutorialScreen(JumazyController theGame) {
-		super(theGame,"TutorialBack.png");
+		super(theGame, theGame.getTexturePackName().equals("oldenglish") ? "backgrounds/TutorialBackBW.png" :
+				"backgrounds/TutorialBack.png");
 		
 		skin = game.getSkin();
 

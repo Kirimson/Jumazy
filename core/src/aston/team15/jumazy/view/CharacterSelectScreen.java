@@ -51,6 +51,9 @@ public class CharacterSelectScreen implements Screen{
 
         //background image
         Image background = new Image(new Texture("backgrounds/playerSelectBackground.png"));
+        if(game.getTexturePackName().equals("oldenglish"))
+            background = new Image(new Texture("backgrounds/playerSelectBackgroundBW.png"));
+
         stage.addActor(background);
 
         //setup table

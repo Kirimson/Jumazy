@@ -13,7 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class VictoryScreen extends MenuScreen {
 
     public VictoryScreen(JumazyController game, int winningPlayer) {
-        super(game, "backgrounds/victoryBackground.jpg");
+        super(game, game.getTexturePackName().equals("oldenglish") ? "backgrounds/victoryBackgroundBW.jpg" :
+                "backgrounds/victoryBackground.jpg");
 
         table.top().padTop(225f);
 

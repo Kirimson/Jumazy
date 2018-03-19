@@ -44,6 +44,7 @@ public class JumazyController extends Game {
 	private Skin gameSkin;
 	private TextureAtlas textures;
 	private QuestionRetriever questionRetriever;
+	private String texturePack;
 
 	/**
 	 * Provides the logic for creating objects from the contents of the game skins
@@ -58,6 +59,7 @@ public class JumazyController extends Game {
 	 */
 	@Override
 	public void create() {
+		texturePack = "current";
 		textures = new TextureAtlas("jumazyskin/current/jumazy-skin.atlas");
 		Gdx.gl.glClearColor(0.15f, 0.15f, 0.15f, 1);
 
@@ -137,8 +139,13 @@ public class JumazyController extends Game {
 	 *            A String that represents the name of the new skin.
 	 */
 	public void updateSkin(String path) {
-		textures = new TextureAtlas(path + "/jumazy-skin.atlas");
-		gameSkin = new Skin(Gdx.files.internal(path + "/jumazy-skin.json"));
+		textures = new TextureAtlas("jumazyskin/"+path + "/jumazy-skin.atlas");
+		gameSkin = new Skin(Gdx.files.internal("jumazyskin/"+path + "/jumazy-skin.json"));
+		texturePack = path;
+	}
+
+	public String getTexturePackName() {
+		return texturePack;
 	}
 
 	/**
