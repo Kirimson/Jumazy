@@ -167,9 +167,16 @@ public class JumazyController extends Game {
 				gameScreen.moveCurrentPlayerView(moveStyle, keycode);
 
 				if (moveStyle != 0 && maze.getCurrentPlayer().isOnTrap()) {
-					questionRetriever.selectFile();
-					String[] questionAndAns = questionRetriever.retrieveRiddle();
-					gameScreen.createQuestion(questionAndAns);
+					if (new Random().nextDouble() < (0.15
+							+ ((double) maze.getCurrentPlayer().getStatFromHashMap("Agility")) / 20)) {
+						gameScreen.getHUD().setPlayerConsoleText("Your agility helped you escape this trap!");
+					} else {
+						gameScreen.getHUD()
+								.setPlayerConsoleText("You landed on a trap! Answer the question to keep going!");
+						questionRetriever.selectFile();
+						String[] questionAndAns = questionRetriever.retrieveRiddle();
+						gameScreen.createQuestion(questionAndAns);
+					}
 				}
 
 				if (maze.getCurrentPlayer().isOnChest()) {
@@ -179,16 +186,17 @@ public class JumazyController extends Game {
 						System.out.println("DISC: " + discriminant);
 						System.out.println("LUCK: " + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10);
 						System.out.println("0.6 + LUCK = "
-								+ (0.5 + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10));
+								+ (0.4 + (double) maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10));
 					}
 
-					if (discriminant < 0.6 + maze.getCurrentPlayer().getStatFromHashMap("Luck") / 10) {
+					if (discriminant < 0.4 + ((double) maze.getCurrentPlayer().getStatFromHashMap("Luck")) / 10) {
 						if (maze.getCurrentPlayer().obtainRandomItemFromChest()) {
-						gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
-						gameScreen.openChest(maze.getCurrentPlayer().getPosition(), maze.getCurrentPlayer()
-								.getInventory().get(maze.getCurrentPlayer().getInventory().size() - 1));
+							gameScreen.updateCurrentInventoryAndStats(maze.getCurrentPlayer().getInventory(), true);
+							gameScreen.openChest(maze.getCurrentPlayer().getPosition(), maze.getCurrentPlayer()
+									.getInventory().get(maze.getCurrentPlayer().getInventory().size() - 1));
 						} else {
-							gameScreen.getHUD().setPlayerConsoleText("Looks like there's no space left in your inventory!");
+							gameScreen.getHUD()
+									.setPlayerConsoleText("Looks like there's no space left in your inventory!");
 						}
 					} else if (maze.getWeather() == Weather.SNOW && maze.getCurrentPlayer().isOnStuckChest()) {
 						gameScreen.getHUD().setPlayerConsoleText("The cold has stuck this chest closed! Try again.");
@@ -233,10 +241,10 @@ public class JumazyController extends Game {
 
 	}
 
-    public void stopFight() {
-        GameScreen gameScreen = (GameScreen) getScreen();
-        gameScreen.stopFight();
-    }
+	public void stopFight() {
+		GameScreen gameScreen = (GameScreen) getScreen();
+		gameScreen.stopFight();
+	}
 
 	/**
 	 * Handles the logic for question answering, particularly when a riddle is

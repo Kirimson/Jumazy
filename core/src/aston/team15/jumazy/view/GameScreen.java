@@ -202,22 +202,16 @@ public class GameScreen implements Screen {
 		
 		fightingStage.addListener(new InputListener() {
             public boolean keyDown(InputEvent event, int keycode) {
-            	if(inFight) {
+            	if(inFight) {         		
 	                if(keycode == Input.Keys.SPACE){
-	                	
 	                	fightingStage.rollDice();
-	                	fightingStage.winnerAttack();
-	                	
+	                	fightingStage.winnerAttack();     	
 	                }
 	
 	                if(keycode == Input.Keys.F){
-	
 	                	fightingStage.remove();
 	                	resume();
 	                	inFight = false;
-	
-//	        			playSound(new File("../assets/snd/correct.wav"));
-//	        			resume(game);
 	                }
 	                
 	                return true;
@@ -682,7 +676,7 @@ public class GameScreen implements Screen {
 
 	private void startFight(int health1, int health2, int keycode) {
 		fightingStage.setHealth(health1, health2, players.get(currentPlayerIndex), keycode);
-
+		
 		fightingStage.show();
 		Gdx.input.setInputProcessor(fightingStage);
 		
@@ -698,7 +692,7 @@ public class GameScreen implements Screen {
 	 *            door's position for both blocks
 	 */
 	public void unlockDoor(int[] pos) {
-		hud.setPlayerConsoleText("You just unlocked a Door!");
+		hud.setPlayerConsoleText("You just unlocked a door!");
 
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
