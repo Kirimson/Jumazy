@@ -105,13 +105,13 @@ public class GameSound {
     
     public static void setMedievalMenuMusic() {
     	stopMenuMusic();
-    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Medieval.wav"));
+    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Medieval.mp3"));
     	playMenuMusic();
     }
     
     public static void setOldEnglishMenuMusic() {
     	stopMenuMusic();
-    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/OldEnglishMenuSong.wav"));
+    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/OldEnglishMenuSong.mp3"));
     	playMenuMusic();
     }
 }
