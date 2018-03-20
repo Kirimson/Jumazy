@@ -340,4 +340,16 @@ public class JumazyController extends Game {
 
 		return monsterStats;
 	}
+
+	public void correctRiddle() {
+		int statAmount = maze.getCurrentPlayer().getStats().get("Intelligence");
+		if(statAmount + 1 < 6) {
+			maze.getCurrentPlayer().editStat("Intelligence", 1, true);
+			GameScreen gameScreen = (GameScreen) getScreen();
+
+			gameScreen.getHUD().setPlayerConsoleText("You did well with that trap! Your intelligence went up!");
+			gameScreen.showStatUpgrade("brain");
+			gameScreen.getHUD().updateIntelligence();
+		}
+	}
 }

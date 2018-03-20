@@ -188,6 +188,12 @@ public class HeadsUpDisplay extends Table {
 		}
 	}
 
+	public void updateIntelligence() {
+		intelligenceLabel.setColor(Color.ORANGE);
+		intelligenceLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+		setStatLabels(currentPlayerStats);
+	}
+
 	public void setDiceLabel(String string) {
 		diceLabelString = string;
 	}
@@ -195,4 +201,6 @@ public class HeadsUpDisplay extends Table {
 	public void setPlayerConsoleText(String string) {
 		playerLabelString = string;
 	}
+
+
 }
