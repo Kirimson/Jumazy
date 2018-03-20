@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.Align;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
+import java.util.Random;
+
 public class QuestionUI {
 
 	private Table table;
@@ -78,6 +80,10 @@ public class QuestionUI {
 				if (correct) {
 					GameSound.playCorrectSound();
 					hud.setPlayerConsoleText("Nice! You answered correctly!");
+
+					if(new Random().nextFloat() > 0.9f)
+						game.correctRiddle();
+
 				} else {
 					GameSound.playIncorrectSound();
 					hud.setPlayerConsoleText("Incorrect! Move back a turn.");

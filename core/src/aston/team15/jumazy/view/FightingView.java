@@ -69,6 +69,9 @@ public class FightingView extends Stage {
 		remove();
 		timeSinceFightDone = 0f;
 		boolean won = !(playerCurrentHP <= 0);
+		if(playerCurrentHP <= 0) {
+			GameSound.playLostFightSound();
+		}
 		game.stopFight(won, playerCurrentHP, reward);
     }
 	
@@ -119,6 +122,7 @@ public class FightingView extends Stage {
                 dice2.setDie(enemyRoll);
                 dice2.roll();
                 System.out.println("rolled: " + playerRoll + " and " + enemyRoll);
+                GameSound.playSwordSound();
             }
         }
 	}

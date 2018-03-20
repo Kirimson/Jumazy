@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Input;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
@@ -47,6 +48,7 @@ public class PlayerModel {
 	private String[] enemies = new String[] {"E","X","Z"};
 	private boolean pickedDoor = false;
 	private boolean pickAlreadyAttempted;
+	private int inteligenceCooldown;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
@@ -164,6 +166,8 @@ public class PlayerModel {
 	public int move(int direction) {
 		int rowDiff = 0, colDiff = 0;
 
+		GameSound.playStepSound();
+		
 		switch (direction) {
 		case Input.Keys.RIGHT:
 			colDiff = 1;

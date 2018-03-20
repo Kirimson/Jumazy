@@ -330,11 +330,12 @@ public class GameScreen implements Screen {
 		ArrayList<Item> inventory = playerInventory;
 
 		if (pickup) {
+			GameSound.playItemSound();
 			Item lastItem = inventory.get(inventory.size() - 1);
 			if (lastItem.getStatEffected() != null) {
 				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! "
 						+ lastItem.getStatEffected() + " increased by " + lastItem.getValue() + "!");
-				hud.updateItemStat(lastItem);
+				hud.updateItemStat(lastItem.getStatEffected());
 			} else if (lastItem == Item.KEY) {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}

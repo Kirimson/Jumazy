@@ -299,16 +299,17 @@ public class JumazyController extends Game {
 
 			if (playerHealth != maze.getCurrentPlayer().getStats().get("Health")) {
 				maze.getCurrentPlayer().editStat("Health", playerHealth, false);
-				gameScreen.getHUD().updateItemStat(Item.APPLE);
+				gameScreen.getHUD().updateItemStat("Health");
 			}
 
-			gameScreen.getHUD().updateItemStat(Item.SWORD);
+			gameScreen.getHUD().updateItemStat("Strength");
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
 			gameScreen.showStatUpgrade("muscle");
 
 		} else {
-			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health") / 2, false);
-			gameScreen.getHUD().updateItemStat(Item.APPLE);
+			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health")/2,
+					false);
+			gameScreen.getHUD().updateItemStat("Health");
 			gameScreen.getHUD().setPlayerConsoleText("You lost! Try again when you're ready!");
 			moveCurrentPlayerToStartOfTurn();
 		}
@@ -358,5 +359,17 @@ public class JumazyController extends Game {
 		monsterStats.put("Reward", reward);
 
 		return monsterStats;
+	}
+
+	public void correctRiddle() {
+		int statAmount = maze.getCurrentPlayer().getStats().get("Intelligence");
+		if(statAmount + 1 < 6) {
+			maze.getCurrentPlayer().editStat("Intelligence", 1, true);
+			GameScreen gameScreen = (GameScreen) getScreen();
+
+			gameScreen.getHUD().setPlayerConsoleText("You did well with that trap! Your intelligence went up!");
+			gameScreen.showStatUpgrade("brain");
+			gameScreen.getHUD().updateItemStat("Intelligence");
+		}
 	}
 }
