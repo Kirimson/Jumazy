@@ -29,10 +29,10 @@ public class PauseView extends Stage {
 
 		tableMA = new MoveToAction();
 		backgroundMA = new MoveToAction();
-		tableMA.setPosition(0f, -700f);
-		tableMA.setDuration(0.25f);
-		backgroundMA.setPosition(0f, -375f);
-		backgroundMA.setDuration(0.25f);
+		tableMA.setPosition(0f, -625f);
+		tableMA.setDuration(0.30f);
+		backgroundMA.setPosition(0f, -300f);
+		backgroundMA.setDuration(0.3f);
 		table.addAction(tableMA);
 		background.addAction(backgroundMA);
 
