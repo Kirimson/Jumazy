@@ -226,15 +226,23 @@ public class JumazyController extends Game {
 					Timer.schedule(new Task() {
 						@Override
 						public void run() {
-							if (maze.getCurrentPlayer().getPosition() != chestPos) {
-								maze.setCoordinateString(chestPos[0], chestPos[1], "C");
-								gameScreen.closeChest(chestPos);
-							}
+                            ArrayList<String> players = new ArrayList<String>();
+                            players.add("1");
+                            players.add("2");
+                            players.add("3");
+                            players.add("4");
+
+                            if(players.contains(maze.getCoordinateString(chestPos[0], chestPos[1])))
+                                maze.getCurrentPlayer().setCurrentPositionSymbol("C");
+                            else
+                                maze.setCoordinateString(chestPos[0], chestPos[1], "C");
+                            
+                            gameScreen.closeChest(chestPos);
 							
 							if (DEBUG_ON)
 								System.out.println("Closing chest at: (" + chestPos[0] + ", " + chestPos[1] + ")");
 						}
-					}, 180f);
+					}, 18f);
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare())
