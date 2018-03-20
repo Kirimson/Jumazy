@@ -368,6 +368,7 @@ public class MazeModel {
 		}
 		if(maze[row][col+1].equals("D")) {
 			maze[row][col + 1] = "d";
+			return;
 		}
 
 		if(maze[row-1][col].equals("D")) {
