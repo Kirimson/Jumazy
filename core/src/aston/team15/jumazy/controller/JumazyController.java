@@ -226,10 +226,20 @@ public class JumazyController extends Game {
 					Timer.schedule(new Task() {
 						@Override
 						public void run() {
-							if (maze.getCurrentPlayer().getPosition() != chestPos) {
-								maze.setCoordinateString(chestPos[0], chestPos[1], "C");
-								gameScreen.closeChest(chestPos);
+                            ArrayList<PlayerModel> players = maze.getplayers();
+							boolean playerOnChest = false;
+                            for(PlayerModel player : players){
+                            	if(player.getPosition()[0] == chestPos[0] && player.getPosition()[1] == chestPos[1]) {
+									player.setCurrentPositionSymbol("C");
+									playerOnChest = true;
+									break;
+								}
 							}
+
+							if(!playerOnChest)
+								maze.setCoordinateString(chestPos[0], chestPos[1], "C");
+
+                            gameScreen.closeChest(chestPos);
 							
 							if (DEBUG_ON)
 								System.out.println("Closing chest at: (" + chestPos[0] + ", " + chestPos[1] + ")");
@@ -241,6 +251,7 @@ public class JumazyController extends Game {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 
 				if (maze.getCurrentPlayer().isOnDoor()) {
+					gameScreen.getCurrentInventory().add(Item.KEY);
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
 					if (maze.getCurrentPlayer().pickedDoor()) {
 						gameScreen.getHUD()
@@ -293,8 +304,8 @@ public class JumazyController extends Game {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		if (won) {
 			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + reward;
-			if (newStat >= 6) {
-				maze.getCurrentPlayer().getStats().replace("Strength", 6);
+			if (newStat >= 8) {
+				maze.getCurrentPlayer().getStats().replace("Strength", 8);
 				gameScreen.getHUD()
 						.setPlayerConsoleText("You won! Your strength is maxed out, why not try the FINAL BOSS?");
 			} else {
@@ -341,8 +352,8 @@ public class JumazyController extends Game {
 
 		switch (monsterType) {
 		case "Z": // big boss
-			hp = 18;
-			str = 15 - playerstats.get("Strength");
+			hp = 17;
+			str = 14 - playerstats.get("Strength");
 			reward = 0;
 			break;
 		case "X": // common 1

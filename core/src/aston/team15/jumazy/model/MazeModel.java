@@ -9,6 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 import aston.team15.jumazy.controller.JumazyController;
 
+
 public class MazeModel {
 	// row is y and maze[0].length
 	// col is x and maze.length
@@ -335,6 +336,10 @@ public class MazeModel {
 		}
 
 		return currentPlayerIndex;
+	}
+
+	public ArrayList<PlayerModel> getplayers() {
+		return players;
 	}
 
 	public int rollForPlayer() {
