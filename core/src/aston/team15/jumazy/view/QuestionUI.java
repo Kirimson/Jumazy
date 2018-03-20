@@ -81,7 +81,7 @@ public class QuestionUI {
 					GameSound.playCorrectSound();
 					hud.setPlayerConsoleText("Nice! You answered correctly!");
 
-//					if(new Random().nextFloat() > 0.9f)
+					if(new Random().nextFloat() > 0.9f)
 						game.correctRiddle();
 
 				} else {

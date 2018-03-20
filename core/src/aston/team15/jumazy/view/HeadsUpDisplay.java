@@ -134,8 +134,8 @@ public class HeadsUpDisplay extends Table {
 		diceLabel.setText(diceLabelString);
 	}
 
-	public void updateItemStat(Item item) {
-		highlightLabel(item);
+	public void updateItemStat(String stat) {
+		highlightLabel(stat);
 		setStatLabels(currentPlayerStats);
 	}
 	
@@ -155,43 +155,36 @@ public class HeadsUpDisplay extends Table {
 		currentPlayerStats = newPlayerStats;
 	}
 
-	public void highlightLabel(Item item) {
-		switch(item) {
-		case RED_POTION:
-		case GRAPES:
-		case APPLE:
-			hpLabel.setColor(Color.RED);
-			hpLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-			break;
-		case BLUE_POTION:
-			staminaLabel.setColor(Color.BLUE);
-			staminaLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-			break;
-		case GREEN_POTION:
-			luckLabel.setColor(Color.GREEN);
-			luckLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-			break;
-		case PURPLE_POTION:
-			agilityLabel.setColor(Color.PURPLE);
-			agilityLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-			break;
-		case SWORD:
-			strengthLabel.setColor(Color.YELLOW);
-			strengthLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-			break;
-		case BOWANDARROW:
-			strengthLabel.setColor(Color.YELLOW);
-			strengthLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-			break;
+	public void highlightLabel(String stat) {
+		switch(stat) {
+			case "Max Health":
+			case "Health":
+				hpLabel.setColor(Color.RED);
+				hpLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+				break;
+			case "Stamina":
+				staminaLabel.setColor(Color.BLUE);
+				staminaLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+				break;
+			case "Luck":
+				luckLabel.setColor(Color.GREEN);
+				luckLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+				break;
+			case "Agility":
+				agilityLabel.setColor(Color.PURPLE);
+				agilityLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+				break;
+			case "Strength":
+				strengthLabel.setColor(Color.YELLOW);
+				strengthLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+				break;
+			case "Intelligence":
+				intelligenceLabel.setColor(Color.ORANGE);
+				intelligenceLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
+				break;
 		default:
 			break;
 		}
-	}
-
-	public void updateIntelligence() {
-		intelligenceLabel.setColor(Color.ORANGE);
-		intelligenceLabel.addAction(Actions.sequence(Actions.color(Color.WHITE, 4f)));
-		setStatLabels(currentPlayerStats);
 	}
 
 	public void setDiceLabel(String string) {
