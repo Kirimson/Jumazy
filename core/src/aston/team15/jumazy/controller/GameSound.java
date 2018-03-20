@@ -65,6 +65,10 @@ public class GameSound {
         Gdx.audio.newSound(Gdx.files.internal("snd/preFight.mp3")).play(uniVol);
     }
     
+    public static void playStepSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/step.mp3")).play(uniVol);
+    }
+    
     public static void setJungleMenuMusic() {
     	stopMenuMusic();
     	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Menu-Music.mp3"));

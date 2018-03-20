@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Input;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
@@ -151,6 +152,8 @@ public class PlayerModel {
 	public int move(int direction) {
 		int rowDiff = 0, colDiff = 0;
 
+		GameSound.playStepSound();
+		
 		switch (direction) {
 		case Input.Keys.RIGHT:
 			colDiff = 1;
