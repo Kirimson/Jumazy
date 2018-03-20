@@ -21,9 +21,9 @@ public class SettingsScreen extends MenuScreen {
 		String sliderVal = "" + volumeSlider.getValue();
 		percentage = new Label(sliderVal, skin);
 		percentage.setColor(Color.BLACK);
+		
 		title = new Label("Settings", skin);
 		title.setColor(Color.BLACK);
-
 		title.setFontScale(2f);
 		volumeTitle = new Label("Volume: ", skin);
 		volumeTitle.setColor(Color.BLACK);
