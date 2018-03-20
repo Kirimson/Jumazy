@@ -241,6 +241,7 @@ public class JumazyController extends Game {
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
 
 				if (maze.getCurrentPlayer().isOnDoor()) {
+					gameScreen.getCurrentInventory().add(Item.KEY);
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
 					if (maze.getCurrentPlayer().pickedDoor()) {
 						gameScreen.getHUD()

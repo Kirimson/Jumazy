@@ -66,6 +66,8 @@ public class GameScreen implements Screen {
 	private Lighting light;
 	private DiceView dice;
 
+	private ArrayList<Item> currentInventory;
+
 	/**
 	 * Creates a new GameScreen object. Comes with multiple stages for the game, UI
 	 * and pause layers. Renders the maze to the screen in accordance to the String
@@ -327,11 +329,12 @@ public class GameScreen implements Screen {
 	 *            up or not
 	 */
 	public void updateCurrentInventoryAndStats(ArrayList<Item> playerInventory, boolean pickup) {
-		ArrayList<Item> inventory = playerInventory;
+		currentInventory = playerInventory;
+//		ArrayList<Item> inventory = playerInventory;
 
 		if (pickup) {
 			GameSound.playItemSound();
-			Item lastItem = inventory.get(inventory.size() - 1);
+			Item lastItem = currentInventory.get(currentInventory.size() - 1);
 			if (lastItem.getStatEffected() != null) {
 				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! "
 						+ lastItem.getStatEffected() + " increased by " + lastItem.getValue() + "!");
@@ -380,6 +383,10 @@ public class GameScreen implements Screen {
 				actor.setVisible(false);
 			}
 		}
+	}
+	
+	public ArrayList<Item> getCurrentInventory() {
+		return currentInventory;
 	}
 
 	/**
@@ -719,7 +726,10 @@ public class GameScreen implements Screen {
 	 */
 	public void unlockDoor(int[] pos) {
 		hud.setPlayerConsoleText("You just unlocked a door!");
-
+		currentInventory.remove(Item.KEY);
+		clearInventory();
+		renderInventory(currentInventory);
+		
 		for (Actor a : gameStage.getActors()) {
 			if (a instanceof BlockView) {
 				if (a.getName().equals(pos[1] + "," + pos[0]))
