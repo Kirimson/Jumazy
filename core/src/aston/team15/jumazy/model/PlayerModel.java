@@ -48,6 +48,7 @@ public class PlayerModel {
 	private String[] enemies = new String[] {"E","X","Z"};
 	private boolean pickedDoor = false;
 	private boolean pickAlreadyAttempted;
+	private int inteligenceCooldown;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
