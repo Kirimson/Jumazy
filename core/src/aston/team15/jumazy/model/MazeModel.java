@@ -37,8 +37,6 @@ public class MazeModel {
 	private ArrayList<String[][]> allRoomLayouts;
 	private boolean makeVictory = true;
 
-	private ArrayList<int[]> chestCooldown;
-
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 		float weatherDiscriminant = new Random().nextFloat();
 		if (weatherDiscriminant <= 0.3) {
@@ -298,7 +296,7 @@ public class MazeModel {
 	 * @param col
 	 */
 	public void setOpenedChestCooldown(int row, int col) {
-
+		
 	}
 
 	public String[][] getMaze() {

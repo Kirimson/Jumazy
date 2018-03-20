@@ -199,7 +199,7 @@ public class PlayerModel {
 				if (new Random().nextDouble() < 0.1)
 					onStuckChest = true;
 				else
-					currentPositionSymbol = "c";
+					currentPositionSymbol = "c";				
 			} else onChest = false;
 
 			if (JumazyController.DEBUG_ON)
@@ -207,6 +207,7 @@ public class PlayerModel {
 						+ " moves left.\n" + maze.toString());
 
 			return 1;
+			
 		} else if (checkForEnemy(row + rowDiff, col + colDiff) && movesLeft > 0) {
 
 			if (JumazyController.DEBUG_ON)
@@ -223,9 +224,12 @@ public class PlayerModel {
 						+ " moves left.\n" + maze.toString());
 			return 0;
 		}
-
 	}
 
+	public void setCurrentPositionSymbol(String str) {
+		currentPositionSymbol = str;
+	}
+	
 	public boolean obtainRandomItemFromChest() {
 			Item newItem = Item.values()[new Random().nextInt(Item.values().length)];
 			inventory.add(newItem);
