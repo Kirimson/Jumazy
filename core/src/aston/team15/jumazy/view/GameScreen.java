@@ -409,7 +409,16 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-
+	}
+	
+	public void closeChest(int[] pos) {
+		for (Actor a : gameStage.getActors()) {
+			if (a instanceof BlockView) {
+				if (a.getName().equals(pos[1] + "," + pos[0])) {
+					((BlockView) a).changeSprite(new Sprite(game.getSprite("chest-closed")));
+				}
+			}
+		}
 	}
 
 	private void fadeActorOut(Sprite actorSprite, float x, float y, boolean moveUp){
