@@ -54,7 +54,6 @@ public class GameSound {
 
     public static void playCorrectSound() {
         Gdx.audio.newSound(Gdx.files.internal("snd/correct.wav")).play(uniVol);
-
     }
 
     public static void playIncorrectSound() {
@@ -67,6 +66,10 @@ public class GameSound {
     
     public static void playSwordSound() {
         Gdx.audio.newSound(Gdx.files.internal("snd/sword.wav")).play(uniVol);
+    }
+    
+    public static void playDiceSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/dice.wav")).play(uniVol);
     }
     
     public static void playStepSound() {
