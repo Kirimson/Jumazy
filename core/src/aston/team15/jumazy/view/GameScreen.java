@@ -334,7 +334,7 @@ public class GameScreen implements Screen {
 			if (lastItem.getStatEffected() != null) {
 				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! "
 						+ lastItem.getStatEffected() + " increased by " + lastItem.getValue() + "!");
-				hud.updateItemStat(lastItem);
+				hud.updateItemStat(lastItem.getStatEffected());
 			} else if (lastItem == Item.KEY) {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}

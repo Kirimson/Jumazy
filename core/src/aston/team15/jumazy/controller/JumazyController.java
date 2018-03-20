@@ -279,17 +279,17 @@ public class JumazyController extends Game {
 
 			if(playerHealth != maze.getCurrentPlayer().getStats().get("Health")){
 				maze.getCurrentPlayer().editStat("Health", playerHealth, false);
-				gameScreen.getHUD().updateItemStat(Item.APPLE);
+				gameScreen.getHUD().updateItemStat("Health");
 			}
 
-			gameScreen.getHUD().updateItemStat(Item.SWORD);
+			gameScreen.getHUD().updateItemStat("Strength");
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
 			gameScreen.showStatUpgrade("muscle");
 
 		} else {
 			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health")/2,
 					false);
-			gameScreen.getHUD().updateItemStat(Item.APPLE);
+			gameScreen.getHUD().updateItemStat("Health");
 			gameScreen.getHUD().setPlayerConsoleText("You lost! Try again when you're ready!");
 			moveCurrentPlayerToStartOfTurn();
 		}
@@ -349,7 +349,7 @@ public class JumazyController extends Game {
 
 			gameScreen.getHUD().setPlayerConsoleText("You did well with that trap! Your intelligence went up!");
 			gameScreen.showStatUpgrade("brain");
-			gameScreen.getHUD().updateIntelligence();
+			gameScreen.getHUD().updateItemStat("Intelligence");
 		}
 	}
 }
