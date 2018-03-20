@@ -351,7 +351,6 @@ public class MazeModel {
 	 * @param col column of original door half
 	 */
 	public void unlockDoor(int row, int col) {
-
 		if(maze[row][col-1].equals("D")) {
 			maze[row][col - 1] = "d";
 			return;
