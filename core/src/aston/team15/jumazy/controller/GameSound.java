@@ -54,7 +54,6 @@ public class GameSound {
 
     public static void playCorrectSound() {
         Gdx.audio.newSound(Gdx.files.internal("snd/correct.wav")).play(uniVol);
-
     }
 
     public static void playIncorrectSound() {
@@ -69,8 +68,20 @@ public class GameSound {
         Gdx.audio.newSound(Gdx.files.internal("snd/sword.wav")).play(uniVol);
     }
     
+    public static void playDiceSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/dice.wav")).play(uniVol);
+    }
+    
     public static void playStepSound() {
         Gdx.audio.newSound(Gdx.files.internal("snd/step.mp3")).play(uniVol);
+    }
+    
+    public static void playItemSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/item.mp3")).play(uniVol);
+    }
+    
+    public static void playLostFightSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/lostFight.wav")).play(uniVol);
     }
     
     public static void setJungleMenuMusic() {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class DiceView extends Actor {
@@ -111,7 +112,7 @@ public class DiceView extends Actor {
 
 	public int roll() {
 		int rollNumber;
-
+		GameSound.playDiceSound();
 		if (currentElapsedTime > nextTime && !rollFinished) {
 			rollNumber = getNewIndex();
 			currentElapsedTime = 0.0f;
