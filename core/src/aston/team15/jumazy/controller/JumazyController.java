@@ -35,7 +35,7 @@ import aston.team15.jumazy.view.VictoryScreen;
  * As part of its role, this class uses the state-like design pattern to manage
  * the games screens.
  * 
- * @author Abdullah, Kieran, Shayan, Jawwad
+ * @author Abdullah, Kieran, Shayan, David, Jawwad
  *
  */
 public class JumazyController extends Game {

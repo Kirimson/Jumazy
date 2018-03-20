@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
- * @author Kieran
+ * Basic button that chnages mouse texture on hover and click
+ *
+ * @author Kieran, Dom
  */
 public class JumazyButton extends TextButton {
 

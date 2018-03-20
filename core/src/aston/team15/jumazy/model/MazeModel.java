@@ -12,7 +12,7 @@ import aston.team15.jumazy.controller.JumazyController;
 /**
  * Primitive implementation of the maze, using Strings to create a easily editable text based maze
  *
- * @author Kieran, Abdullah, Jawwad, Bradley
+ * @author Kieran, Abdullah, Jawwad, Bradley, David
  */
 public class MazeModel {
 	// row is y and maze[0].length

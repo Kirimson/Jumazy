@@ -28,7 +28,7 @@ import aston.team15.jumazy.model.PlayerModel.CharacterName;
 /**
  * Screen allowing players to choose a character, showing their stats and brief information about them
  *
- * @author Kieran
+ * @author Kieran, Bradley, Maryam
  */
 public class CharacterSelectScreen implements Screen{
 

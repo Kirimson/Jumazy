@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-
+/**
+ * Screen allowing player to select how many players there are and what question types to have
+ *
+ * @author Mahnoor, Shayan
+ */
 public class PlayerAmountSelectScreen extends MenuScreen {
 
 

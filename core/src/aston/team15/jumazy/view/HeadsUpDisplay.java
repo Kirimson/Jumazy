@@ -17,6 +17,8 @@ import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.Item;
 
 /**
+ * Graphical display showing player stats and their inventory, as well as information about current state of game
+ *
  * @author Abdullah, Kieran
  */
 public class HeadsUpDisplay extends Table {

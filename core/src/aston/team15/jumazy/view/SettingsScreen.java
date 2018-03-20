@@ -5,6 +5,11 @@ import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
+/**
+ * Screen allowing player to chnage volume and go to the texture select screen
+ *
+ * @author Dom
+ */
 public class SettingsScreen extends MenuScreen {
 
 	private Label percentage, title, volumeTitle;

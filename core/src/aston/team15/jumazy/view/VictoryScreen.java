@@ -10,6 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
+/**
+ * Screen displaying the winner of the game, giving an option to go back to the main screen, or quit
+ *
+ * @author Maraym
+ */
 public class VictoryScreen extends MenuScreen {
 
     public VictoryScreen(JumazyController game, int winningPlayer) {

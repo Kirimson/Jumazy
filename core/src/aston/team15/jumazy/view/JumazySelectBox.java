@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
+ * SelectBox that has extra left padding
+ *
  * @author Kieran
  * @param <T>
  */

@@ -16,6 +16,11 @@ import aston.team15.jumazy.controller.JumazyController;
 
 import java.util.Random;
 
+/**
+ * UI dispalyed on screnn when the player lands on a trap. uses QuestionRetriever to get a question
+ *
+ * @author Shayan
+ */
 public class QuestionUI {
 
 	private Table table;

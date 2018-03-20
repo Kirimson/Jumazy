@@ -9,6 +9,8 @@ import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 /**
+ * First menu that is seen in the game, contains play, settings and quit button
+ *
  * @author Abdullah, Kieran, Dom, Shayan
  */
 public class MainMenuScreen extends MenuScreen {

@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
+ *
+ * An image overlay that hinders a players vision in the maze, grows and shrinks and has two set base sized depending on an item
+ *
  * @author David, Kieran
  */
 public class Lighting extends Image{

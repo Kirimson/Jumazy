@@ -14,6 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * Pause screen that is displayed during the game
+ *
+ * @author Kieran, Shayan
+ */
 public class PauseView extends Stage {
 
     private Table table;

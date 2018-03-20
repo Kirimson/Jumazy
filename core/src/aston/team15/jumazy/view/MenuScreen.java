@@ -19,7 +19,7 @@ import aston.team15.jumazy.controller.JumazyController;
  * 
  * Also implements code for dynamic resizing, rendering, and capturing input.
  * 
- * @author Abdullah
+ * @author Abdullah, Marymam
  *
  */
 public abstract class MenuScreen implements Screen {

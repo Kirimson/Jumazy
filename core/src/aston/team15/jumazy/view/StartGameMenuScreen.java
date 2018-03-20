@@ -2,6 +2,11 @@ package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.JumazyController;
 
+/**
+ * Allows player to go the player go to playerAmountSelectScreen and TutorialScreen
+ *
+ * @author Dom, Mahnoor
+ */
 public class StartGameMenuScreen extends MenuScreen {
 
 	public StartGameMenuScreen(JumazyController theGame) {

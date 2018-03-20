@@ -11,7 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.HashMap;
 
-
+/**
+ * Graphical class allowing player to choose what question types to have in the game
+ *
+ * @author Shayan
+ */
 public class QuestionPopUpCreator {
 	
 	private Skin skin;

@@ -14,6 +14,8 @@ import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 /**
+ * Screen displayed when a fight has started, shows health of players and monsters
+ *
  * @author Jawwad, Kieran, Dom, Addullah
  */
 public class FightingView extends Stage {

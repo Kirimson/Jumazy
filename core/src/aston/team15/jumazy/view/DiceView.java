@@ -11,6 +11,7 @@ import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 /**
+ *Graphical representation of the dice, that rolls through a list of numbers, ending up on the set final die
  *
  * @author Dom, Kieran, Jawwad, Abdullah
  */

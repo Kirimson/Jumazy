@@ -5,6 +5,11 @@ import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * A button that takes a GameScreen Enum as a parameter, taking the player to that screen wean the button is clicked
+ *
+ * @author Abdullah, Dom
+ */
 public class MenuScreenButton extends JumazyButton {
 
 	public MenuScreenButton(String string, final MenuScreens startGameScreen, final JumazyController game) {
@@ -12,7 +17,6 @@ public class MenuScreenButton extends JumazyButton {
 
 		this.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				GameSound.playButtonSound();
 				switch (startGameScreen) {
 				case MAIN_MENU_SCREEN:
 					game.setScreen(new MainMenuScreen(game));

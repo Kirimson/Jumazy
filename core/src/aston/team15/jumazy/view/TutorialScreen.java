@@ -8,6 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import aston.team15.jumazy.controller.JumazyController;
 
+/**
+ * Screen tabling the player how to play the game and its feature
+ *
+ * @author Shayan
+ */
 public class TutorialScreen extends MenuScreen {
 	
 	private Skin skin;

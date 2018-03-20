@@ -9,6 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
+/**
+ * Graphical representation of a player
+ *
+ * @author Kieran, Adbullah, Jawwad, Maryam
+ */
 public class PlayerView extends Actor {
 	private Sprite sprite;
 

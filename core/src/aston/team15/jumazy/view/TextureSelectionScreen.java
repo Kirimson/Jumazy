@@ -9,6 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
+/**
+ * Allows players to change the currently used texture pack
+ *
+ * @author Dom
+ */
 public class TextureSelectionScreen extends MenuScreen {
 	
 	public TextureSelectionScreen(JumazyController theGame) {

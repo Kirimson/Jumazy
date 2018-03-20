@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
+ * Graphical representation of an item in the game
+ *
  * @author Abdullah
  */
 public class ItemView extends Actor {
