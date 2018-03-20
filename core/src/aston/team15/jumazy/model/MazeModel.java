@@ -10,7 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class MazeModel {
-    // row is y and maze[0].length
+	// row is y and maze[0].length
 	// col is x and maze.length
 	// array goes (y,x)/(row,col)
 
@@ -36,6 +36,8 @@ public class MazeModel {
 	private Weather weather;
 	private ArrayList<String[][]> allRoomLayouts;
 	private boolean makeVictory = true;
+
+	private ArrayList<int[]> chestCooldown;
 
 	public MazeModel(int roomsAcross, int roomsDown, int playerAmount, ArrayList<PlayerModel.CharacterName> playerOrder) {
 		float weatherDiscriminant = new Random().nextFloat();
@@ -289,6 +291,15 @@ public class MazeModel {
         }
 	    return true;
     }
+
+	/**
+	 *
+	 * @param row
+	 * @param col
+	 */
+	public void setOpenedChestCooldown(int row, int col) {
+
+	}
 
 	public String[][] getMaze() {
 		return maze;

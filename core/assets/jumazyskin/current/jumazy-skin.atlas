@@ -46,6 +46,13 @@ bossUR
   orig: 32, 32
   offset: 0, 0
   index: -1
+brain
+  rotate: false
+  xy: 1004, 954
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 char1
   rotate: false
   xy: 964, 134
@@ -116,51 +123,65 @@ checkbox-on
   orig: 28, 28
   offset: 0, 0
   index: -1
-cursor
-  rotate: false
-  xy: 1004, 812
-  size: 2, 32
-  orig: 2, 32
-  offset: 0, 0
-  index: -1
-grapes
-  rotate: false
-  xy: 1004, 954
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-key
+clover
   rotate: false
   xy: 1004, 936
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-money
+cursor
+  rotate: false
+  xy: 1004, 758
+  size: 2, 32
+  orig: 2, 32
+  offset: 0, 0
+  index: -1
+grapes
   rotate: false
   xy: 1004, 918
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-potion-blue
+key
   rotate: false
   xy: 1004, 900
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-potion-green
+money
   rotate: false
   xy: 1004, 882
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-potion-red
+muscle
   rotate: false
   xy: 1004, 864
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+potion-blue
+  rotate: false
+  xy: 1004, 846
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+potion-green
+  rotate: false
+  xy: 1004, 828
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+potion-red
+  rotate: false
+  xy: 1004, 810
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -181,7 +202,7 @@ settingsback
   index: -1
 shoe
   rotate: false
-  xy: 1004, 846
+  xy: 1004, 792
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

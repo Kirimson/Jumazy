@@ -259,6 +259,9 @@ public class PlayerModel {
 						playerStats.replace("Health", playerStats.get("Max Health"));
 					} 
 				}
+
+				maze.setOpenedChestCooldown(row, col);
+
 				return true;
 			}		
 	}

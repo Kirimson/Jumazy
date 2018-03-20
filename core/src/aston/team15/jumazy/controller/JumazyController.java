@@ -284,6 +284,7 @@ public class JumazyController extends Game {
 
 			gameScreen.getHUD().updateItemStat(Item.SWORD);
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
+			gameScreen.showStatUpgrade("muscle");
 
 		} else {
 			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health")/2,
