@@ -148,7 +148,7 @@ public class HeadsUpDisplay extends Table {
 	public void setStatLabels(LinkedHashMap<String, Integer> newPlayerStats) {
 		hpLabel.setText("HP: " + newPlayerStats.get("Health") + "/" + newPlayerStats.get("Max Health"));
 		staminaLabel.setText("Stamina: " + newPlayerStats.get("Stamina") + "/6");
-		strengthLabel.setText("Strength: " + newPlayerStats.get("Strength") + "/6");
+		strengthLabel.setText("Strength: " + newPlayerStats.get("Strength") + "/8");
 		luckLabel.setText("Luck: " + newPlayerStats.get("Luck") + "/6");
 		agilityLabel.setText("Agility: " + newPlayerStats.get("Agility") + "/6");
 		intelligenceLabel.setText("Intelligence: " + newPlayerStats.get("Intelligence") + "/6");

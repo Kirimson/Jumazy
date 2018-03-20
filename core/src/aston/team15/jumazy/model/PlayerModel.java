@@ -261,9 +261,11 @@ public class PlayerModel {
 					playerStats.replace(newItem.getStatEffected(), newStat);
 					
 					if (newItem != Item.RED_POTION && newItem != Item.GRAPES && newItem != Item.APPLE) {
-						if (newStat > 6) {					
+						if((newItem == Item.SWORD || newItem == Item.BOWANDARROW) && newStat >= 8)
+							playerStats.replace(newItem.getStatEffected(), 8);
+						else if (newStat >= 6)
 							playerStats.replace(newItem.getStatEffected(), 6);
-						}
+
 					} else if (playerStats.get("Health") > playerStats.get("Max Health")) {
 						playerStats.replace("Health", playerStats.get("Max Health"));
 					} 

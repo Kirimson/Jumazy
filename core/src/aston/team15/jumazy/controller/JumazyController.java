@@ -294,8 +294,8 @@ public class JumazyController extends Game {
 		GameScreen gameScreen = (GameScreen) getScreen();
 		if (won) {
 			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + reward;
-			if (newStat >= 6) {
-				maze.getCurrentPlayer().getStats().replace("Strength", 6);
+			if (newStat >= 8) {
+				maze.getCurrentPlayer().getStats().replace("Strength", 8);
 				gameScreen.getHUD()
 						.setPlayerConsoleText("You won! Your strength is maxed out, why not try the FINAL BOSS?");
 			} else {
