@@ -33,10 +33,7 @@ public class QuestionRetriever {
 
 
 	/**
-	 * Get a question from a selected question file. Checks current question against
-	 * lastQuestion so no duplicates occur
-	 * 
-	 * @return String array for contents of question
+	 * Get a question from a selected question file.
 	 */
 	public void retrieveFromFile() {
 		int index = 0;
