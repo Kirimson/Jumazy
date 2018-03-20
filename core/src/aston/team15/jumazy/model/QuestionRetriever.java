@@ -86,5 +86,17 @@ public class QuestionRetriever {
 		}
 		return cells;
 	}
+	
+	public void clear() {
+		if(!lines.isEmpty()) {
+			lines.clear();
+		}
+		
+		if(!lastQuestion.isEmpty()) {
+			lastQuestion.clear();
+		}
+		
+		
+	}
 
 }

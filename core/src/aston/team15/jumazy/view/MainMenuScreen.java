@@ -13,6 +13,7 @@ public class MainMenuScreen extends MenuScreen {
 	public MainMenuScreen(JumazyController theGame) {
 		super(theGame);
 
+		
 		Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 
@@ -40,7 +41,7 @@ public class MainMenuScreen extends MenuScreen {
 			GameSound.playMenuMusic();
 		}
 		GameSound.stopGameStartMusic();
-
+		theGame.resetQuestions();
 	}
 
 	@Override
