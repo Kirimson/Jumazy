@@ -235,8 +235,7 @@ public class PlayerModel {
 	}
 	
 	public boolean obtainRandomItemFromChest() {
-//			Item newItem = Item.values()[new Random().nextInt(Item.values().length)];
-			Item newItem = Item.KEY;
+			Item newItem = Item.values()[new Random().nextInt(Item.values().length)];
 			inventory.add(newItem);
 			ArrayList<Item> heldItems = new ArrayList<Item>();
 
