@@ -11,6 +11,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
@@ -140,8 +142,8 @@ public class JumazyController extends Game {
 	 *            A String that represents the name of the new skin.
 	 */
 	public void updateSkin(String path) {
-		textures = new TextureAtlas("jumazyskin/"+path + "/jumazy-skin.atlas");
-		gameSkin = new Skin(Gdx.files.internal("jumazyskin/"+path + "/jumazy-skin.json"));
+		textures = new TextureAtlas("jumazyskin/" + path + "/jumazy-skin.atlas");
+		gameSkin = new Skin(Gdx.files.internal("jumazyskin/" + path + "/jumazy-skin.json"));
 		texturePack = path;
 	}
 
@@ -180,10 +182,11 @@ public class JumazyController extends Game {
 					if (new Random().nextDouble() < (0.15
 							+ ((double) maze.getCurrentPlayer().getStatFromHashMap("Agility")) / 100)) {
 						gameScreen.getHUD().setPlayerConsoleText("Your agility helped you escape this trap!");
+						gameScreen.showStatUpgrade("shoe");
 					} else {
 						gameScreen.getHUD()
 								.setPlayerConsoleText("You landed on a trap! Answer the question to keep going!");
-						if(questionsRetrieved == false) {
+						if (questionsRetrieved == false) {
 							questionRetriever.retrieveFromFile();
 							questionsRetrieved = true;
 						}
@@ -217,16 +220,32 @@ public class JumazyController extends Game {
 						gameScreen.getHUD().setPlayerConsoleText("Seems like there's nothing inside this chest.");
 						gameScreen.openChest(maze.getCurrentPlayer().getPosition(), null);
 					}
+
+					int[] chestPos = maze.getCurrentPlayer().getPosition();
+
+					Timer.schedule(new Task() {
+						@Override
+						public void run() {
+							if (maze.getCurrentPlayer().getPosition() != chestPos) {
+								maze.setCoordinateString(chestPos[0], chestPos[1], "C");
+								gameScreen.closeChest(chestPos);
+							}
+							
+							if (DEBUG_ON)
+								System.out.println("Closing chest at: (" + chestPos[0] + ", " + chestPos[1] + ")");
+						}
+					}, 180f);
 				}
 
 				if (maze.getCurrentPlayer().isOnVictorySquare())
 					setScreen(new VictoryScreen(this, gameScreen.getCurrentPlayerNumber()));
-				
 
 				if (maze.getCurrentPlayer().isOnDoor()) {
 					gameScreen.unlockDoor(maze.getDoorPositions(maze.getCurrentPlayer()));
 					if (maze.getCurrentPlayer().pickedDoor()) {
-						gameScreen.getHUD().setPlayerConsoleText("You used your intelligence to pick this door's lock!");
+						gameScreen.getHUD()
+								.setPlayerConsoleText("You used your intelligence to pick this door's lock!");
+						gameScreen.showStatUpgrade("brain");
 						maze.getCurrentPlayer().setAlreadyPicked(true);
 					}
 				}
@@ -244,12 +263,12 @@ public class JumazyController extends Game {
 				gameScreen.renderInventory(maze.getCurrentPlayer().getInventory());
 
 				boolean bigLight;
-				if(maze.getCurrentPlayer().getInventory().contains(Item.TORCH))
-				    bigLight = true;
+				if (maze.getCurrentPlayer().getInventory().contains(Item.TORCH))
+					bigLight = true;
 				else
-				    bigLight = false;
+					bigLight = false;
 
-                gameScreen.setBigLight(bigLight);
+				gameScreen.setBigLight(bigLight);
 
 				return true;
 			} else {
@@ -270,37 +289,38 @@ public class JumazyController extends Game {
 		questionRetriever.clear();
 	}
 
-    public void stopFight(boolean won, int playerHealth, int reward) {
+	public void stopFight(boolean won, int playerHealth, int reward) {
 		GameScreen gameScreen = (GameScreen) getScreen();
-		if(won){
+		if (won) {
 			int newStat = maze.getCurrentPlayer().getStatFromHashMap("Strength") + reward;
 			if (newStat >= 6) {
 				maze.getCurrentPlayer().getStats().replace("Strength", 6);
-				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength is maxed out, why not try the FINAL BOSS?");
+				gameScreen.getHUD()
+						.setPlayerConsoleText("You won! Your strength is maxed out, why not try the FINAL BOSS?");
 			} else {
-				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength increased by "+reward+"!");
+				gameScreen.getHUD().setPlayerConsoleText("You won! Your strength increased by " + reward + "!");
 				maze.getCurrentPlayer().editStat("Strength", reward, true);
 			}
 
-			if(playerHealth != maze.getCurrentPlayer().getStats().get("Health")){
+			if (playerHealth != maze.getCurrentPlayer().getStats().get("Health")) {
 				maze.getCurrentPlayer().editStat("Health", playerHealth, false);
-				gameScreen.getHUD().updateItemStat(Item.APPLE);
+				gameScreen.getHUD().updateItemStat("Health");
 			}
 
-			gameScreen.getHUD().updateItemStat(Item.SWORD);
+			gameScreen.getHUD().updateItemStat("Strength");
 			gameScreen.removeMonster(maze.removeMonster(maze.getCurrentPlayer().getPosition()));
 			gameScreen.showStatUpgrade("muscle");
 
 		} else {
 			maze.getCurrentPlayer().editStat("Health", maze.getCurrentPlayer().getStats().get("Max Health")/2,
 					false);
-			gameScreen.getHUD().updateItemStat(Item.APPLE);
+			gameScreen.getHUD().updateItemStat("Health");
 			gameScreen.getHUD().setPlayerConsoleText("You lost! Try again when you're ready!");
 			moveCurrentPlayerToStartOfTurn();
 		}
 
-        gameScreen.stopFight();
-    }
+		gameScreen.stopFight();
+	}
 
 	/**
 	 * Handles the logic for question answering, particularly when a riddle is
@@ -319,23 +339,23 @@ public class JumazyController extends Game {
 
 		int hp, str, reward;
 
-		switch (monsterType){
-			case "Z": //big boss
-				hp = 18;
-				str = 15 - playerstats.get("Strength");
-				reward = 0;
-				break;
-			case "X": //common 1
-				hp = 11;
-				str = 3;
-				reward = 2;
-				break;
-			case "E": //common 2
-			default :
-				hp = 10;
-				str = 2;
-				reward = 1;
-				break;
+		switch (monsterType) {
+		case "Z": // big boss
+			hp = 18;
+			str = 15 - playerstats.get("Strength");
+			reward = 0;
+			break;
+		case "X": // common 1
+			hp = 11;
+			str = 3;
+			reward = 2;
+			break;
+		case "E": // common 2
+		default:
+			hp = 10;
+			str = 2;
+			reward = 1;
+			break;
 		}
 
 		monsterStats.put("Max Health", hp);
@@ -354,7 +374,7 @@ public class JumazyController extends Game {
 
 			gameScreen.getHUD().setPlayerConsoleText("You did well with that trap! Your intelligence went up!");
 			gameScreen.showStatUpgrade("brain");
-			gameScreen.getHUD().updateIntelligence();
+			gameScreen.getHUD().updateItemStat("Intelligence");
 		}
 	}
 }

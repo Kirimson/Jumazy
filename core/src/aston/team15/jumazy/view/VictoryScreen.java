@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
 public class VictoryScreen extends MenuScreen {
@@ -15,6 +16,8 @@ public class VictoryScreen extends MenuScreen {
         super(game, game.getTexturePackName().equals("oldenglish") ? "backgrounds/victoryBackgroundBW.jpg" :
                 "backgrounds/victoryBackground.jpg");
 
+        GameSound.playVictorySound();
+        
         table.top().padTop(225f);
 
         Skin skin = game.getSkin();

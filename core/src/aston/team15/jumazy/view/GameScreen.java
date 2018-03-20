@@ -335,7 +335,7 @@ public class GameScreen implements Screen {
 			if (lastItem.getStatEffected() != null) {
 				hud.setPlayerConsoleText("You just picked up a " + lastItem.toString() + "! "
 						+ lastItem.getStatEffected() + " increased by " + lastItem.getValue() + "!");
-				hud.updateItemStat(lastItem);
+				hud.updateItemStat(lastItem.getStatEffected());
 			} else if (lastItem == Item.KEY) {
 				hud.setPlayerConsoleText("You just picked up a key! Which door will you open?");
 			}
@@ -409,7 +409,16 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-
+	}
+	
+	public void closeChest(int[] pos) {
+		for (Actor a : gameStage.getActors()) {
+			if (a instanceof BlockView) {
+				if (a.getName().equals(pos[1] + "," + pos[0])) {
+					((BlockView) a).changeSprite(new Sprite(game.getSprite("chest-closed")));
+				}
+			}
+		}
 	}
 
 	private void fadeActorOut(Sprite actorSprite, float x, float y, boolean moveUp){
