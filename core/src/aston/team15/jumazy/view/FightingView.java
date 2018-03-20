@@ -119,6 +119,7 @@ public class FightingView extends Stage {
                 dice2.setDie(enemyRoll);
                 dice2.roll();
                 System.out.println("rolled: " + playerRoll + " and " + enemyRoll);
+                GameSound.playSwordSound();
             }
         }
 	}
