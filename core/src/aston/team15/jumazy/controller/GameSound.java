@@ -84,6 +84,10 @@ public class GameSound {
         Gdx.audio.newSound(Gdx.files.internal("snd/lostFight.wav")).play(uniVol);
     }
     
+    public static void playVictorySound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/victorySound.mp3")).play(uniVol);
+    }
+    
     public static void setJungleMenuMusic() {
     	stopMenuMusic();
     	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Menu-Music.mp3"));
