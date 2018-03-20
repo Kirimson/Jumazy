@@ -264,6 +264,11 @@ public class JumazyController extends Game {
 			return true;
 		}
 	}
+	
+	public void resetQuestions(){
+		questionsRetrieved = false;
+		questionRetriever.clear();
+	}
 
     public void stopFight(boolean won, int playerHealth, int reward) {
 		GameScreen gameScreen = (GameScreen) getScreen();
