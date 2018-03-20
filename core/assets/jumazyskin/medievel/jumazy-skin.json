@@ -88,8 +88,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: tea
 		fontColor: White
-		background: button
-		focusedBackground: button-hover
+		background: text-field-bg
+		focusedBackground: text-field-highlight
 		cursor: cursor
 	}
 }
