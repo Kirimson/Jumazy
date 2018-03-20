@@ -88,9 +88,19 @@ public class GameSound {
         Gdx.audio.newSound(Gdx.files.internal("snd/victorySound.mp3")).play(uniVol);
     }
     
+    public static void playTrapSound() {
+        Gdx.audio.newSound(Gdx.files.internal("snd/trap.wav")).play(uniVol);
+    }
+    
     public static void setJungleMenuMusic() {
     	stopMenuMusic();
     	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Menu-Music.mp3"));
+    	playMenuMusic();
+    }
+    
+    public static void setMedievalMenuMusic() {
+    	stopMenuMusic();
+    	menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Medieval.wav"));
     	playMenuMusic();
     }
     

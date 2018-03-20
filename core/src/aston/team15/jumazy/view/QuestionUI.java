@@ -27,7 +27,7 @@ public class QuestionUI {
 
 	QuestionUI(final JumazyController game, HeadsUpDisplay hud) {
 		Skin skin = game.getSkin();
-
+		
 		table = new Table();
 		table.setFillParent(true);
 		table.padTop(-175);

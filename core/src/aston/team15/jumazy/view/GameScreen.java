@@ -593,6 +593,7 @@ public class GameScreen implements Screen {
 	 *            string containing both question and answer for question
 	 */
 	public void createQuestion(String[] questionAndAns) {
+		GameSound.playTrapSound();
 		questionUI.displayQuestion(questionAndAns);
 		questionUI.addToStage(uiStage);
 	}
