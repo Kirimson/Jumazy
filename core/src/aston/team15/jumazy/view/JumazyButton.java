@@ -12,7 +12,7 @@ public class JumazyButton extends TextButton {
 
     public JumazyButton(String text, Skin skin){
         super(text, skin);
-
+        
         this.addListener(new InputListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 Pixmap cursor = new Pixmap(Gdx.files.internal("hand.png"));

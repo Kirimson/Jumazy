@@ -3,11 +3,14 @@ package aston.team15.jumazy.view;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -29,7 +32,7 @@ public class PauseView extends Stage {
 
 		tableMA = new MoveToAction();
 		backgroundMA = new MoveToAction();
-		tableMA.setPosition(0f, -625f);
+		tableMA.setPosition(0f, -525f);
 		tableMA.setDuration(0.30f);
 		backgroundMA.setPosition(0f, -300f);
 		backgroundMA.setDuration(0.3f);
@@ -38,6 +41,12 @@ public class PauseView extends Stage {
 
         background.add(new Image(game.getSprite("pause-dialog")));
 
+        Skin skin = game.getSkin();
+        
+        Label title = new Label("PAUSE", skin);
+		title.setColor(Color.WHITE);
+		title.setFontScale(2f);
+		
         JumazyButton resumeButton = new JumazyButton("Resume", game.getSkin());
 
         resumeButton.addListener(new ClickListener() {
@@ -62,9 +71,11 @@ public class PauseView extends Stage {
 
         MenuScreenButton quitButton = new MenuScreenButton("Quit", MenuScreens.MAIN_MENU_SCREEN, game);
 
-        table.add(resumeButton).pad(10);
+		table.add(title).padBottom(40);
+		table.row();
+        table.add(resumeButton).pad(20);
         table.row();
-        table.add(quitButton).pad(10);
+        table.add(quitButton).pad(20);
     }
 
     public void pause(){
