@@ -778,6 +778,11 @@ public class GameScreen implements Screen {
 	public void dispose() {
 	}
 
+	public void showStatUpgrade(String image){
+        fadeActorOut(new Sprite(game.getSprite(image)), players.get(currentPlayerIndex).getX(),
+                players.get(currentPlayerIndex).getY(), true);
+    }
+
     public void setBigLight(boolean bigLight) {
         light.increaseLightSize(bigLight);
     }

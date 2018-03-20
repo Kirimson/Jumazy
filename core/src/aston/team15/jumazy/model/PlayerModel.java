@@ -31,7 +31,7 @@ public class PlayerModel {
 		}
 	}
 
-	private Random pleaseWorkplease;
+	private Random randGen;
 	private int[] startOfTurnPosition;
 	private MazeModel maze;
 	private int row;
@@ -47,14 +47,16 @@ public class PlayerModel {
 	private boolean onStuckChest;
 	private String[] enemies = new String[] {"E","X","Z"};
 	private boolean pickedDoor = false;
+	private boolean pickAlreadyAttempted;
 
 	PlayerModel(int row, int col, String playerSymbol, MazeModel maze, CharacterName charName) {
 		this.row = row;
 		this.col = col;
 		this.maze = maze;
 		this.playerSymbol = playerSymbol;
+		pickAlreadyAttempted = false;
 
-		pleaseWorkplease = new Random();
+		randGen = new Random();
 
 		startOfTurnPosition = new int[2];
 
@@ -129,9 +131,16 @@ public class PlayerModel {
 			if(inventory.contains(Item.KEY)){
 				inventory.remove(Item.KEY);
 				valid = true;
-			} else if (new Random().nextDouble() < ((double) playerStats.get("Intelligence"))/10) {
-				pickedDoor = true;
-				valid = true;
+			} else {
+				if (pickAlreadyAttempted == true){
+					valid = false;
+				} else {
+					if (new Random().nextDouble() < ((double) playerStats.get("Intelligence"))/10) {
+						pickedDoor = true;
+						valid = true;
+					}
+					pickAlreadyAttempted = true;
+				}
 			}
 		}
 
@@ -141,6 +150,10 @@ public class PlayerModel {
 		return valid;
 	}
 
+	public void setAlreadyPicked(Boolean bool) {
+		pickAlreadyAttempted = bool;
+	}
+	
 	private boolean checkForEnemy(int newRow, int newCol) {
 		for(String enemy : enemies) {
 			if(maze.getCoordinateString(newRow, newCol).equals(enemy))
@@ -249,6 +262,9 @@ public class PlayerModel {
 						playerStats.replace("Health", playerStats.get("Max Health"));
 					} 
 				}
+
+				maze.setOpenedChestCooldown(row, col);
+
 				return true;
 			}		
 	}
@@ -258,8 +274,9 @@ public class PlayerModel {
 	}
 
 	public int rollDie(Weather weather) {
+		pickAlreadyAttempted = false;
 		canRoll = false;
-		movesLeft += pleaseWorkplease.nextInt(6) + 1;
+		movesLeft += randGen.nextInt(6) + 1;
 
 		startOfTurnPosition[0] = row;
 		startOfTurnPosition[1] = col;

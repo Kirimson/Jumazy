@@ -13,61 +13,61 @@ apple
   index: -1
 arrow
   rotate: false
-  xy: 104, 3
-  size: 25, 25
-  orig: 25, 25
-  offset: 0, 0
-  index: -1
-bossLL
-  rotate: false
   xy: 964, 270
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-bossLR
+bossLL
   rotate: false
   xy: 964, 236
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-bossUL
+bossLR
   rotate: false
   xy: 964, 202
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-bossUR
+bossUL
   rotate: false
   xy: 964, 168
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-char1
+bossUR
   rotate: false
   xy: 964, 134
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-char2
+brain
+  rotate: false
+  xy: 1004, 954
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+char1
   rotate: false
   xy: 964, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-char3
+char2
   rotate: false
   xy: 964, 66
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-char4
+char3
   rotate: false
   xy: 964, 32
   size: 32, 32
@@ -116,44 +116,58 @@ checkbox-on
   orig: 28, 28
   offset: 0, 0
   index: -1
-cursor
-  rotate: false
-  xy: 1004, 830
-  size: 2, 32
-  orig: 2, 32
-  offset: 0, 0
-  index: -1
-grapes
-  rotate: false
-  xy: 1004, 954
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-key
+clover
   rotate: false
   xy: 1004, 936
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-potion-blue
+cursor
+  rotate: false
+  xy: 1004, 776
+  size: 2, 32
+  orig: 2, 32
+  offset: 0, 0
+  index: -1
+grapes
   rotate: false
   xy: 1004, 918
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-potion-green
+key
   rotate: false
   xy: 1004, 900
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-potion-red
+muscle
   rotate: false
   xy: 1004, 882
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+potion-blue
+  rotate: false
+  xy: 1004, 864
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+potion-green
+  rotate: false
+  xy: 1004, 846
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+potion-red
+  rotate: false
+  xy: 1004, 828
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -174,7 +188,7 @@ settingsback
   index: -1
 shoe
   rotate: false
-  xy: 1004, 864
+  xy: 1004, 810
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -193,16 +207,9 @@ stat-indicator
   orig: 16, 32
   offset: 0, 0
   index: -1
-sword
-  rotate: false
-  xy: 131, 3
-  size: 25, 25
-  orig: 25, 25
-  offset: 0, 0
-  index: -1
 torch
   rotate: false
-  xy: 2, 3
+  xy: 998, 282
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -248,44 +255,51 @@ button-hover
   orig: 200, 50
   offset: 0, 0
   index: -1
-chest-closed
+char4
   rotate: false
   xy: 260, 294
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-chest-open
+chest-closed
   rotate: false
   xy: 260, 260
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-door
+chest-open
   rotate: false
   xy: 260, 226
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-door-open
+door
   rotate: false
   xy: 985, 194
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-door-vertical
+door-open
   rotate: false
   xy: 985, 160
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-door-vertical-open
+door-vertical
   rotate: false
   xy: 985, 126
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door-vertical-open
+  rotate: false
+  xy: 988, 979
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -313,68 +327,61 @@ fight-bar
   index: -1
 floor-bottom-water
   rotate: false
-  xy: 988, 979
+  xy: 988, 945
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-left-water
   rotate: false
-  xy: 988, 945
+  xy: 988, 911
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-middle-water
   rotate: false
-  xy: 988, 911
+  xy: 986, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-middle-water-vertical
   rotate: false
-  xy: 986, 92
+  xy: 986, 58
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-right-water
   rotate: false
-  xy: 986, 58
+  xy: 986, 24
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-single-water
   rotate: false
-  xy: 986, 24
+  xy: 620, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares
   rotate: false
-  xy: 620, 22
+  xy: 654, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 floor-squares-cracked
   rotate: false
-  xy: 654, 22
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-floor-squares-missing
-  rotate: false
   xy: 688, 22
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-floor-top-water
+floor-squares-missing
   rotate: false
   xy: 722, 22
   size: 32, 32
@@ -534,9 +541,16 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-floor-trap-spikes
+floor-top-water
   rotate: false
   xy: 2, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+floor-trap-spikes
+  rotate: false
+  xy: 100, 134
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -550,7 +564,7 @@ game
   index: -1
 mummy
   rotate: false
-  xy: 100, 134
+  xy: 516, 550
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -571,42 +585,49 @@ number13
   index: -1
 skeleton
   rotate: false
-  xy: 516, 550
+  xy: 614, 648
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 slider-knob
   rotate: false
-  xy: 614, 648
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-wall-brick-missing
-  rotate: false
   xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-wall-leaves
+sword
   rotate: false
   xy: 36, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-wall-no-edge
+wall-brick-missing
   rotate: false
   xy: 100, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-wall-plain
+wall-leaves
   rotate: false
   xy: 134, 134
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-no-edge
+  rotate: false
+  xy: 516, 516
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wall-plain
+  rotate: false
+  xy: 550, 550
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
