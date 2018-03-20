@@ -69,6 +69,9 @@ public class FightingView extends Stage {
 		remove();
 		timeSinceFightDone = 0f;
 		boolean won = !(playerCurrentHP <= 0);
+		if(playerCurrentHP <= 0) {
+			GameSound.playLostFightSound();
+		}
 		game.stopFight(won, playerCurrentHP, reward);
     }
 	
