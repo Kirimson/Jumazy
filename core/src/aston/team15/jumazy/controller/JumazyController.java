@@ -342,8 +342,8 @@ public class JumazyController extends Game {
 
 		switch (monsterType) {
 		case "Z": // big boss
-			hp = 18;
-			str = 15 - playerstats.get("Strength");
+			hp = 17;
+			str = 14 - playerstats.get("Strength");
 			reward = 0;
 			break;
 		case "X": // common 1
