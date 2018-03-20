@@ -9,7 +9,11 @@ import com.badlogic.gdx.files.FileHandle;
 
 import aston.team15.jumazy.controller.JumazyController;
 
-
+/**
+ * Primitive implementation of the maze, using Strings to create a easily editable text based maze
+ *
+ * @author Kieran, Abdullah, Jawwad, Bradley
+ */
 public class MazeModel {
 	// row is y and maze[0].length
 	// col is x and maze.length

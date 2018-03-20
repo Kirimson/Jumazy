@@ -16,6 +16,9 @@ import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.Item;
 
+/**
+ * @author Abdullah, Kieran
+ */
 public class HeadsUpDisplay extends Table {
 
 	private LinkedHashMap<String, Integer> currentPlayerStats;

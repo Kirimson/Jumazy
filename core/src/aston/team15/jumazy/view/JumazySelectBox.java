@@ -3,6 +3,10 @@ package aston.team15.jumazy.view;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+/**
+ * @author Kieran
+ * @param <T>
+ */
 public class JumazySelectBox<T> extends SelectBox<T> {
 
     JumazySelectBox(Skin skin){

@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+/**
+ * @author David, Kieran
+ */
 public class Lighting extends Image{
 
     private Sprite lightImage;

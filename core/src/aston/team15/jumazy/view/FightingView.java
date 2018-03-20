@@ -13,6 +13,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
+/**
+ * @author Jawwad, Kieran, Dom, Addullah
+ */
 public class FightingView extends Stage {
 
     private Table fightBar;

@@ -15,7 +15,7 @@ public class TextureSelectionScreen extends MenuScreen {
 		
 		super(theGame, "backgrounds/tBackground.jpg");
 
-		JumazyButton texture1 = new JumazyButton("Current", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
+		JumazyButton texture1 = new JumazyButton("Jungle", new Skin(Gdx.files.internal("jumazyskin/current/jumazy-skin.json")));
 		texture1.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.updateSkin("current");

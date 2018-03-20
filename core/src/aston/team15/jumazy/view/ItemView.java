@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * @author Abdullah
+ */
 public class ItemView extends Actor {
 	
 	private Sprite sprite;

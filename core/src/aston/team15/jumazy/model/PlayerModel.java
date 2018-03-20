@@ -10,6 +10,11 @@ import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.MazeModel.Weather;
 
+/**
+ * Data driven representation of a player, including their stats, position and symbol they are on within the maze
+ *
+ * @author Abdullah, Kieran, Jawwad, Dom
+ */
 public class PlayerModel {
 
 	public enum CharacterName {

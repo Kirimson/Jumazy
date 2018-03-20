@@ -38,7 +38,7 @@ import aston.team15.jumazy.model.MazeModel.Weather;
  * This class follows the facade design pattern, in that it provides the main
  * interface for communication between this package and others.
  * 
- * @author Abdullah, Kieran, Jawwad, Shayan, David
+ * @author Abdullah, Kieran, Jawwad, Shayan, David, Bradley
  *
  */
 public class GameScreen implements Screen {
@@ -509,6 +509,7 @@ public class GameScreen implements Screen {
 				return "floor-right-water";
 			else if (!maze[mazeX][mazeY - 1].equals("W") && maze[mazeX][mazeY + 1].equals("W"))
 				return "floor-left-water";
+
 		}
 
 		return "floor-single-water";

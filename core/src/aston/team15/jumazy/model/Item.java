@@ -1,5 +1,11 @@
 package aston.team15.jumazy.model;
 
+/**
+ * An Item that can be picked up throughout the game, have certain stat buffs or special effects implemented within the
+ * PlayerModel
+ *
+ * @author Abdullah, Kieran
+ */
 public enum Item {
 	RED_POTION("Red Potion", 4, "Max Health", "consumable", "potion-red"), 
 	BLUE_POTION("Blue Potion", 2, "Stamina", "consumable", "potion-blue"), 

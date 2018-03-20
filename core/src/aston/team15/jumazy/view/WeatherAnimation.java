@@ -11,6 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
 import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 
+/**
+ * Animated view of weather displayed on maze. tiles across the maze and loops seamlessly
+ *
+ * @author Bradley
+ */
 public class WeatherAnimation extends Image{
 
     private float animationTime;

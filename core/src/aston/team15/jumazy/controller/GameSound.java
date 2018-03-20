@@ -3,6 +3,11 @@ package aston.team15.jumazy.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
+/**
+ * Class managing all sounds that are played in the game, volume scaling to the game's set volume
+ *
+ * @author Dom
+ */
 public class GameSound {
 
     private static Music menuMusic = Gdx.audio.newMusic(Gdx.files.internal("snd/Menu-Music.mp3"));

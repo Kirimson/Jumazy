@@ -5,6 +5,11 @@ import com.badlogic.gdx.files.FileHandle;
 
 import java.util.*;
 
+/**
+ * Finds a question from the question csv files, which is then randomly chosen from the list
+ *
+ * @author Shayan
+ */
 public class QuestionRetriever {
 	private String[] cells = null;
 	private ArrayList<String> questionRandomiser;

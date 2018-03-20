@@ -25,7 +25,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.PlayerModel.CharacterName;
 
-
+/**
+ * Screen allowing players to choose a character, showing their stats and brief information about them
+ *
+ * @author Kieran
+ */
 public class CharacterSelectScreen implements Screen{
 
     private LinkedHashMap<String, ArrayList<Image>> stats;

@@ -5,6 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * A graphical representation of a block, which is then displayed on the maze. can have a top sprite and
+ * a background sprite, and includes a name of its coordinate, to allow the block to be found within the view
+ *
+ * @author Kieran, Abdullah
+ */
 public class BlockView extends Actor {
 
 	private Sprite sprite;

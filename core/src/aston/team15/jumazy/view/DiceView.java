@@ -10,6 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 
+/**
+ *
+ * @author Dom, Kieran, Jawwad, Abdullah
+ */
 public class DiceView extends Actor {
 
 	private int imageConstantAppearances = 24; // how often to display the dice at a constant rate before slowing down
