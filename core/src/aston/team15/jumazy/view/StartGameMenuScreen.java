@@ -16,11 +16,14 @@ public class StartGameMenuScreen extends MenuScreen {
 				MenuScreens.PLAYER_NUMBER_SELECTION_SCREEN, game);
 		
 		MenuScreenButton tutorialButton = new MenuScreenButton("Tutorial", MenuScreens.TUTORIAL_SCREEN, game);
+		MenuScreenButton editorButton = new MenuScreenButton("Editor", MenuScreens.EDITOR_SCREEN, game);
 		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.MAIN_MENU_SCREEN, game);
 
 		table.add(startGameButton).pad(10);
 		table.row();
 		table.add(tutorialButton).pad(10);
+		table.row();
+		table.add(editorButton).pad(10);
 		table.row();
 		table.add(backButton).bottom().right().expand().pad(70);
 

@@ -35,6 +35,8 @@ public class MenuScreenButton extends JumazyButton {
 					break;
 				case SETTINGS_SCREEN:
 					game.setScreen(new SettingsScreen(game));
+				case EDITOR_SCREEN:
+					game.setScreen(new EditorScreen(game));
 					break;
 				}
 			}
