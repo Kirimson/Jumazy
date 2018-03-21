@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class EditBlockView extends BlockView {
     private int xCoord, yCoord;
+    private boolean clickedIn;
 
     public EditBlockView(float xPos, float yPos, TextureRegion texture, int xCoord, int yCoord) {
         super(xPos, yPos, texture);
@@ -28,5 +29,13 @@ public class EditBlockView extends BlockView {
 
     public int getYCoord() {
         return yCoord;
+    }
+
+    public boolean isClickedIn() {
+        return clickedIn;
+    }
+
+    public void setClickedIn(boolean clickedIn) {
+        this.clickedIn = clickedIn;
     }
 }
