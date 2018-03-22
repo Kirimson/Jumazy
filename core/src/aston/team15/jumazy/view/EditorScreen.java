@@ -2,6 +2,7 @@ package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.model.PlayerModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -12,13 +13,18 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
@@ -82,12 +88,11 @@ public class EditorScreen implements Screen {
         uiTable.row();
 
         editorTable = new Table(game.getSkin());
-//        editorTable.top();
 
         Label layoutLabel = new Label("Current Layout",game.getSkin());
         editorTable.add(layoutLabel).padBottom(10f);
         editorTable.row();
-        editorTable.add(layoutList);
+        editorTable.add(layoutList).width(300);
         editorTable.row();
 
         //new room
@@ -122,24 +127,29 @@ public class EditorScreen implements Screen {
         JumazyButton removeButton = new JumazyButton("Remove Room", game.getSkin());
         removeButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                roomLayouts.remove(currentRoomName);
-                layoutList.clearItems();
+                if(names.size > 1) {
+                    String oldName = currentRoomName;
+                    roomLayouts.remove(currentRoomName);
+                    layoutList.clearItems();
 
-                names = new Array<String>();
+                    names = new Array<String>();
 
-                for(String s : roomLayouts.keySet())
-                    names.add(s);
+                    for (String s : roomLayouts.keySet())
+                        names.add(s);
 
-                layoutList.setItems(names);
+                    layoutList.setItems(names);
 
-                for(String s : roomLayouts.keySet()) {
-                    currentRoomName = s;
-                    layoutList.setSelected(s);
-                    break;
-                }
+                    for (String s : roomLayouts.keySet()) {
+                        currentRoomName = s;
+                        layoutList.setSelected(s);
+                        break;
+                    }
 
-                loadRoom();
-                drawRoom();
+                    loadRoom();
+                    drawRoom();
+
+                    popUp("Room " + oldName + " has been deleted");
+                } else popUp("You can't delete the last room!");
             }
         });
         buttonTable.add(removeButton).pad(10);
@@ -153,6 +163,8 @@ public class EditorScreen implements Screen {
                 readRooms(false);
                 loadRoom();
                 drawRoom();
+
+                popUp("Rooms have been reset to your last export");
             }
         });
         buttonTable.add(resetButton).pad(10);
@@ -167,6 +179,8 @@ public class EditorScreen implements Screen {
                 layoutList.setSelected("1: Pillars");
                 loadRoom();
                 drawRoom();
+
+                popUp("Rooms have been reset to default");
             }
         });
         buttonTable.add(defaultButton).pad(10);
@@ -195,7 +209,8 @@ public class EditorScreen implements Screen {
 
                 FileHandle file = Gdx.files.local("RoomLayoutsSize8.txt");
                 file.writeString(roomFile.toString(), false);
-                System.out.println(roomFile.toString());
+
+                popUp("Rooms were successfully exported!");
 
             }
         });
@@ -209,6 +224,42 @@ public class EditorScreen implements Screen {
         uiTable.add(buttonTable).expand().right().padRight(70f);
 
         uiStage.addActor(uiTable);
+    }
+
+    private void popUp(String popupText) {
+
+        Label popupLabel = new Label(popupText, game.getSkin());
+        popupLabel.setFontScale(2f);
+
+        Table popupBackgroundTable = new Table(game.getSkin());
+        popupBackgroundTable.setFillParent(true);
+        Image bg = new Image(game.getSprite("settingsback"));
+        popupBackgroundTable.add(bg);
+
+        Table popupTable = new Table(game.getSkin());
+        popupTable.setFillParent(true);
+        popupTable.center();
+        popupTable.add(popupLabel);
+
+        uiStage.addActor(popupBackgroundTable);
+        uiStage.addActor(popupTable);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+
+                RunnableAction removeTable = new RunnableAction();
+                removeTable.setRunnable(popupTable::remove);
+
+                RunnableAction removeBG = new RunnableAction();
+                removeBG.setRunnable(popupBackgroundTable::remove);
+
+                popupTable.addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(0.5f), removeTable));
+                popupBackgroundTable.addAction(Actions.sequence(Actions.alpha(1), Actions.fadeOut(0.5f), removeBG));
+
+            }
+        }, 1f);
+
     }
 
     /**
@@ -268,24 +319,20 @@ public class EditorScreen implements Screen {
         //background
         Table newRoomBG = new Table();
         newRoomBG.setFillParent(true);
-        newRoomBG.setPosition(0.0f, -85.0f);
         newRoomBG.add(new Image(game.getSprite("settingsback"))).height(355.0f).width(600);
         uiStage.addActor(newRoomBG);
 
         Table newRoomTable = new Table();
         newRoomTable.setFillParent(true);
-        newRoomTable.center().padTop(100);
+        newRoomTable.center();
 
         //Title
         Label createTitleLabel = new Label("Create a new room", game.getSkin());
         newRoomTable.add(createTitleLabel).pad(10);
         newRoomTable.row();
-        Label roomNameLabel = new Label("Enter room name:", game.getSkin());
-        newRoomTable.add(roomNameLabel).pad(10);
-        newRoomTable.row();
 
         //text input
-        TextField nameField = new TextField("", game.getSkin());
+        TextField nameField = new TextField("Untitled Room", game.getSkin());
         nameField.setAlignment(Align.center);
         newRoomTable.add(nameField).width(400).height(50).pad(10);
         newRoomTable.row();
@@ -296,25 +343,40 @@ public class EditorScreen implements Screen {
 
         createButton.addListener(new ClickListener(){
            public void clicked(InputEvent event, float x, float y){
-               newRoomBG.remove();
-               newRoomTable.remove();
+               if(!nameField.getText().isEmpty()) {
+                   newRoomBG.remove();
+                   newRoomTable.remove();
 
-               String name = (names.size+1)+": "+nameField.getText();
+                   String name = (names.size + 1) + ": " + nameField.getText();
 
-               System.out.println(name);
+                   System.out.println(name);
 
-               names.add(name);
-               roomLayouts.put(name, blankLayout());
+                   names.add(name);
+                   roomLayouts.put(name, blankLayout());
 
-               layoutList.clearItems();
-               layoutList.setItems(names);
-               layoutList.setSelected(name);
+                   layoutList.clearItems();
+                   layoutList.setItems(names);
+                   layoutList.setSelected(name);
 
-               Gdx.input.setInputProcessor(multiplexer);
+                   Gdx.input.setInputProcessor(multiplexer);
+               } else popUp("Room name can't be empty!");
            }
         });
 
+
+        nameField.setTextFieldListener((textField, key) -> {
+            if ((key == '\r' || key == '\n')) {
+                InputEvent clickDown = new InputEvent();
+                clickDown.setType(InputEvent.Type.touchDown);
+                createButton.fire(clickDown);
+                InputEvent clickUp = new InputEvent();
+                clickUp.setType(InputEvent.Type.touchUp);
+                createButton.fire(clickUp);
+            }
+        });
+
         uiStage.addActor(newRoomTable);
+        uiStage.setKeyboardFocus(nameField);
     }
 
     private String[][] blankLayout() {
