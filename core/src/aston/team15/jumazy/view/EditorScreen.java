@@ -198,28 +198,28 @@ public class EditorScreen implements Screen {
         JumazyButton exportButton = new JumazyButton("Export to File", game.getSkin());
         exportButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
+                if(names.size > 1) {
+                    //make the entire roomLayout arrayList into a string
+                    StringBuffer roomFile = new StringBuffer();
 
-                //make the entire roomLayout arrayList into a string
-                StringBuffer roomFile = new StringBuffer();
+                    for (String name : roomLayouts.keySet()) {
+                        roomFile.append("/" + name + "\n");
 
-                for(String name : roomLayouts.keySet()){
-                    roomFile.append("/"+name+"\n");
+                        String[][] layout = roomLayouts.get(name);
 
-                    String[][] layout = roomLayouts.get(name);
-
-                    for(int i = 0; i < 8; i++){
-                        for(int j = 0; j < 8; j++){
-                            roomFile.append(layout[j][i]);
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                roomFile.append(layout[j][i]);
+                            }
+                            roomFile.append("\n");
                         }
-                        roomFile.append("\n");
                     }
-                }
 
-                FileHandle file = Gdx.files.local("RoomLayoutsSize8.txt");
-                file.writeString(roomFile.toString(), false);
+                    FileHandle file = Gdx.files.local("RoomLayoutsSize8.txt");
+                    file.writeString(roomFile.toString(), false);
 
-                popUp("Rooms were successfully exported!\nFile created in the same folder as the game");
-
+                    popUp("Rooms were successfully exported!\nFile created in the same folder as the game");
+                } else popUp("You need more than just the victory room!");
             }
         });
         buttonTable.add(exportButton).pad(10);
