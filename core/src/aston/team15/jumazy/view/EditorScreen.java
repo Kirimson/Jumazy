@@ -218,7 +218,7 @@ public class EditorScreen implements Screen {
                 FileHandle file = Gdx.files.local("RoomLayoutsSize8.txt");
                 file.writeString(roomFile.toString(), false);
 
-                popUp("Rooms were successfully exported!");
+                popUp("Rooms were successfully exported!\nFile created in the same folder as the game");
 
             }
         });
