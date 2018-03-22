@@ -99,10 +99,19 @@ public class EditorScreen implements Screen {
         JumazyButton newLayoutButton = new JumazyButton("New Room", game.getSkin());
         newLayoutButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                createNewRoom();
+                createNewRoom(false);
             }
         });
         editorTable.add(newLayoutButton).pad(10);
+        editorTable.row();
+
+        JumazyButton renameRoom = new JumazyButton("Rename Room", game.getSkin());
+        renameRoom.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                createNewRoom(true);
+            }
+        });
+        editorTable.add(renameRoom).pad(10);
         editorTable.row();
 
         drawTools();
@@ -320,7 +329,7 @@ public class EditorScreen implements Screen {
         layoutList.setItems(names);
     }
 
-    private void createNewRoom() {
+    private void createNewRoom(boolean rename) {
 
         Gdx.input.setInputProcessor(uiStage);
 
@@ -335,18 +344,18 @@ public class EditorScreen implements Screen {
         newRoomTable.center();
 
         //Title
-        Label createTitleLabel = new Label("Create a new room", game.getSkin());
+        Label createTitleLabel = new Label(rename ? "Rename room" : "Create a new room", game.getSkin());
         newRoomTable.add(createTitleLabel).pad(10).colspan(2);
         newRoomTable.row();
 
         //text input
-        TextField nameField = new TextField("Untitled Room", game.getSkin());
+        TextField nameField = new TextField(rename ? currentRoomName : "Untitled Room", game.getSkin());
         nameField.setAlignment(Align.center);
         newRoomTable.add(nameField).width(400).height(50).pad(10).colspan(2);
         newRoomTable.row();
 
         //create button
-        JumazyButton createButton = new JumazyButton("Create", game.getSkin());
+        JumazyButton createButton = new JumazyButton(rename ? "Rename" : "Create", game.getSkin());
         newRoomTable.add(createButton).bottom().pad(10);
 
         JumazyButton cancelButton = new JumazyButton("Cancel", game.getSkin());
@@ -366,8 +375,16 @@ public class EditorScreen implements Screen {
                    if (!names.contains(nameField.getText(), false)) {
                        String name = nameField.getText();
 
-                       names.add(name);
-                       roomLayouts.put(name, blankLayout());
+                       if(!rename) {
+                           names.add(name);
+                           roomLayouts.put(name, blankLayout());
+                       } else {
+                           names.removeValue(currentRoomName, false);
+                           roomLayouts.put(name, roomLayouts.get(currentRoomName));
+                           roomLayouts.remove(currentRoomName);
+                           currentRoomName = name;
+                           names.add(name);
+                       }
 
                        layoutList.clearItems();
                        layoutList.setItems(names);
