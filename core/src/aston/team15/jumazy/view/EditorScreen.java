@@ -3,21 +3,27 @@ package aston.team15.jumazy.view;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class EditorScreen implements Screen {
 
@@ -25,13 +31,18 @@ public class EditorScreen implements Screen {
 
     private Stage editorStage;
     private Stage uiStage;
-    private Table uiTable;
+    private Table editorTable;
     private InputMultiplexer multiplexer;
+    private Sprite background;
 
     private ArrayList<EditBlockView> blocks;
     private String[][] room;
+    private String currentRoomName;
     private int roomSize = 10;
     private String currentTool = "O";
+    private LinkedHashMap<String, String[][]> roomLayouts;
+    private JumazySelectBox<String> layoutList;
+    private Array<String> names;
 
     public EditorScreen(JumazyController game) {
         Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
@@ -39,65 +50,300 @@ public class EditorScreen implements Screen {
 
         this.game = game;
 
+        background = new Sprite(game.getSprite("settingsback"));
+        background.setSize(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
+
         //create stages
         FitViewport viewport = new FitViewport(JumazyController.WORLD_WIDTH, JumazyController.WORLD_HEIGHT);
         editorStage = new Stage(viewport);
         uiStage = new Stage(viewport);
-        uiTable = new Table(game.getSkin());
+        Table uiTable = new Table(game.getSkin());
         uiTable.setFillParent(true);
+        uiTable.top();
 
         multiplexer = new InputMultiplexer(editorStage, uiStage);
+        layoutList = new JumazySelectBox<String>(game.getSkin());
 
-        //initialise room
+        //read the rooms
+        readRooms(false);
+
+        //make a 10x10 room, feed the 8x8 layout into it
         room = new String[roomSize][roomSize];
-        clearRoom();
+        loadRoom();
 
+        //add blocks from layout to stage
         blocks = new ArrayList<EditBlockView>();
-
         drawRoom();
 
+        //ui stuff
         Label editorLabel = new Label("Jumazy Room Editor", game.getSkin());
 
-        uiTable.add(editorLabel).top().colspan(3);
+        uiTable.add(editorLabel).top().colspan(2).padTop(10f);
         uiTable.row();
+
+        editorTable = new Table(game.getSkin());
+//        editorTable.top();
+
+        Label layoutLabel = new Label("Current Layout",game.getSkin());
+        editorTable.add(layoutLabel).padBottom(10f);
+        editorTable.row();
+        editorTable.add(layoutList);
+        editorTable.row();
+
+        //new room
+        JumazyButton newLayoutButton = new JumazyButton("New Room", game.getSkin());
+        newLayoutButton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                createNewRoom();
+            }
+        });
+        editorTable.add(newLayoutButton).pad(10);
+        editorTable.row();
 
         drawTools();
 
-        JumazyButton clearButton = new JumazyButton("Clear", game.getSkin());
+        uiTable.add(editorTable).expand().left().padLeft(70f);
 
+        Table buttonTable = new Table();
+
+        //clear button
+        JumazyButton clearButton = new JumazyButton("Clear Room", game.getSkin());
         clearButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                clearRoom();
+                roomLayouts.replace(currentRoomName, blankLayout());
+                loadRoom();
                 drawRoom();
             }
         });
+        buttonTable.add(clearButton).bottom().expandX().pad(10);
+        buttonTable.row();
+
+        //remove room
+        JumazyButton removeButton = new JumazyButton("Remove Room", game.getSkin());
+        removeButton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                roomLayouts.remove(currentRoomName);
+                layoutList.clearItems();
+
+                names = new Array<String>();
+
+                for(String s : roomLayouts.keySet())
+                    names.add(s);
+
+                layoutList.setItems(names);
+
+                for(String s : roomLayouts.keySet()) {
+                    currentRoomName = s;
+                    layoutList.setSelected(s);
+                    break;
+                }
+
+                loadRoom();
+                drawRoom();
+            }
+        });
+        buttonTable.add(removeButton).pad(10);
+        buttonTable.row();
+
+        //reset to custom
+        JumazyButton resetButton = new JumazyButton("Reset to Last Save", game.getSkin());
+        resetButton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                layoutList.clearItems();
+                readRooms(false);
+                loadRoom();
+                drawRoom();
+            }
+        });
+        buttonTable.add(resetButton).pad(10);
+        buttonTable.row();
+
+        //reset to internal default
+        JumazyButton defaultButton = new JumazyButton("Reset to Default", game.getSkin());
+        defaultButton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                layoutList.clearItems();
+                readRooms(true);
+                layoutList.setSelected("1: Pillars");
+                loadRoom();
+                drawRoom();
+            }
+        });
+        buttonTable.add(defaultButton).pad(10);
+        buttonTable.row();
+
+        //export button
+        JumazyButton exportButton = new JumazyButton("Export to File", game.getSkin());
+        exportButton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+
+                //make the entire roomLayout arrayList into a string
+                StringBuffer roomFile = new StringBuffer();
+
+                for(String name : roomLayouts.keySet()){
+                    roomFile.append("/Room Type "+name+"\n");
+
+                    String[][] layout = roomLayouts.get(name);
+
+                    for(int i = 0; i < 8; i++){
+                        for(int j = 0; j < 8; j++){
+                            roomFile.append(layout[j][i]);
+                        }
+                        roomFile.append("\n");
+                    }
+                }
+
+                FileHandle file = Gdx.files.local("RoomLayoutsSize8.txt");
+                file.writeString(roomFile.toString(), false);
+                System.out.println(roomFile.toString());
+
+            }
+        });
+        buttonTable.add(exportButton).pad(10);
+        buttonTable.row();
 
         MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
+        buttonTable.add(backButton).pad(10);
 
-        uiTable.add(clearButton).bottom().expand().pad(70);
-        uiTable.add(backButton).bottom().right().pad(70).expand();
+
+        uiTable.add(buttonTable).expand().right().padRight(70f);
+
         uiStage.addActor(uiTable);
     }
 
-    private void clearRoom() {
+    /**
+     * Reads rooms from the layout file
+     */
+    private void readRooms(boolean reset) {
+        //initialise room
+        String currentLine;
+        String currentChar;
+        int layoutSize=8;
+
+        FileHandle file;
+        //creates a list of room layouts from provided file. ArrayList of String[][]
+        //check if custom layout is there
+        file = Gdx.files.local("RoomLayoutsSize8.txt");
+
+        //fallback to internal
+        if(!file.exists() || reset)
+            file = Gdx.files.internal("roomlayouts/RoomLayoutsSize8.txt");
+
+
+        String[] lines = file.readString().split("\r\n|\r|\n");
+        String name;
+        names = new Array<String>();
+        roomLayouts = new LinkedHashMap<String, String[][]>();
+
+        for(int currentLineIndex = 0; currentLineIndex < lines.length-1; currentLineIndex++){
+            currentLine = lines[currentLineIndex];
+            if(!currentLine.startsWith("/")){
+                name = lines[currentLineIndex-1].substring(11);
+                names.add(name);
+
+                String[][] newLayout = new String[layoutSize][layoutSize];
+                for(int j = 0; j < layoutSize; j++) {
+                    for(int i = 0; i < layoutSize; i++) {
+                        currentChar = currentLine.substring(i, i+1);
+                        newLayout[i][j]=currentChar;
+                    }
+                    currentLineIndex = currentLineIndex+1;
+                    if(currentLineIndex < lines.length)
+                        currentLine = lines[currentLineIndex];
+                }
+                roomLayouts.put(name, newLayout);
+            }
+        }
+
+        currentRoomName = names.get(0);
+
+        //list of room layout from read file
+        layoutList.setItems(names);
+    }
+
+    private void createNewRoom() {
+
+        Gdx.input.setInputProcessor(uiStage);
+
+        //background
+        Table newRoomBG = new Table();
+        newRoomBG.setFillParent(true);
+        newRoomBG.setPosition(0.0f, -85.0f);
+        newRoomBG.add(new Image(game.getSprite("settingsback"))).height(355.0f).width(600);
+        uiStage.addActor(newRoomBG);
+
+        Table newRoomTable = new Table();
+        newRoomTable.setFillParent(true);
+        newRoomTable.center().padTop(100);
+
+        //Title
+        Label createTitleLabel = new Label("Create a new room", game.getSkin());
+        newRoomTable.add(createTitleLabel).pad(10);
+        newRoomTable.row();
+        Label roomNameLabel = new Label("Enter room name:", game.getSkin());
+        newRoomTable.add(roomNameLabel).pad(10);
+        newRoomTable.row();
+
+        //text input
+        TextField nameField = new TextField("", game.getSkin());
+        nameField.setAlignment(Align.center);
+        newRoomTable.add(nameField).width(400).height(50).pad(10);
+        newRoomTable.row();
+
+        //create button
+        JumazyButton createButton = new JumazyButton("Create", game.getSkin());
+        newRoomTable.add(createButton).bottom().pad(10);
+
+        createButton.addListener(new ClickListener(){
+           public void clicked(InputEvent event, float x, float y){
+               newRoomBG.remove();
+               newRoomTable.remove();
+
+               String name = (names.size+1)+": "+nameField.getText();
+
+               System.out.println(name);
+
+               names.add(name);
+               roomLayouts.put(name, blankLayout());
+
+               layoutList.clearItems();
+               layoutList.setItems(names);
+               layoutList.setSelected(name);
+
+               Gdx.input.setInputProcessor(multiplexer);
+           }
+        });
+
+        uiStage.addActor(newRoomTable);
+    }
+
+    private String[][] blankLayout() {
+        String[][] empty = new String[8][8];
+
+        for(int j = 0; j < 8; j++) {
+            for (int i = 0; i < 8; i++) {
+                empty[i][j] = "O";
+            }
+        }
+        return empty;
+    }
+
+    private void loadRoom() {
         for(int j = 0; j < roomSize; j++) {
             for (int i = 0; i < roomSize; i++) {
-                room[i][j] = "O";
 
                 if(i == 0 || i == roomSize-1) {
                     if(j == 2 || j == 3 || j == 6 ||j == 7)
                         room[i][j] = "O";
                     else
                         room[i][j] = "#";
-                }
-
-                if(j == 0 || j == roomSize-1) {
+                }else if(j == 0 || j == roomSize-1) {
                     if(i == 2 || i == 3 || i == 6 || i == 7)
                         room[i][j] = "O";
                     else
                         room[i][j] = "#";
                 }
-
+                else room[i][j] = roomLayouts.get(currentRoomName)[i-1][j-1]; //minus one as we're already 1 in
             }
         }
     }
@@ -108,7 +354,11 @@ public class EditorScreen implements Screen {
         String[] textures = {"floor-squares", "wall-plain", "floor-single-water", "floor-trap-spikes",
                 "chest-closed", "skeleton", "mummy"};
 
-        Table toolTable = new Table();
+        Table toolTable = new Table(game.getSkin());
+
+        Label toolLabel = new Label("Tools:",game.getSkin());
+        toolTable.add(toolLabel).padTop(10f).center();
+        toolTable.row();
 
         ArrayList<EditTool> toolImages = new ArrayList<EditTool>();
         for(int i = 0; i < tools.length; i++){
@@ -129,8 +379,9 @@ public class EditorScreen implements Screen {
 
             toolTable.add(tool).padLeft(4f).padRight(4f);
         }
+        editorTable.add(toolTable).padBottom(50f);
+        editorTable.row();
 
-        uiTable.add(toolTable).bottom().pad(70).expandX();
         //set floor to be highlighted
         toolImages.get(0).setHighlighted();
     }
@@ -153,7 +404,7 @@ public class EditorScreen implements Screen {
             for(int roomX = 0; roomX < roomSize; roomX++) {
                 EditBlockView block;
 
-                switch (room[roomX][roomSize - 1 - roomY]) {
+                switch (room[roomX][(roomSize - 1) - roomY]) {
                     case "#":
                         block = new EditBlockView(roomLeft + roomX * blockDimension, roomBottom + roomY * blockDimension,
                                 game.getSprite(generateWallTexture(room, roomX, roomSize - 1 - roomY)), roomY, roomX);
@@ -193,6 +444,9 @@ public class EditorScreen implements Screen {
                                 GameSound.playStepSound();
                                 room[block.getYCoord()][roomSize - 1 - block.getXCoord()] = currentTool;
                                 drawRoom();
+
+                                roomLayouts.get(currentRoomName)[block.getYCoord()-1][roomSize - 1 - block.getXCoord()-1] = currentTool;
+
                             }
                         }
                     });
@@ -245,7 +499,19 @@ public class EditorScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if(currentRoomName != layoutList.getSelected()){
+            currentRoomName = layoutList.getSelected();
+            loadRoom();
+            drawRoom();
+        }
+
+        editorStage.getBatch().begin();
+        background.draw(editorStage.getBatch());
+        editorStage.getBatch().end();
+
         editorStage.act();
         editorStage.draw();
 
@@ -256,6 +522,7 @@ public class EditorScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         editorStage.getViewport().update(width, height, true);
+        uiStage.getViewport().update(width, height, true);
     }
 
     @Override

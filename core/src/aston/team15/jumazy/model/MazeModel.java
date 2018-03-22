@@ -101,9 +101,17 @@ public class MazeModel {
 		int roomSize=8;
 		int roomBorder = 2;
 
+		FileHandle file;
 		//creates a list of room layouts from provided file. ArrayList of String[][]
-		FileHandle file = Gdx.files.internal("roomlayouts/RoomLayoutsSize"+roomSize+".txt");
+		//check if custom layout is there
+		file = Gdx.files.local("RoomLayoutsSize8.txt");
 
+		//fallback to internal
+		if(!file.exists())
+			file = Gdx.files.internal("roomlayouts/RoomLayoutsSize"+roomSize+".txt");
+
+
+		System.out.println(file.path());
         String[] lines = file.readString().split("\r\n|\r|\n");
 
         allRoomLayouts = new ArrayList<String[][]>();
