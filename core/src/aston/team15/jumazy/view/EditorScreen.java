@@ -127,7 +127,15 @@ public class EditorScreen implements Screen {
         JumazyButton removeButton = new JumazyButton("Remove Room", game.getSkin());
         removeButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                if(names.size > 1) {
+                boolean victoryRoom = false;
+                for(String[] row : roomLayouts.get(currentRoomName)){
+                    for(String cell : row){
+                        if(cell.equals("V"))
+                            victoryRoom = true;
+                    }
+                }
+
+                if(names.size > 1 && !victoryRoom) {
                     String oldName = currentRoomName;
                     roomLayouts.remove(currentRoomName);
                     layoutList.clearItems();
@@ -149,7 +157,7 @@ public class EditorScreen implements Screen {
                     drawRoom();
 
                     popUp("Room " + oldName + " has been deleted");
-                } else popUp("You can't delete the last room!");
+                } else popUp(victoryRoom ? "You can't delete the victory Room!" : "You can't delete the last room!");
             }
         });
         buttonTable.add(removeButton).pad(10);
@@ -195,7 +203,7 @@ public class EditorScreen implements Screen {
                 StringBuffer roomFile = new StringBuffer();
 
                 for(String name : roomLayouts.keySet()){
-                    roomFile.append("/Room Type "+name+"\n");
+                    roomFile.append("/"+name+"\n");
 
                     String[][] layout = roomLayouts.get(name);
 
@@ -289,7 +297,7 @@ public class EditorScreen implements Screen {
         for(int currentLineIndex = 0; currentLineIndex < lines.length-1; currentLineIndex++){
             currentLine = lines[currentLineIndex];
             if(!currentLine.startsWith("/")){
-                name = lines[currentLineIndex-1].substring(11);
+                name = lines[currentLineIndex-1].substring(1);
                 names.add(name);
 
                 String[][] newLayout = new String[layoutSize][layoutSize];
@@ -328,37 +336,47 @@ public class EditorScreen implements Screen {
 
         //Title
         Label createTitleLabel = new Label("Create a new room", game.getSkin());
-        newRoomTable.add(createTitleLabel).pad(10);
+        newRoomTable.add(createTitleLabel).pad(10).colspan(2);
         newRoomTable.row();
 
         //text input
         TextField nameField = new TextField("Untitled Room", game.getSkin());
         nameField.setAlignment(Align.center);
-        newRoomTable.add(nameField).width(400).height(50).pad(10);
+        newRoomTable.add(nameField).width(400).height(50).pad(10).colspan(2);
         newRoomTable.row();
 
         //create button
         JumazyButton createButton = new JumazyButton("Create", game.getSkin());
         newRoomTable.add(createButton).bottom().pad(10);
 
+        JumazyButton cancelButton = new JumazyButton("Cancel", game.getSkin());
+        newRoomTable.add(cancelButton).bottom().pad(10);
+
+        cancelButton.addListener(new ClickListener() {
+             public void clicked(InputEvent event, float x, float y) {
+                 newRoomBG.remove();
+                 newRoomTable.remove();
+                 Gdx.input.setInputProcessor(multiplexer);
+             }
+         });
+
         createButton.addListener(new ClickListener(){
            public void clicked(InputEvent event, float x, float y){
                if(!nameField.getText().isEmpty()) {
-                   newRoomBG.remove();
-                   newRoomTable.remove();
+                   if (!names.contains(nameField.getText(), false)) {
+                       String name = nameField.getText();
 
-                   String name = (names.size + 1) + ": " + nameField.getText();
+                       names.add(name);
+                       roomLayouts.put(name, blankLayout());
 
-                   System.out.println(name);
+                       layoutList.clearItems();
+                       layoutList.setItems(names);
+                       layoutList.setSelected(name);
 
-                   names.add(name);
-                   roomLayouts.put(name, blankLayout());
-
-                   layoutList.clearItems();
-                   layoutList.setItems(names);
-                   layoutList.setSelected(name);
-
-                   Gdx.input.setInputProcessor(multiplexer);
+                       newRoomBG.remove();
+                       newRoomTable.remove();
+                       Gdx.input.setInputProcessor(multiplexer);
+                   } else popUp("Room with that name exists!");
                } else popUp("Room name can't be empty!");
            }
         });
@@ -491,6 +509,18 @@ public class EditorScreen implements Screen {
                         block = new EditBlockView(roomLeft + roomX * blockDimension, roomBottom + roomY * blockDimension,
                                 game.getSprite("mummy"), game.getSprite("floor-squares"), roomY, roomX);
                         break;
+                    case "Z":
+                        block = new EditBlockView(roomLeft + roomX * blockDimension, roomBottom + roomY * blockDimension,
+                                game.getSprite(generateBossSprite(room, roomX, roomY)), game.getSprite("floor-squares"), roomY, roomX);
+                        break;
+                    case "D":
+                        block = new EditBlockView(roomLeft + roomX * blockDimension, roomBottom + roomY * blockDimension,
+                                game.getSprite("door"), game.getSprite("floor-squares"), roomY, roomX);
+                        break;
+                    case "V":
+                        block = new EditBlockView(roomLeft + roomX * blockDimension, roomBottom + roomY * blockDimension,
+                                game.getSprite("victory-statue"), game.getSprite("floor-squares"), roomY, roomX);
+                        break;
                     default:
                         //floor
                         block = new EditBlockView(roomLeft + roomX * blockDimension, roomBottom + roomY * blockDimension,
@@ -502,19 +532,39 @@ public class EditorScreen implements Screen {
                 if (roomX != 0 && roomX != roomSize - 1 && roomY != 0 && roomY != roomSize - 1) {
                     block.addListener(new ClickListener() {
                         public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                            if(pointer == 0 && !room[block.getYCoord()][roomSize - 1 - block.getXCoord()].equals(currentTool)){
-                                GameSound.playStepSound();
-                                room[block.getYCoord()][roomSize - 1 - block.getXCoord()] = currentTool;
-                                drawRoom();
+                            String thisBlock = room[block.getYCoord()][roomSize - 1 - block.getXCoord()];
+                            if(pointer == 0 && !thisBlock.equals(currentTool)){
+                                if(!thisBlock.equals("V") && !thisBlock.equals("D") && !thisBlock.equals("Z")) {
+                                    GameSound.playStepSound();
+                                    room[block.getYCoord()][roomSize - 1 - block.getXCoord()] = currentTool;
+                                    drawRoom();
 
-                                roomLayouts.get(currentRoomName)[block.getYCoord()-1][roomSize - 1 - block.getXCoord()-1] = currentTool;
-
+                                    roomLayouts.get(currentRoomName)[block.getYCoord() - 1][roomSize - 1 - block.getXCoord() - 1] = currentTool;
+                                }
                             }
                         }
                     });
                 }
             }
         }
+    }
+
+    private String generateBossSprite(String[][] room, int roomX, int roomY) {
+        if (room[roomX][roomY - 1].equals("Z") && room[roomX - 1][roomY].equals("Z"))
+            return "bossUR";
+
+        //upperleft
+        if (room[roomX][roomY + 1].equals("Z") && room[roomX - 1][roomY].equals("Z"))
+            return "bossLR";
+
+        //lowerright
+        if (room[roomX][roomY - 1].equals("Z") && room[roomX + 1][roomY].equals("Z"))
+            return "bossUL";
+
+        //lowerleft
+        if (room[roomX][roomY + 1].equals("Z") && room[roomX + 1][roomY].equals("Z"))
+            return "bossLL";
+        return "bossLL";
     }
 
     /**

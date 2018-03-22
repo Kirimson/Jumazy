@@ -1,4 +1,4 @@
-/Room Type 1: Pillars
+/Pillars
 OOOOOOOO
 OOOOC#OO
 OOOOO#OO
@@ -7,7 +7,7 @@ OO#OOOOO
 OO#OOOTO
 OO#COOOO
 OOOOEOOO
-/Room Type 2: Large Paths
+/Large Paths
 OOOOOOOO
 TOOOCOOO
 TOW##WOO
@@ -16,7 +16,7 @@ OO####OO
 OOW##WOT
 OOCOOOOT
 OOOOOOOO
-/Room Type 3: Up U
+/Up U
 OOO##OOO
 OOO##COO
 OO####OO
@@ -25,7 +25,7 @@ OOWWWWOO
 OC####OO
 OO####OO
 OOCOOOOO
-/Room Type 4: Walled Water Wnd TrWp
+/Walled Water Wnd Trap
 OOOOOOOO
 OOOEOOOO
 OOWWWWOO
@@ -34,7 +34,7 @@ OOOTTOOO
 OO#WW#OO
 OO#OO#OO
 OOOOOOOO
-/Room Type 5: Water X
+/Water X
 O#O##O#O
 O#OOOO#O
 OOWOOWOO
@@ -43,7 +43,7 @@ OOWOOWOO
 OOWOOWOO
 O#OOOO#O
 O#O##O#O
-/Room Type 6: Centre Sqaure
+/Centre Sqaure
 OOOOOOOO
 OO####OO
 OO####OO
@@ -52,7 +52,7 @@ OO#OO#OO
 OOWWWWCO
 OOOOOOOO
 OOECOOOO
-/Room Type 7: Centre Block
+/Centre Block
 OOOOOTTO
 OOO##OOO
 OO####OO
@@ -61,7 +61,7 @@ OO####OO
 OO####OO
 OOC##OOO
 OOEOOOOO
-/Room Type 8: Centre Corner Open
+/Centre Corner Open
 OOOOOOOO
 O######O
 O######O
@@ -70,7 +70,7 @@ OOOOOWWO
 O######O
 O######O
 OOOEOOOO
-/Room Type 9: Centre Corner Traps
+/Centre Corner Traps
 OOOOOOOO
 O######O
 O######O
@@ -79,7 +79,7 @@ OOOTO##O
 O######O
 O######O
 OOOEOOOO
-/Room Type 10: Two TrWp Thin Corridor
+/Two Trap Thin Corridor
 O#OOOOOO
 O#T####O
 O#O####O
@@ -88,7 +88,7 @@ O#COOO#O
 O####O#O
 O####T#O
 OOOOOO#O
-/Room Type 11: Four Trap Thin Corridor
+/RFour Trap Thin Corridor
 O#OOOO#O
 O#T####O
 O#O####O
@@ -97,7 +97,7 @@ OTOOCO#O
 O####O#O
 O####T#O
 O#OEOO#O
-/Room Type 12: Thicc Walled Victory
+/Victory Room
 OOOOOOOO
 O#WDDW#O
 O#WDDW#O
@@ -106,7 +106,7 @@ OZZVV##O
 OW####WO
 OW####WO
 OOOEOOOO
-/Room Type 13: Water Lines
+/Water Lines
 OOOWWOOO
 OOOOTOOO
 OWWWWWWO
@@ -115,7 +115,7 @@ OOCOOOOO
 OWWWWWWO
 OOCXOOOO
 OOOWWOEO
-/Room Type 14: Traps Everywhere
+/Traps Everywhere
 TOOOOOOT
 OTOOOOTO
 OOTOOTOO
@@ -124,7 +124,7 @@ OOOTTCOO
 OOTOXTOO
 OTOOOOTO
 TOOOOOOT
-/Room Type 15: Guarded Chest
+/Guarded Chest
 OOOOOTTO
 OO####OO
 OO####OO
@@ -133,7 +133,7 @@ OO#XX#OO
 OOOOOOOO
 OOOOOOOO
 OTTOOOOO
-/Room Type 16: Trapped Chests
+/Trapped Chests
 OOOOOTOO
 OOOOWCWO
 OOOOWWWO
@@ -142,7 +142,7 @@ OOOXOOOO
 OWWWOOOO
 OWCWOOOO
 OOTOOOOO
-/Room Type 17: Training Room
+/Training Room
 OOOOOOOO
 OOXOOOOO
 OOTOOWOO
@@ -151,7 +151,7 @@ OOOOEOOO
 OOOOOO#O
 OOWOOO#O
 OOOOOOOO
-/Room Type 18: Spiral Loot
+/Spiral Loot
 OOOOOOOO
 OOOOOOOO
 OOWWWWOO
@@ -160,7 +160,7 @@ OOWTOWOO
 OOWTWWOO
 OOWTWOOO
 OOOOOOOO
-/Room Type 19: Water
+/Water
 OOOOOOOO
 OWWWWWWO
 OWOOOOOO
@@ -169,7 +169,7 @@ OWOWWCWO
 OWOOTCWO
 OWWWWWWO
 OOOOOOOO
-/Room Type 20: Something
+/Corner Chest
 C#OOOOOO
 O#OOOOOO
 OOTOOOOO
@@ -178,7 +178,7 @@ OOOTOOOO
 OOOOOOOO
 OOOOOO#O
 OOOOOO#C
-/Room Type 21: Trolled
+/Water and Monsters
 OOOOOOOO
 OWOWOOOO
 OOCOOO#O
@@ -187,7 +187,7 @@ OOXOOOOO
 OOOOOOOO
 OOOOEOOO
 OOOOOOOO
-/Room Type 22: A Choice
+/A Choice
 OOOOOOOO
 OOOOWOWO
 OOOOWOWO
@@ -196,7 +196,7 @@ OOOOWOWO
 OOOOWCWO
 OOOOWTWO
 OOOOOOOO
-/Room Type 23: I Don't Know
+/Two Pillars
 EOOOOOOO
 OO#OO#OO
 OO#OO#OO
@@ -205,21 +205,21 @@ OOTCCTOO
 OO#OO#OO
 OO#OO#OO
 OOOOOOOO
-/Room Type 24: J
+/Jumazy
 OOOOOOOO
 OWWWWWWO
 OOCWWCOO
-OOTWWOOO
-OOOWWOOO
-OOOWWOOO
+OTTWWOOO
+TTOWWOOO
+TOOWWOOO
 OWWWWOOO
 OOOXOTTO
-/Room Type 25: Test
+/Untitled Room
 OOOOOOOO
 OOOOOOOO
-OTTTTTOO
-OTOOOTOO
-OTOOOTOO
-OTTTTTOO
+OOOOOOOO
+OOOOOOOO
+OOOOOOOO
+OOOOOOOO
 OOOOOOOO
 OOOOOOOO
