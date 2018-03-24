@@ -3,6 +3,7 @@ package aston.team15.jumazy.view;
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.menu.EditorScreen;
+import aston.team15.jumazy.menu.LoadGameScreen;
 import aston.team15.jumazy.menu.MainMenuScreen;
 import aston.team15.jumazy.menu.PlayerAmountSelectScreen;
 import aston.team15.jumazy.menu.SettingsScreen;
@@ -46,6 +47,9 @@ public class MenuScreenButton extends JumazyButton {
 					break;
 				case EDITOR_SCREEN:
 					game.setScreen(new EditorScreen(game));
+					break;
+				case LOAD_GAME_SCREEN:
+					game.setScreen(new LoadGameScreen(game));
 					break;
 				}
 			}

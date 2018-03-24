@@ -7,28 +7,17 @@ import aston.team15.jumazy.view.MenuScreens;
 /**
  * Allows player to go the player go to playerAmountSelectScreen and TutorialScreen
  *
- * @author Dom, Mahnoor
+ * @author Dom
  */
-public class StartGameMenuScreen extends MenuScreen {
+public class LoadGameScreen extends MenuScreen {
 
-	public StartGameMenuScreen(JumazyController theGame) {
+	public LoadGameScreen(JumazyController theGame) {
 		super(theGame);
 
-		MenuScreenButton startGameButton = new MenuScreenButton("Start Game",
-				MenuScreens.PLAYER_NUMBER_SELECTION_SCREEN, game);
-		
-		MenuScreenButton loadGameButton = new MenuScreenButton("Load Game", MenuScreens.LOAD_GAME_SCREEN, game);
-		MenuScreenButton tutorialButton = new MenuScreenButton("Tutorial", MenuScreens.TUTORIAL_SCREEN, game);
-		MenuScreenButton editorButton = new MenuScreenButton("Editor", MenuScreens.EDITOR_SCREEN, game);
+		MenuScreenButton startGameButton = new MenuScreenButton("Load Game", MenuScreens.LOAD_GAME_SCREEN, game);
 		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.MAIN_MENU_SCREEN, game);
 
 		table.add(startGameButton).pad(10);
-		table.row();
-		table.add(loadGameButton).pad(10);
-		table.row();
-		table.add(tutorialButton).pad(10);
-		table.row();
-		table.add(editorButton).pad(10);
 		table.row();
 		table.add(backButton).bottom().right().expand().pad(70);
 
