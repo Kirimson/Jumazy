@@ -1,8 +1,15 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.PlayerModel;
+import aston.team15.jumazy.view.EditBlockView;
+import aston.team15.jumazy.view.EditTool;
+import aston.team15.jumazy.view.JumazyButton;
+import aston.team15.jumazy.view.JumazySelectBox;
+import aston.team15.jumazy.view.MenuScreenButton;
+import aston.team15.jumazy.view.MenuScreens;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;

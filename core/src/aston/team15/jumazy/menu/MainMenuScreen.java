@@ -1,4 +1,4 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.view.JumazyButton;
+import aston.team15.jumazy.view.MenuScreenButton;
+import aston.team15.jumazy.view.MenuScreens;
 
 /**
  * First menu that is seen in the game, contains play, settings and quit button

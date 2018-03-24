@@ -13,7 +13,7 @@ import java.lang.reflect.Array;
  */
 public class JumazySelectBox<T> extends SelectBox<T> {
 
-    JumazySelectBox(Skin skin){
+    public JumazySelectBox(Skin skin){
         super(skin);
         getStyle().background.setLeftWidth(20f);
     }

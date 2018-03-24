@@ -1,6 +1,8 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.view.MenuScreenButton;
+import aston.team15.jumazy.view.MenuScreens;
 
 /**
  * Allows player to go the player go to playerAmountSelectScreen and TutorialScreen

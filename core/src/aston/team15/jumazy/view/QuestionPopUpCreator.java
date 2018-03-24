@@ -4,6 +4,8 @@ package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.menu.CharacterSelectScreen;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -31,7 +33,7 @@ public class QuestionPopUpCreator {
 	private JumazySelectBox<String> histoSB;
 	private JumazyButton playButton;
 
-	QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
+	public QuestionPopUpCreator(JumazyController game, int numOfPlayers) {
 		 skin = game.getSkin();
 		 
 		 createCheckBoxes();

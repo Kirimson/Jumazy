@@ -14,14 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
+import aston.team15.jumazy.menu.MainMenuScreen;
+import aston.team15.jumazy.menu.VictoryScreen;
 import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
 import aston.team15.jumazy.model.PlayerModel;
 import aston.team15.jumazy.model.QuestionRetriever;
 import aston.team15.jumazy.view.GameScreen;
-import aston.team15.jumazy.view.MainMenuScreen;
-import aston.team15.jumazy.view.VictoryScreen;
 
 /**
  * This class represents the controller in this applications

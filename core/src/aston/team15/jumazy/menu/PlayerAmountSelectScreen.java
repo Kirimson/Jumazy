@@ -1,7 +1,12 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.view.JumazyButton;
+import aston.team15.jumazy.view.MenuScreenButton;
+import aston.team15.jumazy.view.MenuScreens;
+import aston.team15.jumazy.view.QuestionPopUpCreator;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -36,7 +41,6 @@ public class PlayerAmountSelectScreen extends MenuScreen {
 				showPopUp(4);
 			}
 		});
-
 
 		MenuScreenButton backButton = new MenuScreenButton("Back", MenuScreens.START_GAME_SCREEN, game);
 		table.add(twoPlayerButton).pad(10);

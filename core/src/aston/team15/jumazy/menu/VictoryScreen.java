@@ -1,4 +1,4 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.view.MenuScreenButton;
+import aston.team15.jumazy.view.MenuScreens;
 
 /**
  * Screen displaying the winner of the game, giving an option to go back to the main screen, or quit

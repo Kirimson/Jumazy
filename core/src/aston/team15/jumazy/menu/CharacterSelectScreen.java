@@ -1,4 +1,4 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.PlayerModel.CharacterName;
+import aston.team15.jumazy.view.JumazyButton;
 
 /**
  * Screen allowing players to choose a character, showing their stats and brief information about them
@@ -43,7 +44,7 @@ public class CharacterSelectScreen implements Screen{
     private Label infoText;
     private Image currentSelectedImage;
 
-    CharacterSelectScreen(JumazyController theGame, int numOfPlayers) {
+    public CharacterSelectScreen(JumazyController theGame, int numOfPlayers) {
         Pixmap cursor = new Pixmap(Gdx.files.internal("mouse.png"));
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursor, 0, 0));
 

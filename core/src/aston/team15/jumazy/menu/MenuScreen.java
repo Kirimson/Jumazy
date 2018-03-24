@@ -1,4 +1,4 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

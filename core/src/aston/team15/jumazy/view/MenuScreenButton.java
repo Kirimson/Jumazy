@@ -2,6 +2,14 @@ package aston.team15.jumazy.view;
 
 import aston.team15.jumazy.controller.GameSound;
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.menu.EditorScreen;
+import aston.team15.jumazy.menu.MainMenuScreen;
+import aston.team15.jumazy.menu.PlayerAmountSelectScreen;
+import aston.team15.jumazy.menu.SettingsScreen;
+import aston.team15.jumazy.menu.StartGameMenuScreen;
+import aston.team15.jumazy.menu.TextureSelectionScreen;
+import aston.team15.jumazy.menu.TutorialScreen;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 

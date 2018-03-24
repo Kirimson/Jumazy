@@ -1,4 +1,4 @@
-package aston.team15.jumazy.view;
+package aston.team15.jumazy.menu;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import aston.team15.jumazy.controller.JumazyController;
+import aston.team15.jumazy.view.MenuScreenButton;
+import aston.team15.jumazy.view.MenuScreens;
 
 /**
  * Screen tabling the player how to play the game and its feature
