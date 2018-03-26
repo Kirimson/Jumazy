@@ -26,6 +26,7 @@ import aston.team15.jumazy.controller.JumazyController;
 import aston.team15.jumazy.model.Item;
 import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.MazeModel.Weather;
+import aston.team15.jumazy.model.PlayerModel;
 
 /**
  * The main class used to manage the gameplay view. It creates, initialises and
@@ -105,6 +106,14 @@ public class GameScreen implements Screen {
 			for (int mazeY = 0; mazeY < maze[0].length; mazeY++) {
 				Actor newActor;
 
+				String trapTile;
+				
+				if(!PlayerModel.isOnTrap()) {
+					trapTile = "floor-trap-spikes";
+				}else {
+					trapTile = generateRandomFloorTexture();
+				}
+				
 				switch (maze[mazeX][mazeY]) {
 				case "O":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
@@ -116,7 +125,7 @@ public class GameScreen implements Screen {
 					break;
 				case "T":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,
-							game.getSprite("floor-trap-spikes"));
+							game.getSprite(trapTile));
 					break;
 				case "V":
 					newActor = new BlockView(mazeY * blockSpriteDimensions, mazeX * blockSpriteDimensions,

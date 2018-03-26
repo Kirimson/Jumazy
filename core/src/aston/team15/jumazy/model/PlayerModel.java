@@ -42,7 +42,7 @@ public class PlayerModel {
 	private int row;
 	private int col;
 	private String playerSymbol;
-	private String currentPositionSymbol;
+	private static String currentPositionSymbol;
 	private int movesLeft;
 	private boolean onChest;
 	private boolean canRoll = true;
@@ -333,7 +333,7 @@ public class PlayerModel {
 		return movesLeft;
 	}
 
-	public boolean isOnTrap() {
+	public static boolean isOnTrap() {
 		return currentPositionSymbol.equals("T");
 	}
 
