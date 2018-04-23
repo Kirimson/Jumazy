@@ -125,3 +125,6 @@ Thumbs.db
 /ios-moe/xcode/native/
 /.nb-gradle/
 /bin/
+
+
+/tests/build/

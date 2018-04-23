@@ -155,7 +155,7 @@ public class TestPlayerModel {
      * IE, no more than 7 held types can be held at once
      */
     @Test
-    public void checkFullInventory(){
+    public void testFullInventory(){
         for(int i = 0; i < 200; i++){
 //            When returning false, a held item was rejected due to a full inventory
             if(!player.obtainRandomItemFromChest()){
@@ -165,4 +165,16 @@ public class TestPlayerModel {
         fail("Player inventory never rejected an item in 200 passes");
     }
 
+    /**
+     * Check that the player will never roll the lowest roll possible (player stamina + 1) when it is raining
+     */
+    @Test
+    public void testNoLowRollInRain() {
+
+        int lowestRoll = player.getStatFromHashMap("Stamina") + 1;
+
+        for (int i = 0; i < 500; i++)
+            assertTrue("Check that roll is not the lowest possible when it is raining",
+                    player.rollDie(maze.getWeather()) > lowestRoll);
+    }
 }
