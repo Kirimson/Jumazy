@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="de.tomgrill.gdxtesting.examples.UnitTestExample" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-04-23T17:41:22" hostname="DESKTOP-H1FPINQ" time="0.005">
+<testsuite name="de.tomgrill.gdxtesting.examples.UnitTestExample" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-04-23T18:24:08" hostname="DESKTOP-H1FPINQ" time="0.005">
   <properties/>
-  <testcase name="playerOneInCorrectPosition" classname="de.tomgrill.gdxtesting.examples.UnitTestExample" time="0.005"/>
-  <system-out><![CDATA[Maze initialized to a 2 player game.
-The weather's nice, it's sunny.
+  <testcase name="playersInCorrectPositions" classname="de.tomgrill.gdxtesting.examples.UnitTestExample" time="0.005"/>
+  <system-out><![CDATA[Maze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
 Player 1 will start.
 ##########
-#OOOOOOO2#
+#3OOOOOO4#
 #C#WDDW#O#
 #O#WDDW#O#
 #OZZVV##O#
 #OZZVV##O#
 #OW####WO#
 #OW####WT#
-#4OOEOOOO#
+#1OOEOOO2#
 ##########
 
 ]]></system-out>

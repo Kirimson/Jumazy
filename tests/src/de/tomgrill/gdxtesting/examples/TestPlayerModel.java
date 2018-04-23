@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  *  - in Jumazy root folder open your favourite terminal
  *  - run command ./gradlew tests:test
  */
-public class TestPlayers {
+public class TestPlayerModel {
 
     MazeModel maze;
     PlayerModel player;
@@ -145,8 +145,10 @@ public class TestPlayers {
         assertEquals("Check that player inventory is empty to begin with",
                 0, player.getInventory().size());
 
-        player.rollDie(maze.getWeather());
-        player.move(Input.Keys.RIGHT);
+        player.obtainRandomItemFromChest();
+
+        assertEquals("Check that player obtained an item, and was added to inventory",
+                1, player.getInventory().size());
     }
 
 }

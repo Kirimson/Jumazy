@@ -1,14 +1,137 @@
-[Maze initialized to a 2 player game.
+[Maze initialized to a 4 player game.
 The weather's nice, it's sunny.
 Player 1 will start.
 p##########
-#OOOOOOO2#
-#C#WDDW#O#
-#O#WDDW#O#
-#OZZVV##O#
-#OZZVV##O#
-#OW####WO#
-#OW####WT#
-#4OOEOOOO#
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 6.
+ªPlayer 1 just moved successfully. They have 5 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#O1EOOOO2#
+##########
+
+nMaze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+p##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+[Maze initialized to a 4 player game.
+The weather's nice, it's sunny.
+Player 1 will start.
+p##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 6.
+[Maze initialized to a 4 player game.
+The weather's nice, it's sunny.
+Player 1 will start.
+p##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 9.
+ªPlayer 1 just moved successfully. They have 8 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#O1EOOOO2#
+##########
+
+ªPlayer 1 just moved successfully. They have 7 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#T1OOOOOO#
+#OcEOOOO2#
+##########
+
+nMaze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+p##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+!Player 1 just picked up a Torch
+	oMaze initialized to a 4 player game.
+Careful! It's raining, the ground will be slippery.
+Player 1 will start.
+	p##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+	Player 1 just rolled a 9.
+	ªPlayer 1 just moved successfully. They have 8 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#1OOOOOOO#
+#OCEOOOO2#
 ##########
 
