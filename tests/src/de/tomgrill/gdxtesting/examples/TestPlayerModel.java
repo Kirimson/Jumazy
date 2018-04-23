@@ -128,6 +128,7 @@ public class TestPlayerModel {
         assertEquals("Check that Y startPosition var and Y startPosition for player is the same",
                 startPosition[1], player.getPosition()[1]);
 
+//        Roll for the players movement and move right and up
         player.rollDie(maze.getWeather());
         player.move(Input.Keys.RIGHT);
         player.move(Input.Keys.UP);
@@ -141,14 +142,27 @@ public class TestPlayerModel {
 
     @Test
     public void testItemObtain(){
-
         assertEquals("Check that player inventory is empty to begin with",
                 0, player.getInventory().size());
-
+//        Obtain an item
         player.obtainRandomItemFromChest();
-
         assertEquals("Check that player obtained an item, and was added to inventory",
                 1, player.getInventory().size());
+    }
+
+    /**
+     * Check that the players inventory can get maxed out of held items
+     * IE, no more than 7 held types can be held at once
+     */
+    @Test
+    public void checkFullInventory(){
+        for(int i = 0; i < 200; i++){
+//            When returning false, a held item was rejected due to a full inventory
+            if(!player.obtainRandomItemFromChest()){
+                return;
+            }
+        }
+        fail("Player inventory never rejected an item in 200 passes");
     }
 
 }

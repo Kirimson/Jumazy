@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="de.tomgrill.gdxtesting.examples.TestPlayerModel" tests="6" skipped="0" failures="0" errors="0" timestamp="2018-04-23T22:55:24" hostname="DESKTOP-H1FPINQ" time="0.008">
+<testsuite name="de.tomgrill.gdxtesting.examples.TestPlayerModel" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-04-23T23:05:17" hostname="DESKTOP-H1FPINQ" time="0.014">
   <properties/>
+  <testcase name="checkFullInventory" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.005"/>
   <testcase name="testOnChest" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.003"/>
-  <testcase name="playersInCorrectPositions" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.0"/>
+  <testcase name="playersInCorrectPositions" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
   <testcase name="testCanRoll" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
   <testcase name="testMoveBack" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
   <testcase name="testItemObtain" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
-  <testcase name="testOnTrap" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
+  <testcase name="testOnTrap" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.002"/>
   <system-out><![CDATA[Maze initialized to a 4 player game.
-The weather's nice, it's sunny.
+Careful! It's raining, the ground will be slippery.
 Player 1 will start.
 ##########
 #3OOOOOO4#
@@ -21,48 +22,25 @@ Player 1 will start.
 #1CEOOOO2#
 ##########
 
-Player 1 just rolled a 6.
-Player 1 just moved successfully. They have 5 moves left.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#O1EOOOO2#
-##########
-
-Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Maze initialized to a 4 player game.
-The weather's nice, it's sunny.
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Player 1 just rolled a 6.
+Player 1 just picked up a Torch
+Player 1 just picked up a Grapes
+Player 1 just picked up a Torch
+Player 1 just picked up a Grapes
+Player 1 just picked up a Torch
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Grapes
+Player 1 just picked up a Apple
+Player 1 just picked up a Purple Potion
+Player 1 just picked up a Apple
+Player 1 just picked up a Purple Potion
+Player 1 just picked up a Red Potion
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Grapes
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Purple Potion
+Player 1 just picked up a Red Potion
+Player 1 just picked up a Key
 Maze initialized to a 4 player game.
 The weather's nice, it's sunny.
 Player 1 will start.
@@ -90,33 +68,6 @@ Player 1 just moved successfully. They have 8 moves left.
 #O1EOOOO2#
 ##########
 
-Player 1 just moved successfully. They have 7 moves left.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#T1OOOOOO#
-#OcEOOOO2#
-##########
-
-Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Player 1 just picked up a Torch
 Maze initialized to a 4 player game.
 Careful! It's raining, the ground will be slippery.
 Player 1 will start.
@@ -131,8 +82,91 @@ Player 1 will start.
 #1CEOOOO2#
 ##########
 
+Maze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
 Player 1 just rolled a 9.
-Player 1 just moved successfully. They have 8 moves left.
+Maze initialized to a 4 player game.
+Careful! It's raining, the ground will be slippery.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 8.
+Player 1 just moved successfully. They have 7 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#O1EOOOO2#
+##########
+
+Player 1 just moved successfully. They have 6 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#T1OOOOOO#
+#OcEOOOO2#
+##########
+
+Maze initialized to a 4 player game.
+The weather's nice, it's sunny.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just picked up a Key
+Maze initialized to a 4 player game.
+Careful! It's raining, the ground will be slippery.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOO#DD##
+#OOVOOOOO#
+#TOOOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 6.
+Player 1 just moved successfully. They have 5 moves left.
 ##########
 #3OOOOOO4#
 #OOOOOOOO#
