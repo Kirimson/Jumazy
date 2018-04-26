@@ -14,24 +14,35 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tomgrill.gdxtesting.examples;
+package aston.team15.jumazy.tests.examples;
 
 import static org.junit.Assert.assertTrue;
 
+import aston.team15.jumazy.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Gdx;
 
-import de.tomgrill.gdxtesting.GdxTestRunner;
-
 @RunWith(GdxTestRunner.class)
-public class AssetExistsExampleTest {
+public class TestAssetExists {
 
 	@Test
-	public void handimageavailable() {
-		assertTrue("This test will only pass when the badlogic.jpg file coming with a new project setup has not been deleted.", Gdx.files
+	public void handImageExists() {
+		assertTrue("Test that the hand image is in the filestructure, and that libGDX can find files", Gdx.files
 				.internal("../core/assets/hand.png").exists());
+	}
+
+	@Test
+	public void skinExists() {
+		assertTrue("Test that libGDX can find our skin file for the current texturepack", Gdx.files
+				.internal("../core/assets/jumazyskin/current/jumazy-skin.json").exists());
+
+		assertTrue("Test that libGDX can find our skin file for the old english texturepack", Gdx.files
+				.internal("../core/assets/jumazyskin/oldenglish/jumazy-skin.json").exists());
+
+		assertTrue("Test that libGDX can find our skin file for the medievel texturepack", Gdx.files
+				.internal("../core/assets/jumazyskin/medievel/jumazy-skin.json").exists());
 	}
 
 }

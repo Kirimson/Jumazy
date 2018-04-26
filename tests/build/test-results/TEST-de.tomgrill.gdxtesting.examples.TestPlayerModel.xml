@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="de.tomgrill.gdxtesting.examples.TestPlayerModel" tests="8" skipped="0" failures="0" errors="0" timestamp="2018-04-23T23:33:32" hostname="DESKTOP-H1FPINQ" time="0.047">
+<testsuite name="de.tomgrill.gdxtesting.examples.TestPlayerModel" tests="10" skipped="0" failures="0" errors="0" timestamp="2018-04-26T11:06:19" hostname="DESKTOP-H1FPINQ" time="0.016">
   <properties/>
-  <testcase name="testOnChest" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.006"/>
-  <testcase name="testFullInventory" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.004"/>
+  <testcase name="testOnVictory" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.003"/>
+  <testcase name="testOnChest" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
+  <testcase name="testMove" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
+  <testcase name="testFullInventory" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.006"/>
   <testcase name="playersInCorrectPositions" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
   <testcase name="testCanRoll" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
-  <testcase name="testNoLowRollInRain" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.029"/>
-  <testcase name="testMoveBack" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
-  <testcase name="testItemObtain" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.0"/>
+  <testcase name="testMoveBack" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.0"/>
+  <testcase name="testItemObtain" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
+  <testcase name="testOnDoor" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
   <testcase name="testOnTrap" classname="de.tomgrill.gdxtesting.examples.TestPlayerModel" time="0.001"/>
   <system-out><![CDATA[Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
+The weather's nice, it's sunny.
 Player 1 will start.
 ##########
 #3OOOOOO4#
 #OOOOOOOO#
 #OOOOOOOO#
 #OOOOOOOO#
-#OOOO#DD##
+#OOOOOOOO#
 #OOVOOOOO#
-#TOOOOOOO#
+#TODOOOOO#
 #1CEOOOO2#
 ##########
 
-Player 1 just rolled a 4.
-Player 1 just moved successfully. They have 3 moves left.
+Player 1 just rolled a 8.
+Player 1 just moved successfully. They have 7 moves left.
 ##########
 #3OOOOOO4#
 #OOOOOOOO#
 #OOOOOOOO#
 #OOOOOOOO#
-#OOOO#DD##
+#OOOOOOOO#
 #OOVOOOOO#
-#TOOOOOOO#
+#TODOOOOO#
 #O1EOOOO2#
 ##########
 
-Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
-Player 1 will start.
+Player 1 just moved successfully. They have 6 moves left.
 ##########
 #3OOOOOO4#
 #OOOOOOOO#
 #OOOOOOOO#
 #OOOOOOOO#
-#OOOO#DD##
+#OOOOOOOO#
 #OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
+#T1DOOOOO#
+#OcEOOOO2#
 ##########
 
-Player 1 just picked up a Red Potion
-Player 1 just picked up a Grapes
-Player 1 just picked up a Torch
-Player 1 just picked up a Blue Potion
-Player 1 just picked up a Key
-Player 1 just picked up a Red Potion
-Player 1 just picked up a Blue Potion
-Player 1 just picked up a Bow and Arrow
-Player 1 just picked up a Torch
-Player 1 just picked up a Green Potion
-Player 1 just picked up a Torch
-Player 1 just picked up a Apple
-Player 1 just picked up a Purple Potion
-Player 1 just picked up a Sword
-Player 1 just picked up a Red Potion
-Player 1 just picked up a Key
-Player 1 just picked up a Key
+Player 1 just moved successfully. They have 5 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#O1VOOOOO#
+#TODOOOOO#
+#OcEOOOO2#
+##########
+
+Player 1 just moved successfully. They have 4 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OO1OOOOO#
+#TODOOOOO#
+#OcEOOOO2#
+##########
+
 Maze initialized to a 4 player game.
 Careful! It's raining, the ground will be slippery.
 Player 1 will start.
@@ -75,606 +82,9 @@ Player 1 will start.
 #OOOOOOOO#
 #OOOOOOOO#
 #OOOOOOOO#
-#OOOO#DD##
+#OOOOOOOO#
 #OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Maze initialized to a 4 player game.
-The weather's nice, it's sunny.
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Player 1 just rolled a 7.
-Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Player 1 just rolled a 9.
-Player 1 just rolled a 13.
-Player 1 just rolled a 17.
-Player 1 just rolled a 23.
-Player 1 just rolled a 31.
-Player 1 just rolled a 35.
-Player 1 just rolled a 44.
-Player 1 just rolled a 53.
-Player 1 just rolled a 61.
-Player 1 just rolled a 66.
-Player 1 just rolled a 75.
-Player 1 just rolled a 84.
-Player 1 just rolled a 90.
-Player 1 just rolled a 94.
-Player 1 just rolled a 100.
-Player 1 just rolled a 107.
-Player 1 just rolled a 114.
-Player 1 just rolled a 123.
-Player 1 just rolled a 132.
-Player 1 just rolled a 136.
-Player 1 just rolled a 140.
-Player 1 just rolled a 147.
-Player 1 just rolled a 155.
-Player 1 just rolled a 162.
-Player 1 just rolled a 170.
-Player 1 just rolled a 178.
-Player 1 just rolled a 185.
-Player 1 just rolled a 193.
-Player 1 just rolled a 201.
-Player 1 just rolled a 206.
-Player 1 just rolled a 210.
-Player 1 just rolled a 219.
-Player 1 just rolled a 227.
-Player 1 just rolled a 234.
-Player 1 just rolled a 239.
-Player 1 just rolled a 243.
-Player 1 just rolled a 249.
-Player 1 just rolled a 257.
-Player 1 just rolled a 264.
-Player 1 just rolled a 271.
-Player 1 just rolled a 275.
-Player 1 just rolled a 281.
-Player 1 just rolled a 289.
-Player 1 just rolled a 294.
-Player 1 just rolled a 299.
-Player 1 just rolled a 306.
-Player 1 just rolled a 312.
-Player 1 just rolled a 321.
-Player 1 just rolled a 326.
-Player 1 just rolled a 334.
-Player 1 just rolled a 342.
-Player 1 just rolled a 349.
-Player 1 just rolled a 355.
-Player 1 just rolled a 363.
-Player 1 just rolled a 370.
-Player 1 just rolled a 374.
-Player 1 just rolled a 378.
-Player 1 just rolled a 382.
-Player 1 just rolled a 386.
-Player 1 just rolled a 390.
-Player 1 just rolled a 395.
-Player 1 just rolled a 399.
-Player 1 just rolled a 407.
-Player 1 just rolled a 413.
-Player 1 just rolled a 421.
-Player 1 just rolled a 429.
-Player 1 just rolled a 438.
-Player 1 just rolled a 443.
-Player 1 just rolled a 448.
-Player 1 just rolled a 456.
-Player 1 just rolled a 460.
-Player 1 just rolled a 469.
-Player 1 just rolled a 473.
-Player 1 just rolled a 478.
-Player 1 just rolled a 486.
-Player 1 just rolled a 493.
-Player 1 just rolled a 500.
-Player 1 just rolled a 509.
-Player 1 just rolled a 517.
-Player 1 just rolled a 525.
-Player 1 just rolled a 530.
-Player 1 just rolled a 537.
-Player 1 just rolled a 543.
-Player 1 just rolled a 549.
-Player 1 just rolled a 555.
-Player 1 just rolled a 561.
-Player 1 just rolled a 568.
-Player 1 just rolled a 577.
-Player 1 just rolled a 582.
-Player 1 just rolled a 587.
-Player 1 just rolled a 594.
-Player 1 just rolled a 603.
-Player 1 just rolled a 608.
-Player 1 just rolled a 616.
-Player 1 just rolled a 622.
-Player 1 just rolled a 629.
-Player 1 just rolled a 636.
-Player 1 just rolled a 644.
-Player 1 just rolled a 651.
-Player 1 just rolled a 656.
-Player 1 just rolled a 664.
-Player 1 just rolled a 669.
-Player 1 just rolled a 678.
-Player 1 just rolled a 684.
-Player 1 just rolled a 690.
-Player 1 just rolled a 696.
-Player 1 just rolled a 701.
-Player 1 just rolled a 705.
-Player 1 just rolled a 710.
-Player 1 just rolled a 718.
-Player 1 just rolled a 725.
-Player 1 just rolled a 732.
-Player 1 just rolled a 739.
-Player 1 just rolled a 746.
-Player 1 just rolled a 751.
-Player 1 just rolled a 756.
-Player 1 just rolled a 765.
-Player 1 just rolled a 770.
-Player 1 just rolled a 778.
-Player 1 just rolled a 786.
-Player 1 just rolled a 793.
-Player 1 just rolled a 798.
-Player 1 just rolled a 802.
-Player 1 just rolled a 806.
-Player 1 just rolled a 815.
-Player 1 just rolled a 819.
-Player 1 just rolled a 828.
-Player 1 just rolled a 835.
-Player 1 just rolled a 840.
-Player 1 just rolled a 845.
-Player 1 just rolled a 854.
-Player 1 just rolled a 860.
-Player 1 just rolled a 868.
-Player 1 just rolled a 872.
-Player 1 just rolled a 878.
-Player 1 just rolled a 885.
-Player 1 just rolled a 889.
-Player 1 just rolled a 894.
-Player 1 just rolled a 898.
-Player 1 just rolled a 907.
-Player 1 just rolled a 915.
-Player 1 just rolled a 921.
-Player 1 just rolled a 930.
-Player 1 just rolled a 936.
-Player 1 just rolled a 944.
-Player 1 just rolled a 950.
-Player 1 just rolled a 958.
-Player 1 just rolled a 966.
-Player 1 just rolled a 975.
-Player 1 just rolled a 983.
-Player 1 just rolled a 989.
-Player 1 just rolled a 997.
-Player 1 just rolled a 1003.
-Player 1 just rolled a 1009.
-Player 1 just rolled a 1014.
-Player 1 just rolled a 1021.
-Player 1 just rolled a 1026.
-Player 1 just rolled a 1032.
-Player 1 just rolled a 1040.
-Player 1 just rolled a 1045.
-Player 1 just rolled a 1049.
-Player 1 just rolled a 1056.
-Player 1 just rolled a 1062.
-Player 1 just rolled a 1070.
-Player 1 just rolled a 1076.
-Player 1 just rolled a 1083.
-Player 1 just rolled a 1089.
-Player 1 just rolled a 1094.
-Player 1 just rolled a 1101.
-Player 1 just rolled a 1105.
-Player 1 just rolled a 1109.
-Player 1 just rolled a 1115.
-Player 1 just rolled a 1120.
-Player 1 just rolled a 1127.
-Player 1 just rolled a 1136.
-Player 1 just rolled a 1140.
-Player 1 just rolled a 1145.
-Player 1 just rolled a 1153.
-Player 1 just rolled a 1160.
-Player 1 just rolled a 1167.
-Player 1 just rolled a 1174.
-Player 1 just rolled a 1182.
-Player 1 just rolled a 1189.
-Player 1 just rolled a 1198.
-Player 1 just rolled a 1207.
-Player 1 just rolled a 1212.
-Player 1 just rolled a 1219.
-Player 1 just rolled a 1228.
-Player 1 just rolled a 1232.
-Player 1 just rolled a 1236.
-Player 1 just rolled a 1243.
-Player 1 just rolled a 1248.
-Player 1 just rolled a 1252.
-Player 1 just rolled a 1256.
-Player 1 just rolled a 1263.
-Player 1 just rolled a 1268.
-Player 1 just rolled a 1273.
-Player 1 just rolled a 1279.
-Player 1 just rolled a 1283.
-Player 1 just rolled a 1288.
-Player 1 just rolled a 1293.
-Player 1 just rolled a 1301.
-Player 1 just rolled a 1309.
-Player 1 just rolled a 1315.
-Player 1 just rolled a 1322.
-Player 1 just rolled a 1329.
-Player 1 just rolled a 1335.
-Player 1 just rolled a 1343.
-Player 1 just rolled a 1347.
-Player 1 just rolled a 1351.
-Player 1 just rolled a 1359.
-Player 1 just rolled a 1367.
-Player 1 just rolled a 1371.
-Player 1 just rolled a 1376.
-Player 1 just rolled a 1383.
-Player 1 just rolled a 1391.
-Player 1 just rolled a 1395.
-Player 1 just rolled a 1401.
-Player 1 just rolled a 1410.
-Player 1 just rolled a 1419.
-Player 1 just rolled a 1428.
-Player 1 just rolled a 1434.
-Player 1 just rolled a 1443.
-Player 1 just rolled a 1449.
-Player 1 just rolled a 1456.
-Player 1 just rolled a 1461.
-Player 1 just rolled a 1466.
-Player 1 just rolled a 1474.
-Player 1 just rolled a 1478.
-Player 1 just rolled a 1487.
-Player 1 just rolled a 1491.
-Player 1 just rolled a 1495.
-Player 1 just rolled a 1504.
-Player 1 just rolled a 1509.
-Player 1 just rolled a 1516.
-Player 1 just rolled a 1524.
-Player 1 just rolled a 1528.
-Player 1 just rolled a 1532.
-Player 1 just rolled a 1540.
-Player 1 just rolled a 1547.
-Player 1 just rolled a 1551.
-Player 1 just rolled a 1556.
-Player 1 just rolled a 1564.
-Player 1 just rolled a 1571.
-Player 1 just rolled a 1576.
-Player 1 just rolled a 1581.
-Player 1 just rolled a 1587.
-Player 1 just rolled a 1591.
-Player 1 just rolled a 1598.
-Player 1 just rolled a 1603.
-Player 1 just rolled a 1610.
-Player 1 just rolled a 1615.
-Player 1 just rolled a 1624.
-Player 1 just rolled a 1629.
-Player 1 just rolled a 1636.
-Player 1 just rolled a 1644.
-Player 1 just rolled a 1650.
-Player 1 just rolled a 1657.
-Player 1 just rolled a 1665.
-Player 1 just rolled a 1673.
-Player 1 just rolled a 1678.
-Player 1 just rolled a 1684.
-Player 1 just rolled a 1693.
-Player 1 just rolled a 1697.
-Player 1 just rolled a 1701.
-Player 1 just rolled a 1708.
-Player 1 just rolled a 1716.
-Player 1 just rolled a 1720.
-Player 1 just rolled a 1729.
-Player 1 just rolled a 1735.
-Player 1 just rolled a 1743.
-Player 1 just rolled a 1751.
-Player 1 just rolled a 1757.
-Player 1 just rolled a 1766.
-Player 1 just rolled a 1771.
-Player 1 just rolled a 1779.
-Player 1 just rolled a 1788.
-Player 1 just rolled a 1793.
-Player 1 just rolled a 1799.
-Player 1 just rolled a 1805.
-Player 1 just rolled a 1813.
-Player 1 just rolled a 1820.
-Player 1 just rolled a 1825.
-Player 1 just rolled a 1829.
-Player 1 just rolled a 1834.
-Player 1 just rolled a 1840.
-Player 1 just rolled a 1845.
-Player 1 just rolled a 1853.
-Player 1 just rolled a 1862.
-Player 1 just rolled a 1866.
-Player 1 just rolled a 1872.
-Player 1 just rolled a 1879.
-Player 1 just rolled a 1888.
-Player 1 just rolled a 1893.
-Player 1 just rolled a 1899.
-Player 1 just rolled a 1903.
-Player 1 just rolled a 1910.
-Player 1 just rolled a 1916.
-Player 1 just rolled a 1920.
-Player 1 just rolled a 1925.
-Player 1 just rolled a 1930.
-Player 1 just rolled a 1937.
-Player 1 just rolled a 1946.
-Player 1 just rolled a 1954.
-Player 1 just rolled a 1960.
-Player 1 just rolled a 1966.
-Player 1 just rolled a 1973.
-Player 1 just rolled a 1980.
-Player 1 just rolled a 1985.
-Player 1 just rolled a 1989.
-Player 1 just rolled a 1996.
-Player 1 just rolled a 2005.
-Player 1 just rolled a 2014.
-Player 1 just rolled a 2019.
-Player 1 just rolled a 2026.
-Player 1 just rolled a 2032.
-Player 1 just rolled a 2039.
-Player 1 just rolled a 2043.
-Player 1 just rolled a 2049.
-Player 1 just rolled a 2056.
-Player 1 just rolled a 2060.
-Player 1 just rolled a 2064.
-Player 1 just rolled a 2071.
-Player 1 just rolled a 2077.
-Player 1 just rolled a 2084.
-Player 1 just rolled a 2089.
-Player 1 just rolled a 2094.
-Player 1 just rolled a 2098.
-Player 1 just rolled a 2107.
-Player 1 just rolled a 2113.
-Player 1 just rolled a 2117.
-Player 1 just rolled a 2122.
-Player 1 just rolled a 2131.
-Player 1 just rolled a 2137.
-Player 1 just rolled a 2146.
-Player 1 just rolled a 2152.
-Player 1 just rolled a 2158.
-Player 1 just rolled a 2162.
-Player 1 just rolled a 2171.
-Player 1 just rolled a 2180.
-Player 1 just rolled a 2189.
-Player 1 just rolled a 2195.
-Player 1 just rolled a 2200.
-Player 1 just rolled a 2208.
-Player 1 just rolled a 2216.
-Player 1 just rolled a 2223.
-Player 1 just rolled a 2228.
-Player 1 just rolled a 2233.
-Player 1 just rolled a 2237.
-Player 1 just rolled a 2242.
-Player 1 just rolled a 2251.
-Player 1 just rolled a 2257.
-Player 1 just rolled a 2265.
-Player 1 just rolled a 2273.
-Player 1 just rolled a 2277.
-Player 1 just rolled a 2285.
-Player 1 just rolled a 2290.
-Player 1 just rolled a 2296.
-Player 1 just rolled a 2303.
-Player 1 just rolled a 2310.
-Player 1 just rolled a 2318.
-Player 1 just rolled a 2327.
-Player 1 just rolled a 2334.
-Player 1 just rolled a 2338.
-Player 1 just rolled a 2346.
-Player 1 just rolled a 2351.
-Player 1 just rolled a 2358.
-Player 1 just rolled a 2365.
-Player 1 just rolled a 2370.
-Player 1 just rolled a 2376.
-Player 1 just rolled a 2385.
-Player 1 just rolled a 2393.
-Player 1 just rolled a 2397.
-Player 1 just rolled a 2404.
-Player 1 just rolled a 2410.
-Player 1 just rolled a 2414.
-Player 1 just rolled a 2422.
-Player 1 just rolled a 2429.
-Player 1 just rolled a 2438.
-Player 1 just rolled a 2446.
-Player 1 just rolled a 2451.
-Player 1 just rolled a 2458.
-Player 1 just rolled a 2462.
-Player 1 just rolled a 2469.
-Player 1 just rolled a 2475.
-Player 1 just rolled a 2483.
-Player 1 just rolled a 2487.
-Player 1 just rolled a 2492.
-Player 1 just rolled a 2499.
-Player 1 just rolled a 2506.
-Player 1 just rolled a 2513.
-Player 1 just rolled a 2518.
-Player 1 just rolled a 2527.
-Player 1 just rolled a 2533.
-Player 1 just rolled a 2538.
-Player 1 just rolled a 2544.
-Player 1 just rolled a 2551.
-Player 1 just rolled a 2558.
-Player 1 just rolled a 2562.
-Player 1 just rolled a 2570.
-Player 1 just rolled a 2574.
-Player 1 just rolled a 2581.
-Player 1 just rolled a 2586.
-Player 1 just rolled a 2591.
-Player 1 just rolled a 2596.
-Player 1 just rolled a 2602.
-Player 1 just rolled a 2611.
-Player 1 just rolled a 2617.
-Player 1 just rolled a 2624.
-Player 1 just rolled a 2628.
-Player 1 just rolled a 2636.
-Player 1 just rolled a 2645.
-Player 1 just rolled a 2650.
-Player 1 just rolled a 2658.
-Player 1 just rolled a 2666.
-Player 1 just rolled a 2671.
-Player 1 just rolled a 2677.
-Player 1 just rolled a 2683.
-Player 1 just rolled a 2687.
-Player 1 just rolled a 2693.
-Player 1 just rolled a 2699.
-Player 1 just rolled a 2706.
-Player 1 just rolled a 2710.
-Player 1 just rolled a 2715.
-Player 1 just rolled a 2721.
-Player 1 just rolled a 2728.
-Player 1 just rolled a 2732.
-Player 1 just rolled a 2736.
-Player 1 just rolled a 2740.
-Player 1 just rolled a 2747.
-Player 1 just rolled a 2751.
-Player 1 just rolled a 2759.
-Player 1 just rolled a 2766.
-Player 1 just rolled a 2773.
-Player 1 just rolled a 2781.
-Player 1 just rolled a 2789.
-Player 1 just rolled a 2798.
-Player 1 just rolled a 2806.
-Player 1 just rolled a 2814.
-Player 1 just rolled a 2821.
-Player 1 just rolled a 2828.
-Player 1 just rolled a 2835.
-Player 1 just rolled a 2840.
-Player 1 just rolled a 2847.
-Player 1 just rolled a 2856.
-Player 1 just rolled a 2864.
-Player 1 just rolled a 2872.
-Player 1 just rolled a 2877.
-Player 1 just rolled a 2886.
-Player 1 just rolled a 2891.
-Player 1 just rolled a 2899.
-Player 1 just rolled a 2906.
-Player 1 just rolled a 2910.
-Player 1 just rolled a 2914.
-Player 1 just rolled a 2920.
-Player 1 just rolled a 2929.
-Player 1 just rolled a 2934.
-Player 1 just rolled a 2942.
-Player 1 just rolled a 2950.
-Player 1 just rolled a 2958.
-Player 1 just rolled a 2962.
-Player 1 just rolled a 2967.
-Player 1 just rolled a 2971.
-Player 1 just rolled a 2977.
-Player 1 just rolled a 2984.
-Player 1 just rolled a 2988.
-Player 1 just rolled a 2996.
-Player 1 just rolled a 3004.
-Player 1 just rolled a 3013.
-Player 1 just rolled a 3019.
-Player 1 just rolled a 3024.
-Player 1 just rolled a 3030.
-Player 1 just rolled a 3037.
-Player 1 just rolled a 3046.
-Player 1 just rolled a 3050.
-Player 1 just rolled a 3058.
-Player 1 just rolled a 3066.
-Player 1 just rolled a 3073.
-Player 1 just rolled a 3077.
-Player 1 just rolled a 3083.
-Player 1 just rolled a 3090.
-Player 1 just rolled a 3094.
-Player 1 just rolled a 3099.
-Player 1 just rolled a 3107.
-Player 1 just rolled a 3113.
-Player 1 just rolled a 3118.
-Player 1 just rolled a 3125.
-Player 1 just rolled a 3132.
-Player 1 just rolled a 3136.
-Player 1 just rolled a 3144.
-Player 1 just rolled a 3151.
-Player 1 just rolled a 3156.
-Player 1 just rolled a 3164.
-Player 1 just rolled a 3169.
-Player 1 just rolled a 3178.
-Player 1 just rolled a 3187.
-Player 1 just rolled a 3191.
-Player 1 just rolled a 3199.
-Player 1 just rolled a 3208.
-Player 1 just rolled a 3217.
-Maze initialized to a 4 player game.
-The weather's nice, it's sunny.
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Player 1 just rolled a 9.
-Player 1 just moved successfully. They have 8 moves left.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#O1EOOOO2#
-##########
-
-Player 1 just moved successfully. They have 7 moves left.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#T1OOOOOO#
-#OCEOOOO2#
-##########
-
-Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
-#1CEOOOO2#
-##########
-
-Player 1 just picked up a Key
-Maze initialized to a 4 player game.
-Hope you dressed warm, the snows coming down hard!
-Player 1 will start.
-##########
-#3OOOOOO4#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOO#DD##
-#OOVOOOOO#
-#TOOOOOOO#
+#TODOOOOO#
 #1CEOOOO2#
 ##########
 
@@ -685,9 +95,240 @@ Player 1 just moved successfully. They have 4 moves left.
 #OOOOOOOO#
 #OOOOOOOO#
 #OOOOOOOO#
-#OOOO#DD##
+#OOOOOOOO#
 #OOVOOOOO#
-#1OOOOOOO#
+#TODOOOOO#
+#O1EOOOO2#
+##########
+
+Maze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 8.
+Player 1 just moved successfully. They have 7 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#O1EOOOO2#
+##########
+
+Player 1 just moved successfully. They have 6 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#T1DOOOOO#
+#OcEOOOO2#
+##########
+
+Maze initialized to a 4 player game.
+The weather's nice, it's sunny.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just picked up a Purple Potion
+Player 1 just picked up a Green Potion
+Player 1 just picked up a Torch
+Player 1 just picked up a Green Potion
+Player 1 just picked up a Apple
+Player 1 just picked up a Apple
+Player 1 just picked up a Blue Potion
+Player 1 just picked up a Grapes
+Player 1 just picked up a Key
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Purple Potion
+Player 1 just picked up a Red Potion
+Player 1 just picked up a Key
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Torch
+Player 1 just picked up a Bow and Arrow
+Player 1 just picked up a Sword
+Maze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Maze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 6.
+Maze initialized to a 4 player game.
+Hope you dressed warm, the snows coming down hard!
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 4.
+Player 1 just moved successfully. They have 3 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#O1EOOOO2#
+##########
+
+Player 1 just moved successfully. They have 2 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#T1DOOOOO#
+#OcEOOOO2#
+##########
+
+Maze initialized to a 4 player game.
+The weather's nice, it's sunny.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just picked up a Key
+Maze initialized to a 4 player game.
+The weather's nice, it's sunny.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 8.
+Player 1 just moved successfully. They have 7 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#O1EOOOO2#
+##########
+
+Player 1 just moved successfully. They have 6 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#T1DOOOOO#
+#OcEOOOO2#
+##########
+
+Player 1 tried to move, but failed. They have 6 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#T1DOOOOO#
+#OcEOOOO2#
+##########
+
+Maze initialized to a 4 player game.
+Careful! It's raining, the ground will be slippery.
+Player 1 will start.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#TODOOOOO#
+#1CEOOOO2#
+##########
+
+Player 1 just rolled a 6.
+Player 1 just moved successfully. They have 5 moves left.
+##########
+#3OOOOOO4#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOOOOOOO#
+#OOVOOOOO#
+#1ODOOOOO#
 #OCEOOOO2#
 ##########
 

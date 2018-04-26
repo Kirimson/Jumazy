@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tomgrill.gdxtesting;
+package aston.team15.jumazy.tests;
 
 import java.util.HashMap;
 import java.util.Map;

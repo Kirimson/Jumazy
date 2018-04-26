@@ -1,67 +1,19 @@
-/*******************************************************************************
- * Copyright 2015 See AUTHORS file.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+package aston.team15.jumazy.tests.examples;
 
-package de.tomgrill.gdxtesting.examples;
-
-import aston.team15.jumazy.model.MazeModel;
 import aston.team15.jumazy.model.PlayerModel;
 import com.badlogic.gdx.Input;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.event.InputEvent;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 /**
- * Test suite of the playerMpde, class
+ * Test suite of the playerModel, class
  * To run the tests:
  *  - in Jumazy root folder open your favourite terminal
  *  - run command ./gradlew tests:test
+ *  @author Kieran Gates
  */
-public class TestPlayerModel {
-
-    MazeModel maze;
-    PlayerModel player;
-
-    /**
-     * Create a basic maze thats repeatable and testable. One room given in the test roomlayout,
-     * contains a V, T, E, C for testing. Room layout is below:
-     * OOOOOOOO
-     * OOOOOOOO
-     * OOOOOOOO
-     * OOOOOOOO
-     * OOOO#DD#
-     * OOVOOOOO
-     * TOOOOOOO
-     * OCEOOOOO
-     */
-    @Before
-    public void setUp() {
-//        Create a list of character
-        ArrayList<PlayerModel.CharacterName> chars = new ArrayList<PlayerModel.CharacterName>();
-        chars.add(PlayerModel.CharacterName.RUBY_ROUNDHOUSE);
-        chars.add(PlayerModel.CharacterName.SHELLY_OBERON);
-        chars.add(PlayerModel.CharacterName.FRANKLIN_FINBAR);
-        chars.add(PlayerModel.CharacterName.SMOLDER_BRAVESTONE);
-
-        maze = new MazeModel(1, 1, chars.size(), chars);
-        player = maze.getCurrentPlayer();
-    }
+public class TestPlayerModel extends BaseTest {
 
     /**
      * Check that each player is in their expected position when the game is started
@@ -69,7 +21,7 @@ public class TestPlayerModel {
      */
     @Test
     public void playersInCorrectPositions() {
-
+        System.out.println("Test: playersInCorrectPositions");
         int wallBuffer = 1;
 //      Subtracting 1 as well as wall buffer when in a corner as array.length gives you the length, when we want index, where 0 counts
         assertEquals(PlayerModel.CharacterName.RUBY_ROUNDHOUSE.getValue(),
@@ -91,6 +43,8 @@ public class TestPlayerModel {
      */
     @Test
     public void testCanRoll() {
+        System.out.println("Test: testCanRoll");
+
         assertEquals(true, player.canRoll());
         maze.getCurrentPlayer().rollDie(maze.getWeather());
         assertEquals(false, player.canRoll());
@@ -101,6 +55,8 @@ public class TestPlayerModel {
      */
     @Test
     public void testOnTrap(){
+        System.out.println("Test: testOnTrap");
+
         player.rollDie(maze.getWeather());
         player.move(Input.Keys.UP);
         assertEquals(true, player.isOnTrap());
@@ -111,16 +67,72 @@ public class TestPlayerModel {
      */
     @Test
     public void testOnChest(){
+        System.out.println("Test: testOnChest");
+
         player.rollDie(maze.getWeather());
         player.move(Input.Keys.RIGHT);
         assertEquals(true, player.isOnChest());
     }
 
     /**
+     * Roll the dice, move onto a door
+     */
+    @Test
+    public void testOnDoor(){
+        System.out.println("Test: testOnDoor");
+
+        player.rollDie(maze.getWeather());
+        player.move(Input.Keys.RIGHT);
+        player.move(Input.Keys.UP);
+        player.move(Input.Keys.RIGHT);
+
+//        If player was lucky with intelligence and picked door, expect them to be on it, otherwise they wont be
+        if(player.pickedDoor()){
+            assertEquals(true, player.isOnDoor());
+        } else {
+            assertEquals(false, player.isOnDoor());
+        }
+    }
+
+    /**
      * Roll the dice, move onto a chest
      */
     @Test
+    public void testOnVictory(){
+        System.out.println("Test: testOnVictory");
+
+        player.rollDie(maze.getWeather());
+        player.move(Input.Keys.RIGHT);
+        player.move(Input.Keys.UP);
+        player.move(Input.Keys.UP);
+        player.move(Input.Keys.RIGHT);
+        assertEquals(true, player.isOnVictorySquare());
+    }
+
+    /**
+     * Roll the dice, move around and check the players roll's left is going down
+     */
+    @Test
+    public void testMove(){
+        System.out.println("Test: testMove");
+
+        player.rollDie(maze.getWeather());
+
+        int moves = player.getMovesLeft();
+
+        player.move(Input.Keys.RIGHT);
+        assertEquals(moves-1, player.getMovesLeft());
+        player.move(Input.Keys.UP);
+        assertEquals(moves-2, player.getMovesLeft());
+    }
+
+    /**
+     * Roll the dice, move around and send player back to beginning of their turn
+     */
+    @Test
     public void testMoveBack(){
+        System.out.println("Test: testMoveBack");
+
         int[] startPosition = player.getPosition();
 
         assertEquals("Check that X startPosition var and X startPosition for player is the same",
@@ -142,6 +154,8 @@ public class TestPlayerModel {
 
     @Test
     public void testItemObtain(){
+        System.out.println("Test: testItemObtain");
+
         assertEquals("Check that player inventory is empty to begin with",
                 0, player.getInventory().size());
 //        Obtain an item
@@ -156,6 +170,8 @@ public class TestPlayerModel {
      */
     @Test
     public void testFullInventory(){
+        System.out.println("Test: testFullInventory");
+
         for(int i = 0; i < 200; i++){
 //            When returning false, a held item was rejected due to a full inventory
             if(!player.obtainRandomItemFromChest()){
@@ -163,18 +179,5 @@ public class TestPlayerModel {
             }
         }
         fail("Player inventory never rejected an item in 200 passes");
-    }
-
-    /**
-     * Check that the player will never roll the lowest roll possible (player stamina + 1) when it is raining
-     */
-    @Test
-    public void testNoLowRollInRain() {
-
-        int lowestRoll = player.getStatFromHashMap("Stamina") + 1;
-
-        for (int i = 0; i < 500; i++)
-            assertTrue("Check that roll is not the lowest possible when it is raining",
-                    player.rollDie(maze.getWeather()) > lowestRoll);
     }
 }
